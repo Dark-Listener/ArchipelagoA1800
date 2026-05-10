@@ -1,4 +1,5 @@
-from typing import ClassVar, override
+from typing import ClassVar
+from typing_extensions import override
 
 from BaseClasses import Item, MultiWorld, Tutorial
 from worlds.AutoWorld import CollectionState, World, WebWorld

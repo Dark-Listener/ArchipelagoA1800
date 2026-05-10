@@ -95,10 +95,10 @@ async def a1800_game_watcher(ctx: A1800Context):
                     pass  # not connected or auth failed, wait for new attempt
                 elif data.get("slot_name") != ctx.auth:
                     logger.warning(
-                        f"Connected World is not the expected one {data.get("slot_name", "None")} != {ctx.auth}")
+                        f"Connected World is not the expected one {data.get('slot_name', 'None')} != {ctx.auth}")
                 elif data.get("seed_name") != ctx.seed_name:
                     logger.warning(
-                        f"Connected Multiworld is not the expected one {data.get("seed_name", "None")} != {ctx.seed_name}")
+                        f"Connected Multiworld is not the expected one {data.get('seed_name', 'None')} != {ctx.seed_name}")
                 else:
                     locations_checked: set[int] = {int(location_id)
                                                    for location_id in data.get("locations_checked", [])}
@@ -178,11 +178,15 @@ async def a1800_spinup(ctx: A1800Context) -> bool:
     try:
         next_connect = time.perf_counter()
         while not ctx.auth and not ctx.exit_event.is_set():
-            try:
-                ctx.rcon_mmap_client = RCONMMapClient(ctx.mmap_file_path)
-            except FileNotFoundError:
-                logger.debug(f"FileNotFound: {ctx.mmap_file_path}")
-                pass
+            if not ctx.rcon_mmap_client and time.perf_counter() > next_connect:
+                try:
+                    ctx.rcon_mmap_client = RCONMMapClient(ctx.mmap_file_path)
+                except FileNotFoundError:
+                    logger.info(f"FileNotFound: {ctx.mmap_file_path}")
+                    logger.info("Couldn't connect to Anno 1800. Please load into an Anno 1800 game and unpause to connect.")
+                    logger.info("Retrying in 5s...")
+                    next_connect = time.perf_counter() + 5
+                    pass
 
             if ctx.rcon_mmap_client and time.perf_counter() > next_connect:
                 ctx.rcon_mmap_client.connect()

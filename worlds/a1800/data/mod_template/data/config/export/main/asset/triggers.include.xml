@@ -6,7 +6,7 @@
         <Values>
           <Action />
           <ActionExecuteScript>
-            <ScriptFileName>data/scripts/archipelago/on_game_loaded.py</ScriptFileName>
+            <ScriptFileName>data/archipelago/scripts/on_game_loaded.py</ScriptFileName>
           </ActionExecuteScript>
         </Values>
       </TriggerAction>

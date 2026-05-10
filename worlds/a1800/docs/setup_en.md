@@ -68,10 +68,15 @@ mods modify the game's unlocks. If other mods add new building unlocks, they wil
 ## Running and Connecting the Game
 
 Start the Archipelago Client. It will ask for the Anno 1800 mods folder. Point it to the folder you installed the mod to
-[above](#installing-the-archipelago-mod). Then start a new Anno 1800 free play game or load into your existing savegame.
+[above](#installing-the-archipelago-mod). The order in which you start the client and Anno 1800 does not matter.
+
+Then start a new Anno 1800 free play game or load into your existing savegame. Currently, the starting conditions do
+not really matter, though I'd recommend starting without AI players (since you aren't guaranteed to get weapons) and
+without starting ships (since then those unlocks will be valuable).
+
 Be careful not to load into vanilla savegames or those from other modding setups as this mod will likely trigger some
 irreversible unlocks. Once loaded into the savegame, the client should print that it is connected to the game within a
-few seconds. The order in which you start the client and Anno 1800 does not matter.
+few seconds. 
 
 Note: due to the way Anno 1800 simulates game ticks, the client will lose connection to the game when the game is
 paused. This is not a problem and the client will reconnecting briefly after unpausing the game.

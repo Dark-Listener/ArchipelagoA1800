@@ -10,7 +10,8 @@ import jinja2
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .Items import A1800Item, item_dict
+from .AnnoData import a1800_unlocks, get_unlock_guids
+from .Items import A1800Item
 from .Locations import A1800Location
 
 if TYPE_CHECKING:
@@ -98,7 +99,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         return (
             get_next_guid(),
             location,
-            location.item.data.anno_guids[1] if isinstance(location.item, A1800Item) else []
+            location.item.data.unlock_guids if isinstance(location.item, A1800Item) else []
         )
 
     trigger_to_location_data = {guid: (trigger, list(map(location_to_data, locations)))
@@ -107,7 +108,7 @@ def generate_mod(world: "A1800World", output_directory: str):
     location_guid_data = {location_guid: (location.address, False) for _,
                           (_, locations) in trigger_to_location_data.items() for location_guid, location, _ in locations}
 
-    item_id_to_guids = {data.ap_code: (data.anno_guids[1], 0) for _, data in item_dict.items() if not data.is_event and data.ap_code} | {location.item.code: (
+    item_id_to_guids = {unlock.ap_code: (list(get_unlock_guids(unlock)), 0) for unlock in a1800_unlocks} | {location.item.code: (
         unlock_guids, location_guid) for _, (_, locations) in trigger_to_location_data.items() for location_guid, location, unlock_guids in locations if location.item and location.item.code}
 
     victory_location = next((location for location in multiworld.get_filled_locations(player)
@@ -118,13 +119,13 @@ def generate_mod(world: "A1800World", output_directory: str):
                          victory_guid) if victory_location else (victory_trigger_guid, 0, 0, victory_guid)
 
     template_data: dict[str, Any] = {
-        "lock_guid_list": set([guid for _, data in item_dict.items() if not data.is_event for guid in data.anno_guids[0]]),
+        "lock_guid_list": set([guid for unlock in a1800_unlocks for guid in unlock.lock_guids]),
         "trigger_to_location_data": trigger_to_location_data,
         "location_guid_data": location_guid_data,
         "item_id_to_guids": item_id_to_guids,
         "start_trigger_guid": start_trigger_guid,
         "starting_guids": set([guid for item in multiworld.precollected_items[player] if isinstance(item, A1800Item)
-                               for guid in item.data.anno_guids[1]]),
+                               for guid in item.data.unlock_guids]),
         "victory_condition": victory_condition,
         "mod_name": versioned_mod_name,
         "ap_version": __version__,

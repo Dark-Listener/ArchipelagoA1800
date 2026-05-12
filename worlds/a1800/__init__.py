@@ -6,8 +6,9 @@ from worlds.AutoWorld import CollectionState, World, WebWorld
 from worlds.LauncherComponents import Component, components, Type, icon_paths
 from worlds.LauncherComponents import launch as launch_component  # pyright: ignore[reportUnknownVariableType]
 
-from .Items import create_and_push_starting_items, create_item, create_itempool, item_dict
-from .Locations import location_list
+from .AnnoData import start_region_name, item_name_to_ap_code, location_name_to_ap_code, process_options
+from .Items import create_and_push_starting_items, create_item, create_itempool, process_items
+from .Locations import process_locations
 from .Mod import generate_mod
 from .Options import a1800_option_groups, A1800Options
 from .Regions import create_regions
@@ -48,11 +49,11 @@ class A1800World(World):
     """
 
     game = "Anno 1800"
-    item_name_to_id = {name: data.ap_code for name, data in item_dict.items() if data.ap_code is not None}
-    location_name_to_id = {data.name: data.ap_code for data in location_list if data.ap_code is not None}
+    item_name_to_id = item_name_to_ap_code
+    location_name_to_id = location_name_to_ap_code
     options_dataclass = A1800Options
     options: A1800Options
-    origin_region_name = "Old World"
+    origin_region_name = start_region_name
     topology_present = True
     web = A1800Web()
     settings: ClassVar[A1800Settings]
@@ -62,6 +63,9 @@ class A1800World(World):
 
     @override
     def generate_early(self) -> None:
+        process_options(self.options)
+        process_items()
+        process_locations()
         create_and_push_starting_items(self)
 
     @override

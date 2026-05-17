@@ -17,8 +17,7 @@ class A1800EventLocation:
     is_progressive: bool = False
 
     def __post_init__(self) -> None:
-        self.ap_location_name: str = create_unlock_name(self.name, self.region)
-        self.ap_location_name += f" => {self.output}"
+        self.ap_location_name: str = create_unlock_name(self.name, self.region, postfix=f" => {self.output}")
 
 
 _a1800_event_locations = [

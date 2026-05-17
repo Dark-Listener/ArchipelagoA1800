@@ -30,19 +30,6 @@ class A1800Item(Item):
         self.data = data
 
 
-_starting_item_data_list: list[A1800ItemData]
-
-_anno_1800_unlock_item_data: list[A1800ItemData]
-
-_anno_1800_event_item_data: list[A1800ItemData]
-
-_unlock_item_data_list: list[A1800ItemData]
-
-_event_item_data_list: list[A1800ItemData]
-
-_item_data_list: list[A1800ItemData]
-
-
 def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
     if isinstance(obj, A1800Unlock):
         return A1800ItemData(
@@ -65,46 +52,6 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
         return None
 
 
-def process_items() -> None:
-    global _starting_item_data_list
-    global _anno_1800_unlock_item_data
-    global _anno_1800_event_item_data
-    global _unlock_item_data_list
-    global _event_item_data_list
-    global _item_data_list
-
-    _starting_item_data_list = [
-        item_data for item in ANNO_DATA.get_starting_items() for item_data in [_to_item_data(item)] if item_data
-    ]
-
-    # Player starts with some timber and enough unlocks to let them produce more
-    # This avoids circular logic blocking the randomizer
-    timber_data = _to_item_data(next(ANNO_DATA.find_event_items("Timber")))
-    assert timber_data
-    _starting_item_data_list.append(timber_data)
-
-    _anno_1800_unlock_item_data = [item_data for item in ANNO_DATA.get_unlocks()
-                                   if not next(ANNO_DATA.find_starting_items(item.name, item.region), None)
-                                   for item_data in [_to_item_data(item)] if item_data]
-
-    _anno_1800_event_item_data = [
-        item_data for item in ANNO_DATA.get_event_items() for item_data in [_to_item_data(item)] if item_data
-    ]
-
-    _unlock_item_data_list = [
-        *_anno_1800_unlock_item_data
-    ]
-
-    _event_item_data_list = [
-        *_anno_1800_event_item_data
-    ]
-
-    _item_data_list = [
-        *_unlock_item_data_list,
-        *_event_item_data_list,
-    ]
-
-
 def create_item(world: "A1800World", item: str | A1800ItemData) -> Item:
     if isinstance(item, A1800ItemData):
         data = item
@@ -116,25 +63,57 @@ def create_item(world: "A1800World", item: str | A1800ItemData) -> Item:
     return A1800Item(world.player, data)
 
 
-def create_and_push_starting_items(world: "A1800World") -> None:
-    for item in _starting_item_data_list:
-        world.multiworld.push_precollected(create_item(world, item))
+class _Items:
+    _starting_item_data_list: list[A1800ItemData] = []
+    _unlock_item_data_list: list[A1800ItemData] = []
+    _event_item_data_list: list[A1800ItemData] = []
+    _item_data_list: list[A1800ItemData] = []
+
+    def process_items(self) -> None:
+        self._starting_item_data_list = [
+            item_data for item in ANNO_DATA.get_starting_items() for item_data in [_to_item_data(item)] if item_data
+        ]
+
+        # Player starts with some timber and enough unlocks to let them produce more
+        # This avoids circular logic blocking the randomizer
+        timber_data = _to_item_data(next(ANNO_DATA.find_event_items("Timber")))
+        assert timber_data
+        self._starting_item_data_list.append(timber_data)
+
+        self._unlock_item_data_list = [item_data for item in ANNO_DATA.get_unlocks()
+                                       if not next(ANNO_DATA.find_starting_items(item.name, item.region), None)
+                                       for item_data in [_to_item_data(item)] if item_data]
+
+        self._event_item_data_list = [
+            item_data for item in ANNO_DATA.get_event_items() for item_data in [_to_item_data(item)] if item_data
+        ]
+
+        self._item_data_list = [
+            *self._unlock_item_data_list,
+            *self._event_item_data_list,
+        ]
+
+    def create_and_push_starting_items(self, world: "A1800World") -> None:
+        for item in self._starting_item_data_list:
+            world.multiworld.push_precollected(create_item(world, item))
+
+    def create_itempool(self, world: "A1800World") -> list[Item]:
+        itempool: list[Item] = []
+
+        for data in self._item_data_list:
+            item = create_item(world, data)
+
+            if data.is_event:
+                for location_name in data.event_locations:
+                    location = world.multiworld.get_location(location_name, world.player)
+                    location.place_locked_item(item)
+            else:
+                itempool.append(item)
+
+            if data.is_early:
+                world.multiworld.local_early_items[world.player][data.name] = 1
+
+        return itempool
 
 
-def create_itempool(world: "A1800World") -> list[Item]:
-    itempool: list[Item] = []
-
-    for data in _item_data_list:
-        item = create_item(world, data)
-
-        if data.is_event:
-            for location_name in data.event_locations:
-                location = world.multiworld.get_location(location_name, world.player)
-                location.place_locked_item(item)
-        else:
-            itempool.append(item)
-
-        if data.is_early:
-            world.multiworld.local_early_items[world.player][data.name] = 1
-
-    return itempool
+ITEMS = _Items()

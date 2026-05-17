@@ -7,8 +7,8 @@ from worlds.LauncherComponents import Component, components, Type, icon_paths
 from worlds.LauncherComponents import launch as launch_component  # pyright: ignore[reportUnknownVariableType]
 
 from .data import ANNO_DATA
-from .Items import create_and_push_starting_items, create_item, create_itempool, process_items
-from .Locations import process_locations
+from .Items import create_item, ITEMS
+from .Locations import LOCATIONS
 from .Mod import generate_mod
 from .Options import a1800_option_groups, A1800Options
 from .Regions import create_regions
@@ -64,9 +64,9 @@ class A1800World(World):
     @override
     def generate_early(self) -> None:
         ANNO_DATA.process_options(self.options)
-        process_items()
-        process_locations()
-        create_and_push_starting_items(self)
+        LOCATIONS.process_locations()
+        ITEMS.process_items()
+        ITEMS.create_and_push_starting_items(self)
 
     @override
     def create_regions(self) -> None:
@@ -74,7 +74,7 @@ class A1800World(World):
 
     @override
     def create_items(self) -> None:
-        self.multiworld.itempool += create_itempool(self)
+        self.multiworld.itempool += ITEMS.create_itempool(self)
 
     @override
     def create_item(self, name: str) -> Item:

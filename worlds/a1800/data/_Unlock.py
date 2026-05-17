@@ -9,11 +9,11 @@ from ._Product import find_populations, find_products
 from ._Region import ALL_REGIONS, NO_REGION, Region
 
 
-def create_unlock_name(name: str, region: Region, prefix: str = "") -> str:
+def create_unlock_name(name: str, region: Region, prefix: str = "", postfix: str = "") -> str:
     if not region or region == ALL_REGIONS:
-        return prefix + name
+        return prefix + name + postfix
     else:
-        return f"{prefix}{region.name}: {name}"
+        return f"{prefix}{region.name}: {name}{postfix}"
 
 
 class UnlockType(Flag, boundary=KEEP):

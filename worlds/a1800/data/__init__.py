@@ -1,5 +1,5 @@
 from collections.abc import Sequence
-from typing import Callable, Iterable, Iterator, Optional, TYPE_CHECKING
+from typing import Iterator, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ..Options import A1800Options
@@ -11,26 +11,13 @@ from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import _a1800_event_locations  # pyright: ignore[reportPrivateUsage]
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
 from ._Region import ALL_REGIONS, A1800Region, get_start_region, NO_REGION, Region, get_regions
-from ._Requirement import A1800Requirement, A1800Rule, RequirementType
-from ._Unlock import A1800Unlock, create_unlock_name, find_ap_item, find_starting_items, find_unlocks, get_starting_items, get_unlock_locations, get_unlocks, UnlockType
-
-
-def player_has(*requirements: A1800Requirement, bool_func: Callable[[Iterable[object]], bool] = all) -> A1800Rule:
-    required_item_names: list[str] = []
-    for requirement in requirements:
-        if requirement.type == RequirementType.PRODUCT:
-            event_items = list(find_event_items(requirement.name, requirement.region))
-            required_item_names += [event_item.ap_item_name for event_item in event_items]
-        elif requirement.type == RequirementType.UNLOCK:
-            unlocks = list(find_unlocks(requirement.name, requirement.region))
-            required_item_names += [unlock.ap_item_name for unlock in unlocks]
-    return lambda state, player, requirements=required_item_names: bool_func(state.has(  # type: ignore
-        requirement, player) for requirement in requirements)
+from ._Requirement import A1800Requirement, RequirementType
+from ._Unlock import A1800Unlock, find_ap_item, find_starting_items, find_unlocks, get_starting_items, get_unlock_locations, get_unlocks, UnlockType
 
 
 class AnnoData:
     _a1800_required_items: set[A1800Requirement] = set()
-    _a1800_rules: list[tuple[str, A1800Rule]] = []
+    _a1800_rules: list[tuple[str, list[str]]] = []
 
     _item_name_to_ap_code: dict[str, int] = {
         unlock.ap_item_name: unlock.ap_code for unlock in get_unlocks() if unlock.ap_code}
@@ -49,8 +36,8 @@ class AnnoData:
         self,
         to_check: set[A1800Requirement],
         checked: set[A1800Requirement],
-        rules: list[tuple[str, A1800Rule]]
-    ) -> tuple[set[A1800Requirement], list[tuple[str, A1800Rule]]]:
+        rules: list[tuple[str, list[str]]]
+    ) -> tuple[set[A1800Requirement], list[tuple[str, list[str]]]]:
         if not to_check:
             return checked, rules
 
@@ -87,7 +74,8 @@ class AnnoData:
                                          for name in previous_unlock.consumption}
 
             for event_location in find_event_locations(unlock.name, region=unlock.region):
-                rules.append((event_location.ap_location_name, player_has(*new_requirements)))
+                rules.append((event_location.ap_location_name, [ap_item_name for requirement in new_requirements
+                                                                for ap_item_name in requirement.ap_item_names]))
 
         else:
             raise ValueError(f"Requirement name {requirement.name} doesn't match any product or unlock.")
@@ -140,7 +128,8 @@ class AnnoData:
             get_event_items()) if event_item.name == "Victory")
         _a1800_event_items[victory_event_item_idx].locations = {victory_event_location.name}
 
-        victory_rules = [(victory_event_location.ap_location_name, player_has(*victory_required_items))]
+        victory_rules = [(victory_event_location.ap_location_name, [ap_item_name for requirement in victory_required_items
+                                                                    for ap_item_name in requirement.ap_item_names])]
 
         self._a1800_required_items, self._a1800_rules = self._generate_requirements_and_rules(
             victory_required_items, victory_checked_items, victory_rules)
@@ -182,7 +171,7 @@ class AnnoData:
     def get_regions(self) -> Sequence[A1800Region]:
         return get_regions()
 
-    def get_rules(self) -> Sequence[tuple[str, A1800Rule]]:
+    def get_rules(self) -> Sequence[tuple[str, list[str]]]:
         return self._a1800_rules
 
     def get_start_region(self) -> A1800Region:
@@ -204,10 +193,8 @@ __all__ = [
     "A1800EventItem",
     "A1800Region",
     "A1800Requirement",
-    "A1800Rule",
     "A1800Unlock",
     "ALL_REGIONS",
     "ANNO_DATA",
-    "player_has",
     "Region",
 ]

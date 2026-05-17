@@ -16,7 +16,8 @@ class A1800ItemData:
     unlock_guids: list[int] = field(default_factory=lambda: [])
     lock_guids: list[int] = field(default_factory=lambda: [])
     ap_code: Optional[int] = None
-    is_event: Optional[bool] = False
+    is_early: bool = False
+    is_event: bool = False
     event_locations: list[str] = field(default_factory=lambda: [])
 
 
@@ -50,6 +51,7 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
             list(obj.unlock_guids),
             list(obj.lock_guids),
             obj.ap_code,
+            obj.is_early,
             False)
     elif obj.is_progressive:
         return A1800ItemData(
@@ -76,6 +78,7 @@ def process_items() -> None:
     ]
 
     # Player starts with some timber and enough unlocks to let them produce more
+    # This avoids circular logic blocking the randomizer
     timber_data = _to_item_data(next(ANNO_DATA.find_event_items("Timber")))
     assert timber_data
     _starting_item_data_list.append(timber_data)
@@ -131,9 +134,7 @@ def create_itempool(world: "A1800World") -> list[Item]:
         else:
             itempool.append(item)
 
-    world.multiworld.local_early_items[world.player]["OW: Fishery"] = 1
-    world.multiworld.local_early_items[world.player]["OW: Sheep Farm"] = 1
-    world.multiworld.local_early_items[world.player]["OW: Framework Knitters"] = 1
-    world.multiworld.local_early_items[world.player]["OW: Worker Residence"] = 1
+        if data.is_early:
+            world.multiworld.local_early_items[world.player][data.name] = 1
 
     return itempool

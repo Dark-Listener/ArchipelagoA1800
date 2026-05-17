@@ -45,6 +45,7 @@ class A1800Unlock:
     luxury: set[str] = field(default_factory=lambda: set())
     lifestyle: set[str] = field(default_factory=lambda: set())
     type: UnlockType = UnlockType.UNLOCK
+    is_early: bool = False
 
     def __post_init__(self) -> None:
         self.ap_code = A1800Unlock.__item_id
@@ -126,13 +127,13 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber"}, set(), set(), {"Market"}, ""),
 
     A1800Unlock("Fishery", DLC.VANILLA, Region.OW, {1010278}, {130056}, Region.OW, "Farmers", 50,
-                {"Timber"}, {"Farmers"}, set(), {"Fish"}, ""),
+                {"Timber"}, {"Farmers"}, set(), {"Fish"}, "", is_early=True),
 
     A1800Unlock("Sheep Farm", DLC.VANILLA, Region.OW, {1010267}, {130060}, Region.OW, "Farmers", 100,
-                {"Timber"}, {"Farmers"}, set(), {"Wool"}, "Work Clothes"),
+                {"Timber"}, {"Farmers"}, set(), {"Wool"}, "Work Clothes", is_early=True),
 
     A1800Unlock("Framework Knitters", DLC.VANILLA, Region.OW, {1010315}, {130060}, Region.OW, "Farmers", 100,
-                {"Timber"}, {"Farmers"}, {"Wool"}, {"Work Clothes"}, "Work Clothes"),
+                {"Timber"}, {"Farmers"}, {"Wool"}, {"Work Clothes"}, "Work Clothes", is_early=True),
 
     A1800Unlock("Potato Farm", DLC.VANILLA, Region.OW, {1010265}, {140028}, Region.OW, "Farmers", 100,
                 {"Timber"}, {"Farmers"}, set(), {"Potatoes"}, "Schnapps"),
@@ -240,8 +241,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                     "Soap", "School", "Fire Protection", "Riot Control"},
                 {"Schnapps", "Pub", "Church", "Beer"},
                 # {"Rum", "Penny Farthings", "Hot Sauce", "Local Mail", "Regional Mail",
-                # "Overseas Mail", "Beef", "Soccer Balls", "Clay Pipes"}),
-                ),
+                # "Overseas Mail", "Beef", "Soccer Balls", "Clay Pipes"}, is_early=True),
+                is_early=True),
 
     A1800Unlock("Artisan Residence", DLC.VANILLA, Region.OW, {1010345}, {1010345}, Region.OW, "Workers", 750,
                 {"Timber", "Bricks", "Steel Beams"}, set(), set(), {"Artisans"}, "", "Worker Residence",

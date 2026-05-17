@@ -2,8 +2,8 @@ from typing import TYPE_CHECKING
 
 from worlds.generic.Rules import set_rule, CollectionRule
 
-from .AnnoData import A1800Rule, player_has
-from .Locations import unlock_location_data_list
+from .data import A1800Requirement, A1800Rule, ALL_REGIONS, ANNO_DATA, player_has
+from .Locations import get_event_location_data_list, get_unlock_location_data_list
 
 if TYPE_CHECKING:
     from . import A1800World
@@ -23,20 +23,16 @@ class _Rules:
 
 
 def set_rules(world: "A1800World") -> None:
-    from .AnnoData import a1800_rules
-    from .Locations import event_location_data_list
-
     rules = _Rules(world)
 
-    for data in unlock_location_data_list:
+    for data in get_unlock_location_data_list():
         assert data.population
-        rules.create_rule(data.name, player_has((data.population, frozenset({data.region}))))
+        rules.create_rule(data.name, player_has(A1800Requirement(data.population, data.region)))
 
-    for data in event_location_data_list:
-        print(f"Create event rule {data.name}")
-        rule = next((rule for name, rule in a1800_rules if name == data.name), None)
+    for data in get_event_location_data_list():
+        rule = next((rule for name, rule in ANNO_DATA.get_rules() if name == data.name), None)
         if rule:
             rules.create_rule(data.name, rule)
 
     world.multiworld.completion_condition[world.player] = _has(
-        world.player, player_has(("Victory", frozenset({"OW", "NW", "En", "Ar"}))))
+        world.player, player_has(A1800Requirement("Victory", ALL_REGIONS)))

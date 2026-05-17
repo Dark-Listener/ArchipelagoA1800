@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional
 
 from BaseClasses import Item, ItemClassification as IC
 
-from .AnnoData import a1800_event_items, a1800_event_locations, a1800_item_dict, a1800_unlocks, A1800Object, A1800Unlock, get_item_name, get_unlock_guids, is_progressive, starting_items
+from .data import ANNO_DATA, A1800EventItem, A1800Unlock
 
 if TYPE_CHECKING:
     from . import A1800World
@@ -42,23 +42,22 @@ _event_item_data_list: list[A1800ItemData]
 _item_data_list: list[A1800ItemData]
 
 
-def _to_item_data(obj: A1800Object) -> Optional[A1800ItemData]:
-    progressive = is_progressive(obj)
+def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
     if isinstance(obj, A1800Unlock):
         return A1800ItemData(
-            get_item_name(obj),
-            IC.progression if progressive else IC.filler,
-            list(get_unlock_guids(obj)),
+            obj.ap_item_name,
+            IC.progression if obj.is_progressive else IC.filler,
+            list(obj.unlock_guids),
             list(obj.lock_guids),
             obj.ap_code,
             False)
-    elif progressive:
+    elif obj.is_progressive:
         return A1800ItemData(
-            get_item_name(obj),
+            obj.ap_item_name,
             IC.progression,
             is_event=True,
-            event_locations=[event_location.name for event_location in a1800_event_locations if event_location.name.split(
-                " => ")[1] == obj.name and event_location.region.issubset(obj.region)]
+            event_locations=[event_location.ap_location_name for event_location_name in obj.locations for event_location
+                             in ANNO_DATA.find_event_locations(event_location_name, obj.name, obj.region)]
         )
     else:
         return None
@@ -73,20 +72,20 @@ def process_items() -> None:
     global _item_data_list
 
     _starting_item_data_list = [
-        item_data for item in starting_items for item_data in [_to_item_data(item)] if item_data
+        item_data for item in ANNO_DATA.get_starting_items() for item_data in [_to_item_data(item)] if item_data
     ]
 
     # Player starts with some timber and enough unlocks to let them produce more
-    timber_data = _to_item_data(next(event_item for event_item in a1800_event_items if event_item.name == "Timber"))
+    timber_data = _to_item_data(next(ANNO_DATA.find_event_items("Timber")))
     assert timber_data
     _starting_item_data_list.append(timber_data)
 
-    _anno_1800_unlock_item_data = [
-        item_data for item in a1800_unlocks if not item in starting_items for item_data in [_to_item_data(item)] if item_data
-    ]
+    _anno_1800_unlock_item_data = [item_data for item in ANNO_DATA.get_unlocks()
+                                   if not next(ANNO_DATA.find_starting_items(item.name, item.region), None)
+                                   for item_data in [_to_item_data(item)] if item_data]
 
     _anno_1800_event_item_data = [
-        item_data for item in a1800_event_items for item_data in [_to_item_data(item)] if item_data
+        item_data for item in ANNO_DATA.get_event_items() for item_data in [_to_item_data(item)] if item_data
     ]
 
     _unlock_item_data_list = [
@@ -107,7 +106,9 @@ def create_item(world: "A1800World", item: str | A1800ItemData) -> Item:
     if isinstance(item, A1800ItemData):
         data = item
     else:
-        data = _to_item_data(a1800_item_dict[item])
+        ap_item = ANNO_DATA.find_ap_item(item)
+        assert ap_item
+        data = _to_item_data(ap_item)
         assert data
     return A1800Item(world.player, data)
 

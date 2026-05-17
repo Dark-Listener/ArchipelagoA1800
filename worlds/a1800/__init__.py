@@ -6,7 +6,7 @@ from worlds.AutoWorld import CollectionState, World, WebWorld
 from worlds.LauncherComponents import Component, components, Type, icon_paths
 from worlds.LauncherComponents import launch as launch_component  # pyright: ignore[reportUnknownVariableType]
 
-from .AnnoData import start_region_name, item_name_to_ap_code, location_name_to_ap_code, process_options
+from .data import ANNO_DATA
 from .Items import create_and_push_starting_items, create_item, create_itempool, process_items
 from .Locations import process_locations
 from .Mod import generate_mod
@@ -49,11 +49,11 @@ class A1800World(World):
     """
 
     game = "Anno 1800"
-    item_name_to_id = item_name_to_ap_code
-    location_name_to_id = location_name_to_ap_code
+    item_name_to_id = ANNO_DATA.get_item_name_to_ap_code()
+    location_name_to_id = ANNO_DATA.get_location_name_to_ap_code()
     options_dataclass = A1800Options
     options: A1800Options
-    origin_region_name = start_region_name
+    origin_region_name = ANNO_DATA.get_start_region().region.full_name
     topology_present = True
     web = A1800Web()
     settings: ClassVar[A1800Settings]
@@ -63,7 +63,7 @@ class A1800World(World):
 
     @override
     def generate_early(self) -> None:
-        process_options(self.options)
+        ANNO_DATA.process_options(self.options)
         process_items()
         process_locations()
         create_and_push_starting_items(self)

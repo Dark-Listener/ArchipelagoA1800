@@ -10,7 +10,7 @@ import jinja2
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .AnnoData import a1800_unlocks, get_unlock_guids
+from .data import ANNO_DATA
 from .Items import A1800Item
 from .Locations import A1800Location
 
@@ -105,11 +105,14 @@ def generate_mod(world: "A1800World", output_directory: str):
     trigger_to_location_data = {guid: (trigger, list(map(location_to_data, locations)))
                                 for guid, (trigger, locations) in trigger_to_locations.items()}
 
-    location_guid_data = {location_guid: (location.address, False) for _,
-                          (_, locations) in trigger_to_location_data.items() for location_guid, location, _ in locations}
+    location_guid_data = {location_guid: (location.address, False)
+                          for _, (_, locations) in trigger_to_location_data.items()
+                          for location_guid, location, _ in locations}
 
-    item_id_to_guids = {unlock.ap_code: (list(get_unlock_guids(unlock)), 0) for unlock in a1800_unlocks} | {location.item.code: (
-        unlock_guids, location_guid) for _, (_, locations) in trigger_to_location_data.items() for location_guid, location, unlock_guids in locations if location.item and location.item.code}
+    item_id_to_guids = {unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in ANNO_DATA.get_unlocks()} | {
+        location.item.code: (unlock_guids, location_guid) for _, (_, locations) in trigger_to_location_data.items()
+        for location_guid, location, unlock_guids in locations if location.item and location.item.code
+    }
 
     victory_location = next((location for location in multiworld.get_filled_locations(player)
                              if location.name == "Victory Condition"), None)
@@ -119,7 +122,7 @@ def generate_mod(world: "A1800World", output_directory: str):
                          victory_guid) if victory_location else (victory_trigger_guid, 0, 0, victory_guid)
 
     template_data: dict[str, Any] = {
-        "lock_guid_list": set([guid for unlock in a1800_unlocks for guid in unlock.lock_guids]),
+        "lock_guid_list": set([guid for unlock in ANNO_DATA.get_unlocks() for guid in unlock.lock_guids]),
         "trigger_to_location_data": trigger_to_location_data,
         "location_guid_data": location_guid_data,
         "item_id_to_guids": item_id_to_guids,

@@ -10,7 +10,7 @@ import jinja2
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .data import ANNO_DATA
+from .data import ANNO_DATA, Region
 from .Items import A1800Item
 from .Locations import A1800Location
 
@@ -114,12 +114,19 @@ def generate_mod(world: "A1800World", output_directory: str):
         for location_guid, location, unlock_guids in locations if location.item and location.item.code
     }
 
-    victory_location = next((location for location in multiworld.get_filled_locations(player)
-                             if location.name == "Victory Condition"), None)
-    victory_location = victory_location if isinstance(victory_location, A1800Location) else None
+    # world.options -> get victory condition stuff
+    population_requirements = [
+        ("Artisans", Region.OW, 1, False, False, False),
+    ]
+    reqs: list[tuple[int, int]] = []
+    for population_requirement in population_requirements:
+        population, region, amount, _, _, _ = population_requirement
+        pop = next(ANNO_DATA.find_populations(population, region))
+        reqs.append((pop.guid, amount))
+    assert len(reqs) >= 1
+
     victory_guid = get_next_guid()
-    victory_condition = (victory_trigger_guid, victory_location.data.population_guid, victory_location.data.amount,
-                         victory_guid) if victory_location else (victory_trigger_guid, 0, 0, victory_guid)
+    victory_condition = (victory_trigger_guid, reqs, victory_guid)
 
     template_data: dict[str, Any] = {
         "lock_guid_list": set([guid for unlock in ANNO_DATA.get_unlocks() for guid in unlock.lock_guids]),

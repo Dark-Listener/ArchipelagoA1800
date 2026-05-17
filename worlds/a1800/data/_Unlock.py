@@ -76,7 +76,9 @@ class A1800Unlock:
                     self.unlock_guids.add(next(find_chains(self.unlock_chain, self.region)).guid)
 
                 for output in self.output:
-                    self.unlock_guids.add(next(find_products(output, self.region)).guid)
+                    output_guid = next(find_products(output, self.region)).guid
+                    if output_guid:
+                        self.unlock_guids.add(output_guid)
 
             if self.previous_building:
                 self.type |= UnlockType.UPGRADE

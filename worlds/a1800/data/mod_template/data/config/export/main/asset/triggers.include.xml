@@ -167,8 +167,8 @@
               <Condition />
               <ConditionPlayerCounter>
                 <PlayerCounter>PopulationByLevel</PlayerCounter>
-                <Context>{{ victory_condition[1] }}</Context>
-                <CounterAmount>{{ victory_condition[2] }}</CounterAmount>
+                <Context>{{ victory_condition[1][0][0] }}</Context>
+                <CounterAmount>{{ victory_condition[1][0][1] }}</CounterAmount>
               </ConditionPlayerCounter>
             </Values>
           </TriggerCondition>
@@ -181,7 +181,7 @@
                   <ActionUnlockAsset>
                     <UnlockAssets>
                       <Item>
-                        <Asset>{{ victory_condition[3] }}</Asset>
+                        <Asset>{{ victory_condition[2] }}</Asset>
                       </Item>
                     </UnlockAssets>
                     <UnhideAssets />
@@ -190,6 +190,32 @@
               </TriggerAction>
             </Item>
           </TriggerActions>
+{%      if victory_condition[1][1:] %}
+          <SubTriggers>
+{%        for guid, amount in victory_condition[1][1:] %}
+            <Item>
+              <SubTrigger>
+                <Template>AutoCreateTrigger</Template>
+                <Values>
+                  <Trigger>
+                    <TriggerCondition>
+                      <Template>ConditionPlayerCounter</Template>
+                      <Values>
+                        <Condition />
+                        <ConditionPlayerCounter>
+                          <PlayerCounter>PopulationByLevel</PlayerCounter>
+                          <Context>{{ guid }}</Context>
+                          <CounterAmount>{{ amount }}</CounterAmount>
+                        </ConditionPlayerCounter>
+                      </Values>
+                    </TriggerCondition>
+                  </Trigger>
+                </Values>
+              </SubTrigger>
+            </Item>
+{%        endfor %}
+          </SubTriggers>
+{%      endif %}
           <ResetTrigger>
             <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
             <Values>

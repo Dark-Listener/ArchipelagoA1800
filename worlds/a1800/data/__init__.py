@@ -10,6 +10,7 @@ from ._EventItem import _a1800_event_items  # pyright: ignore[reportPrivateUsage
 from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import _a1800_event_locations  # pyright: ignore[reportPrivateUsage]
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
+from ._Product import A1800Product, find_populations
 from ._Region import ALL_REGIONS, A1800Region, get_start_region, NO_REGION, Region, get_regions
 from ._Requirement import A1800Requirement, RequirementType
 from ._Unlock import A1800Unlock, find_ap_item, find_starting_items, find_unlocks, get_starting_items, get_unlock_locations, get_unlocks, UnlockType
@@ -89,8 +90,9 @@ class AnnoData:
     def process_options(self, options: "A1800Options") -> None:
         global _a1800_event_locations
 
+        # options -> get victory condition stuff
         population_requirements = [
-            ("Artisans", Region.OW, 1, False, False, False)
+            ("Artisans", Region.OW, 1, False, False, False),
         ]
 
         victory_event_location_name = ""
@@ -155,6 +157,9 @@ class AnnoData:
 
     def find_starting_items(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Unlock]:
         return find_starting_items(name, region)
+
+    def find_populations(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Product]:
+        return find_populations(name, region)
 
     def get_event_items(self) -> Sequence[A1800EventItem]:
         return get_event_items()

@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional
 
 from BaseClasses import Item, ItemClassification as IC
 
-from .data import ANNO_DATA, A1800EventItem, A1800Unlock
+from .data import ANNO_DATA, A1800EventItem, A1800Unlock, TriggerType
 
 if TYPE_CHECKING:
     from . import A1800World
@@ -17,6 +17,7 @@ class A1800ItemData:
     lock_guids: list[int] = field(default_factory=lambda: [])
     ap_code: Optional[int] = None
     is_early: bool = False
+    is_starting_item: bool = False
     is_event: bool = False
     event_locations: list[str] = field(default_factory=lambda: [])
 
@@ -32,6 +33,10 @@ class A1800Item(Item):
 
 def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
     if isinstance(obj, A1800Unlock):
+        is_starting_item: bool = not obj.is_early \
+            and obj.trigger.trigger_type == TriggerType.SESSION_ENTER \
+            and obj.trigger.session.region == ANNO_DATA.get_start_region().region \
+            and not ANNO_DATA.find_session(obj.trigger.session).requirements
         return A1800ItemData(
             obj.ap_item_name,
             IC.progression if obj.is_progressive else IC.filler,
@@ -39,11 +44,16 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
             list(obj.lock_guids),
             obj.ap_code,
             obj.is_early,
+            is_starting_item,
             False)
     elif obj.is_progressive:
+        # Player starts with some timber and enough unlocks to let them produce more
+        # This avoids circular logic blocking the randomizer
+        is_starting_item: bool = obj.name == "Timber"
         return A1800ItemData(
             obj.ap_item_name,
             IC.progression,
+            is_starting_item=is_starting_item,
             is_event=True,
             event_locations=[event_location.ap_location_name for event_location_name in obj.locations for event_location
                              in ANNO_DATA.find_event_locations(event_location_name, obj.name, obj.region)]
@@ -64,37 +74,29 @@ def create_item(world: "A1800World", item: str | A1800ItemData) -> Item:
 
 
 class _Items:
-    _starting_item_data_list: list[A1800ItemData] = []
+    _start_item_data_list: list[A1800ItemData] = []
     _unlock_item_data_list: list[A1800ItemData] = []
     _event_item_data_list: list[A1800ItemData] = []
     _item_data_list: list[A1800ItemData] = []
 
     def process_items(self) -> None:
-        self._starting_item_data_list = [
-            item_data for item in ANNO_DATA.get_starting_items() for item_data in [_to_item_data(item)] if item_data
-        ]
+        all_unlock_item_data = [item_data for item in ANNO_DATA.get_unlocks()
+                                for item_data in [_to_item_data(item)] if item_data]
+        self._unlock_item_data_list = [
+            item_data for item_data in all_unlock_item_data if not item_data.is_starting_item]
+        self._start_item_data_list += [item_data for item_data in all_unlock_item_data if item_data.is_starting_item]
 
-        # Player starts with some timber and enough unlocks to let them produce more
-        # This avoids circular logic blocking the randomizer
-        timber_data = _to_item_data(next(ANNO_DATA.find_event_items("Timber")))
-        assert timber_data, "Couldn't find timber event item as starting good"
-        self._starting_item_data_list.append(timber_data)
-
-        self._unlock_item_data_list = [item_data for item in ANNO_DATA.get_unlocks()
-                                       if not next(ANNO_DATA.find_starting_items(item.name, item.region), None)
-                                       for item_data in [_to_item_data(item)] if item_data]
-
-        self._event_item_data_list = [
-            item_data for item in ANNO_DATA.get_event_items() for item_data in [_to_item_data(item)] if item_data
-        ]
+        self._event_item_data_list = [item_data for item in ANNO_DATA.get_event_items()
+                                      for item_data in [_to_item_data(item)] if item_data]
+        self._start_item_data_list += [item_data for item_data in self._event_item_data_list if item_data.is_starting_item]
 
         self._item_data_list = [
             *self._unlock_item_data_list,
             *self._event_item_data_list,
         ]
 
-    def create_and_push_starting_items(self, world: "A1800World") -> None:
-        for item in self._starting_item_data_list:
+    def create_and_push_start_items(self, world: "A1800World") -> None:
+        for item in self._start_item_data_list:
             world.multiworld.push_precollected(create_item(world, item))
 
     def create_itempool(self, world: "A1800World") -> list[Item]:
@@ -105,8 +107,7 @@ class _Items:
 
             if data.is_event:
                 for location_name in data.event_locations:
-                    location = world.multiworld.get_location(location_name, world.player)
-                    location.place_locked_item(item)
+                    world.multiworld.get_location(location_name, world.player).place_locked_item(item)
             else:
                 itempool.append(item)
 

@@ -3,14 +3,16 @@ from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import _a1800_event_locations  # pyright: ignore[reportPrivateUsage]
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
 from ._Requirement import A1800Requirement
+from ._Trigger import ALL, POPULATION, Trigger, TRUE
 from ._Unlock import A1800Unlock, find_unlocks, get_unlocks
 
 
 def _get_victory_condition_name_and_requirements(
     population_requirements: list[tuple[str, Region, int, bool, bool, bool]]
-) -> tuple[str, set[A1800Requirement]]:
+) -> tuple[str, set[A1800Requirement], Trigger]:
     victory_event_location_name = ""
     victory_required_items: set[A1800Requirement] = set()
+    victory_triggers: list[Trigger] = []
     for population_requirement in population_requirements:
         population, region, amount, supplied, luxury, lifestyle = population_requirement
 
@@ -19,6 +21,7 @@ def _get_victory_condition_name_and_requirements(
             f"Luxury: {'Yes' if luxury else 'No'}, Lifestyle: {'Yes' if lifestyle else 'No'})"
 
         victory_required_items.add(A1800Requirement(population, region))
+        victory_triggers.append(POPULATION(region, population, amount))
 
         residence = next(
             unlock for unlock in get_unlocks()
@@ -34,12 +37,18 @@ def _get_victory_condition_name_and_requirements(
             victory_required_items |= set(A1800Requirement(lifestyle, region)
                                           for lifestyle in residence.lifestyle)
 
-    return victory_event_location_name, victory_required_items
+    if len(victory_triggers) == 1:
+        victory_trigger = victory_triggers[0]
+    else:
+        victory_trigger = ALL(victory_triggers)
+
+    return victory_event_location_name, victory_required_items, victory_trigger
 
 
 class _Logic:
     _a1800_required_items: set[A1800Requirement] = set()
     _a1800_location_requirements: list[tuple[str, frozenset[A1800Requirement]]] = []
+    _victory_trigger: Trigger = TRUE
 
     def _generate_requirements_and_rules(
         self,
@@ -109,8 +118,9 @@ class _Logic:
     def generate_logic(self, population_requirements: list[tuple[str, Region, int, bool, bool, bool]]) -> None:
         global _a1800_event_locations
 
-        victory_event_location_name, initial_required_items = _get_victory_condition_name_and_requirements(
+        victory_event_location_name, initial_required_items, self._victory_trigger = _get_victory_condition_name_and_requirements(
             population_requirements)
+        self._victory_trigger.ap_location_name = "Victory Condition"
 
         victory_event_location = A1800EventLocation(
             victory_event_location_name, DLC.VANILLA, Region.OW, "Victory", is_progressive=True)
@@ -133,6 +143,9 @@ class _Logic:
 
     def get_location_requirements(self) -> list[tuple[str, frozenset[A1800Requirement]]]:
         return self._a1800_location_requirements
+
+    def get_victory_trigger(self) -> Trigger:
+        return self._victory_trigger
 
 
 LOGIC = _Logic()

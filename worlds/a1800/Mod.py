@@ -10,7 +10,7 @@ import jinja2
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .data import ANNO_DATA, Region
+from .data import ANNO_DATA, Trigger, TriggerType
 from .Items import A1800Item
 from .Locations import A1800Location
 
@@ -68,6 +68,8 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     template_env: Optional[jinja2.Environment] = \
         jinja2.Environment(loader=jinja2.FunctionLoader(load_template))
+    template_env.trim_blocks = True
+    template_env.lstrip_blocks = True
 
     modinfo_template = template_env.get_template("modinfo.json")
     readme_en_template = template_env.get_template("readme_en.md")
@@ -86,12 +88,12 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     start_trigger_guid = get_next_guid()
 
-    def trigger_key(location: A1800Location) -> tuple[int, int]:
-        return location.data.population_guid or 0, location.data.amount or 0
+    trigger_key: Callable[[A1800Location], tuple[Any, ...]] = \
+        lambda location: location.data.trigger.get_sort_key() if location.data.trigger else tuple()
 
     checkable_locations = [location for location in multiworld.get_filled_locations(
         player) if isinstance(location, A1800Location) and not location.is_event]
-    trigger_to_locations = {get_next_guid(): (key, list(locations)) for key, locations in groupby(
+    trigger_to_locations = {get_next_guid(): list(locations) for _, locations in groupby(
         sorted(checkable_locations, key=trigger_key), key=trigger_key)}
     victory_trigger_guid = get_next_guid()
 
@@ -102,8 +104,8 @@ def generate_mod(world: "A1800World", output_directory: str):
             location.item.data.unlock_guids if isinstance(location.item, A1800Item) else []
         )
 
-    trigger_to_location_data = {guid: (trigger, list(map(location_to_data, locations)))
-                                for guid, (trigger, locations) in trigger_to_locations.items()}
+    trigger_to_location_data = {guid: (locations[0].data.trigger, list(map(location_to_data, locations)))
+                                for guid, locations in trigger_to_locations.items()}
 
     location_guid_data = {location_guid: (location.address, False)
                           for _, (_, locations) in trigger_to_location_data.items()
@@ -114,29 +116,27 @@ def generate_mod(world: "A1800World", output_directory: str):
         for location_guid, location, unlock_guids in locations if location.item and location.item.code
     }
 
-    # world.options -> get victory condition stuff
-    population_requirements = [
-        ("Artisans", Region.OW, 1, False, False, False),
-    ]
-    reqs: list[tuple[int, int]] = []
-    for population_requirement in population_requirements:
-        population, region, amount, _, _, _ = population_requirement
-        pop = next(ANNO_DATA.find_populations(population, region))
-        reqs.append((pop.guid, amount))
-    assert len(reqs) >= 1, "No valid victory condition found"
-
     victory_guid = get_next_guid()
-    victory_condition = (victory_trigger_guid, reqs, victory_guid)
+
+    start_trigger = Trigger(TriggerType.TRUE)
+    start_trigger.ap_location_name = "Game Start"
+    starting_guids = list(set([guid for item in multiworld.precollected_items[player] if isinstance(item, A1800Item)
+                               for guid in item.data.unlock_guids]))
 
     template_data: dict[str, Any] = {
         "lock_guid_list": set([guid for unlock in ANNO_DATA.get_unlocks() for guid in unlock.lock_guids]),
         "trigger_to_location_data": trigger_to_location_data,
+        "trigger_type": TriggerType,
         "location_guid_data": location_guid_data,
         "item_id_to_guids": item_id_to_guids,
         "start_trigger_guid": start_trigger_guid,
-        "starting_guids": set([guid for item in multiworld.precollected_items[player] if isinstance(item, A1800Item)
-                               for guid in item.data.unlock_guids]),
-        "victory_condition": victory_condition,
+        "start_trigger": start_trigger,
+        "start_trigger_data": [(
+            starting_guids[0] if starting_guids else 0, None, starting_guids[1:] if len(starting_guids) > 1 else []
+        )],
+        "victory_trigger_guid": victory_trigger_guid,
+        "victory_trigger": ANNO_DATA.get_victory_trigger(),
+        "victory_trigger_data": [(victory_guid, None, [])],
         "mod_name": versioned_mod_name,
         "ap_version": __version__,
         "slot_name": world.player_name,

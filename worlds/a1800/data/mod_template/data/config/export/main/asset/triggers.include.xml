@@ -37,7 +37,7 @@
       <Template>UnlockableAsset</Template>
       <Values>
         <Standard>
-          <GUID>{{ victory_condition[3] }}</GUID>
+          <GUID>{{ victory_trigger_data[0][0] }}</GUID>
           <Name>Victory Condition</Name>
         </Standard>
         <Locked/>
@@ -45,188 +45,17 @@
     </Asset>
   </ModOp>
 
+{% from 'triggers.util.xml' import generate_trigger_asset %}
+
   <ModOp Type="addNextSibling" GUID="130248">
-    <Asset>
-      <Template>Trigger</Template>
-      <Values>
-        <Standard>
-          <GUID>{{ start_trigger_guid }}</GUID>
-          <Name>unlock_start</Name>
-        </Standard>
-        <Trigger>
-          <TriggerCondition>
-            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
-            <Values>
-              <Condition/>
-              <ConditionAlwaysTrue/>
-            </Values>
-          </TriggerCondition>
-          <TriggerActions>
-            <Item>
-              <TriggerAction>
-                <Template>ActionUnlockAsset</Template>
-                <Values>
-                  <Action/>
-                  <ActionUnlockAsset>
-                    <UnlockAssets>
-{%                  for guid in starting_guids %}
-                      <Item>
-                        <Asset>{{ guid }}</Asset>
-                      </Item>
-{%                  endfor %}
-                    </UnlockAssets>
-                    <UnhideAssets />
-                  </ActionUnlockAsset>
-                </Values>
-              </TriggerAction>
-            </Item>
-          </TriggerActions>
-          <ResetTrigger>
-            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
-            <Values>
-              <EmptyAutoCreateValue/>
-            </Values>
-          </ResetTrigger>
-        </Trigger>
-        <TriggerSetup>
-          <UsedBySecondParties>0</UsedBySecondParties>
-        </TriggerSetup>
-      </Values>
-    </Asset>
+{%  if start_trigger_data[0] != 0 %}
+    {{ generate_trigger_asset(trigger_type, start_trigger_guid, start_trigger, start_trigger_data) | indent(4) }}
+{%  endif %}
 
-{% for trigger_guid, ((population_guid, amount), location_data) in trigger_to_location_data.items() %}
-    <Asset>
-      <Template>Trigger</Template>
-      <Values>
-        <Standard>
-          <GUID>{{ trigger_guid }}</GUID>
-          <Name>unlock_{{ population_guid }}_{{ amount }}</Name>
-        </Standard>
-        <Trigger>
-          <TriggerCondition>
-            <Template>ConditionPlayerCounter</Template>
-            <Values>
-              <Condition />
-              <ConditionPlayerCounter>
-                <PlayerCounter>PopulationByLevel</PlayerCounter>
-                <Context>{{ population_guid }}</Context>
-                <CounterAmount>{{ amount }}</CounterAmount>
-              </ConditionPlayerCounter>
-            </Values>
-          </TriggerCondition>
-          <TriggerActions>
-            <Item>
-              <TriggerAction>
-                <Template>ActionUnlockAsset</Template>
-                <Values>
-                  <Action/>
-                  <ActionUnlockAsset>
-                    <UnlockAssets>
-{%                  for guid, _, unlock_guids in location_data %}
-                      <Item>
-                        <Asset>{{ guid }}</Asset>
-                      </Item>
-{%                  for unlock_guid in unlock_guids %}
-                      <Item>
-                        <Asset>{{ unlock_guid }}</Asset>
-                      </Item>
-{%                  endfor %}
-{%                  endfor %}
-                    </UnlockAssets>
-                    <UnhideAssets />
-                  </ActionUnlockAsset>
-                </Values>
-              </TriggerAction>
-            </Item>
-          </TriggerActions>
-          <ResetTrigger>
-            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
-            <Values>
-              <EmptyAutoCreateValue/>
-            </Values>
-          </ResetTrigger>
-        </Trigger>
-        <TriggerSetup>
-          <UsedBySecondParties>0</UsedBySecondParties>
-        </TriggerSetup>
-      </Values>
-    </Asset>
-{% endfor %}
+{%  for trigger_guid, (trigger_data, location_data) in trigger_to_location_data.items() %}
+    {{ generate_trigger_asset(trigger_type, trigger_guid, trigger_data, location_data) | indent(4) }}
+{%  endfor %}
 
-    <Asset>
-      <Template>Trigger</Template>
-      <Values>
-        <Standard>
-          <GUID>{{ victory_condition[0] }}</GUID>
-          <Name>victory_condition</Name>
-        </Standard>
-        <Trigger>
-          <TriggerCondition>
-            <Template>ConditionPlayerCounter</Template>
-            <Values>
-              <Condition />
-              <ConditionPlayerCounter>
-                <PlayerCounter>PopulationByLevel</PlayerCounter>
-                <Context>{{ victory_condition[1][0][0] }}</Context>
-                <CounterAmount>{{ victory_condition[1][0][1] }}</CounterAmount>
-              </ConditionPlayerCounter>
-            </Values>
-          </TriggerCondition>
-          <TriggerActions>
-            <Item>
-              <TriggerAction>
-                <Template>ActionUnlockAsset</Template>
-                <Values>
-                  <Action/>
-                  <ActionUnlockAsset>
-                    <UnlockAssets>
-                      <Item>
-                        <Asset>{{ victory_condition[2] }}</Asset>
-                      </Item>
-                    </UnlockAssets>
-                    <UnhideAssets />
-                  </ActionUnlockAsset>
-                </Values>
-              </TriggerAction>
-            </Item>
-          </TriggerActions>
-{%      if victory_condition[1][1:] %}
-          <SubTriggers>
-{%        for guid, amount in victory_condition[1][1:] %}
-            <Item>
-              <SubTrigger>
-                <Template>AutoCreateTrigger</Template>
-                <Values>
-                  <Trigger>
-                    <TriggerCondition>
-                      <Template>ConditionPlayerCounter</Template>
-                      <Values>
-                        <Condition />
-                        <ConditionPlayerCounter>
-                          <PlayerCounter>PopulationByLevel</PlayerCounter>
-                          <Context>{{ guid }}</Context>
-                          <CounterAmount>{{ amount }}</CounterAmount>
-                        </ConditionPlayerCounter>
-                      </Values>
-                    </TriggerCondition>
-                  </Trigger>
-                </Values>
-              </SubTrigger>
-            </Item>
-{%        endfor %}
-          </SubTriggers>
-{%      endif %}
-          <ResetTrigger>
-            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
-            <Values>
-              <EmptyAutoCreateValue/>
-            </Values>
-          </ResetTrigger>
-        </Trigger>
-        <TriggerSetup>
-          <UsedBySecondParties>0</UsedBySecondParties>
-        </TriggerSetup>
-      </Values>
-    </Asset>
+    {{ generate_trigger_asset(trigger_type, victory_trigger_guid, victory_trigger, victory_trigger_data) | indent(4) }}
   </ModOp>
 </ModOps>

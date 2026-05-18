@@ -1,4 +1,4 @@
-from enum import auto, Enum, Flag, KEEP
+from enum import auto, Enum, Flag, IntEnum, KEEP
 
 
 class DLC(Enum):
@@ -15,8 +15,8 @@ class ProductType(Enum):
 class Region(Flag, boundary=KEEP):
     OW = auto()
     NW = auto()
-    EN = auto()
     AR = auto()
+    EN = auto()
 
     @property
     def full_name(self) -> str:
@@ -30,23 +30,84 @@ class Region(Flag, boundary=KEEP):
                 out_name += full_name
         return out_name
 
+    @property
+    def is_unique(self) -> bool:
+        return self in Region.__members__.values()
+
 
 _REGION_NAMES = {
     Region.OW: "Old World",
     Region.NW: "New World",
+    Region.AR: "The Arctic",
     Region.EN: "Enbesa",
-    Region.AR: "Arctic",
 }
 
 NO_REGION = Region(0)
 
-ALL_REGIONS = Region.OW | Region.NW | Region.EN | Region.AR
+ALL_REGIONS = Region.OW | Region.NW | Region.AR | Region.EN
 
 
 class RequirementType(Enum):
     NONE = 0
     PRODUCT = auto()
     UNLOCK = auto()
+
+
+class Session(IntEnum):
+    OW = auto()
+    NW = auto()
+    CT = auto()
+    AR = auto()
+    EN = auto()
+
+    @property
+    def full_name(self) -> str:
+        global _SESSION_NAMES
+        return _SESSION_NAMES[self]
+
+    @property
+    def guid(self) -> int:
+        global _SESSION_GUIDS
+        return _SESSION_GUIDS[self]
+
+    @property
+    def region(self) -> Region:
+        global _SESSION_REGIONS
+        return _SESSION_REGIONS[self]
+
+
+_SESSION_NAMES = {
+    Session.OW: "Old World",
+    Session.NW: "New World",
+    Session.CT: "Cape Trelawney",
+    Session.AR: "The Arctic",
+    Session.EN: "Enbesa",
+}
+
+_SESSION_GUIDS = {
+    Session.OW: 180023,
+    Session.NW: 180025,
+    Session.CT: 110934,
+    Session.AR: 180045,
+    Session.EN: 112132,
+}
+
+
+_SESSION_REGIONS = {
+    Session.OW: Region.OW,
+    Session.NW: Region.NW,
+    Session.CT: Region.OW,
+    Session.AR: Region.AR,
+    Session.EN: Region.EN,
+}
+
+
+class TriggerType(IntEnum):
+    SESSION_ENTER = auto()
+    POPULATION = auto()
+    ANY = auto()
+    ALL = auto()
+    TRUE = auto()
 
 
 class UnlockType(Flag, boundary=KEEP):

@@ -4,14 +4,16 @@ from typing import Iterator, Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from ..Options import A1800Options
 
-from ._Enums import ALL_REGIONS, NO_REGION, Region
+from ._Enums import ALL_REGIONS, NO_REGION, Region, Session, TriggerType
 from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
 from ._Logic import LOGIC
 from ._Product import A1800Product, find_populations
-from ._Region import A1800Region, get_start_region, get_regions
+from ._Region import A1800Region, find_region, get_regions, get_start_region
 from ._Requirement import A1800Requirement
-from ._Unlock import A1800Unlock, find_ap_item, find_starting_items, get_starting_items, get_unlock_locations, get_unlocks
+from ._Session import A1800Session, find_session
+from ._Trigger import Trigger
+from ._Unlock import A1800Unlock, find_ap_item, get_unlock_locations, get_unlocks
 
 
 class _AnnoData:
@@ -38,11 +40,14 @@ class _AnnoData:
     def find_event_locations(self, name: str, output: str, region: Region = NO_REGION) -> Iterator[A1800EventLocation]:
         return find_event_locations(name, output, region)
 
-    def find_starting_items(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Unlock]:
-        return find_starting_items(name, region)
-
     def find_populations(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Product]:
         return find_populations(name, region)
+
+    def find_region(self, region: Region) -> A1800Region:
+        return find_region(region)
+
+    def find_session(self, session: Session) -> A1800Session:
+        return find_session(session)
 
     def get_event_items(self) -> Sequence[A1800EventItem]:
         return get_event_items()
@@ -65,14 +70,14 @@ class _AnnoData:
     def get_start_region(self) -> A1800Region:
         return get_start_region()
 
-    def get_starting_items(self) -> Sequence[A1800Unlock]:
-        return get_starting_items()
-
     def get_unlocks(self) -> Sequence[A1800Unlock]:
         return get_unlocks()
 
     def get_unlock_locations(self) -> Sequence[A1800Unlock]:
         return get_unlock_locations()
+
+    def get_victory_trigger(self) -> Trigger:
+        return LOGIC.get_victory_trigger()
 
 
 ANNO_DATA = _AnnoData()
@@ -85,4 +90,6 @@ __all__ = [
     "ALL_REGIONS",
     "ANNO_DATA",
     "Region",
+    "Trigger",
+    "TriggerType",
 ]

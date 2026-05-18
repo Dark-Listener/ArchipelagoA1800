@@ -3,16 +3,14 @@ from typing import Optional
 
 from BaseClasses import Location, Region as APRegion
 
-from .data import ANNO_DATA, Region
+from .data import ANNO_DATA, Region, Trigger, TriggerType
 
 
 @dataclass
 class A1800LocationData:
     name: str
     region: Region
-    population: Optional[str] = None
-    amount: Optional[int] = None
-    population_guid: Optional[int] = None
+    trigger: Optional[Trigger] = None
     ap_code: Optional[int] = None
     is_event: bool = False
 
@@ -36,13 +34,14 @@ class _Locations:
         self._unlock_location_data_list = [
             A1800LocationData(
                 location.ap_location_name,
-                location.unlocking_region,
-                location.unlocking_population,
-                location.unlocking_amount,
-                location.unlocking_guid,
+                location.trigger.region,
+                location.trigger,
                 location.ap_code,
                 False
             ) for location in ANNO_DATA.get_unlock_locations()
+            if location.trigger.trigger_type != TriggerType.SESSION_ENTER
+            or location.trigger.session.region != ANNO_DATA.get_start_region().region
+            or ANNO_DATA.find_session(location.trigger.session).requirements
         ]
 
         self._event_location_data_list = [

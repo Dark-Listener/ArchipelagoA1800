@@ -1,17 +1,38 @@
-from typing import TYPE_CHECKING
+from typing import Iterable, Optional, TYPE_CHECKING
 
-from rule_builder.rules import HasAll
+from rule_builder.rules import And, HasAll, Or, Rule, True_
 
-from .data import A1800Requirement, ALL_REGIONS, ANNO_DATA
+from .data import A1800Requirement, ALL_REGIONS, ANNO_DATA, Trigger, TriggerType
 from .Locations import LOCATIONS
 
 if TYPE_CHECKING:
     from . import A1800World
 
 
-def _create_rule(world: "A1800World", location_name: str, *requirements: A1800Requirement) -> None:
-    world.set_rule(world.multiworld.get_location(location_name, world.player), HasAll(
-        *set([ap_item_name for requirement in requirements for ap_item_name in requirement.ap_item_names])))
+def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A1800World"]]:
+    if isinstance(data, Trigger):
+        match(data.trigger_type):
+            case TriggerType.TRUE:
+                return True_()
+            case TriggerType.ALL:
+                return And(*[rule for trigger in data.triggers for rule in [_create_rule(trigger)] if rule is not None])
+            case TriggerType.ANY:
+                return Or(*[rule for trigger in data.triggers for rule in [_create_rule(trigger)] if rule is not None])
+            case TriggerType.SESSION_ENTER:
+                return _create_rule(ANNO_DATA.find_session(data.session).requirements)
+            case TriggerType.POPULATION:
+                return _create_rule({A1800Requirement(data.population, data.region)})
+    else:
+        if data:
+            return HasAll(*set([ap_item_name for requirement in data for ap_item_name in requirement.ap_item_names]))
+        else:
+            return None
+
+
+def _create_and_set_rule(world: "A1800World", location_name: str, data: Iterable[A1800Requirement] | Trigger) -> None:
+    rule = _create_rule(data)
+    if rule is not None:
+        world.set_rule(world.multiworld.get_location(location_name, world.player), rule)
 
 
 def set_rules(world: "A1800World") -> None:
@@ -25,13 +46,13 @@ def set_rules(world: "A1800World") -> None:
             )
 
     for data in LOCATIONS.get_unlock_location_data_list():
-        assert data.population, f"Location data {data} has no population set"
-        _create_rule(world, data.name, A1800Requirement(data.population, data.region))
+        assert data.trigger, "Unlock location has no trigger"
+        _create_and_set_rule(world, data.name, data.trigger)
 
     for data in LOCATIONS.get_event_location_data_list():
         requirements = next(
             (requirement for name, requirement in ANNO_DATA.get_location_requirements() if name == data.name), None)
         if requirements:
-            _create_rule(world, data.name, *requirements)
+            _create_and_set_rule(world, data.name, requirements)
 
     world.set_completion_rule(HasAll(*A1800Requirement("Victory", ALL_REGIONS).ap_item_names))

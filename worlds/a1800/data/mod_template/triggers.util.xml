@@ -1,0 +1,127 @@
+{% macro generate_trigger_actions(location_data) %}
+<TriggerActions>
+  <Item>
+    <TriggerAction>
+      <Template>ActionUnlockAsset</Template>
+      <Values>
+        <Action/>
+        <ActionUnlockAsset>
+          <UnlockAssets>
+{%        for guid, _, unlock_guids in location_data %}
+            <Item>
+              <Asset>{{ guid }}</Asset>
+            </Item>
+{%        for unlock_guid in unlock_guids %}
+            <Item>
+              <Asset>{{ unlock_guid }}</Asset>
+            </Item>
+{%        endfor %}
+{%        endfor %}
+          </UnlockAssets>
+          <UnhideAssets />
+        </ActionUnlockAsset>
+      </Values>
+    </TriggerAction>
+  </Item>
+</TriggerActions>
+{% endmacro %}
+
+{% macro generate_trigger_condition(trigger_type, trigger_data) %}
+{% if trigger_data.trigger_type == trigger_type.TRUE %}
+<TriggerCondition>
+  <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+  <Values>
+    <Condition />
+    <ConditionAlwaysTrue />
+  </Values>
+</TriggerCondition>
+{% elif trigger_data.trigger_type == trigger_type.ALL %}
+<TriggerCondition>
+  <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+  <Values>
+    <Condition>
+      <SubConditionCompletionOrder>Parallel</SubConditionCompletionOrder>
+    </Condition>
+    <ConditionAlwaysTrue />
+  </Values>
+</TriggerCondition>
+{% elif trigger_data.trigger_type == trigger_type.ANY %}
+<TriggerCondition>
+  <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+  <Values>
+    <Condition>
+      <SubConditionCompletionOrder>MutuallyExclusive</SubConditionCompletionOrder>
+    </Condition>
+    <ConditionAlwaysTrue />
+  </Values>
+</TriggerCondition>
+{% elif trigger_data.trigger_type == trigger_type.SESSION_ENTER %}
+<TriggerCondition>
+  <Template>ConditionActiveSession</Template>
+  <Values>
+    <Condition />
+    <ConditionActiveSession>
+      <ActiveSession>{{ trigger_data.session.guid }}</ActiveSession>
+    </ConditionActiveSession>
+  </Values>
+</TriggerCondition>
+{% elif trigger_data.trigger_type == trigger_type.POPULATION %}
+<TriggerCondition>
+  <Template>ConditionPlayerCounter</Template>
+  <Values>
+    <Condition />
+    <ConditionPlayerCounter>
+      <PlayerCounter>PopulationByLevel</PlayerCounter>
+      <Context>{{ trigger_data.guid }}</Context>
+      <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+    </ConditionPlayerCounter>
+  </Values>
+</TriggerCondition>
+{% endif %}
+{% endmacro %}
+
+{% macro generate_sub_triggers(trigger_type, trigger_data) %}
+{% if trigger_data.trigger_type == trigger_type.ALL or trigger_data.trigger_type == trigger_type.ANY %}
+<SubTriggers>
+{% for trigger in trigger_data.triggers %}
+  <Item>
+    <SubTrigger>
+      <Template>AutoCreateTrigger</Template>
+      <Values>
+        <Trigger>
+          {{ generate_trigger_condition(trigger_type, trigger) | indent(10) }}
+          {{ generate_sub_triggers(trigger_type, trigger) | indent(10) }}
+        </Trigger>
+      </Values>
+    </SubTrigger>
+  </Item>
+{% endfor %}
+</SubTriggers>
+{% endif %}
+{% endmacro %}
+
+{% macro generate_trigger_asset(trigger_type, trigger_guid, trigger_data, location_data) %}
+<Asset>
+  <Template>Trigger</Template>
+  <Values>
+    <Standard>
+      <GUID>{{ trigger_guid }}</GUID>
+      <Name>{{ trigger_data.ap_location_name }}</Name>
+    </Standard>
+    <Trigger>
+      {{ generate_trigger_condition(trigger_type, trigger_data) | indent(6) }}
+      {{ generate_trigger_actions(location_data) | indent(6) }}
+      {{ generate_sub_triggers(trigger_type, trigger_data) | indent(6) }}
+      <ResetTrigger>
+        <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+        <Values>
+          <EmptyAutoCreateValue/>
+        </Values>
+      </ResetTrigger>
+    </Trigger>
+    <TriggerSetup>
+      <UsedBySecondParties>0</UsedBySecondParties>
+    </TriggerSetup>
+  </Values>
+</Asset>
+{% endmacro %}

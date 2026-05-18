@@ -66,7 +66,7 @@ class A1800World(World):
         ANNO_DATA.process_options(self.options)
         LOCATIONS.process_locations()
         ITEMS.process_items()
-        ITEMS.create_and_push_starting_items(self)
+        ITEMS.create_and_push_start_items(self)
 
     @override
     def create_regions(self) -> None:

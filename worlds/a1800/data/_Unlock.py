@@ -2,7 +2,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import ClassVar, Iterator, Optional
 
-from ._Chain import find_chains
+from ._Chain import find_chains, get_chains
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, UnlockType
 from ._Product import find_populations, find_products
 
@@ -293,6 +293,13 @@ for unlock in _a1800_unlocks:
 
     for lifestyle in unlock.lifestyle:
         assert next(find_products(lifestyle, unlock.region), None)
+
+# Assure all chain references exist
+for chain in get_chains():
+    assert chain.region
+
+    for name, region in chain.elements:
+        assert next(find_unlocks(name, region), None)
 
 
 def trigger_key(location: A1800Unlock) -> tuple[int, int]:

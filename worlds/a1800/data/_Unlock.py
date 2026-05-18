@@ -1,12 +1,10 @@
 from collections.abc import Sequence
 from dataclasses import dataclass, field
-from enum import auto, Flag, KEEP
 from typing import ClassVar, Iterator, Optional
 
 from ._Chain import find_chains
-from ._Dlc import DLC
+from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, UnlockType
 from ._Product import find_populations, find_products
-from ._Region import ALL_REGIONS, NO_REGION, Region
 
 
 def create_unlock_name(name: str, region: Region, prefix: str = "", postfix: str = "") -> str:
@@ -14,14 +12,6 @@ def create_unlock_name(name: str, region: Region, prefix: str = "", postfix: str
         return prefix + name + postfix
     else:
         return f"{prefix}{region.name}: {name}{postfix}"
-
-
-class UnlockType(Flag, boundary=KEEP):
-    UNLOCK = 0
-    BUILDING = auto()
-    FACTORY = auto()
-    UPGRADE = auto()
-    RESIDENCE = auto()
 
 
 @dataclass

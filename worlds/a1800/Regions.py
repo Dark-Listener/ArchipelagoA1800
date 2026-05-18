@@ -15,7 +15,6 @@ def create_regions(world: "A1800World") -> None:
 
 
 def _create_region(world: "A1800World", a1800_region: A1800Region) -> Region:
-
     region = Region(a1800_region.region.full_name, world.player, world.multiworld)
 
     for data in LOCATIONS.get_location_data_list():

@@ -2,10 +2,9 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import Iterator
 
-from ._Dlc import DLC
+from ._Enums import DLC, NO_REGION, Region
 from ._EventLocation import get_event_locations
 from ._Product import get_products
-from ._Region import NO_REGION, Region
 from ._Unlock import create_unlock_name
 
 

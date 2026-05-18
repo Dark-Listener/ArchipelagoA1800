@@ -15,6 +15,15 @@ def _create_rule(world: "A1800World", location_name: str, *requirements: A1800Re
 
 
 def set_rules(world: "A1800World") -> None:
+    for region in ANNO_DATA.get_regions():
+        if region.region.full_name != world.origin_region_name:
+            world.create_entrance(
+                world.get_region(world.origin_region_name),
+                world.get_region(region.region.full_name),
+                HasAll(*set([ap_item_name for requirement in region.requirements
+                             for ap_item_name in requirement.ap_item_names]))
+            )
+
     for data in LOCATIONS.get_unlock_location_data_list():
         assert data.population
         _create_rule(world, data.name, A1800Requirement(data.population, data.region))

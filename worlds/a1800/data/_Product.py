@@ -1,17 +1,8 @@
 from collections.abc import Sequence
 from dataclasses import dataclass
-from enum import auto, Enum
 from typing import Iterator
 
-from ._Dlc import DLC
-from ._Region import ALL_REGIONS, NO_REGION, Region
-
-
-class ProductType(Enum):
-    META = auto()
-    WORKFORCE = auto()
-    GOOD = auto()
-    SERVICE = auto()
+from ._Enums import ALL_REGIONS, DLC, NO_REGION, ProductType, Region
 
 
 @dataclass

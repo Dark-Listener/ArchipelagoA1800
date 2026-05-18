@@ -1,50 +1,23 @@
 from collections.abc import Sequence
 from dataclasses import dataclass
-from enum import auto, Flag, KEEP
 
-from ._Dlc import DLC
-
-
-class Region(Flag, boundary=KEEP):
-    OW = auto()
-    NW = auto()
-    EN = auto()
-    AR = auto()
-
-    @property
-    def full_name(self) -> str:
-        global _REGION_NAMES
-
-        out_name = ""
-        for region, full_name in _REGION_NAMES.items():
-            if region in self:
-                if out_name:
-                    out_name += "|"
-                out_name += full_name
-        return out_name
-
-
-_REGION_NAMES = {
-    Region.OW: "Old World",
-    Region.NW: "New World",
-    Region.EN: "Enbesa",
-    Region.AR: "Arctic",
-}
-
-NO_REGION = Region(0)
-
-ALL_REGIONS = Region.OW | Region.NW | Region.EN | Region.AR
+from ._Enums import ALL_REGIONS, DLC, Region
+from ._Requirement import A1800Requirement
 
 
 @dataclass
 class A1800Region:
     region: Region
     dlc: DLC
-    requirements: set[str]
+    requirements: set[A1800Requirement]
 
 
 _a1800_regions: list[A1800Region] = [
     A1800Region(Region.OW, DLC.VANILLA, set()),
+    A1800Region(Region.NW, DLC.VANILLA, {
+        A1800Requirement("Artisans", Region.OW),
+        A1800Requirement("Sea Travel", ALL_REGIONS),
+    }),
 ]
 
 # Assure regions only have a single region flag

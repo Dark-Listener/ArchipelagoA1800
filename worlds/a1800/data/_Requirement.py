@@ -1,16 +1,9 @@
 from dataclasses import dataclass, field
-from enum import auto, Enum
 
+from ._Enums import Region, RequirementType
 from ._EventItem import find_event_items
 from ._Product import find_products
-from ._Region import Region
 from ._Unlock import find_unlocks
-
-
-class RequirementType(Enum):
-    NONE = 0
-    PRODUCT = auto()
-    UNLOCK = auto()
 
 
 @dataclass(frozen=True)

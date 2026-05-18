@@ -1,10 +1,9 @@
-from ._Dlc import DLC
+from ._Enums import ALL_REGIONS, DLC, Region, RequirementType, UnlockType
 from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import _a1800_event_locations  # pyright: ignore[reportPrivateUsage]
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
-from ._Region import ALL_REGIONS, Region
-from ._Requirement import A1800Requirement, RequirementType
-from ._Unlock import A1800Unlock, find_unlocks, get_unlocks, UnlockType
+from ._Requirement import A1800Requirement
+from ._Unlock import A1800Unlock, find_unlocks, get_unlocks
 
 
 def _get_victory_condition_name_and_requirements(

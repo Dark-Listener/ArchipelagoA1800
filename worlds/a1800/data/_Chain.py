@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 from typing import Iterator
 
-from ._Dlc import DLC
-from ._Region import NO_REGION, Region
+from ._Enums import DLC, NO_REGION, Region
 
 
 @dataclass

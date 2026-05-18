@@ -4,12 +4,12 @@ from typing import Iterator, Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from ..Options import A1800Options
 
-
+from ._Enums import ALL_REGIONS, NO_REGION, Region
 from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
 from ._Logic import LOGIC
 from ._Product import A1800Product, find_populations
-from ._Region import ALL_REGIONS, A1800Region, get_start_region, NO_REGION, Region, get_regions
+from ._Region import A1800Region, get_start_region, get_regions
 from ._Requirement import A1800Requirement
 from ._Unlock import A1800Unlock, find_ap_item, find_starting_items, get_starting_items, get_unlock_locations, get_unlocks
 

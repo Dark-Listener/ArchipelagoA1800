@@ -2,9 +2,8 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Iterator
 
-from ._Dlc import DLC
-from ._Region import NO_REGION, Region
-from ._Unlock import create_unlock_name, get_unlocks, UnlockType
+from ._Enums import DLC, NO_REGION, Region, UnlockType
+from ._Unlock import create_unlock_name, get_unlocks
 
 
 @dataclass

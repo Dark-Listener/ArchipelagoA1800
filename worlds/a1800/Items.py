@@ -57,9 +57,9 @@ def create_item(world: "A1800World", item: str | A1800ItemData) -> Item:
         data = item
     else:
         ap_item = ANNO_DATA.find_ap_item(item)
-        assert ap_item
+        assert ap_item, f"Couldn't find item for string {item}"
         data = _to_item_data(ap_item)
-        assert data
+        assert data, f"Couldn't create item data for item {ap_item}"
     return A1800Item(world.player, data)
 
 
@@ -77,7 +77,7 @@ class _Items:
         # Player starts with some timber and enough unlocks to let them produce more
         # This avoids circular logic blocking the randomizer
         timber_data = _to_item_data(next(ANNO_DATA.find_event_items("Timber")))
-        assert timber_data
+        assert timber_data, "Couldn't find timber event item as starting good"
         self._starting_item_data_list.append(timber_data)
 
         self._unlock_item_data_list = [item_data for item in ANNO_DATA.get_unlocks()

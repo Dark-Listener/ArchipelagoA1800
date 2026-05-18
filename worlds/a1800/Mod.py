@@ -123,7 +123,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         population, region, amount, _, _, _ = population_requirement
         pop = next(ANNO_DATA.find_populations(population, region))
         reqs.append((pop.guid, amount))
-    assert len(reqs) >= 1
+    assert len(reqs) >= 1, "No valid victory condition found"
 
     victory_guid = get_next_guid()
     victory_condition = (victory_trigger_guid, reqs, victory_guid)

@@ -72,7 +72,8 @@ _a1800_populations = [product for product in _a1800_products if product.type == 
 
 # Assure populations only have a single region flag
 for population in _a1800_populations:
-    assert population.region in Region.__members__.values()
+    assert population.region in Region.__members__.values(), f"Population {population.name} has multiple regions: "\
+        f"{population.region}"
 
 
 def find_populations(name: str, region: Region = NO_REGION) -> Iterator[A1800Product]:

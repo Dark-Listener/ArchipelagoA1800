@@ -80,7 +80,8 @@ class _Logic:
                                                               previous_unlock.region, RequirementType.UNLOCK))
 
                         if UnlockType.RESIDENCE in unlock.type:
-                            assert UnlockType.RESIDENCE in previous_unlock.type
+                            assert UnlockType.RESIDENCE in previous_unlock.type, f"Residence {unlock.name} references"\
+                                f" previous building {previous_unlock.name}, which is not also a residence"
                             new_requirements |= {A1800Requirement(name, previous_unlock.region)
                                                  for name in previous_unlock.consumption}
 

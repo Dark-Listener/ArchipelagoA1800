@@ -25,7 +25,7 @@ def set_rules(world: "A1800World") -> None:
             )
 
     for data in LOCATIONS.get_unlock_location_data_list():
-        assert data.population
+        assert data.population, f"Location data {data} has no population set"
         _create_rule(world, data.name, A1800Requirement(data.population, data.region))
 
     for data in LOCATIONS.get_event_location_data_list():

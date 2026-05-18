@@ -22,7 +22,7 @@ _a1800_regions: list[A1800Region] = [
 
 # Assure regions only have a single region flag
 for region in _a1800_regions:
-    assert region.region in Region.__members__.values()
+    assert region.region in Region.__members__.values(), f"Region {region.region} has multiple regions"
 
 
 def get_regions() -> Sequence[A1800Region]:

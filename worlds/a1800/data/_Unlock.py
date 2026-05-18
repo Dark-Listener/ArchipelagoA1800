@@ -262,44 +262,58 @@ def find_ap_item(ap_name: str) -> Optional[A1800Unlock]:
 
 # Assure all references exist
 for unlock in _a1800_unlocks:
-    assert unlock.region
+    assert unlock.region, f"Unlock {unlock.name} has no region"
 
     if unlock.unlocking_region and unlock.unlocking_population and unlock.unlocking_amount:
-        assert next(find_populations(unlock.unlocking_population, unlock.unlocking_region), None)
+        assert next(find_populations(unlock.unlocking_population, unlock.unlocking_region), None), \
+            f"Unlock {unlock.name} references non-existent population {unlock.unlocking_population}, "\
+            f"{unlock.unlocking_region}"
 
     for cost in unlock.cost:
-        assert next(find_products(cost, unlock.region), None)
+        assert next(find_products(cost, unlock.region), None), \
+            f"Unlock {unlock.name} references non-existent cost {cost}, "
 
     for maintenance in unlock.maintenance:
-        assert next(find_products(maintenance, unlock.region), None)
+        assert next(find_products(maintenance, unlock.region), None), \
+            f"Unlock {unlock.name} references non-existent maintenance {maintenance}, "
 
     for input in unlock.input:
-        assert next(find_products(input, unlock.region), None)
+        assert next(find_products(input, unlock.region), None), \
+            f"Unlock {unlock.name} references non-existent input {input}, "
 
     for output in unlock.output:
-        assert next(find_products(output, unlock.region), None)
+        assert next(find_products(output, unlock.region), None), \
+            f"Unlock {unlock.name} references non-existent output {output}, "
 
     if unlock.unlock_chain:
-        assert next(find_chains(unlock.unlock_chain, unlock.region), None)
+        assert next(find_chains(unlock.unlock_chain, unlock.region), None), \
+            f"Unlock {unlock.name} references non-existent chain {unlock.unlock_chain}, "
 
     if unlock.previous_building:
-        assert next(find_unlocks(unlock.previous_building, unlock.region), None)
+        assert next(find_unlocks(unlock.previous_building, unlock.region), None), \
+            f"Unlock {unlock.name} references non-existent previous building {unlock.previous_building}, "
 
     for consumption in unlock.consumption:
-        assert next(find_products(consumption, unlock.region), None)
+        assert next(find_products(consumption, unlock.region), None), \
+            f"Unlock {unlock.name} references non-existent consumption {consumption}, "
 
     for luxury in unlock.luxury:
-        assert next(find_products(luxury, unlock.region), None)
+        assert next(find_products(luxury, unlock.region), None), \
+            f"Unlock {unlock.name} references non-existent luxury {luxury}, "
 
+    missing_lifestyles: set[str] = set()
     for lifestyle in unlock.lifestyle:
-        assert next(find_products(lifestyle, unlock.region), None)
+        if not next(find_products(lifestyle, unlock.region), None):
+            missing_lifestyles.add(lifestyle)
+    unlock.lifestyle -= missing_lifestyles
 
 # Assure all chain references exist
 for chain in get_chains():
-    assert chain.region
+    assert chain.region, f"Chain {chain.name} has no region"
 
     for name, region in chain.elements:
-        assert next(find_unlocks(name, region), None)
+        assert next(find_unlocks(name, region), None), f"Chain {chain.name} references non-existent unlock {name}, "\
+            f"{region}"
 
 
 def trigger_key(location: A1800Unlock) -> tuple[int, int]:

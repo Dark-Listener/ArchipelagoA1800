@@ -24,6 +24,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Farmers", DLC.VANILLA, Region.OW, 15000000, ProductType.WORKFORCE),
     A1800Product("Workers", DLC.VANILLA, Region.OW, 15000001, ProductType.WORKFORCE),
     A1800Product("Artisans", DLC.VANILLA, Region.OW, 15000002, ProductType.WORKFORCE),
+    A1800Product("Engineers", DLC.VANILLA, Region.OW, 15000003, ProductType.WORKFORCE),
 
     A1800Product("Wood", DLC.VANILLA, ALL_REGIONS, 120008, ProductType.GOOD),
     A1800Product("Timber", DLC.VANILLA, ALL_REGIONS, 1010196, ProductType.GOOD),
@@ -50,11 +51,27 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Hops", DLC.VANILLA, ALL_REGIONS, 1010194, ProductType.GOOD),
     A1800Product("Malt", DLC.VANILLA, ALL_REGIONS, 1010236, ProductType.GOOD),
     A1800Product("Beer", DLC.VANILLA, ALL_REGIONS, 1010214, ProductType.GOOD),
+    A1800Product("Quartz Sand", DLC.VANILLA, ALL_REGIONS, 1010228, ProductType.GOOD),
+    A1800Product("Glass", DLC.VANILLA, ALL_REGIONS, 1010241, ProductType.GOOD),
+    A1800Product("Windows", DLC.VANILLA, ALL_REGIONS, 1010207, ProductType.GOOD),
+    A1800Product("Beef", DLC.VANILLA, ALL_REGIONS, 1010193, ProductType.GOOD),
+    A1800Product("Red Peppers", DLC.VANILLA, ALL_REGIONS, 1010198, ProductType.GOOD),
+    A1800Product("Goulash", DLC.VANILLA, ALL_REGIONS, 1010215, ProductType.GOOD),
+    A1800Product("Canned Food", DLC.VANILLA, ALL_REGIONS, 1010217, ProductType.GOOD),
+    A1800Product("Sewing Machines", DLC.VANILLA, ALL_REGIONS, 1010206, ProductType.GOOD),
+    A1800Product("Furs", DLC.VANILLA, ALL_REGIONS, 1010209, ProductType.GOOD),
+    A1800Product("Fur Coats", DLC.VANILLA, ALL_REGIONS, 1010247, ProductType.GOOD),
+
+    A1800Product("Cotton", DLC.VANILLA, ALL_REGIONS, 1010253, ProductType.GOOD),
+    A1800Product("Cotton Fabric", DLC.VANILLA, ALL_REGIONS, 1010240, ProductType.GOOD),
 
     A1800Product("Market", DLC.VANILLA, Region.OW, 120020, ProductType.SERVICE),
     A1800Product("Pub", DLC.VANILLA, Region.OW, 1010349, ProductType.SERVICE),
     A1800Product("Church", DLC.VANILLA, Region.OW, 1010350, ProductType.SERVICE),
     A1800Product("School", DLC.VANILLA, Region.OW, 1010351, ProductType.SERVICE),
+    A1800Product("Variety Theatre", DLC.VANILLA, Region.OW, 1010352, ProductType.SERVICE),
+    A1800Product("Zoo", DLC.VANILLA, Region.OW, 601485, ProductType.SERVICE),
+    A1800Product("University", DLC.VANILLA, Region.OW, 1010353, ProductType.SERVICE),
 ]
 
 

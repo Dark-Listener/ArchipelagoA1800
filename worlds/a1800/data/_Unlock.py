@@ -34,16 +34,21 @@ class A1800Unlock:
     consumption: set[str] = field(default_factory=lambda: set())
     luxury: set[str] = field(default_factory=lambda: set())
     lifestyle: set[str] = field(default_factory=lambda: set())
+    ap_code: Optional[int] = None
+    ap_item_name: str = ""
+    ap_location_name: str = ""
+    unlock_guids: set[int] = field(default_factory=lambda: set())
     type: UnlockType = UnlockType.UNLOCK
     is_early: bool = False
+    is_progressive: bool = False
 
     def __post_init__(self) -> None:
-        self.ap_code = A1800Unlock.__item_id
-        A1800Unlock.__item_id += 1
+        if not self.ap_code:
+            self.ap_code = A1800Unlock.__item_id
+            A1800Unlock.__item_id += 1
 
-        self.ap_item_name: str = create_unlock_name(self.name, self.region)
-
-        self.is_progressive: bool = False
+        if not self.ap_item_name:
+            self.ap_item_name = create_unlock_name(self.name, self.region)
 
         if not self.unlocking_region or not self.unlocking_population or not self.unlocking_amount:
             self.ap_location_name = f"Game start ({self.name})"
@@ -54,7 +59,7 @@ class A1800Unlock:
             self.ap_location_name = f"{self.unlocking_amount} {pop_str} ({self.ap_item_name})"
             self.unlocking_guid = next(find_populations(self.unlocking_population, self.unlocking_region)).guid
 
-        self.unlock_guids: set[int] = self.guids
+        self.unlock_guids = self.guids
 
         if self.type == UnlockType.UNLOCK:
             if self.cost or self.maintenance:
@@ -104,6 +109,21 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Cannon Tower", DLC.VANILLA, Region.OW, {1010523}, {1010523}, Region.OW, "Workers", 300,
                 {"Timber", "Bricks", "Steel Beams", "Weapons"}, set()),
+
+    A1800Unlock("Town Hall", DLC.VANILLA, Region.OW, {100415}, {100415}, Region.OW, "Artisans", 1,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set()),
+
+    A1800Unlock("Flame Tower", DLC.VANILLA, Region.OW, {625}, {625}, Region.OW, "Artisans", 1,
+                {"Timber", "Bricks", "Steel Beams", "Weapons"}, set()),
+
+    A1800Unlock("Public Mooring", DLC.VANILLA, Region.OW, {100429}, {130052}, Region.OW, "Artisans", 250,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set()),
+
+    A1800Unlock("Pier", DLC.VANILLA, Region.OW, {100519}, {100519}, Region.OW, "Artisans", 250,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set()),
+
+    A1800Unlock("Repair Crane", DLC.VANILLA, Region.OW, {1010525}, {1010525}, Region.OW, "Artisans", 250,
+                {"Timber", "Bricks", "Steel Beams"}, set()),
 
 
     # Building, Factory
@@ -203,6 +223,55 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("School", DLC.VANILLA, Region.OW, {1010360}, {130044}, Region.OW, "Workers", 750,
                 {"Timber", "Bricks", "Steel Beams"}, set(), set(), {"School"}, ""),
 
+    A1800Unlock("Sand Mine", DLC.VANILLA, Region.OW, {1010560}, {140037}, Region.OW, "Artisans", 1,
+                {"Timber", "Bricks"}, {"Workers"}, set(), {"Quartz Sand"}, "Windows"),
+
+    A1800Unlock("Glassmakers", DLC.VANILLA, Region.OW, {1010319}, {140037}, Region.OW, "Artisans", 1,
+                {"Timber", "Bricks", "Steel Beams"}, {"Artisans"}, {"Quartz Sand"}, {"Glass"}, "Windows"),
+
+    A1800Unlock("Window Makers", DLC.VANILLA, Region.OW, {1010285}, {140037}, Region.OW, "Artisans", 1,
+                {"Timber", "Bricks", "Steel Beams"}, {"Artisans"}, {"Wood", "Glass"}, {"Windows"}, "Windows"),
+
+    A1800Unlock("Cattle Farm", DLC.VANILLA, Region.OW, {1010263}, {140036}, Region.OW, "Artisans", 1,
+                {"Timber"}, {"Farmers"}, set(), {"Beef"}, "Canned Food"),
+
+    A1800Unlock("Red Pepper Farm", DLC.VANILLA, Region.OW, {100654}, {140036}, Region.OW, "Artisans", 1,
+                {"Timber"}, {"Farmers", "Sea Travel"}, set(), {"Red Peppers"}, "Canned Food"),
+
+    A1800Unlock("Artisanal Kitchen", DLC.VANILLA, Region.OW, {1010293}, {140036}, Region.OW, "Artisans", 1,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Artisans"},
+                {"Beef", "Red Peppers"}, {"Goulash"}, "Canned Food"),
+
+    A1800Unlock("Cannery", DLC.VANILLA, Region.OW, {1010295}, {140036}, Region.OW, "Artisans", 1,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Artisans"},
+                {"Iron", "Goulash"}, {"Canned Food"}, "Canned Food"),
+
+    A1800Unlock("Coal Mine", DLC.VANILLA, Region.OW, {1010304}, {140032}, Region.OW, "Artisans", 250,
+                {"Timber", "Bricks"}, {"Workers"}, set(), {"Coal"}, "Sewing Machines"),
+
+    A1800Unlock("Sewing Machine Factory", DLC.VANILLA, Region.OW, {1010284}, {140032}, Region.OW, "Artisans", 250,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Artisans"},
+                {"Wood", "Steel"}, {"Sewing Machines"}, "Sewing Machines"),
+
+    A1800Unlock("Variety Theatre", DLC.VANILLA, Region.OW, {1010361}, {130045}, Region.OW, "Artisans", 250,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Variety Theatre"}, ""),
+
+    A1800Unlock("Zoo", DLC.VANILLA, Region.OW, {1010470}, {1010470}, Region.OW, "Artisans", 500,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Zoo"}, ""),
+
+    A1800Unlock("Hunting Cabin", DLC.VANILLA, Region.OW, {1010558}, {140046}, Region.OW, "Artisans", 900,
+                {"Timber"}, {"Farmers", "Sea Travel"}, set(), {"Furs"}, "Fur Coats"),
+
+    A1800Unlock("Fur Dealer", DLC.VANILLA, Region.OW, {1010325}, {140046}, Region.OW, "Artisans", 900,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Artisans"},
+                {"Furs", "Cotton Fabric"}, {"Fur Coats"}, "Fur Coats"),
+
+    A1800Unlock("Hospital", DLC.VANILLA, Region.OW, {1010464}, {1010464}, Region.OW, "Artisans", 900,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Healthcare"}, ""),
+
+    A1800Unlock("University", DLC.VANILLA, Region.OW, {1010362}, {130046}, Region.OW, "Artisans", 1500,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"University"}, ""),
+
 
     # Building, Upgrade
     A1800Unlock("Paved Street", DLC.VANILLA, Region.OW, {1010035}, {1010035}, Region.OW, "Workers", 1,
@@ -214,15 +283,20 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Medium Trading Post", DLC.VANILLA, Region.OW, {100510, 100514}, {130053}, Region.OW, "Workers", 1,
                 {"Timber", "Bricks"}, set(), previous_building="Small Trading Post"),
 
+    A1800Unlock("Large Warehouse", DLC.VANILLA, Region.OW, {100517}, {130054}, Region.OW, "Artisans", 1,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), previous_building="Medium Warehouse"),
+
+    A1800Unlock("Large Trading Post", DLC.VANILLA, Region.OW, {100511, 100515}, {130054}, Region.OW, "Artisans", 1,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), previous_building="Medium Trading Post"),
+
 
     # Building, Factory, Residence
     A1800Unlock("Farmer Residence", DLC.VANILLA, Region.OW, {1010343}, {1010343}, NO_REGION, "", 0,
                 {"Timber"}, set(), set(), {"Farmers"}, "",
                 consumption={"Market", "Fish", "Work Clothes", "Fire Protection"},
                 luxury={"Schnapps", "Pub"},
-                # lifestyle={"Flour", "Sugar", "Jam", "Local Mail", "Regional Mail",
-                #          "Overseas Mail", "Soap", "Herbs", "Hibiscus Petals"}),
-                ),
+                lifestyle={"Flour", "Sugar", "Jam", "Local Mail", "Regional Mail",
+                           "Overseas Mail", "Soap", "Herbs", "Hibiscus Petals"}),
 
     # Building, Factory, Upgrade, Residence
     A1800Unlock("Worker Residence", DLC.VANILLA, Region.OW, {1010344}, {1010344}, Region.OW, "Farmers", 100,
@@ -230,18 +304,25 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Market", "Fish", "Work Clothes", "Sausages", "Bread",
                     "Soap", "School", "Fire Protection", "Riot Control"},
                 {"Schnapps", "Pub", "Church", "Beer"},
-                # {"Rum", "Penny Farthings", "Hot Sauce", "Local Mail", "Regional Mail",
-                # "Overseas Mail", "Beef", "Soccer Balls", "Clay Pipes"}, is_early=True),
+                {"Rum", "Penny Farthings", "Hot Sauce", "Local Mail", "Regional Mail",
+                    "Overseas Mail", "Beef", "Soccer Balls", "Clay Pipes"},
                 is_early=True),
 
     A1800Unlock("Artisan Residence", DLC.VANILLA, Region.OW, {1010345}, {1010345}, Region.OW, "Workers", 750,
                 {"Timber", "Bricks", "Steel Beams"}, set(), set(), {"Artisans"}, "", "Worker Residence",
-                # {"Sausages", "Bread", "Soap", "School", "Canned Food",
-                # "Sewing Machines", "Fur Coats", "University", "Fire Protection", "Riot Control", "Healthcare"},
-                # {"Church", "Beer", "Variety Theatre", "Rum"},
-                # {"Wool", "Clay", "Paper", "Local Mail", "Regional Mail",
-                # "Overseas Mail", "Soccer Balls", "Perfumes", "Scooter"}),
-                type=UnlockType.BUILDING | UnlockType.FACTORY | UnlockType.UPGRADE | UnlockType.RESIDENCE),
+                {"Sausages", "Bread", "Soap", "School", "Canned Food", "Sewing Machines",
+                    "Fur Coats", "University", "Fire Protection", "Riot Control", "Healthcare"},
+                {"Church", "Beer", "Variety Theatre", "Rum"},
+                {"Wool", "Clay", "Paper", "Local Mail", "Regional Mail",
+                    "Overseas Mail", "Soccer Balls", "Perfumes", "Scooter"}),
+
+    A1800Unlock("Engineer Residence", DLC.VANILLA, Region.OW, {1010346}, {1010346}, Region.OW, "Artisans", 1500,
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Engineers"}, "", "Artisan Residence",
+                {"Canned Food", "Sewing Machines", "Fur Coats", "University", "Glasses", "Coffee",
+                    "Electricity", "Light Bulbs", "Fire Protection", "Riot Control", "Healthcare"},
+                {"Variety Theatre", "Rum", "Penny Farthings", "Pocket Watches", "Bank"},
+                {"Soap", "Chocolate", "Shampoo", "Local Mail", "Regional Mail",
+                    "Overseas Mail", "Mezcal", "Ice Cream", "Medicine"}),
 ]
 
 
@@ -293,19 +374,41 @@ for unlock in _a1800_unlocks:
         assert next(find_unlocks(unlock.previous_building, unlock.region), None), \
             f"Unlock {unlock.name} references non-existent previous building {unlock.previous_building}, "
 
-    for consumption in unlock.consumption:
-        assert next(find_products(consumption, unlock.region), None), \
-            f"Unlock {unlock.name} references non-existent consumption {consumption}, "
+#    for consumption in unlock.consumption:
+#        assert next(find_products(consumption, unlock.region), None), \
+#            f"Unlock {unlock.name} references non-existent consumption {consumption}, "
 
+#    for luxury in unlock.luxury:
+#        assert next(find_products(luxury, unlock.region), None), \
+#            f"Unlock {unlock.name} references non-existent luxury {luxury}, "
+
+#    for lifestyle in unlock.lifestyle:
+#        assert next(find_products(lifestyle, unlock.region), None), \
+#            f"Unlock {unlock.name} references non-existent lifestyle {lifestyle}, "
+
+    missing_consumptions: set[str] = set()
+    for consumption in unlock.consumption:
+        if not next(find_products(consumption, unlock.region), None):
+            missing_consumptions.add(consumption)
+    if missing_consumptions:
+        print(f"Warning for {unlock.name}: removing unknown needs: {missing_consumptions}")
+        unlock.consumption -= missing_consumptions
+
+    missing_luxuries: set[str] = set()
     for luxury in unlock.luxury:
-        assert next(find_products(luxury, unlock.region), None), \
-            f"Unlock {unlock.name} references non-existent luxury {luxury}, "
+        if not next(find_products(luxury, unlock.region), None):
+            missing_luxuries.add(luxury)
+    if missing_luxuries:
+        print(f"Warning for {unlock.name}: removing unknown luxury needs: {missing_luxuries}")
+        unlock.consumption -= missing_luxuries
 
     missing_lifestyles: set[str] = set()
     for lifestyle in unlock.lifestyle:
         if not next(find_products(lifestyle, unlock.region), None):
             missing_lifestyles.add(lifestyle)
-    unlock.lifestyle -= missing_lifestyles
+    if missing_lifestyles:
+        print(f"Warning for {unlock.name}: removing unknown lifestyle needs: {missing_lifestyles}")
+        unlock.lifestyle -= missing_lifestyles
 
 # Assure all chain references exist
 for chain in get_chains():

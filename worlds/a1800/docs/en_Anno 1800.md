@@ -35,6 +35,10 @@ without mods. For example, silos will unlock at 300 workers with Bright Harvest 
 Currently, availability of institutions is guaranteed by the end of the population that unlocks the incidents. For
 example, a fire station is guaranteed before you need to reach workers as fires unlock at 150 farmers.
 
+## What about expeditions?
+Currently, the expeditions to new regions unlock as they would without mods, meaning you need artisans to reach the new
+world.
+
 ## What about NPCs?
 
 Currently, NPCs are not supported and ignored. This means you can get steel beams or other goods before the randomizer

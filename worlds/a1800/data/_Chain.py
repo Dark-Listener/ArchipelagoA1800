@@ -39,6 +39,22 @@ _a1800_chains: list[A1800Chain] = [
                 ("Weapon Factory", Region.OW)}),
     A1800Chain("Beer", DLC.VANILLA, Region.OW, 500006,
                {("Grain Farm", Region.OW), ("Malthouse", Region.OW), ("Hop Farm", Region.OW), ("Brewery", Region.OW)}),
+    A1800Chain("Windows", DLC.VANILLA, Region.OW, 500010,
+               {("Sand Mine", Region.OW), ("Glassmakers", Region.OW), ("Lumberjack's Hut", Region.OW),
+                ("Window Makers", Region.OW)}),
+    A1800Chain("Canned Food", DLC.VANILLA, Region.OW, 500008,
+               {("Cattle Farm", Region.OW), ("Red Pepper Farm", Region.OW), ("Artisanal Kitchen", Region.OW),
+                ("Iron Mine", Region.OW), ("Cannery", Region.OW)}),
+    A1800Chain("Sewing Machines", DLC.VANILLA, Region.OW, 500003,
+               {("Coal Mine", Region.OW), ("Iron Mine", Region.OW), ("Furnace", Region.OW),
+                ("Lumberjack's Hut", Region.OW), ("Sewing Machine Factory", Region.OW)}),
+    A1800Chain("Rum", DLC.VANILLA, Region.OW, 500013,
+               #               {("Sugar Cane Plantation", Region.NW), ("Lumberjack's Hut", Region.NW), ("Rum Distillery", Region.NW)}),
+               set()),
+    A1800Chain("Fur Coats", DLC.VANILLA, Region.OW, 500019,
+               #               {("Cotton Plantation", Region.NW), ("Cotton Mill", Region.NW), ("Hunting Cabin", Region.OW),
+               #                ("Fur Dealer", Region.OW)}),
+               set()),
 ]
 
 

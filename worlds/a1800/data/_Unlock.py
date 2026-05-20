@@ -49,7 +49,7 @@ class A1800Unlock:
         if not self.ap_item_name:
             self.ap_item_name = create_unlock_name(self.name, self.region)
 
-        self.ap_location_name = self.trigger.get_ap_location_name(self.name)
+        self.ap_location_name = self.trigger.get_ap_location_name(self.ap_item_name)
 
         self.unlock_guids = self.guids
 
@@ -87,14 +87,11 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Small Warehouse", DLC.VANILLA, Region.OW, {1010371}, {130040},
                 SESSION_ENTER(Session.OW), {"Timber"}, set()),
 
-    A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, {1010517, 1010540}, set(),
-                SESSION_ENTER(Session.OW), {"Timber"}, set()),
-
     A1800Unlock("Trade Union", DLC.VANILLA, Region.OW, {1010516}, {1010516},
                 POPULATION(Region.OW, "Workers", 1), {"Timber", "Bricks"}, set()),
 
     A1800Unlock("Mounted Guns", DLC.VANILLA, Region.OW, {1010522}, {1010522},
-                POPULATION(Region.OW, "Workers", 150), {"Timber", "Bricks"}, set()),
+                POPULATION(Region.OW, "Workers", 150), {"Timber", "Bricks", "Weapons"}, set()),
 
     A1800Unlock("Quay", DLC.VANILLA, Region.OW, {1010567}, {130121},
                 POPULATION(Region.OW, "Workers", 150), type=UnlockType.BUILDING),
@@ -124,6 +121,9 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Artisans", 250), {"Timber", "Bricks", "Steel Beams"}, set()),
 
     # Building, Factory
+    A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, {1010517, 1010540}, {1010517, 1010540},
+                SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}, {"Sea Travel"}, set(), {"Settling"}),
+
     A1800Unlock("Lumberjack's Hut", DLC.VANILLA, Region.OW, {1010266}, {140029},
                 SESSION_ENTER(Session.OW), set(), {"Farmers"}, set(), {"Wood"}, "Timber"),
 
@@ -131,7 +131,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 SESSION_ENTER(Session.OW), set(), {"Farmers"}, {"Wood"}, {"Timber"}, "Timber"),
 
     A1800Unlock("Marketplace", DLC.VANILLA, Region.OW, {1010372}, {130057},
-                SESSION_ENTER(Session.OW), {"Timber"}, set(), set(), {"Market"}, ""),
+                SESSION_ENTER(Session.OW), {"Timber"}, set(), set(), {"Market"}),
 
     A1800Unlock("Fishery", DLC.VANILLA, Region.OW, {1010278}, {130056},
                 POPULATION(Region.OW, "Farmers", 50), {"Timber"}, {"Farmers"}, set(), {"Fish"}, "", is_early=True),
@@ -151,11 +151,10 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Farmers", 100), {"Timber"}, {"Farmers"}, {"Potatoes"}, {"Schnapps"}, "Schnapps"),
 
     A1800Unlock("Fire Station", DLC.VANILLA, Region.OW, {1010463}, {1010463},
-                POPULATION(Region.OW, "Farmers", 150),
-                {"Timber"}, set(), set(), {"Fire Protection"}, "", is_early=True),
+                POPULATION(Region.OW, "Farmers", 150), {"Timber"}, set(), set(), {"Fire Protection"}, is_early=True),
 
     A1800Unlock("Pub", DLC.VANILLA, Region.OW, {1010358}, {130042},
-                POPULATION(Region.OW, "Farmers", 150), {"Timber"}, set(), set(), {"Pub"}, ""),
+                POPULATION(Region.OW, "Farmers", 150), {"Timber"}, set(), set(), {"Pub"}),
 
     A1800Unlock("Clay Pit", DLC.VANILLA, Region.OW, {100416}, {140031},
                 POPULATION(Region.OW, "Workers", 1), {"Timber"}, {"Workers"}, set(), {"Clay"}, "Bricks"),
@@ -182,14 +181,14 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks"}, {"Workers"}, {"Flour"}, {"Bread"}, "Bread"),
 
     A1800Unlock("Church", DLC.VANILLA, Region.OW, {1010359}, {130043},
-                POPULATION(Region.OW, "Workers", 150), {"Timber", "Bricks"}, set(), set(), {"Church"}, ""),
+                POPULATION(Region.OW, "Workers", 150), {"Timber", "Bricks"}, set(), set(), {"Church"}),
 
     A1800Unlock("Sailmakers", DLC.VANILLA, Region.OW, {1010288}, {140050},
                 POPULATION(Region.OW, "Workers", 150), {"Timber", "Bricks"}, {"Workers"}, {"Wool"}, {"Sails"}, "Sails"),
 
     A1800Unlock("Sailing Shipyard", DLC.VANILLA, Region.OW, {1010520}, {130050},
                 POPULATION(Region.OW, "Workers", 150),
-                {"Timber", "Bricks"}, {"Workers"}, {"Timber", "Sails"}, {"Sea Travel"}, ""),
+                {"Timber", "Bricks"}, {"Workers"}, {"Timber", "Sails"}, {"Sea Travel"}),
 
     A1800Unlock("Charcoal Kiln", DLC.VANILLA, Region.OW, {1010298}, {140034},
                 POPULATION(Region.OW, "Workers", 300),
@@ -221,7 +220,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Hop Farm", DLC.VANILLA, Region.OW, {1010264}, {140035},
                 POPULATION(Region.OW, "Workers", 500),
-                {"Timber"}, {"Farmers"}, set(), {"Hops"}, "Beer"),
+                {"Timber"}, {"Farmers", "Settling"}, set(), {"Hops"}, "Beer"),
 
     A1800Unlock("Malthouse", DLC.VANILLA, Region.OW, {1010314}, {140035},
                 POPULATION(Region.OW, "Workers", 500),
@@ -233,11 +232,11 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Police Station", DLC.VANILLA, Region.OW, {1010462}, {1010462},
                 POPULATION(Region.OW, "Workers", 500),
-                {"Timber", "Bricks"}, set(), set(), {"Riot Control"}, ""),
+                {"Timber", "Bricks"}, set(), set(), {"Riot Control"}),
 
     A1800Unlock("School", DLC.VANILLA, Region.OW, {1010360}, {130044},
                 POPULATION(Region.OW, "Workers", 750),
-                {"Timber", "Bricks", "Steel Beams"}, set(), set(), {"School"}, ""),
+                {"Timber", "Bricks", "Steel Beams"}, set(), set(), {"School"}),
 
     A1800Unlock("Sand Mine", DLC.VANILLA, Region.OW, {1010560}, {140037},
                 POPULATION(Region.OW, "Artisans", 1),
@@ -257,7 +256,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Red Pepper Farm", DLC.VANILLA, Region.OW, {100654}, {140036},
                 POPULATION(Region.OW, "Artisans", 1),
-                {"Timber"}, {"Farmers", "Sea Travel"}, set(), {"Red Peppers"}, "Canned Food"),
+                {"Timber"}, {"Farmers", "Settling"}, set(), {"Red Peppers"}, "Canned Food"),
 
     A1800Unlock("Artisanal Kitchen", DLC.VANILLA, Region.OW, {1010293}, {140036},
                 POPULATION(Region.OW, "Artisans", 1),
@@ -271,7 +270,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Coal Mine", DLC.VANILLA, Region.OW, {1010304}, {140032},
                 POPULATION(Region.OW, "Artisans", 250),
-                {"Timber", "Bricks"}, {"Workers", "Sea Travel"}, set(), {"Coal"}, "Sewing Machines"),
+                {"Timber", "Bricks"}, {"Workers", "Settling"}, set(), {"Coal"}, "Sewing Machines"),
 
     A1800Unlock("Sewing Machine Factory", DLC.VANILLA, Region.OW, {1010284}, {140032},
                 POPULATION(Region.OW, "Artisans", 250),
@@ -280,23 +279,23 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Variety Theatre", DLC.VANILLA, Region.OW, {1010361}, {130045},
                 POPULATION(Region.OW, "Artisans", 250),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Variety Theatre"}, ""),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Variety Theatre"}),
 
     A1800Unlock("Zoo", DLC.VANILLA, Region.OW, {1010470}, {1010470},
                 POPULATION(Region.OW, "Artisans", 500),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Zoo"}, ""),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Zoo"}),
 
     A1800Unlock("Hunting Cabin", DLC.VANILLA, Region.OW, {1010558}, {140046, 130201},
                 ANY(POPULATION(Region.OW, "Artisans", 900), POPULATION(Region.NW, "Jornaleros", 100)),
-                {"Timber"}, {"Farmers", "Sea Travel"},
+                {"Timber"}, {"Farmers", "Settling"},
                 set(), {"Furs"}, {("Fur Coats", Region.OW), ("Fur Coats", Region.NW)}),
 
-    A1800Unlock("Cotton Plantation", DLC.VANILLA, Region.NW, {1010331}, {140046, 130201},
+    A1800Unlock("Cotton Plantation", DLC.VANILLA, Region.NW, {1010331}, {140046, 130201, 130098},
                 ANY(POPULATION(Region.OW, "Artisans", 900), POPULATION(Region.NW, "Jornaleros", 100)),
                 {"Timber"}, {"Jornaleros"},
                 set(), {"Cotton"}, {("Fur Coats", Region.OW), ("Fur Coats", Region.NW)}),
 
-    A1800Unlock("Cotton Mill", DLC.VANILLA, Region.NW, {1010318}, {140046, 130201},
+    A1800Unlock("Cotton Mill", DLC.VANILLA, Region.NW, {1010318}, {140046, 130201, 130098},
                 ANY(POPULATION(Region.OW, "Artisans", 900), POPULATION(Region.NW, "Jornaleros", 100)),
                 {"Timber"}, {"Jornaleros"},
                 {"Cotton"}, {"Cotton Fabric"}, {("Fur Coats", Region.OW), ("Fur Coats", Region.NW)}),
@@ -308,11 +307,15 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Hospital", DLC.VANILLA, Region.OW, {1010464}, {1010464},
                 POPULATION(Region.OW, "Artisans", 900),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Healthcare"}, ""),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Healthcare"}),
 
     A1800Unlock("University", DLC.VANILLA, Region.OW, {1010362}, {130046},
                 POPULATION(Region.OW, "Artisans", 1500),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"University"}, ""),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"University"}),
+
+    A1800Unlock("Museum", DLC.VANILLA, Region.OW, {1010471}, {1010471},
+                POPULATION(Region.OW, "Artisans", 1500),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Museum"}),
 
     # Building, Upgrade
     A1800Unlock("Paved Street", DLC.VANILLA, Region.OW, {1010035}, {1010035},
@@ -337,7 +340,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     # Building, Factory, Residence
     A1800Unlock("Farmer Residence", DLC.VANILLA, Region.OW, {1010343}, {1010343},
-                SESSION_ENTER(Session.OW), {"Timber"}, set(), set(), {"Farmers"}, "",
+                SESSION_ENTER(Session.OW), {"Timber"}, set(), {"Market"}, {"Farmers"}, "",
                 consumption={"Market", "Fish", "Work Clothes", "Fire Protection"},
                 luxury={"Schnapps", "Pub"},
                 lifestyle={"Flour", "Sugar", "Jam", "Local Mail", "Regional Mail",

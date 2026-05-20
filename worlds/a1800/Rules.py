@@ -38,9 +38,8 @@ def _create_and_set_rule(world: "A1800World", location_name: str, data: Iterable
 def set_rules(world: "A1800World") -> None:
     for region in ANNO_DATA.get_regions():
         if region.region.full_name != world.origin_region_name:
-            world.create_entrance(
-                world.get_region(world.origin_region_name),
-                world.get_region(region.region.full_name),
+            world.set_rule(
+                world.get_entrance(f"{world.origin_region_name} => {region.region.full_name}"),
                 HasAll(*set([ap_item_name for requirement in region.requirements
                              for ap_item_name in requirement.ap_item_names]))
             )

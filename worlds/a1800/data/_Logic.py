@@ -2,6 +2,7 @@ from ._Enums import ALL_REGIONS, DLC, Region, RequirementType, UnlockType
 from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import _a1800_event_locations  # pyright: ignore[reportPrivateUsage]
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
+from ._Region import find_region
 from ._Requirement import A1800Requirement
 from ._Trigger import ALL, POPULATION, Trigger, TRUE
 from ._Unlock import A1800Unlock, find_unlocks, get_unlocks
@@ -16,7 +17,7 @@ def _get_victory_condition_name_and_requirements(
     for population_requirement in population_requirements:
         population, region, amount, supplied, luxury, lifestyle = population_requirement
 
-        victory_event_location_name += f"{' ' if victory_event_location_name else ''}"\
+        victory_event_location_name += f"{', ' if victory_event_location_name else ''}"\
             f"{population} (Amount: {amount if amount else 1}, Supplied: {'Yes' if supplied else 'No'}, "\
             f"Luxury: {'Yes' if luxury else 'No'}, Lifestyle: {'Yes' if lifestyle else 'No'})"
 
@@ -40,7 +41,7 @@ def _get_victory_condition_name_and_requirements(
     if len(victory_triggers) == 1:
         victory_trigger = victory_triggers[0]
     else:
-        victory_trigger = ALL(victory_triggers)
+        victory_trigger = ALL(*victory_triggers)
 
     return victory_event_location_name, victory_required_items, victory_trigger
 
@@ -96,6 +97,9 @@ class _Logic:
 
                     for event_location in find_event_locations(unlock.name, region=unlock.region):
                         location_requirements.append((event_location.ap_location_name, frozenset(new_requirements)))
+
+                    # Traverse region requirements, but don't add them to location rule
+                    new_requirements |= find_region(unlock.region).requirements
                 else:
                     raise ValueError(f"Requirement name {requirement.name} doesn't match any unlock.")
 
@@ -103,7 +107,7 @@ class _Logic:
                 raise ValueError(f"Requirement type {requirement.type} isn't PRODUCT or UNLOCK.")
 
             for new_requirement in new_requirements:
-                if not new_requirement in checked and not new_requirement in to_check:
+                if not new_requirement in checked:
                     to_check.add(new_requirement)
 
         return checked, location_requirements

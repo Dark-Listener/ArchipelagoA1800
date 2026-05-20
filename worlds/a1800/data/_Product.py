@@ -16,6 +16,7 @@ class A1800Product:
 
 _a1800_products: list[A1800Product] = [
     A1800Product("Sea Travel", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
+    A1800Product("Settling", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Riot Control", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Healthcare", DLC.VANILLA, Region.OW, 0, ProductType.META),

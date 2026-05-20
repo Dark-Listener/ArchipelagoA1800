@@ -47,7 +47,7 @@ class _Locations:
         self._event_location_data_list = [
             A1800LocationData(
                 location.ap_location_name,
-                location.region,
+                START_REGION if location.output == "Settling" else location.region,
                 is_event=True
             ) for location in ANNO_DATA.get_event_locations() if location.is_progressive
         ]

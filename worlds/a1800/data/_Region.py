@@ -23,8 +23,8 @@ _a1800_regions: dict[Region, A1800Region] = {
         A1800Requirement("Artisans", Region.OW),
         A1800Requirement("Sea Travel", ALL_REGIONS),
     }, {
+        A1800Requirement("Settling", Region.NW),
         A1800Requirement("Dirt Road", Region.NW),
-        A1800Requirement("Small Trading Post", Region.NW),
         A1800Requirement("Small Warehouse", Region.NW),
     }),
 }

@@ -13,6 +13,14 @@ def create_regions(world: "A1800World") -> None:
     for region in ANNO_DATA.get_regions():
         _create_region(world, region)
 
+    for region in ANNO_DATA.get_regions():
+        if region.region.full_name != world.origin_region_name:
+            world.create_entrance(
+                world.get_region(world.origin_region_name),
+                world.get_region(region.region.full_name),
+                name=f"{world.origin_region_name} => {region.region.full_name}"
+            )
+
 
 def _create_region(world: "A1800World", a1800_region: A1800Region) -> Region:
     region = Region(a1800_region.region.full_name, world.player, world.multiworld)

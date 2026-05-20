@@ -20,9 +20,13 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Fire Protection", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Riot Control", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Healthcare", DLC.VANILLA, Region.OW, 0, ProductType.META),
+    A1800Product("Railway", DLC.VANILLA, Region.OW | Region.NW, 0, ProductType.META),
     A1800Product("Settling", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Riot Control", DLC.VANILLA, Region.NW, 0, ProductType.META),
+    A1800Product("Healthcare", DLC.VANILLA, Region.NW, 0, ProductType.META),
+    A1800Product("Oil Harbour", DLC.VANILLA, Region.NW, 0, ProductType.META),
+    A1800Product("Oil Field", DLC.VANILLA, Region.NW, 0, ProductType.META),
 
     A1800Product("Victory", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
 
@@ -70,6 +74,14 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Cotton", DLC.VANILLA, ALL_REGIONS, 1010253, ProductType.GOOD),
     A1800Product("Cotton Fabric", DLC.VANILLA, ALL_REGIONS, 1010240, ProductType.GOOD),
     A1800Product("Fur Coats", DLC.VANILLA, ALL_REGIONS, 1010247, ProductType.GOOD),
+    # Todo order
+    A1800Product("Reinforced Concrete", DLC.VANILLA, ALL_REGIONS, 1010566, ProductType.GOOD),
+    A1800Product("Oil", DLC.VANILLA, ALL_REGIONS, 1010566, ProductType.GOOD),
+    A1800Product("Caoutchouc", DLC.VANILLA, ALL_REGIONS, 1010255, ProductType.GOOD),
+    A1800Product("Pearls", DLC.VANILLA, ALL_REGIONS, 1010256, ProductType.GOOD),
+    A1800Product("Gold Ore", DLC.VANILLA, ALL_REGIONS, 1010233, ProductType.GOOD),
+    A1800Product("Wood Veneers", DLC.VANILLA, ALL_REGIONS, 1010242, ProductType.GOOD),
+    #
     A1800Product("Fish Oil", DLC.VANILLA, ALL_REGIONS, 120042, ProductType.GOOD),
     A1800Product("Plantains", DLC.VANILLA, ALL_REGIONS, 120041, ProductType.GOOD),
     A1800Product("Fried Plantains", DLC.VANILLA, ALL_REGIONS, 120033, ProductType.GOOD),
@@ -77,8 +89,17 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Rum", DLC.VANILLA, ALL_REGIONS, 1010257, ProductType.GOOD),
     A1800Product("Alpaca Wool", DLC.VANILLA, ALL_REGIONS, 120036, ProductType.GOOD),
     A1800Product("Ponchos", DLC.VANILLA, ALL_REGIONS, 120043, ProductType.GOOD),
-    A1800Product("Caoutchouc", DLC.VANILLA, ALL_REGIONS, 1010255, ProductType.GOOD),
-    A1800Product("Pearls", DLC.VANILLA, ALL_REGIONS, 1010256, ProductType.GOOD),
+    A1800Product("Corn", DLC.VANILLA, ALL_REGIONS, 120034, ProductType.GOOD),
+    A1800Product("Tortillas", DLC.VANILLA, ALL_REGIONS, 120035, ProductType.GOOD),
+    A1800Product("Coffee Beans", DLC.VANILLA, ALL_REGIONS, 120031, ProductType.GOOD),
+    A1800Product("Coffee", DLC.VANILLA, ALL_REGIONS, 120032, ProductType.GOOD),
+    A1800Product("Felt", DLC.VANILLA, ALL_REGIONS, 120044, ProductType.GOOD),
+    A1800Product("Bombins", DLC.VANILLA, ALL_REGIONS, 120037, ProductType.GOOD),
+    A1800Product("Tobacco", DLC.VANILLA, ALL_REGIONS, 1010252, ProductType.GOOD),
+    A1800Product("Cigars", DLC.VANILLA, ALL_REGIONS, 1010259, ProductType.GOOD),
+    A1800Product("Cocoa", DLC.VANILLA, ALL_REGIONS, 1010254, ProductType.GOOD),
+    A1800Product("Sugar", DLC.VANILLA, ALL_REGIONS, 1010239, ProductType.GOOD),
+    A1800Product("Chocolate", DLC.VANILLA, ALL_REGIONS, 1010258, ProductType.GOOD),
 
     A1800Product("Market", DLC.VANILLA, Region.OW, 120020, ProductType.SERVICE),
     A1800Product("Pub", DLC.VANILLA, Region.OW, 1010349, ProductType.SERVICE),
@@ -90,6 +111,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Museum", DLC.VANILLA, Region.OW, 133535, ProductType.SERVICE),
     A1800Product("Market", DLC.VANILLA, Region.NW, 120020, ProductType.SERVICE),
     A1800Product("Chapel", DLC.VANILLA, Region.NW, 1010350, ProductType.SERVICE),
+    A1800Product("Boxing Arena", DLC.VANILLA, Region.NW, 1010349, ProductType.SERVICE),
 ]
 
 

@@ -27,7 +27,7 @@ class _AnnoData:
         # options -> get victory condition stuff
         population_requirements = [
             ("Engineers", Region.OW, 1, False, False, False),
-            ("Obreros", Region.NW, 1, False, False, False),
+            ("Obreros", Region.NW, 2000, False, False, False),
         ]
 
         LOGIC.generate_logic(population_requirements)

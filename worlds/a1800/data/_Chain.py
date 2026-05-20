@@ -1,6 +1,6 @@
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Iterator
+from typing import Iterator, Optional
 
 from ._Enums import DLC, NO_REGION, Region
 
@@ -56,6 +56,7 @@ _a1800_chains: list[A1800Chain] = [
     A1800Chain("Fur Coats", DLC.VANILLA, Region.NW, 501637,
                {("Cotton Plantation", Region.NW), ("Cotton Mill", Region.NW), ("Hunting Cabin", Region.OW),
                 ("Fur Dealer", Region.OW)}),
+    # Remember oil power plant in nw oil chain
     A1800Chain("Timber", DLC.VANILLA, Region.NW, 500904,
                {("Lumberjack's Hut", Region.NW), ("Sawmill", Region.NW)}),
     A1800Chain("Fried Plantains", DLC.VANILLA, Region.NW, 500905,
@@ -67,7 +68,37 @@ _a1800_chains: list[A1800Chain] = [
                {("Cotton Plantation", Region.NW), ("Cotton Mill", Region.NW), ("Sailmakers", Region.NW)}),
     A1800Chain("Ponchos", DLC.VANILLA, Region.NW, 500908,
                {("Alpaca Farm", Region.NW), ("Poncho Darner", Region.NW)}),
+    A1800Chain("Bricks", DLC.VANILLA, Region.NW, 500910,
+               {("Clay Pit", Region.NW), ("Brick Factory", Region.NW)}),
+    A1800Chain("Tortillas", DLC.VANILLA, Region.NW, 500911,
+               {("Cattle Farm", Region.NW), ("Corn Farm", Region.NW), ("Tortilla Maker", Region.NW)}),
+    A1800Chain("Coffee", DLC.VANILLA, Region.NW, 500913,
+               {("Coffee Plantation", Region.NW), ("Coffee Roaster", Region.NW)}),
+    A1800Chain("Bombins", DLC.VANILLA, Region.NW, 500912,
+               {("Cotton Plantation", Region.NW), ("Cotton Mill", Region.NW), ("Alpaca Farm", Region.NW),
+                ("Felt Producer", Region.NW), ("Bombin Weaver", Region.NW)}),
+    A1800Chain("Oil", DLC.VANILLA, Region.NW, 500916,
+               {("Oil Refinery", Region.NW), ("Rails", Region.OW | Region.NW), ("Small Oil Harbour", Region.NW),
+                ("Oil Store", Region.NW),  # ("Oil Power Plant", Region.OW)}),
+                }),
+    A1800Chain("Beer", DLC.VANILLA, Region.NW, 501429,
+               {("Grain Farm", Region.OW), ("Malthouse", Region.OW), ("Hop Farm", Region.OW), ("Brewery", Region.OW)}),
+    A1800Chain("Cigars", DLC.VANILLA, Region.NW, 500914,
+               {("Tobacco Plantation", Region.NW), ("Lumberjack's Hut", Region.NW), ("Marquetry Workshop", Region.NW),
+                ("Cigar Factory", Region.NW)}),
+    A1800Chain("Sewing Machines", DLC.VANILLA, Region.NW, 501254,
+               {("Coal Mine", Region.OW), ("Iron Mine", Region.OW), ("Furnace", Region.OW),
+                ("Lumberjack's Hut", Region.NW), ("Sewing Machine Factory", Region.OW)}),
+    A1800Chain("Chocolate", DLC.VANILLA, Region.NW, 500909,
+               {("Sugar Cane Plantation", Region.NW), ("Sugar Refinery", Region.NW), ("Cocoa Plantation", Region.NW),
+                ("Chocolate Factory", Region.NW)}),
 ]
+
+
+# Assure uniqueness
+assert len(_a1800_chains) == len({chain.guid for chain in _a1800_chains}), "Duplicate guid in chains"
+assert len(_a1800_chains) == len({(chain.name, chain.region) for chain in _a1800_chains}), \
+    "Duplicate name/region pair in chains"
 
 
 def get_chains() -> Sequence[A1800Chain]:
@@ -75,5 +106,8 @@ def get_chains() -> Sequence[A1800Chain]:
     return _a1800_chains
 
 
-def find_chains(name: str, region: Region = NO_REGION) -> Iterator[A1800Chain]:
-    return (chain for chain in _a1800_chains if chain.name == name and region in chain.region)
+def find_chains(name: str, unlock_name: str, unlock_region: Region, region: Optional[Region] = None) -> Iterator[A1800Chain]:
+    return (chain for chain in _a1800_chains if chain.name == name and
+            next((element_name for element_name, element_region in chain.elements
+                  if element_name == unlock_name and element_region == unlock_region), None)
+            and (chain.region == region if region else chain.region & unlock_region != NO_REGION))

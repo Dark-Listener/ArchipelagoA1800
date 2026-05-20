@@ -54,18 +54,19 @@ class A1800Unlock:
         self.unlock_guids = self.guids
 
         if self.type == UnlockType.UNLOCK:
-            if self.cost or self.maintenance:
+            if self.cost or self.maintenance or self.unlock_chain:
                 self.type |= UnlockType.BUILDING
-
-            if self.input or self.output or self.unlock_chain:
-                self.type |= UnlockType.FACTORY
 
                 if self.unlock_chain:
                     if isinstance(self.unlock_chain, str):
-                        self.unlock_guids.add(next(find_chains(self.unlock_chain, self.region)).guid)
+                        self.unlock_guids.add(
+                            next(find_chains(self.unlock_chain, self.name, self.region)).guid)
                     else:
                         for chain, region in self.unlock_chain:
-                            self.unlock_guids.add(next(find_chains(chain, region)).guid)
+                            self.unlock_guids.add(next(find_chains(chain, self.name, self.region, region)).guid)
+
+            if self.input or self.output:
+                self.type |= UnlockType.FACTORY
 
                 for output in self.output:
                     output_guid = next(find_products(output, self.region)).guid
@@ -84,65 +85,87 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Dirt Road", DLC.VANILLA, Region.OW, {1000178}, {1000178},
                 SESSION_ENTER(Session.OW), type=UnlockType.BUILDING),
 
-    A1800Unlock("Small Warehouse", DLC.VANILLA, Region.OW, {1010371}, {130040},
-                SESSION_ENTER(Session.OW), {"Timber"}, set()),
+    A1800Unlock("Small Warehouse", DLC.VANILLA, Region.OW, {1010371}, {130040}, SESSION_ENTER(Session.OW), {"Timber"}),
 
     A1800Unlock("Trade Union", DLC.VANILLA, Region.OW, {1010516}, {1010516},
-                POPULATION(Region.OW, "Workers", 1), {"Timber", "Bricks"}, set()),
+                POPULATION(Region.OW, "Workers", 1), {"Timber", "Bricks"}),
 
     A1800Unlock("Mounted Guns", DLC.VANILLA, Region.OW, {1010522}, {1010522},
-                POPULATION(Region.OW, "Workers", 150), {"Timber", "Bricks", "Weapons"}, set()),
+                POPULATION(Region.OW, "Workers", 150), {"Timber", "Bricks", "Weapons"}),
 
     A1800Unlock("Quay", DLC.VANILLA, Region.OW, {1010567}, {130121},
                 POPULATION(Region.OW, "Workers", 150), type=UnlockType.BUILDING),
 
     A1800Unlock("Depot", DLC.VANILLA, Region.OW, {1010519}, {130121},
-                POPULATION(Region.OW, "Workers", 150), {"Timber", "Bricks"}, set()),
+                POPULATION(Region.OW, "Workers", 150), {"Timber", "Bricks"}),
 
     A1800Unlock("Harbourmaster's Office", DLC.VANILLA, Region.OW, {100586}, {100586},
-                POPULATION(Region.OW, "Workers", 150), {"Timber", "Bricks"}, set()),
+                POPULATION(Region.OW, "Workers", 150), {"Timber", "Bricks"}),
 
     A1800Unlock("Cannon Tower", DLC.VANILLA, Region.OW, {1010523}, {1010523},
-                POPULATION(Region.OW, "Workers", 300), {"Timber", "Bricks", "Steel Beams", "Weapons"}, set()),
+                POPULATION(Region.OW, "Workers", 300), {"Timber", "Bricks", "Steel Beams", "Weapons"}),
 
     A1800Unlock("Town Hall", DLC.VANILLA, Region.OW, {100415}, {100415},
-                POPULATION(Region.OW, "Artisans", 1), {"Timber", "Bricks", "Steel Beams", "Windows"}, set()),
+                POPULATION(Region.OW, "Artisans", 1), {"Timber", "Bricks", "Steel Beams", "Windows"}),
 
     A1800Unlock("Flame Tower", DLC.VANILLA, Region.OW, {625}, {625},
-                POPULATION(Region.OW, "Artisans", 1), {"Timber", "Bricks", "Steel Beams", "Weapons"}, set()),
+                POPULATION(Region.OW, "Artisans", 1), {"Timber", "Bricks", "Steel Beams", "Weapons"}),
 
     A1800Unlock("Public Mooring", DLC.VANILLA, Region.OW, {100429}, {130052},
-                POPULATION(Region.OW, "Artisans", 250), {"Timber", "Bricks", "Steel Beams", "Windows"}, set()),
+                POPULATION(Region.OW, "Artisans", 250), {"Timber", "Bricks", "Steel Beams", "Windows"}),
 
     A1800Unlock("Pier", DLC.VANILLA, Region.OW, {100519}, {100519},
-                POPULATION(Region.OW, "Artisans", 250), {"Timber", "Bricks", "Steel Beams", "Windows"}, set()),
+                POPULATION(Region.OW, "Artisans", 250), {"Timber", "Bricks", "Steel Beams", "Windows"}),
 
     A1800Unlock("Repair Crane", DLC.VANILLA, Region.OW, {1010525}, {1010525},
-                POPULATION(Region.OW, "Artisans", 250), {"Timber", "Bricks", "Steel Beams"}, set()),
+                POPULATION(Region.OW, "Artisans", 250), {"Timber", "Bricks", "Steel Beams"}),
 
     A1800Unlock("Dirt Road", DLC.VANILLA, Region.NW, {101308}, {101308},
                 SESSION_ENTER(Session.NW), type=UnlockType.BUILDING),
 
-    A1800Unlock("Small Warehouse", DLC.VANILLA, Region.NW, {101323}, {130095},
-                SESSION_ENTER(Session.NW), {"Timber"}, set()),
+    A1800Unlock("Small Warehouse", DLC.VANILLA, Region.NW, {101323}, {130095}, SESSION_ENTER(Session.NW), {"Timber"}),
 
     A1800Unlock("Trade Union", DLC.VANILLA, Region.NW, {101284}, {101284},
-                POPULATION(Region.NW, "Jornaleros", 50), {"Timber", "Bricks"}, set()),
+                POPULATION(Region.NW, "Jornaleros", 50), {"Timber", "Bricks"}),
 
     A1800Unlock("Quay", DLC.VANILLA, Region.NW, {101339}, {130106},
                 POPULATION(Region.NW, "Jornaleros", 100), type=UnlockType.BUILDING),
 
     A1800Unlock("Depot", DLC.VANILLA, Region.NW, {101278}, {130106},
-                POPULATION(Region.NW, "Jornaleros", 100), {"Timber", "Bricks"}, set()),
+                POPULATION(Region.NW, "Jornaleros", 100), {"Timber", "Bricks"}),
 
     A1800Unlock("Harbourmaster's Office", DLC.VANILLA, Region.NW, {101286}, {101286},
-                POPULATION(Region.NW, "Jornaleros", 100), {"Timber", "Bricks"}, set()),
+                POPULATION(Region.NW, "Jornaleros", 100), {"Timber", "Bricks"}),
 
     A1800Unlock("Repair Crane", DLC.VANILLA, Region.NW, {101573}, {130122},
-                POPULATION(Region.NW, "Jornaleros", 200), {"Timber", "Bricks"}, set()),
+                POPULATION(Region.NW, "Jornaleros", 200), {"Timber", "Bricks"}),
 
     A1800Unlock("Mounted Guns", DLC.VANILLA, Region.NW, {101563}, {130122},
-                POPULATION(Region.NW, "Jornaleros", 200), {"Timber", "Bricks", "Weapons"}, set()),
+                POPULATION(Region.NW, "Jornaleros", 200), {"Timber", "Bricks", "Weapons"}),
+
+    A1800Unlock("Town Hall", DLC.VANILLA, Region.NW, {101285}, {101285},
+                POPULATION(Region.NW, "Obreros", 1), {"Timber", "Bricks"}),
+
+    A1800Unlock("Pier", DLC.VANILLA, Region.NW, {101344}, {130123},
+                POPULATION(Region.NW, "Obreros", 300), {"Timber", "Bricks"}),
+
+    A1800Unlock("Cannon Tower", DLC.VANILLA, Region.NW, {101570}, {130123},
+                POPULATION(Region.NW, "Obreros", 300), {"Timber", "Bricks", "Weapons"}),
+
+    A1800Unlock("Public Mooring", DLC.VANILLA, Region.NW, {102284}, {102284},
+                POPULATION(Region.NW, "Obreros", 300), {"Timber", "Bricks"}),
+
+    A1800Unlock("Flame Tower", DLC.VANILLA, Region.NW, {632}, {632},
+                POPULATION(Region.NW, "Obreros", 300), {"Timber", "Bricks", "Weapons"}),
+
+    A1800Unlock("Oil Store", DLC.VANILLA, Region.NW, {101330}, {130124},
+                POPULATION(Region.NW, "Obreros", 600), {"Timber", "Bricks"}, unlock_chain="Oil"),
+
+    A1800Unlock("Zoo", DLC.VANILLA, Region.NW, {102282}, {102282},
+                POPULATION(Region.NW, "Obreros", 1000), {"Timber", "Bricks", "Steel Beams", "Windows"}),
+
+    A1800Unlock("Museum", DLC.VANILLA, Region.NW, {102283}, {102283},
+                POPULATION(Region.NW, "Obreros", 1500), {"Timber", "Bricks", "Steel Beams", "Windows"}),
 
     # Building, Factory
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, {1010517, 1010540}, {1010517, 1010540},
@@ -242,17 +265,20 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Workers", 300),
                 {"Timber", "Bricks", "Steel Beams"}, {"Workers"}, {"Steel"}, {"Weapons"}, "Weapons"),
 
-    A1800Unlock("Hop Farm", DLC.VANILLA, Region.OW, {1010264}, {140035},
-                POPULATION(Region.OW, "Workers", 500),
-                {"Timber"}, {"Farmers", "Settling"}, set(), {"Hops"}, "Beer"),
+    A1800Unlock("Hop Farm", DLC.VANILLA, Region.OW, {1010264}, {140035, 130141},
+                ANY(POPULATION(Region.OW, "Workers", 500), POPULATION(Region.NW, "Obreros", 600)),
+                {"Timber"}, {"Farmers", "Settling"},
+                set(), {"Hops"}, {("Beer", Region.OW), ("Beer", Region.NW)}),
 
-    A1800Unlock("Malthouse", DLC.VANILLA, Region.OW, {1010314}, {140035},
-                POPULATION(Region.OW, "Workers", 500),
-                {"Timber", "Bricks", "Steel Beams"}, {"Workers"}, {"Grain"}, {"Malt"}, "Beer"),
+    A1800Unlock("Malthouse", DLC.VANILLA, Region.OW, {1010314}, {140035, 130141},
+                ANY(POPULATION(Region.OW, "Workers", 500), POPULATION(Region.NW, "Obreros", 600)),
+                {"Timber", "Bricks", "Steel Beams"}, {"Workers"},
+                {"Grain"}, {"Malt"}, {("Beer", Region.OW), ("Beer", Region.NW)}),
 
-    A1800Unlock("Brewery", DLC.VANILLA, Region.OW, {1010292}, {140035},
-                POPULATION(Region.OW, "Workers", 500),
-                {"Timber", "Bricks", "Steel Beams"}, {"Workers"}, {"Malt", "Hops"}, {"Beer"}, "Beer"),
+    A1800Unlock("Brewery", DLC.VANILLA, Region.OW, {1010292}, {140035, 130141},
+                ANY(POPULATION(Region.OW, "Workers", 500), POPULATION(Region.NW, "Obreros", 600)),
+                {"Timber", "Bricks", "Steel Beams"}, {"Workers"},
+                {"Malt", "Hops"}, {"Beer"}, {("Beer", Region.OW), ("Beer", Region.NW)}),
 
     A1800Unlock("Police Station", DLC.VANILLA, Region.OW, {1010462}, {1010462},
                 POPULATION(Region.OW, "Workers", 500),
@@ -292,14 +318,16 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Artisans"},
                 {"Iron", "Goulash"}, {"Canned Food"}, "Canned Food"),
 
-    A1800Unlock("Coal Mine", DLC.VANILLA, Region.OW, {1010304}, {140032},
+    A1800Unlock("Coal Mine", DLC.VANILLA, Region.OW, {1010304}, {140032, 130134},
                 POPULATION(Region.OW, "Artisans", 250),
-                {"Timber", "Bricks"}, {"Workers", "Settling"}, set(), {"Coal"}, "Sewing Machines"),
+                {"Timber", "Bricks"}, {"Workers", "Settling"}, set(), {"Coal"},
+                {("Sewing Machines", Region.OW), ("Sewing Machines", Region.NW)}),
 
-    A1800Unlock("Sewing Machine Factory", DLC.VANILLA, Region.OW, {1010284}, {140032},
+    A1800Unlock("Sewing Machine Factory", DLC.VANILLA, Region.OW, {1010284}, {140032, 130134},
                 POPULATION(Region.OW, "Artisans", 250),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Artisans"},
-                {"Wood", "Steel"}, {"Sewing Machines"}, "Sewing Machines"),
+                {"Wood", "Steel"}, {"Sewing Machines"},
+                {("Sewing Machines", Region.OW), ("Sewing Machines", Region.NW)}),
 
     A1800Unlock("Variety Theatre", DLC.VANILLA, Region.OW, {1010361}, {130045},
                 POPULATION(Region.OW, "Artisans", 250),
@@ -340,6 +368,10 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Museum", DLC.VANILLA, Region.OW, {1010471}, {1010471},
                 POPULATION(Region.OW, "Artisans", 1500),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Museum"}),
+
+    A1800Unlock("Rails", DLC.VANILLA, Region.OW | Region.NW, {1010136}, {130124},
+                ANY(POPULATION(Region.OW, "Engineers", -1), POPULATION(Region.NW, "Obreros", 600)),
+                {"Timber", "Steel Beams"}, set(), set(), {"Railway"}, "Oil"),
 
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, {101290, 101293}, {101290, 101293},
                 SESSION_ENTER(Session.NW), {"Timber", "Steel Beams"}, {"Sea Travel"}, set(), {"Settling"}),
@@ -404,27 +436,126 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Pearl Farm", DLC.VANILLA, Region.NW, {1010339}, {1010339},
                 POPULATION(Region.NW, "Jornaleros", 300), {"Timber"}, {"Jornaleros"}, set(), {"Pearls"}),
 
+    A1800Unlock("Clay Pit", DLC.VANILLA, Region.NW, {101267}, {130100},
+                POPULATION(Region.NW, "Obreros", 1), {"Timber"}, {"Obreros"}, set(), {"Clay"}, "Bricks"),
+
+    A1800Unlock("Brick Factory", DLC.VANILLA, Region.NW, {101268}, {130100},
+                POPULATION(Region.NW, "Obreros", 1), {"Timber"}, {"Obreros"}, {"Clay"}, {"Bricks"}, "Bricks"),
+
+    A1800Unlock("Cattle Farm", DLC.VANILLA, Region.NW, {101269}, {130101},
+                POPULATION(Region.NW, "Obreros", 1), {"Timber"}, {"Jornaleros"}, set(), {"Beef"}, "Tortillas"),
+
+    A1800Unlock("Corn Farm", DLC.VANILLA, Region.NW, {101270}, {130101},
+                POPULATION(Region.NW, "Obreros", 1), {"Timber"}, {"Jornaleros"}, set(), {"Corn"}, "Tortillas"),
+
+    A1800Unlock("Tortilla Maker", DLC.VANILLA, Region.NW, {101268}, {130101},
+                POPULATION(Region.NW, "Obreros", 1),
+                {"Timber", "Bricks"}, {"Obreros"}, {"Beef", "Corn"}, {"Tortillas"}, "Tortillas"),
+
+    A1800Unlock("Coffee Plantation", DLC.VANILLA, Region.NW, {101251}, {130063},
+                POPULATION(Region.NW, "Obreros", 300), {"Timber"}, {"Jornaleros"}, set(), {"Coffee Beans"}, "Coffee"),
+
+    A1800Unlock("Coffee Roaster", DLC.VANILLA, Region.NW, {101252}, {130101},
+                POPULATION(Region.NW, "Obreros", 300),
+                {"Timber", "Bricks"}, {"Obreros"}, {"Coffee Beans"}, {"Coffee"}, "Coffee"),
+
+    A1800Unlock("Boxing Arena", DLC.VANILLA, Region.NW, {101259}, {130102},
+                POPULATION(Region.NW, "Obreros", 300), {"Timber", "Bricks"}, set(), set(), {"Boxing Arena"}),
+
+    A1800Unlock("Gold Mine", DLC.VANILLA, Region.NW, {101311}, {101311},
+                POPULATION(Region.NW, "Obreros", 300), {"Timber", "Bricks"}, {"Obreros"}, set(), {"Gold Ore"}),
+
+    A1800Unlock("Felt Producer", DLC.VANILLA, Region.NW, {101415}, {130103},
+                POPULATION(Region.NW, "Obreros", 600),
+                {"Timber", "Bricks"}, {"Jornaleros"}, {"Alpaca Wool"}, {"Felt"}, "Bombins"),
+
+    A1800Unlock("Bombin Weaver", DLC.VANILLA, Region.NW, {101273}, {130103},
+                POPULATION(Region.NW, "Obreros", 600),
+                {"Timber", "Bricks"}, {"Obreros"}, {"Cotton Fabric", "Felt"}, {"Bombins"}, "Bombins"),
+
+    A1800Unlock("Hospital", DLC.VANILLA, Region.NW, {101276}, {101276},
+                POPULATION(Region.NW, "Obreros", 600), {"Timber", "Bricks"}, set(), set(), {"Healthcare"}),
+
+    A1800Unlock("Oil Refinery", DLC.VANILLA, Region.NW, {1010561}, {130124},
+                POPULATION(Region.NW, "Obreros", 600),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
+                {"Obreros", "Railway", "Oil Field", "Oil Harbour"}, set(), {"Oil"}, "Oil"),
+
+    A1800Unlock("Oil Well", DLC.VANILLA, Region.NW, {100524}, {130124},
+                POPULATION(Region.NW, "Obreros", 600), {"Timber", "Bricks", "Steel Beams"},
+                set(), set(), {"Oil Field"}),
+
+    A1800Unlock("Small Oil Harbour", DLC.VANILLA, Region.NW, {101329}, {130124},
+                POPULATION(Region.NW, "Obreros", 600),
+                {"Timber", "Bricks"}, set(), set(), {"Oil Harbour"}, "Oil"),
+
+    A1800Unlock("Tobacco Plantation", DLC.VANILLA, Region.NW, {1010330}, {140045},
+                POPULATION(Region.NW, "Obreros", 1000), {"Timber"}, {"Jornaleros"}, set(), {"Tobacco"}, "Cigars"),
+
+    A1800Unlock("Marquetry Workshop", DLC.VANILLA, Region.NW, {101296}, {140045},
+                POPULATION(Region.NW, "Obreros", 1000),
+                {"Timber", "Bricks"}, {"Obreros"}, {"Wood"}, {"Wood Veneers"}, "Cigars"),
+
+    A1800Unlock("Cigar Factory", DLC.VANILLA, Region.NW, {1010342}, {140045},
+                POPULATION(Region.NW, "Obreros", 1000),
+                {"Timber", "Bricks"}, {"Obreros"}, {"Tobacco", "Wood Veneers"}, {"Cigars"}, "Cigars"),
+
+    A1800Unlock("Sugar Refinery", DLC.VANILLA, Region.NW, {1010317}, {140041},
+                POPULATION(Region.NW, "Obreros", 1500),
+                {"Timber"}, {"Obreros"}, {"Sugar Cane"}, {"Sugar"}, "Chocolate"),
+
+    A1800Unlock("Cocoa Plantation", DLC.VANILLA, Region.NW, {1010332}, {140041},
+                POPULATION(Region.NW, "Obreros", 1500), {"Timber"}, {"Jornaleros"}, set(), {"Cocoa"}, "Chocolate"),
+
+    A1800Unlock("Chocolate Factory", DLC.VANILLA, Region.NW, {1010341}, {140041},
+                POPULATION(Region.NW, "Obreros", 1500),
+                {"Timber"}, {"Obreros"}, {"Sugar", "Cocoa"}, {"Chocolate"}, "Chocolate"),
 
     # Building, Upgrade
     A1800Unlock("Paved Street", DLC.VANILLA, Region.OW, {1010035}, {1010035},
-                POPULATION(Region.OW, "Workers", 1),
-                {"Bricks"}, set(), previous_building="Dirt Road"),
+                POPULATION(Region.OW, "Workers", 1), {"Bricks"}, previous_building="Dirt Road"),
 
     A1800Unlock("Medium Warehouse", DLC.VANILLA, Region.OW, {100516}, {130053},
-                POPULATION(Region.OW, "Workers", 1),
-                {"Timber", "Bricks"}, set(), previous_building="Small Warehouse"),
+                POPULATION(Region.OW, "Workers", 1), {"Timber", "Bricks"}, previous_building="Small Warehouse"),
 
     A1800Unlock("Medium Trading Post", DLC.VANILLA, Region.OW, {100510, 100514}, {130053},
-                POPULATION(Region.OW, "Workers", 1),
-                {"Timber", "Bricks"}, set(), previous_building="Small Trading Post"),
+                POPULATION(Region.OW, "Workers", 1), {"Timber", "Bricks"}, previous_building="Small Trading Post"),
 
     A1800Unlock("Large Warehouse", DLC.VANILLA, Region.OW, {100517}, {130054},
                 POPULATION(Region.OW, "Artisans", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), previous_building="Medium Warehouse"),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, previous_building="Medium Warehouse"),
 
     A1800Unlock("Large Trading Post", DLC.VANILLA, Region.OW, {100511, 100515}, {130054},
                 POPULATION(Region.OW, "Artisans", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), previous_building="Medium Trading Post"),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, previous_building="Medium Trading Post"),
+
+    A1800Unlock("Paved Street", DLC.VANILLA, Region.NW, {101309}, {130100},
+                POPULATION(Region.NW, "Obreros", 1), {"Bricks"}, previous_building="Dirt Road"),
+
+    A1800Unlock("Medium Warehouse", DLC.VANILLA, Region.NW, {101324}, {130104},
+                POPULATION(Region.NW, "Obreros", 1), {"Timber", "Bricks"}, previous_building="Small Warehouse"),
+
+    A1800Unlock("Medium Trading Post", DLC.VANILLA, Region.NW, {101291, 101294}, {130104},
+                POPULATION(Region.NW, "Obreros", 1), {"Timber", "Bricks"}, previous_building="Small Trading Post"),
+
+    A1800Unlock("Large Warehouse", DLC.VANILLA, Region.NW, {101325}, {130105},
+                POPULATION(Region.NW, "Obreros", 1500),
+                {"Timber", "Bricks", "Steel Beams"}, previous_building="Medium Warehouse"),
+
+    A1800Unlock("Large Trading Post", DLC.VANILLA, Region.NW, {101292, 101295}, {130105},
+                POPULATION(Region.NW, "Obreros", 1500),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, previous_building="Medium Trading Post"),
+
+    # BuildingFactory, Upgrade
+    A1800Unlock("Medium Oil Harbour", DLC.VANILLA, Region.NW, {101405}, {130124},
+                POPULATION(Region.NW, "Obreros", 600),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
+                set(), {"Oil Harbour"}, previous_building="Small Oil Harbour"),
+
+    A1800Unlock("Large Oil Harbour", DLC.VANILLA, Region.NW, {101405}, {130124},
+                POPULATION(Region.NW, "Obreros", 600),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
+                set(), {"Oil Harbour"}, previous_building="Medium Oil Harbour"),
 
     # Building, Factory, Residence
     A1800Unlock("Farmer Residence", DLC.VANILLA, Region.OW, {1010343}, {1010343},
@@ -523,11 +654,11 @@ for unlock in _a1800_unlocks:
 
     if unlock.unlock_chain:
         if isinstance(unlock.unlock_chain, str):
-            assert next(find_chains(unlock.unlock_chain, unlock.region), None), \
+            assert next(find_chains(unlock.unlock_chain, unlock.name, unlock.region), None), \
                 f"Unlock {unlock.name} references non-existent chain {unlock.unlock_chain}, "
         else:
             for chain, region in unlock.unlock_chain:
-                assert next(find_chains(chain, region), None), \
+                assert next(find_chains(chain, unlock.name, unlock.region, region), None), \
                     f"Unlock {unlock.name} references non-existent chain {chain}, "
 
     if unlock.previous_building:

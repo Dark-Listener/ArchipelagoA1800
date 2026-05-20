@@ -4,12 +4,12 @@ from typing import Iterator, Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from ..Options import A1800Options
 
-from ._Enums import ALL_REGIONS, NO_REGION, Region, Session, TriggerType
+from ._Enums import ALL_REGIONS, NO_REGION, Region, Session, START_REGION, TriggerType
 from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
 from ._Logic import LOGIC
 from ._Product import A1800Product, find_populations
-from ._Region import A1800Region, find_region, get_regions, get_start_region
+from ._Region import A1800Region, find_region, get_regions
 from ._Requirement import A1800Requirement
 from ._Session import A1800Session, find_session
 from ._Trigger import Trigger
@@ -67,9 +67,6 @@ class _AnnoData:
     def get_location_requirements(self) -> Sequence[tuple[str, frozenset[A1800Requirement]]]:
         return LOGIC.get_location_requirements()
 
-    def get_start_region(self) -> A1800Region:
-        return get_start_region()
-
     def get_unlocks(self) -> Sequence[A1800Unlock]:
         return get_unlocks()
 
@@ -90,6 +87,7 @@ __all__ = [
     "ALL_REGIONS",
     "ANNO_DATA",
     "Region",
+    "START_REGION",
     "Trigger",
     "TriggerType",
 ]

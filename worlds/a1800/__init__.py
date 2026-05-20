@@ -6,7 +6,7 @@ from worlds.AutoWorld import CollectionState, World, WebWorld
 from worlds.LauncherComponents import Component, components, Type, icon_paths
 from worlds.LauncherComponents import launch as launch_component  # pyright: ignore[reportUnknownVariableType]
 
-from .data import ANNO_DATA
+from .data import ANNO_DATA, START_REGION
 from .Items import create_item, ITEMS
 from .Locations import LOCATIONS
 from .Mod import generate_mod
@@ -53,7 +53,7 @@ class A1800World(World):
     location_name_to_id = ANNO_DATA.get_location_name_to_ap_code()
     options_dataclass = A1800Options
     options: A1800Options
-    origin_region_name = ANNO_DATA.get_start_region().region.full_name
+    origin_region_name = START_REGION.full_name
     topology_present = True
     web = A1800Web()
     settings: ClassVar[A1800Settings]

@@ -44,6 +44,8 @@ _REGION_NAMES = {
 
 NO_REGION = Region(0)
 
+START_REGION = Region.OW
+
 ALL_REGIONS = Region.OW | Region.NW | Region.AR | Region.EN
 
 

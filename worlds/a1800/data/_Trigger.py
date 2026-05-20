@@ -1,7 +1,7 @@
 from functools import reduce
 from typing import Any, Callable
 
-from ._Enums import NO_REGION, Region, Session, TriggerType
+from ._Enums import NO_REGION, Region, Session, START_REGION, TriggerType
 from ._Product import find_populations
 
 
@@ -31,7 +31,7 @@ class Trigger:
                 assert isinstance(args[0], Session), f"{trigger_type} requires arguments of type str, got " \
                     f"{type(args[0])} instead"
                 self.session: Session = args[0]
-                self.region = self.session.region
+                self.region = START_REGION
             case TriggerType.POPULATION:
                 assert len(args) == 3, f"{trigger_type} requires at exactly 3 arguments"
                 assert isinstance(args[0], Region) and isinstance(args[1], str) and isinstance(args[2], int), \

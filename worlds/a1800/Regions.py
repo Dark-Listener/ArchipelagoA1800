@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Region
 
-from .data import A1800Region, ANNO_DATA, get_start_region
+from .data import A1800Region, ANNO_DATA, START_REGION
 from .Locations import A1800Location, LOCATIONS
 
 if TYPE_CHECKING:
@@ -16,13 +16,12 @@ def create_regions(world: "A1800World") -> None:
 
 def _create_region(world: "A1800World", a1800_region: A1800Region) -> Region:
     region = Region(a1800_region.region.full_name, world.player, world.multiworld)
-    is_start_region = a1800_region.region == get_start_region().region
 
     for data in LOCATIONS.get_location_data_list():
         if data.region == a1800_region.region:
             location = A1800Location(world.player, data, region)
             region.locations.append(location)
-        elif is_start_region and not data.region.is_unique:
+        elif a1800_region.region == START_REGION and not data.region.is_unique:
             location = A1800Location(world.player, data, region)
             region.locations.append(location)
 

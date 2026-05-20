@@ -12,7 +12,7 @@ class A1800Session:
     requirements: set[A1800Requirement]
 
     def __post_init__(self) -> None:
-        self.requirements |= find_region(self.session.region).requirements
+        self.requirements |= find_region(self.session.region).enter_requirements
 
 
 _a1800_sessions: dict[Session, A1800Session] = {

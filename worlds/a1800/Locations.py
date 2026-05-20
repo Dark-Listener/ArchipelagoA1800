@@ -3,7 +3,7 @@ from typing import Optional
 
 from BaseClasses import Location, Region as APRegion
 
-from .data import ANNO_DATA, Region, Trigger, TriggerType
+from .data import ANNO_DATA, Region, START_REGION, Trigger, TriggerType
 
 
 @dataclass
@@ -40,7 +40,7 @@ class _Locations:
                 False
             ) for location in ANNO_DATA.get_unlock_locations()
             if location.trigger.trigger_type != TriggerType.SESSION_ENTER
-            or location.trigger.session.region != ANNO_DATA.get_start_region().region
+            or location.trigger.session.region != START_REGION
             or ANNO_DATA.find_session(location.trigger.session).requirements
         ]
 

@@ -1,4 +1,4 @@
-from ._Enums import ALL_REGIONS, DLC, Region, RequirementType, UnlockType
+from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, START_REGION, UnlockType
 from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import _a1800_event_locations  # pyright: ignore[reportPrivateUsage]
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
@@ -55,6 +55,7 @@ class _Logic:
         self,
         to_check: set[A1800Requirement],
         checked: set[A1800Requirement],
+        checked_regions: Region,
         location_requirements: list[tuple[str, frozenset[A1800Requirement]]]
     ) -> tuple[set[A1800Requirement], list[tuple[str, frozenset[A1800Requirement]]]]:
         while to_check:
@@ -99,7 +100,11 @@ class _Logic:
                         location_requirements.append((event_location.ap_location_name, frozenset(new_requirements)))
 
                     # Traverse region requirements, but don't add them to location rule
-                    new_requirements |= find_region(unlock.region).requirements
+                    if unlock.region ^ checked_regions != NO_REGION:
+                        for region in [region for region in Region.__members__.values()
+                                       if region in unlock.region & (unlock.region ^ checked_regions)]:
+                            new_requirements |= find_region(region).requirements
+                            checked_regions |= region
                 else:
                     raise ValueError(f"Requirement name {requirement.name} doesn't match any unlock.")
 
@@ -139,7 +144,7 @@ class _Logic:
         initial_location_requirements = [(victory_event_location.ap_location_name, frozenset(initial_required_items))]
 
         self._a1800_required_items, self._a1800_location_requirements = self._generate_requirements_and_rules(
-            initial_required_items, initial_checked_items, initial_location_requirements)
+            initial_required_items, initial_checked_items, START_REGION, initial_location_requirements)
 
         for obj in list(get_unlocks()) + list(get_event_items()) + list(get_event_locations()):
             if self._is_progressive(obj):

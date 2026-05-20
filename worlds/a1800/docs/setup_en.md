@@ -71,8 +71,12 @@ Start the Archipelago Client. It will ask for the Anno 1800 mods folder. Point i
 [above](#installing-the-archipelago-mod). The order in which you start the client and Anno 1800 does not matter.
 
 Then start a new Anno 1800 free play game or load into your existing savegame. Currently, the starting conditions do
-not really matter, though I'd recommend starting without AI players (since you aren't guaranteed to get weapons) and
-without starting ships (since then those unlocks will be valuable).
+not really matter, but here are a few recommendations:
+- Turn off all DLC since they are not randomized - should you keep any on, they will unlock as normal
+- Turn off all NPCs - you are not guarantueed to get weapons and may not be able to defend yourself
+- Turn off pirates - you are not guarantueed to get luxury goods and money might be tight
+- Start without ships - ships allow you to circumvent early game logic due to having sea travel capability
+- You shouldn't buy goods at NPC shops, as this also circumvent logic
 
 Be careful not to load into vanilla savegames or those from other modding setups as this mod will likely trigger some
 irreversible unlocks. Once loaded into the savegame, the client should print that it is connected to the game within a

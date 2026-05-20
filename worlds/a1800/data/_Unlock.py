@@ -120,6 +120,30 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Repair Crane", DLC.VANILLA, Region.OW, {1010525}, {1010525},
                 POPULATION(Region.OW, "Artisans", 250), {"Timber", "Bricks", "Steel Beams"}, set()),
 
+    A1800Unlock("Dirt Road", DLC.VANILLA, Region.NW, {101308}, {101308},
+                SESSION_ENTER(Session.NW), type=UnlockType.BUILDING),
+
+    A1800Unlock("Small Warehouse", DLC.VANILLA, Region.NW, {101323}, {130095},
+                SESSION_ENTER(Session.NW), {"Timber"}, set()),
+
+    A1800Unlock("Trade Union", DLC.VANILLA, Region.NW, {101284}, {101284},
+                POPULATION(Region.NW, "Jornaleros", 50), {"Timber", "Bricks"}, set()),
+
+    A1800Unlock("Quay", DLC.VANILLA, Region.NW, {101339}, {130106},
+                POPULATION(Region.NW, "Jornaleros", 100), type=UnlockType.BUILDING),
+
+    A1800Unlock("Depot", DLC.VANILLA, Region.NW, {101278}, {130106},
+                POPULATION(Region.NW, "Jornaleros", 100), {"Timber", "Bricks"}, set()),
+
+    A1800Unlock("Harbourmaster's Office", DLC.VANILLA, Region.NW, {101286}, {101286},
+                POPULATION(Region.NW, "Jornaleros", 100), {"Timber", "Bricks"}, set()),
+
+    A1800Unlock("Repair Crane", DLC.VANILLA, Region.NW, {101573}, {130122},
+                POPULATION(Region.NW, "Jornaleros", 200), {"Timber", "Bricks"}, set()),
+
+    A1800Unlock("Mounted Guns", DLC.VANILLA, Region.NW, {101563}, {130122},
+                POPULATION(Region.NW, "Jornaleros", 200), {"Timber", "Bricks", "Weapons"}, set()),
+
     # Building, Factory
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, {1010517, 1010540}, {1010517, 1010540},
                 SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}, {"Sea Travel"}, set(), {"Settling"}),
@@ -317,6 +341,70 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Artisans", 1500),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Museum"}),
 
+    A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, {101290, 101293}, {101290, 101293},
+                SESSION_ENTER(Session.NW), {"Timber", "Steel Beams"}, {"Sea Travel"}, set(), {"Settling"}),
+
+    A1800Unlock("Lumberjack's Hut", DLC.VANILLA, Region.NW, {101260}, {130093},
+                SESSION_ENTER(Session.NW), set(), {"Jornaleros"}, set(), {"Wood"}, "Timber"),
+
+    A1800Unlock("Sawmill", DLC.VANILLA, Region.NW, {101261}, {130093},
+                SESSION_ENTER(Session.NW), set(), {"Jornaleros"}, {"Wood"}, {"Timber"}, "Timber"),
+
+    A1800Unlock("Marketplace", DLC.VANILLA, Region.NW, {101257}, {130094},
+                SESSION_ENTER(Session.NW), {"Timber"}, set(), set(), {"Market"}),
+
+    A1800Unlock("Fish Oil Factory", DLC.VANILLA, Region.NW, {101262}, {130096},
+                POPULATION(Region.NW, "Jornaleros", 50),
+                {"Timber"}, {"Jornaleros"}, set(), {"Fish Oil"}, "Fried Plantains"),
+
+    A1800Unlock("Plantain Plantation", DLC.VANILLA, Region.NW, {101263}, {130096},
+                POPULATION(Region.NW, "Jornaleros", 50),
+                {"Timber"}, {"Jornaleros"}, set(), {"Plantains"}, "Fried Plantains"),
+
+    A1800Unlock("Fried Plantain Kitchen", DLC.VANILLA, Region.NW, {101264}, {130096},
+                POPULATION(Region.NW, "Jornaleros", 50),
+                {"Timber"}, {"Jornaleros"}, {"Plantains", "Fish Oil"}, {"Fried Plantains"}, "Fried Plantains"),
+
+    A1800Unlock("Sugar Cane Plantation", DLC.VANILLA, Region.NW, {1010329}, {140039},
+                POPULATION(Region.NW, "Jornaleros", 100),
+                {"Timber"}, {"Jornaleros"}, set(), {"Sugar Cane"}, {("Rum", Region.NW), ("Rum", Region.OW)}),
+
+    A1800Unlock("Rum Distillery", DLC.VANILLA, Region.NW, {1010340}, {140039},
+                POPULATION(Region.NW, "Jornaleros", 100),
+                {"Timber"}, {"Jornaleros"}, {"Sugar Cane", "Wood"}, {"Rum"}, {("Rum", Region.NW), ("Rum", Region.OW)}),
+
+    A1800Unlock("Sailmakers", DLC.VANILLA, Region.NW, {101265}, {130098},
+                POPULATION(Region.NW, "Jornaleros", 100),
+                {"Timber", "Bricks"}, {"Jornaleros"}, {"Cotton Fabric"}, {"Sails"}, "Sails"),
+
+    A1800Unlock("Sailing Shipyard", DLC.VANILLA, Region.NW, {101277}, {130106},
+                POPULATION(Region.NW, "Jornaleros", 100),
+                {"Timber", "Bricks"}, {"Jornaleros"}, {"Timber", "Sails"}, {"Sea Travel"}),
+
+    A1800Unlock("Alpaca Farm", DLC.VANILLA, Region.NW, {101272}, {130097},
+                POPULATION(Region.NW, "Jornaleros", 200),
+                {"Timber"}, {"Jornaleros"}, set(), {"Alpaca Wool"}, "Ponchos"),
+
+    A1800Unlock("Poncho Darner", DLC.VANILLA, Region.NW, {101266}, {130097},
+                POPULATION(Region.NW, "Jornaleros", 200),
+                {"Timber"}, {"Jornaleros"}, {"Alpaca Wool"}, {"Ponchos"}, "Ponchos"),
+
+    A1800Unlock("Fire Station", DLC.VANILLA, Region.NW, {101275}, {101275},
+                POPULATION(Region.NW, "Jornaleros", 200), {"Timber"}, set(), set(), {"Fire Protection"}),
+
+    A1800Unlock("Caoutchouc Plantation", DLC.VANILLA, Region.NW, {1010333}, {130202},
+                POPULATION(Region.NW, "Jornaleros", 200), {"Timber"}, {"Jornaleros"}, set(), {"Caoutchouc"}),
+
+    A1800Unlock("Police Station", DLC.VANILLA, Region.NW, {101274}, {101274},
+                POPULATION(Region.NW, "Jornaleros", 300), {"Timber"}, set(), set(), {"Riot Control"}),
+
+    A1800Unlock("Chapel", DLC.VANILLA, Region.NW, {101258}, {130099},
+                POPULATION(Region.NW, "Jornaleros", 300), {"Timber"}, set(), set(), {"Chapel"}),
+
+    A1800Unlock("Pearl Farm", DLC.VANILLA, Region.NW, {1010339}, {1010339},
+                POPULATION(Region.NW, "Jornaleros", 300), {"Timber"}, {"Jornaleros"}, set(), {"Pearls"}),
+
+
     # Building, Upgrade
     A1800Unlock("Paved Street", DLC.VANILLA, Region.OW, {1010035}, {1010035},
                 POPULATION(Region.OW, "Workers", 1),
@@ -346,6 +434,13 @@ _a1800_unlocks: list[A1800Unlock] = [
                 lifestyle={"Flour", "Sugar", "Jam", "Local Mail", "Regional Mail",
                            "Overseas Mail", "Soap", "Herbs", "Hibiscus Petals"}),
 
+    A1800Unlock("Jornalero Residence", DLC.VANILLA, Region.NW, {101254}, {101254},
+                SESSION_ENTER(Session.NW), {"Timber"}, set(), {"Market"}, {"Jornaleros"}, "",
+                consumption={"Market", "Fried Plantains", "Ponchos", "Fire Protection", "Riot Control"},
+                luxury={"Rum", "Chapel"},
+                lifestyle={"Work Clothes", "Felt", "Teff", "Local Mail",
+                           "Regional Mail", "Overseas Mail", "Soccer Balls", "Beach", "Cinema"}),
+
     # Building, Factory, Upgrade, Residence
     A1800Unlock("Worker Residence", DLC.VANILLA, Region.OW, {1010344}, {1010344},
                 POPULATION(Region.OW, "Farmers", 100),
@@ -374,6 +469,15 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Variety Theatre", "Rum", "Penny Farthings", "Pocket Watches", "Bank"},
                 {"Soap", "Chocolate", "Shampoo", "Local Mail", "Regional Mail",
                     "Overseas Mail", "Mezcal", "Ice Cream", "Medicine"}),
+
+    A1800Unlock("Obrero Residence", DLC.VANILLA, Region.NW, {101255}, {101255},
+                POPULATION(Region.NW, "Jornaleros", 200),
+                {"Timber"}, set(), set(), {"Obreros"}, "", "Jornalero Residence",
+                {"Market", "Fried Plantains", "Ponchos", "Tortillas", "Coffee", "Bombins",
+                    "Sewing Machines", "Fire Protection", "Riot Control", "Healthcare"},
+                {"Rum", "Chapel", "Boxing Arena", "Beer", "Cigars"},
+                {"Glasses", "Typewriter", "Illuminated Script", "Local Mail",
+                    "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooter"}),
 ]
 
 

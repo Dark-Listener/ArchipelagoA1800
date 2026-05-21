@@ -18,8 +18,10 @@ def _get_victory_condition_name_and_requirements(
         population, region, amount, supplied, luxury, lifestyle = population_requirement
 
         victory_event_location_name += f"{', ' if victory_event_location_name else ''}"\
-            f"{population} (Amount: {amount if amount else 1}, Supplied: {'Yes' if supplied else 'No'}, "\
-            f"Luxury: {'Yes' if luxury else 'No'}, Lifestyle: {'Yes' if lifestyle else 'No'})"
+            f"{amount} {population if amount > 1 else population[:-1]}"  # ("\
+        # f"Supplied: {'Yes' if supplied else 'No'}, "\
+        # f"Luxury: {'Yes' if luxury else 'No'}, "\
+        # f"Lifestyle: {'Yes' if lifestyle else 'No'})"
 
         victory_required_items.add(A1800Requirement(population, region))
         victory_triggers.append(POPULATION(region, population, amount))

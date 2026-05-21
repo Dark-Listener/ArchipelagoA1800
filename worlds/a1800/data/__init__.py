@@ -8,7 +8,7 @@ from ._Enums import ALL_REGIONS, NO_REGION, Region, Session, START_REGION, Trigg
 from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
 from ._Logic import LOGIC
-from ._Product import A1800Product, find_populations
+from ._Product import A1800Product, find_populations, get_populations
 from ._Region import A1800Region, get_regions
 from ._Requirement import A1800Requirement
 from ._Session import A1800Session, find_session
@@ -24,11 +24,30 @@ class _AnnoData:
         unlock.ap_location_name: unlock.ap_code for unlock in get_unlock_locations() if unlock.ap_code}
 
     def process_options(self, options: "A1800Options") -> None:
-        # options -> get victory condition stuff
-        population_requirements = [
-            ("Investors", Region.OW, 5000, True, False, False),
-            ("Obreros", Region.NW, 2000, True, False, False),
-        ]
+        population_requirements: list[tuple[str, Region, int, bool, bool, bool]] = []
+        for identifier, amount_str in options.required_population_amount.value.items():
+            id_split = identifier.split("-")
+            if len(id_split) != 4:
+                continue
+
+            region = getattr(Region, id_split[1].upper(), None)
+            name = id_split[3].capitalize()
+            if not region or not name:
+                continue
+
+            population = next(find_populations(name, region), None)
+            if not population:
+                continue
+
+            try:
+                amount = int(amount_str)
+            except ValueError:
+                amount = 0
+
+            if not amount:
+                continue
+
+            population_requirements.append((population.name, population.region, amount, False, False, False))
 
         LOGIC.generate_logic(population_requirements)
 
@@ -64,6 +83,9 @@ class _AnnoData:
 
     def get_location_requirements(self) -> Sequence[tuple[str, frozenset[A1800Requirement]]]:
         return LOGIC.get_location_requirements()
+
+    def get_populations(self) -> Sequence[A1800Product]:
+        return get_populations()
 
     def get_unlocks(self) -> Sequence[A1800Unlock]:
         return get_unlocks()

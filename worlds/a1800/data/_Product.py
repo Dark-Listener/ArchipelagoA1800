@@ -136,6 +136,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Electricity", DLC.VANILLA, Region.OW, 120022, ProductType.SERVICE),
     A1800Product("Bank", DLC.VANILLA, Region.OW, 1010356, ProductType.SERVICE),
     A1800Product("Members Club", DLC.VANILLA, Region.OW, 1010355, ProductType.SERVICE),
+    A1800Product("World's Fair", DLC.VANILLA, Region.OW, 133536, ProductType.SERVICE),
     A1800Product("Market", DLC.VANILLA, Region.NW, 120020, ProductType.SERVICE),
     A1800Product("Chapel", DLC.VANILLA, Region.NW, 1010350, ProductType.SERVICE),
     A1800Product("Boxing Arena", DLC.VANILLA, Region.NW, 1010349, ProductType.SERVICE),
@@ -158,6 +159,11 @@ _a1800_populations = [product for product in _a1800_products if product.type == 
 for population in _a1800_populations:
     assert population.region in Region.__members__.values(), f"Population {population.name} has multiple regions: "\
         f"{population.region}"
+
+
+def get_populations() -> Sequence[A1800Product]:
+    global _a1800_populations
+    return _a1800_populations
 
 
 def find_populations(name: str, region: Region = NO_REGION) -> Iterator[A1800Product]:

@@ -16,6 +16,8 @@ In Anno 1800, the building unlocks are shuffled, causing buildings to be unlocke
 luxury goods will be available later than usual. You might even have to import goods from other sessions that you'd
 usually have available on location!
 
+Note: Ornaments are currently excluded.
+
 ## What's the goal?
 
 Your goal is to reach 1 artisan at this early stage of the Archipelago world.

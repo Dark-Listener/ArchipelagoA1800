@@ -732,11 +732,6 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Investors", 3000),
                 {"Windows", "Steam Motors", "Wood Veneers"}, {"Artisans"}, previous_building="World's Fair: Glazing"),
 
-    A1800Unlock("World's Fair", DLC.VANILLA, Region.OW, {1010492}, {1010492},
-                POPULATION(Region.OW, "Investors", 5000),
-                {"Filaments", "Light Bulbs", "Caoutchouc"}, {"Engineers", "Electricity"},
-                previous_building="World's Fair: Infrastructure"),
-
     A1800Unlock("Paved Street", DLC.VANILLA, Region.NW, {101309}, {130100},
                 POPULATION(Region.NW, "Obreros", 1), {"Bricks"}, previous_building="Dirt Road"),
 
@@ -764,6 +759,11 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Engineers", 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
                 set(), {"Oil Harbour"}, previous_building="Medium Oil Harbour"),
+
+    A1800Unlock("World's Fair", DLC.VANILLA, Region.OW, {1010492}, {1010492},
+                POPULATION(Region.OW, "Investors", 5000),
+                {"Filaments", "Light Bulbs", "Caoutchouc"}, {"Engineers", "Electricity"}, output={"World's Fair"},
+                previous_building="World's Fair: Infrastructure"),
 
     A1800Unlock("Medium Oil Harbour", DLC.VANILLA, Region.NW, {101405}, {130124},
                 POPULATION(Region.NW, "Obreros", 600),

@@ -34,9 +34,10 @@ class A1800Item(Item):
 def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
     if isinstance(obj, A1800Unlock):
         is_starting_item: bool = not obj.is_early \
-            and obj.trigger.trigger_type == TriggerType.SESSION_ENTER \
-            and obj.trigger.session.region == START_REGION \
-            and not ANNO_DATA.find_session(obj.trigger.session).requirements
+            and (obj.trigger.trigger_type == TriggerType.TRUE
+                 or (obj.trigger.trigger_type == TriggerType.SESSION_ENTER
+                     and obj.trigger.session.region == START_REGION
+                     and not ANNO_DATA.find_session(obj.trigger.session).requirements))
         return A1800ItemData(
             obj.ap_item_name,
             IC.progression if obj.is_progressive else IC.filler,

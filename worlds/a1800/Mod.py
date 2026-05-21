@@ -124,7 +124,7 @@ def generate_mod(world: "A1800World", output_directory: str):
                                for guid in item.data.unlock_guids]))
 
     template_data: dict[str, Any] = {
-        "lock_guid_list": set([guid for unlock in ANNO_DATA.get_unlocks() for guid in unlock.lock_guids]),
+        "lock_guid_list": sorted(set([guid for unlock in ANNO_DATA.get_unlocks() for guid in unlock.lock_guids])),
         "trigger_to_location_data": trigger_to_location_data,
         "trigger_type": TriggerType,
         "location_guid_data": location_guid_data,

@@ -39,9 +39,10 @@ class _Locations:
                 location.ap_code,
                 False
             ) for location in ANNO_DATA.get_unlock_locations()
-            if location.trigger.trigger_type != TriggerType.SESSION_ENTER
-            or location.trigger.session.region != START_REGION
-            or ANNO_DATA.find_session(location.trigger.session).requirements
+            if location.trigger.trigger_type != TriggerType.TRUE
+            and (location.trigger.trigger_type != TriggerType.SESSION_ENTER
+                 or location.trigger.session.region != START_REGION
+                 or ANNO_DATA.find_session(location.trigger.session).requirements)
         ]
 
         self._event_location_data_list = [

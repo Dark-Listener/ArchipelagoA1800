@@ -457,12 +457,12 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Bicycle Factory", DLC.VANILLA, Region.OW, {1010323}, {140040},
                 POPULATION(Region.OW, "Engineers", 500),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers", "Electricity"},
                 {"Steel", "Caoutchouc"}, {"Penny Farthings"}, "Penny Farthings"),
 
     A1800Unlock("Motor Assembly Line", DLC.VANILLA, Region.OW, {1010302}, {140052},
                 POPULATION(Region.OW, "Engineers", 500),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers", "Electricity"},
                 {"Steel", "Brass"}, {"Steam Motors"}, "Steam Motors"),
 
     A1800Unlock("Steam Shipyard", DLC.VANILLA, Region.OW, {1010521}, {130051},
@@ -481,7 +481,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Heavy Weapons Factory", DLC.VANILLA, Region.OW, {1010301}, {140053},
                 POPULATION(Region.OW, "Engineers", 500),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers", "Electricity"},
                 {"Steel", "Dynamite"}, {"Advanced Weapons"}, "Advanced Weapons"),
 
     A1800Unlock("Goldsmiths", DLC.VANILLA, Region.OW, {1010327}, {140042},
@@ -491,7 +491,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Clockmakers", DLC.VANILLA, Region.OW, {1010324}, {140042},
                 POPULATION(Region.OW, "Engineers", 1000),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers", "Electricity"},
                 {"Glass", "Gold"}, {"Pocket Watches"}, "Pocket Watches"),
 
     A1800Unlock("Filament Factory", DLC.VANILLA, Region.OW, {1010321}, {140044},
@@ -533,7 +533,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Gramophone Factory", DLC.VANILLA, Region.OW, {1010326}, {140047},
                 POPULATION(Region.OW, "Investors", 3000),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers", "Electricity"},
                 {"Wood Veneers", "Brass"}, {"Gramophones"}, "Gramophones"),
 
     A1800Unlock("Coachmakers", DLC.VANILLA, Region.OW, {1010289}, {140049},
@@ -543,7 +543,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Cab Assembly Line", DLC.VANILLA, Region.OW, {1010303}, {140049},
                 POPULATION(Region.OW, "Investors", 5000),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers", "Electricity"},
                 {"Chassis", "Steam Motors"}, {"Steam Carriages"}, "Steam Carriages"),
 
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, {101290, 101293}, {101290, 101293},
@@ -734,7 +734,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("World's Fair", DLC.VANILLA, Region.OW, {1010492}, {1010492},
                 POPULATION(Region.OW, "Investors", 5000),
-                {"Filaments", "Light Bulbs", "Caoutchouc"}, {"Engineers"},
+                {"Filaments", "Light Bulbs", "Caoutchouc"}, {"Engineers", "Electricity"},
                 previous_building="World's Fair: Infrastructure"),
 
     A1800Unlock("Paved Street", DLC.VANILLA, Region.NW, {101309}, {130100},

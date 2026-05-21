@@ -12,7 +12,10 @@ class A1800Session:
     requirements: set[A1800Requirement]
 
     def __post_init__(self) -> None:
-        self.requirements |= find_region(self.session.region).enter_requirements
+        anno_region = find_region(self.session.region)
+        assert anno_region, \
+            f"Trying to create session {self.session.name} for non-existent region {self.session.region}"
+        self.requirements |= anno_region.enter_requirements
 
 
 _a1800_sessions: dict[Session, A1800Session] = {

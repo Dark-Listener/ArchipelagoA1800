@@ -20,10 +20,10 @@ class A1800EventLocation:
 
 
 _a1800_event_locations = [
-    A1800EventLocation(unlock.name, unlock.dlc, region, output)
+    A1800EventLocation(unlock.name, unlock.dlc, region, (output if isinstance(output, str) else output[0]))
     for unlock in get_unlocks() if UnlockType.FACTORY in unlock.type
     for output in unlock.output
-    for region in Region.__members__.values() if region in unlock.region]
+    for region in Region.__members__.values() if region in (unlock.region if isinstance(output, str) else output[1])]
 
 
 def get_event_locations() -> Sequence[A1800EventLocation]:

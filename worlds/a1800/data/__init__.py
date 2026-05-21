@@ -9,7 +9,7 @@ from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
 from ._Logic import LOGIC
 from ._Product import A1800Product, find_populations
-from ._Region import A1800Region, find_region, get_regions
+from ._Region import A1800Region, get_regions
 from ._Requirement import A1800Requirement
 from ._Session import A1800Session, find_session
 from ._Trigger import Trigger
@@ -26,7 +26,7 @@ class _AnnoData:
     def process_options(self, options: "A1800Options") -> None:
         # options -> get victory condition stuff
         population_requirements = [
-            ("Engineers", Region.OW, 1, False, False, False),
+            ("Investors", Region.OW, 1, False, False, False),
             ("Obreros", Region.NW, 2000, False, False, False),
         ]
 
@@ -43,9 +43,6 @@ class _AnnoData:
 
     def find_populations(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Product]:
         return find_populations(name, region)
-
-    def find_region(self, region: Region) -> A1800Region:
-        return find_region(region)
 
     def find_session(self, session: Session) -> A1800Session:
         return find_session(session)

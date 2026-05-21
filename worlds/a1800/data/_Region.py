@@ -1,5 +1,6 @@
 from collections.abc import Sequence
 from dataclasses import dataclass, field
+from typing import Optional
 
 from ._Enums import ALL_REGIONS, DLC, Region, START_REGION
 from ._Requirement import A1800Requirement
@@ -42,6 +43,6 @@ def get_regions() -> Sequence[A1800Region]:
     return list(_a1800_regions.values())
 
 
-def find_region(region: Region) -> A1800Region:
+def find_region(region: Region) -> Optional[A1800Region]:
     global _a1800_regions
-    return _a1800_regions[region]
+    return _a1800_regions[region] if region in _a1800_regions else None

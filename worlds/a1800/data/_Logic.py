@@ -83,7 +83,8 @@ class _Logic:
                                              for name in unlock.cost | unlock.maintenance}
 
                     if UnlockType.FACTORY in unlock.type:
-                        new_requirements |= {A1800Requirement(name, unlock.region) for name in unlock.input}
+                        new_requirements |= {A1800Requirement(name, unlock.region) if isinstance(
+                            name, str) else A1800Requirement(name[0], name[1]) for name in unlock.input}
 
                     if UnlockType.UPGRADE in unlock.type:
                         previous_unlock = next(find_unlocks(unlock.previous_building, unlock.region))
@@ -103,10 +104,13 @@ class _Logic:
                     if unlock.region ^ checked_regions != NO_REGION:
                         for region in [region for region in Region.__members__.values()
                                        if region in unlock.region & (unlock.region ^ checked_regions)]:
-                            new_requirements |= find_region(region).requirements
+                            anno_region = find_region(region)
+                            if anno_region:
+                                new_requirements |= anno_region.requirements
                             checked_regions |= region
                 else:
-                    raise ValueError(f"Requirement name {requirement.name} doesn't match any unlock.")
+                    raise ValueError(
+                        f"Requirement name {requirement.name} region {requirement.region} doesn't match any unlock.")
 
             else:
                 raise ValueError(f"Requirement type {requirement.type} isn't PRODUCT or UNLOCK.")

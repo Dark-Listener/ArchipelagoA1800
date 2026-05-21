@@ -26,8 +26,8 @@ class _AnnoData:
     def process_options(self, options: "A1800Options") -> None:
         # options -> get victory condition stuff
         population_requirements = [
-            ("Investors", Region.OW, 1, False, False, False),
-            ("Obreros", Region.NW, 2000, False, False, False),
+            ("Investors", Region.OW, 5000, True, False, False),
+            ("Obreros", Region.NW, 2000, True, False, False),
         ]
 
         LOGIC.generate_logic(population_requirements)

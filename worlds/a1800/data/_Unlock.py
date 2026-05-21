@@ -145,6 +145,10 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Engineers", 500),
                 {"Bricks", "Steel Beams", "Reinforced Concrete", "Advanced Weapons"}),
 
+    A1800Unlock("World's Fair: Foundations", DLC.VANILLA, Region.OW, {1010489}, {1010489},
+                POPULATION(Region.OW, "Investors", 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}),
+
     A1800Unlock("Dirt Road", DLC.VANILLA, Region.NW, {101308}, {101308},
                 SESSION_ENTER(Session.NW), type=UnlockType.BUILDING),
 
@@ -504,6 +508,44 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Engineers", 3000),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(), set(), {"Bank"}),
 
+    A1800Unlock("Vineyard", DLC.VANILLA, Region.OW, {100655}, {130055},
+                POPULATION(Region.OW, "Investors", 1),
+                {"Timber"}, {"Farmers", "Settling"}, set(), {"Grapes"}, "Champagne"),
+
+    A1800Unlock("Champagne Cellar", DLC.VANILLA, Region.OW, {100659}, {130055},
+                POPULATION(Region.OW, "Investors", 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Artisans"},
+                {"Glass", "Grapes"}, {"Champagne"}, "Champagne"),
+
+    A1800Unlock("Marquetry Workshop", DLC.VANILLA, Region.OW, {1010320}, {130116},
+                POPULATION(Region.OW, "Investors", 750),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
+                {"Wood"}, {"Wood Veneers"}, "Cigars"),
+
+    A1800Unlock("Members Club", DLC.VANILLA, Region.OW, {1010364}, {130048},
+                POPULATION(Region.OW, "Investors", 750),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(), set(), {"Members Club"}),
+
+    A1800Unlock("Jewellers", DLC.VANILLA, Region.OW, {1010328}, {140048},
+                POPULATION(Region.OW, "Investors", 1750),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Artisans"},
+                {"Pearls", "Gold"}, {"Jewellery"}, "Jewellery"),
+
+    A1800Unlock("Gramophone Factory", DLC.VANILLA, Region.OW, {1010326}, {140047},
+                POPULATION(Region.OW, "Investors", 3000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
+                {"Wood Veneers", "Brass"}, {"Gramophones"}, "Gramophones"),
+
+    A1800Unlock("Coachmakers", DLC.VANILLA, Region.OW, {1010289}, {140049},
+                POPULATION(Region.OW, "Investors", 5000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
+                {"Wood Veneers", "Caoutchouc"}, {"Chassis"}, "Steam Carriages"),
+
+    A1800Unlock("Cab Assembly Line", DLC.VANILLA, Region.OW, {1010303}, {140049},
+                POPULATION(Region.OW, "Investors", 5000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
+                {"Chassis", "Steam Motors"}, {"Steam Carriages"}, "Steam Carriages"),
+
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, {101290, 101293}, {101290, 101293},
                 SESSION_ENTER(Session.NW), {"Timber", "Steel Beams"}, {"Sea Travel"}, set(), {"Settling"}),
 
@@ -623,7 +665,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks"}, set(), set(), {"Oil Harbour"}, "Electricity"),
 
     A1800Unlock("Tobacco Plantation", DLC.VANILLA, Region.NW, {1010330}, {140045},
-                POPULATION(Region.NW, "Obreros", 1000), {"Timber"}, {"Jornaleros"}, set(), {"Tobacco"}, "Cigars"),
+                POPULATION(Region.NW, "Obreros", 1000), {"Timber"}, {"Jornaleros"}, set(), {"Tobacco"},
+                {("Cigars", Region.NW), ("Cigars", Region.OW)}),
 
     A1800Unlock("Marquetry Workshop", DLC.VANILLA, Region.NW, {101296}, {140045},
                 POPULATION(Region.NW, "Obreros", 1000),
@@ -631,18 +674,22 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Cigar Factory", DLC.VANILLA, Region.NW, {1010342}, {140045},
                 POPULATION(Region.NW, "Obreros", 1000),
-                {"Timber", "Bricks"}, {"Obreros"}, {"Tobacco", "Wood Veneers"}, {"Cigars"}, "Cigars"),
+                {"Timber", "Bricks"}, {"Obreros"}, {"Tobacco", "Wood Veneers"}, {"Cigars"},
+                {("Cigars", Region.NW), ("Cigars", Region.OW)}),
 
-    A1800Unlock("Sugar Refinery", DLC.VANILLA, Region.NW, {1010317}, {140041},
+    A1800Unlock("Sugar Refinery", DLC.VANILLA, Region.NW, {1010317}, {140041, 130127},
                 POPULATION(Region.NW, "Obreros", 1500),
-                {"Timber"}, {"Obreros"}, {"Sugar Cane"}, {"Sugar"}, "Chocolate"),
+                {"Timber"}, {"Obreros"}, {"Sugar Cane"}, {"Sugar"},
+                {("Chocolate", Region.NW), ("Chocolate", Region.OW)}),
 
-    A1800Unlock("Cocoa Plantation", DLC.VANILLA, Region.NW, {1010332}, {140041},
-                POPULATION(Region.NW, "Obreros", 1500), {"Timber"}, {"Jornaleros"}, set(), {"Cocoa"}, "Chocolate"),
+    A1800Unlock("Cocoa Plantation", DLC.VANILLA, Region.NW, {1010332}, {140041, 130127},
+                POPULATION(Region.NW, "Obreros", 1500), {"Timber"}, {"Jornaleros"}, set(), {"Cocoa"},
+                {("Chocolate", Region.NW), ("Chocolate", Region.OW)}),
 
-    A1800Unlock("Chocolate Factory", DLC.VANILLA, Region.NW, {1010341}, {140041},
+    A1800Unlock("Chocolate Factory", DLC.VANILLA, Region.NW, {1010341}, {140041, 130127},
                 POPULATION(Region.NW, "Obreros", 1500),
-                {"Timber"}, {"Obreros"}, {"Sugar", "Cocoa"}, {"Chocolate"}, "Chocolate"),
+                {"Timber"}, {"Obreros"}, {"Sugar", "Cocoa"}, {"Chocolate"},
+                {("Chocolate", Region.NW), ("Chocolate", Region.OW)}),
 
     # Building, Upgrade
     A1800Unlock("Paved Street", DLC.VANILLA, Region.OW, {1010035}, {1010035},
@@ -672,6 +719,24 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
                 previous_building="Large Trading Post"),
 
+    A1800Unlock("World's Fair: Superstructure", DLC.VANILLA, Region.OW, {1010490}, {1010490},
+                POPULATION(Region.OW, "Investors", 750),
+                {"Timber", "Cement"}, {"Farmers"}, previous_building="World's Fair: Foundations"),
+
+    A1800Unlock("World's Fair: Glazing", DLC.VANILLA, Region.OW, {101336}, {101336},
+                POPULATION(Region.OW, "Investors", 1750),
+                {"Bricks", "Steel Beams", "Reinforced Concrete"}, {"Workers"},
+                previous_building="World's Fair: Superstructure"),
+
+    A1800Unlock("World's Fair: Infrastructure", DLC.VANILLA, Region.OW, {1010491}, {1010491},
+                POPULATION(Region.OW, "Investors", 3000),
+                {"Windows", "Steam Motors", "Wood Veneers"}, {"Artisans"}, previous_building="World's Fair: Glazing"),
+
+    A1800Unlock("World's Fair", DLC.VANILLA, Region.OW, {1010492}, {1010492},
+                POPULATION(Region.OW, "Investors", 5000),
+                {"Filaments", "Light Bulbs", "Caoutchouc"}, {"Engineers"},
+                previous_building="World's Fair: Infrastructure"),
+
     A1800Unlock("Paved Street", DLC.VANILLA, Region.NW, {101309}, {130100},
                 POPULATION(Region.NW, "Obreros", 1), {"Bricks"}, previous_building="Dirt Road"),
 
@@ -689,7 +754,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.NW, "Obreros", 1500),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, previous_building="Medium Trading Post"),
 
-    # BuildingFactory, Upgrade
+    # Building, Factory, Upgrade
     A1800Unlock("Medium Oil Harbour", DLC.VANILLA, Region.OW, {101403}, {130047},
                 POPULATION(Region.OW, "Engineers", 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),

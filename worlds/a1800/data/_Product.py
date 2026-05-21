@@ -96,10 +96,15 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Pocket Watches", DLC.VANILLA, ALL_REGIONS, 1010246, ProductType.GOOD),
     A1800Product("Filaments", DLC.VANILLA, ALL_REGIONS, 1010243, ProductType.GOOD),
     A1800Product("Light Bulbs", DLC.VANILLA, ALL_REGIONS, 1010208, ProductType.GOOD),
-    # Todo order
-    A1800Product("Pearls", DLC.VANILLA, ALL_REGIONS, 1010256, ProductType.GOOD),
+    A1800Product("Grapes", DLC.VANILLA, ALL_REGIONS, 120014, ProductType.GOOD),
+    A1800Product("Champagne", DLC.VANILLA, ALL_REGIONS, 120016, ProductType.GOOD),
     A1800Product("Wood Veneers", DLC.VANILLA, ALL_REGIONS, 1010242, ProductType.GOOD),
-    #
+    A1800Product("Pearls", DLC.VANILLA, ALL_REGIONS, 1010256, ProductType.GOOD),
+    A1800Product("Jewellery", DLC.VANILLA, ALL_REGIONS, 1010250, ProductType.GOOD),
+    A1800Product("Gramophones", DLC.VANILLA, ALL_REGIONS, 1010248, ProductType.GOOD),
+    A1800Product("Chassis", DLC.VANILLA, ALL_REGIONS, 1010211, ProductType.GOOD),
+    A1800Product("Steam Carriages", DLC.VANILLA, ALL_REGIONS, 1010225, ProductType.GOOD),
+
     A1800Product("Fish Oil", DLC.VANILLA, ALL_REGIONS, 120042, ProductType.GOOD),
     A1800Product("Plantains", DLC.VANILLA, ALL_REGIONS, 120041, ProductType.GOOD),
     A1800Product("Fried Plantains", DLC.VANILLA, ALL_REGIONS, 120033, ProductType.GOOD),
@@ -130,6 +135,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Museum", DLC.VANILLA, Region.OW, 133535, ProductType.SERVICE),
     A1800Product("Electricity", DLC.VANILLA, Region.OW, 120022, ProductType.SERVICE),
     A1800Product("Bank", DLC.VANILLA, Region.OW, 1010356, ProductType.SERVICE),
+    A1800Product("Members Club", DLC.VANILLA, Region.OW, 1010355, ProductType.SERVICE),
     A1800Product("Market", DLC.VANILLA, Region.NW, 120020, ProductType.SERVICE),
     A1800Product("Chapel", DLC.VANILLA, Region.NW, 1010350, ProductType.SERVICE),
     A1800Product("Boxing Arena", DLC.VANILLA, Region.NW, 1010349, ProductType.SERVICE),

@@ -6,9 +6,9 @@ See full instructions on [the setup page](setup_en.md)<!--(/tutorial/Anno%201800
 
 ## Where is the options page?
 
-The [player options page for this game](../player-options) [dead link] would usually contain all the options you
-need to configure and export a config file. However, this is a custom apworld, so you'll have to either generate the
-templates yourself or use the template file in the download.
+The player options page for this game would usually contain all the options you need to configure and export a config
+file. However, this is a custom apworld, so you'll have to either generate the templates yourself or use the template
+file in the download. See the setup page for details.
 
 ## What does randomization do to this game?
 

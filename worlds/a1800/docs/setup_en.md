@@ -109,10 +109,9 @@ options.
 
 #### Where do I get a config file?
 
-Usually, the [Player Options](/games/Anno%201800/player-options) [dead link] page on the website would allow you to
-configure your personal options and export them into a config file. However, this is a custom apworld, so either start
-your Achipelago Launcher and select `Generate Template Options` to find a template yaml in your `Players` subfolder or
-use the one in the download.
+Usually, the Player Options page on the website would allow you to configure your personal options and export them into
+a config file. However, this is a custom apworld, so either start your Achipelago Launcher and select
+`Generate Template Options` to find a template yaml in your `Players` subfolder or use the one in the download.
 
 #### Verifying Your Config File
 

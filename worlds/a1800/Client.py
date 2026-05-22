@@ -146,7 +146,7 @@ async def a1800_server_watcher(ctx: A1800Context):
                     except:
                         ctx.rcon_mmap_client.connected = False
                         logger.warning("Anno 1800 Client has lost connection. Did you pause or quit the game?")
-                        continue
+                        break
                     ctx.send_index += 1
             await asyncio.sleep(0.1)
 

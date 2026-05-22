@@ -4,7 +4,7 @@ from typing import Iterator, Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from ..Options import A1800Options
 
-from ._Enums import ALL_REGIONS, NO_REGION, Region, Session, START_REGION, TriggerType
+from ._Enums import ALL_REGIONS, NO_REGION, Region, REGION_NAMES, Session, START_REGION, TriggerType
 from ._EventItem import A1800EventItem, find_event_items, get_event_items
 from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
 from ._Logic import LOGIC
@@ -30,8 +30,9 @@ class _AnnoData:
             if len(id_split) != 4:
                 continue
 
-            region = getattr(Region, id_split[1].upper(), None)
-            name = id_split[3].capitalize()
+            region = {full_name: region for region, full_name in REGION_NAMES.items()}[
+                id_split[1].replace("_", " ").title()]
+            name = id_split[3].replace("_", " ").title()
             if not region or not name:
                 continue
 

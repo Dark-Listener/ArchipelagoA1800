@@ -856,6 +856,7 @@ def find_ap_item(ap_name: str) -> Optional[A1800Unlock]:
 
 
 # Assure all references exist
+removed_anything: bool = False
 for unlock in _a1800_unlocks:
     assert unlock.region, f"Unlock {unlock.name} has no region"
 
@@ -901,33 +902,35 @@ for unlock in _a1800_unlocks:
         assert next(find_unlocks(unlock.previous_building, unlock.region), None), \
             f"Unlock {unlock.name} references non-existent previous building {unlock.previous_building}, "
 
-#    for consumption in unlock.consumption:
-#        assert next(find_products(consumption, unlock.region), None), \
-#            f"Unlock {unlock.name} references non-existent consumption {consumption}, "
+    for consumption in unlock.consumption:
+        assert next(find_products(consumption, unlock.region), None), \
+            f"Unlock {unlock.name} references non-existent consumption {consumption}, "
 
-#    for luxury in unlock.luxury:
-#        assert next(find_products(luxury, unlock.region), None), \
-#            f"Unlock {unlock.name} references non-existent luxury {luxury}, "
+    for luxury in unlock.luxury:
+        assert next(find_products(luxury, unlock.region), None), \
+            f"Unlock {unlock.name} references non-existent luxury {luxury}, "
 
 #    for lifestyle in unlock.lifestyle:
 #        assert next(find_products(lifestyle, unlock.region), None), \
 #            f"Unlock {unlock.name} references non-existent lifestyle {lifestyle}, "
 
-    missing_consumptions: set[str] = set()
-    for consumption in unlock.consumption:
-        if not next(find_products(consumption, unlock.region), None):
-            missing_consumptions.add(consumption)
-    if missing_consumptions:
-        print(f"Warning for {unlock.name}: removing unknown needs: {missing_consumptions}")
-        unlock.consumption -= missing_consumptions
+#   missing_consumptions: set[str] = set()
+#   for consumption in unlock.consumption:
+#       if not next(find_products(consumption, unlock.region), None):
+#           missing_consumptions.add(consumption)
+#   if missing_consumptions:
+#       print(f"Warning for {unlock.name}: removing unknown needs: {missing_consumptions}")
+#       unlock.consumption -= missing_consumptions
+#       removed_anything = True
 
-    missing_luxuries: set[str] = set()
-    for luxury in unlock.luxury:
-        if not next(find_products(luxury, unlock.region), None):
-            missing_luxuries.add(luxury)
-    if missing_luxuries:
-        print(f"Warning for {unlock.name}: removing unknown luxury needs: {missing_luxuries}")
-        unlock.consumption -= missing_luxuries
+#    missing_luxuries: set[str] = set()
+#    for luxury in unlock.luxury:
+#        if not next(find_products(luxury, unlock.region), None):
+#            missing_luxuries.add(luxury)
+#    if missing_luxuries:
+#        print(f"Warning for {unlock.name}: removing unknown luxury needs: {missing_luxuries}")
+#        unlock.consumption -= missing_luxuries
+#        removed_anything = True
 
     missing_lifestyles: set[str] = set()
     for lifestyle in unlock.lifestyle:
@@ -936,6 +939,10 @@ for unlock in _a1800_unlocks:
     if missing_lifestyles:
         print(f"Warning for {unlock.name}: removing unknown lifestyle needs: {missing_lifestyles}")
         unlock.lifestyle -= missing_lifestyles
+        removed_anything = True
+
+if removed_anything:
+    print("Warnings about removal of lifestyle goods are due to missing DLC implemenations and can be safely ignored!")
 
 # Assure all chain references exist
 for chain in get_chains():

@@ -270,7 +270,7 @@ def launch():
         modinfo_path = (mod / "modinfo.json")
         if modinfo_path.exists() and modinfo_path.is_file():
             data = {}
-            with modinfo_path.open("r") as modinfo_file:
+            with modinfo_path.open("r", encoding="utf-8") as modinfo_file:
                 data = json.load(modinfo_file)
             if data and "ModID" in data:
                 if mod_regex.search(data["ModID"]):

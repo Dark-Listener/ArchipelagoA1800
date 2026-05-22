@@ -6,6 +6,8 @@ Find information about the game on its [Game Page](<worlds/a1800/docs/en_Anno 18
 
 Find full setup instructions on the [Setup page](worlds/a1800/docs/setup_en.md).
 
+For a roadmap / future plans, take a look [here](worlds/a1800/docs/roadmap_en.md).
+
 ## Thanks
 
 Special thanks to 991jo for their python implementation of an

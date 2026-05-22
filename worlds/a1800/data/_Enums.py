@@ -20,10 +20,10 @@ class Region(Flag, boundary=KEEP):
 
     @property
     def full_name(self) -> str:
-        global _REGION_NAMES
+        global REGION_NAMES
 
         out_name = ""
-        for region, full_name in _REGION_NAMES.items():
+        for region, full_name in REGION_NAMES.items():
             if region in self:
                 if out_name:
                     out_name += "|"
@@ -35,7 +35,7 @@ class Region(Flag, boundary=KEEP):
         return self in Region.__members__.values()
 
 
-_REGION_NAMES = {
+REGION_NAMES = {
     Region.OW: "Old World",
     Region.NW: "New World",
     Region.AR: "The Arctic",

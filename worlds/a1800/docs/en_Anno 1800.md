@@ -27,6 +27,13 @@ Your goal is to reach 1 artisan at this early stage of the Archipelago world.
 Whenever you'd normally unlock a building in Anno 1800, you instead send a location check to the server. This often
 means you send multiple checks at once at a certain population threshold, for example 5 checks at 100 farmers.
 
+## The game shows (strange) unlock requirements. Why and what do they mean?
+
+ Anno 1800 automatically shows the player how to unlock revealed but locked buildings. This is not preventable unless
+ without breaking local (=serverless) play. It is planned to show these revealed buildings as proper hints to
+ Archipelago at some point. Starnge requirements, like empty strings, "continue your journey", or populations from
+ disabled DLC occur when the building unlock is not located locally.
+
 ## What about DLCs?
 
 Currently, no DLCs are supported. If you enable DLCs in your savegame, the buildings will unlock as they would in

@@ -50,11 +50,11 @@ Install Archipelago via the link [above](#required-software).
 The host of the Archipelago multiworld should supply you with a zip file name `AP-%1-P%2-%3-%4.zip`, where `%1` is the
 seed number, `%2` is the slot number, `%3` is the slot name and `%4` is the Archipelago version this mod was created by.
 
-You can install the Anno 1800 mod in either of the following two locations:
-- `<user folder>\Documents\Anno 1800\mods`
-- `<game installation>\Anno 1800\mods`
+Before installing mods, Anno 1800 must have been started and closed at least once. Then, you can create the following
+folder: `<game installation>\Anno 1800\mods`. After another game start, there should be a popup about mod use, which
+must be accepted. Now the game can be closed again.
 
-To install the mod, extract the zip file and move or copy the resulting folder into one of the above locations. The
+To install the mod, extract the zip file and move or copy the resulting folder into the folder you created above. The
 resulting folder structure should look like `mods\AP-%1-P%2-%3-%4\modinfo.json`.
 
 If this worked, then Anno 1800 should display a gear next to the main menu point `Mod Browser`. If you hover over it,
@@ -62,13 +62,15 @@ it should display `[Gameplay] AP-%1-P%2-%3-%4` (might be cut off due to length).
 
 ### Installing Additional Mods
 
-You can install additional mods by adding them to the same folder. Note that there may be compatibility issues if other
-mods modify the game's unlocks. If other mods add new building unlocks, they will not be modified and work as usual.
+You can install additional mods by adding them to the same folder or via the Mod Browser / mod.io. Note that there may
+be compatibility issues if other mods modify the game's unlocks. If other mods add new building unlocks, they will not
+be modified and work as usual.
 
 ## Running and Connecting the Game
 
 Start the Archipelago Client. It will ask for the Anno 1800 mods folder. Point it to the folder you installed the mod to
-[above](#installing-the-archipelago-mod). The order in which you start the client and Anno 1800 does not matter.
+[above](#installing-the-archipelago-mod). The order in which you start the client and Anno 1800 does not matter. On
+Windows, if Anno is located in a protected folder, it may be necessary to start the client as administrator.
 
 Then start a new Anno 1800 free play game or load into your existing savegame. Currently, the starting conditions do
 not really matter, but here are a few recommendations:
@@ -107,10 +109,10 @@ options.
 
 #### Where do I get a config file?
 
-Usually, the [Player Options](/games/Anno%201800/player-options) [dead link] page on the website would allow you to configure your
-personal options and export them into a config file. However, this is a custom apworld, so either start your Achipelago
-Launcher and select `Generate Template Options` to find a template yaml in your `Players` subfolder or use the one in
-the download.
+Usually, the [Player Options](/games/Anno%201800/player-options) [dead link] page on the website would allow you to
+configure your personal options and export them into a config file. However, this is a custom apworld, so either start
+your Achipelago Launcher and select `Generate Template Options` to find a template yaml in your `Players` subfolder or
+use the one in the download.
 
 #### Verifying Your Config File
 

@@ -1,4 +1,3 @@
-from CommonClient import logger
 from collections import deque
 from contextlib import contextmanager
 from mmap import mmap
@@ -83,7 +82,6 @@ class RCONMMapClient:
             return
 
         packet = self._send_queue[0]
-        logger.debug(f"Sending packet {packet.id} {packet.type} {packet.body}")
         if self._file_access.ring_buffer_client.put_request(packet.msg()):
             self._send_queue.popleft()
             self._handle_send_queue()
@@ -100,7 +98,6 @@ class RCONMMapClient:
             self.close()
             raise RCONTimeout()
         p = RCONPacket.from_buffer(request)
-        logger.debug(f"Received packet {p.id} {p.type} {p.body}")
         return p
         # return RCONPacket.from_buffer(request)
 

@@ -109,9 +109,6 @@ async def a1800_game_watcher(ctx: A1800Context):
                         ctx.finished_game = True
 
                     if ctx.locations_checked != locations_checked:
-                        logger.debug(
-                            f"New locations checked: "
-                            f"{[ctx.location_names.lookup_in_game(location_id) for location_id in locations_checked - ctx.locations_checked]}")
                         ctx.locations_checked = locations_checked
                         await ctx.check_locations(ctx.locations_checked)
 

@@ -15,9 +15,9 @@ class A1800Product:
 
 
 _a1800_products: list[A1800Product] = [
-    ####################################################################################################################
-    # VANILLA                                                                                                          #
-    ####################################################################################################################
+    ################################################################################################################
+    ### VANILLA                                                                                                  ###
+    ################################################################################################################
     A1800Product("Sea Travel", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Settling", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.VANILLA, Region.OW, 0, ProductType.META),
@@ -144,9 +144,9 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Chapel", DLC.VANILLA, Region.NW, 1010350, ProductType.SERVICE),
     A1800Product("Boxing Arena", DLC.VANILLA, Region.NW, 1010349, ProductType.SERVICE),
 
-    ####################################################################################################################
-    # SUNKEN_TREASURES                                                                                                 #
-    ####################################################################################################################
+    ################################################################################################################
+    ### SUNKEN_TREASURES                                                                                         ###
+    ################################################################################################################
     A1800Product("Scrap", DLC.SUNKEN_TREASURES, ALL_REGIONS, 112518, ProductType.GOOD),
     A1800Product("Nice Scrap", DLC.SUNKEN_TREASURES, ALL_REGIONS, 112520, ProductType.GOOD),
     A1800Product("Special Scrap", DLC.SUNKEN_TREASURES, ALL_REGIONS, 112523, ProductType.GOOD),

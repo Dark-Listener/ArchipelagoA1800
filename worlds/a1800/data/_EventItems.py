@@ -3,9 +3,9 @@ from dataclasses import dataclass, field
 from typing import Iterator
 
 from ._Enums import DLC, NO_REGION, Region
-from ._EventLocation import EVENT_LOCATIONS
-from ._Product import PRODUCTS
-from ._Unlock import create_unlock_name
+from ._EventLocations import EVENT_LOCATIONS
+from ._Products import PRODUCTS
+from ._Unlocks import create_unlock_name
 
 
 @dataclass

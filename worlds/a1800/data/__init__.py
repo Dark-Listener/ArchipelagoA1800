@@ -4,18 +4,18 @@ from typing import Iterator, Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from ..Options import A1800Options
 
-from ._Chain import CHAINS
+from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, REGION_NAMES, Session, START_REGION, TriggerType
-from ._EventItem import A1800EventItem, EVENT_ITEMS
-from ._EventLocation import A1800EventLocation, EVENT_LOCATIONS
+from ._EventItems import A1800EventItem, EVENT_ITEMS
+from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
 from ._Logic import LOGIC
-from ._Product import A1800Product, PRODUCTS
-from ._Region import A1800Region, REGIONS
+from ._Products import A1800Product, PRODUCTS
+from ._Regions import A1800Region, REGIONS
 from ._Requirement import A1800Requirement
-from ._Session import A1800Session, SESSIONS
+from ._Sessions import A1800Session, SESSIONS
 from ._Trigger import Trigger
-from ._Unlock import _a1800_unlocks  # pyright: ignore[reportPrivateUsage]
-from ._Unlock import A1800Unlock, UNLOCKS
+from ._Unlocks import _a1800_unlocks  # pyright: ignore[reportPrivateUsage]
+from ._Unlocks import A1800Unlock, UNLOCKS
 
 
 class _A1800Data:

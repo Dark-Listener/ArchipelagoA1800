@@ -2,9 +2,9 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import ClassVar, Iterator, Optional
 
-from ._Chain import CHAINS
+from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerType, UnlockType
-from ._Product import PRODUCTS
+from ._Products import PRODUCTS
 from ._Trigger import ANY, POPULATION, SESSION_ENTER, Trigger, TRUE
 
 
@@ -85,9 +85,9 @@ class A1800Unlock:
 
 
 _a1800_unlocks: list[A1800Unlock] = [
-    ####################################################################################################################
-    # VANILLA                                                                                                          #
-    ####################################################################################################################
+    ################################################################################################################
+    ### VANILLA                                                                                                  ###
+    ################################################################################################################
     # Meta
     A1800Unlock("Oil Transport OW => NW", DLC.VANILLA, ALL_REGIONS, set(), set(),
                 TRUE, input={("Oil", Region.OW), "Oil Transport"}, output={("Oil", Region.NW)}),

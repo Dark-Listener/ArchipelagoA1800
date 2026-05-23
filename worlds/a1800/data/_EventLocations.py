@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Iterator
 
 from ._Enums import DLC, NO_REGION, Region, UnlockType
-from ._Unlock import create_unlock_name, UNLOCKS
+from ._Unlocks import create_unlock_name, UNLOCKS
 
 
 @dataclass

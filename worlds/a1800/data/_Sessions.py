@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from ._Enums import DLC, Region, Session
-from ._Region import REGIONS
+from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
 
 

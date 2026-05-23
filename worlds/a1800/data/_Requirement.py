@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
 
 from ._Enums import Region, RequirementType
-from ._EventItem import EVENT_ITEMS
-from ._Product import PRODUCTS
-from ._Unlock import UNLOCKS
+from ._EventItems import EVENT_ITEMS
+from ._Products import PRODUCTS
+from ._Unlocks import UNLOCKS
 
 
 @dataclass(frozen=True)

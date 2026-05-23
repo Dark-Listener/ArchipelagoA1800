@@ -1,10 +1,10 @@
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, START_REGION, UnlockType
-from ._EventItem import A1800EventItem, EVENT_ITEMS
-from ._EventLocation import A1800EventLocation, EVENT_LOCATIONS
-from ._Region import REGIONS
+from ._EventItems import A1800EventItem, EVENT_ITEMS
+from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
+from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
 from ._Trigger import ALL, POPULATION, Trigger, TRUE
-from ._Unlock import A1800Unlock, UNLOCKS
+from ._Unlocks import A1800Unlock, UNLOCKS
 
 
 def _get_victory_condition_name_and_requirements(

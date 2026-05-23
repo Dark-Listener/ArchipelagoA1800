@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from itertools import groupby
 from worlds.AutoWorld import PerGameCommonOptions
 from Options import OptionCounter, OptionGroup, OptionSet
-from .data._Product import _a1800_populations  # pyright: ignore[reportPrivateUsage]
+from .data._Products import _a1800_populations  # pyright: ignore[reportPrivateUsage]
 from .data import DLC
 
 

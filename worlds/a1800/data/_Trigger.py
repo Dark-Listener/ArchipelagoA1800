@@ -2,7 +2,7 @@ from functools import reduce
 from typing import Any, Callable
 
 from ._Enums import NO_REGION, Region, Session, START_REGION, TriggerType
-from ._Product import _a1800_populations  # pyright: ignore[reportPrivateUsage]
+from ._Products import _a1800_populations  # pyright: ignore[reportPrivateUsage]
 
 
 class Trigger:

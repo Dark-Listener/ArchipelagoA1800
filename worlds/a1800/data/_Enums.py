@@ -8,8 +8,8 @@ class DLC(Flag, boundary=KEEP):
     BOTANICA = auto()
 #    THE_PASSAGE = auto()
     SEAT_OF_POWER = auto()
-#    BRIGHT_HARVEST = auto()
-#    LAND_OF_LIONS = auto()
+    BRIGHT_HARVEST = auto()
+    LAND_OF_LIONS = auto()
 #    DOCKLANDS = auto()
     TOURIST_SEASON = auto()
 #    THE_HIGH_LIFE = auto()
@@ -29,7 +29,7 @@ _DLC_GUIDS = {
     DLC.BOTANICA: 410041,
     #    DLC.THE_PASSAGE: 410042,
     DLC.SEAT_OF_POWER: 410059,
-    #    DLC.BRIGHT_HARVEST: 410070,
+    DLC.BRIGHT_HARVEST: 410070,
     #    DLC.LAND_OF_LIONS: 410071,
     #    DLC.DOCKLANDS: 410083,
     DLC.TOURIST_SEASON: 410084,

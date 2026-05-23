@@ -415,7 +415,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Engineers"},
                 {"Steel", "Cement"}, {"Reinforced Concrete"}, "Reinforced Concrete"),
 
-    A1800Unlock("Rails", DLC.VANILLA, Region.OW | Region.NW, {1010136}, {130047, 130124},
+    A1800Unlock("Rails", DLC.VANILLA, Region.OW | Region.NW, {1010136}, {130047, 130124, 269755, 270062},
                 ANY(POPULATION(Region.OW, "Engineers", 1), POPULATION(Region.NW, "Obreros", 600)),
                 {"Timber", "Steel Beams"}, set(), set(), {"Railway"}, "Electricity"),
 
@@ -861,6 +861,88 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Palace", DLC.SEAT_OF_POWER, Region.OW, {249947, 269667}, {249947, 269667},
                 POPULATION(Region.OW, "Investors", 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}),
+
+    ################################################################################################################
+    ### BRIGHT_HARVEST                                                                                           ###
+    ################################################################################################################
+    # Building
+    A1800Unlock("Silo", DLC.BRIGHT_HARVEST, Region.OW, {269957, 269999}, {269957, 269999},
+                POPULATION(Region.OW, "Workers", 300),
+                {"Timber", "Bricks"}, {"Grain"}),
+    A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST, Region.OW, {269837, 269839}, {269755},
+                POPULATION(Region.OW, "Engineers", 500),
+                {"Steel Beams", "Steam Motors"}, {"Fuel"}),
+    A1800Unlock("Silo", DLC.BRIGHT_HARVEST, Region.NW, {269958, 269999}, {269958, 269999},
+                POPULATION(Region.NW, "Obreros", 1),
+                {"Timber", "Bricks"}, {"Corn"}),
+    A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST, Region.NW, {269848, 269849}, {270062},
+                POPULATION(Region.NW, "Obreros", 600),
+                {"Steel Beams", "Steam Motors"}, {"Fuel"}),
+
+    # Building, Factory
+    A1800Unlock("Fuel Station", DLC.BRIGHT_HARVEST, Region.OW, {118571, 269751, 269832}, {269755, 269832},
+                POPULATION(Region.OW, "Engineers", 500),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers"},
+                {"Oil", "Railway", "Oil Harbour"}, {"Fuel"}, "Fuel"),
+    A1800Unlock("Fuel Station", DLC.BRIGHT_HARVEST, Region.NW, {269840, 269751, 269832}, {269755, 270062, 269832},
+                POPULATION(Region.NW, "Obreros", 600),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Obreros"},
+                {"Oil", "Railway", "Oil Harbour"}, {"Fuel"}, "Fuel"),
+
+    # Building, Factory, Upgrade
+    A1800Unlock("Grand Oil Harbour", DLC.BRIGHT_HARVEST, Region.OW, {119259}, {119259},
+                POPULATION(Region.OW, "Engineers", 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
+                set(), {"Oil Harbour"}, previous_building="Large Oil Harbour"),
+    A1800Unlock("Grand Oil Harbour", DLC.BRIGHT_HARVEST, Region.NW, {119281}, {119281},
+                POPULATION(Region.NW, "Obreros", 600),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
+                set(), {"Oil Harbour"}, previous_building="Large Oil Harbour"),
+
+    ################################################################################################################
+    ### LAND_OF_LIONS                                                                                            ###
+    ################################################################################################################
+    ### Needs Bright Harvest ###
+    # Meta
+    A1800Unlock("Oil Transport OW => EN", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, ALL_REGIONS, set(), set(),
+                TRUE, input={("Oil", Region.OW), "Oil Transport"}, output={("Oil", Region.EN)}),
+    A1800Unlock("Oil Transport NW => EN", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, ALL_REGIONS, set(), set(),
+                TRUE, input={("Oil", Region.NW), "Oil Transport"}, output={("Oil", Region.EN)}),
+
+    # Building
+    A1800Unlock("Silo", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119025, 269999}, {119025, 269999},
+                POPULATION(Region.EN, "Elders", 1),
+                {"Wanza Timber", "Mud Bricks"}, {"Teff"}),
+    A1800Unlock("Oil Store", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119034}, {270173},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Wanza Timber", "Mud Bricks"}, unlock_chain="Fuel"),
+    A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119026, 119027}, {270173},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Steel Beams", "Steam Motors"}, {"Fuel"}),
+
+    # Building, Factory
+    A1800Unlock("Rails", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119035}, {270173},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Wanza Timber", "Steel Beams"}, set(), set(), {"Railway"}, "Fuel"),
+    A1800Unlock("Fuel Station", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119028, 269751, 269832},
+                {270173, 269832},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Wanza Timber", "Mud Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Elders"},
+                {"Oil", "Railway", "Oil Harbour"}, {"Fuel"}, "Fuel"),
+    A1800Unlock("Small Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119031}, {270173},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Wanza Timber", "Mud Bricks"}, set(), set(), {"Oil Harbour"}, "Fuel"),
+
+    # Building, Factory, Upgrade
+    A1800Unlock("Medium Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119032}, {119032},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Wanza Timber", "Mud Bricks"}, set(), set(), {"Oil Harbour"}, previous_building="Small Oil Harbour"),
+    A1800Unlock("Large Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119033}, {119033},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Wanza Timber", "Mud Bricks"}, set(), set(), {"Oil Harbour"}, previous_building="Medium Oil Harbour"),
+    A1800Unlock("Grand Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {270172}, {270172},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Wanza Timber", "Mud Bricks"}, set(), set(), {"Oil Harbour"}, previous_building="Large Oil Harbour"),
 ]
 
 
@@ -919,7 +1001,7 @@ class _Unlocks:
 
     def _verify_data(self) -> None:
         # Assure all references exist
-        for unlock in _a1800_unlocks:
+        for unlock in self._a1800_unlocks:
             assert unlock.region, f"Unlock {unlock.name} has no region"
 
             if unlock.trigger.trigger_type == TriggerType.POPULATION:

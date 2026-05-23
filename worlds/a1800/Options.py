@@ -7,7 +7,7 @@ from .data import DLC
 
 
 _default_enabled_dlcs = [dlc.name for dlc in sorted(
-    (dlc for dlc in DLC.__members__.values() if dlc != DLC.VANILLA and dlc != DLC.TOURIST_SEASON), key=lambda dlc: dlc.value)]
+    (dlc for dlc in DLC.__members__.values() if not dlc in DLC.VANILLA | DLC.TOURIST_SEASON | DLC.LAND_OF_LIONS), key=lambda dlc: dlc.value)]
 
 
 class EnabledDLCs(OptionSet):

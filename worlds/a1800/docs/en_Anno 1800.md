@@ -40,6 +40,7 @@ The follwing DLCs are supported:
 * Sunken Treasures
 * Botanica
 * Seat of Power
+* Bright Harvest
 
 If you enable unsupported DLCs in your savegame, the buildings will unlock as they would in without mods. For example,
 the docklands complex will unlock at 250 artisans with Docklands enabled.

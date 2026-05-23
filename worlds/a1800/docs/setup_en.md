@@ -2,15 +2,15 @@
 
 ## Required Software
 
-- Anno 1800, any one of
-  - [Steam](https://store.steampowered.com/app/916440/Anno_1800/)
-  - [Ubisoft Connect](https://store.ubisoft.com/us/anno-1800/5b647010ef3aa548048c5958.html?lang=en_US)
-  - [Epic](https://www.epicgames.com/store/en-US/product/anno-1800/home)
-- Archipelago: [Archipelago Releases Page](https://github.com/ArchipelagoMW/Archipelago/releases)
+* Anno 1800, any one of
+  * [Steam](https://store.steampowered.com/app/916440/Anno_1800/)
+  * [Ubisoft Connect](https://store.ubisoft.com/us/anno-1800/5b647010ef3aa548048c5958.html?lang=en_US)
+  * [Epic](https://www.epicgames.com/store/en-US/product/anno-1800/home)
+* Archipelago: [Archipelago Releases Page](https://github.com/ArchipelagoMW/Archipelago/releases)
 
 ## Optional Software
 
-- None yet, but I'll create a poptracker pack eventually
+* None yet, but I'll create a poptracker pack eventually
 
 ## Overview
 
@@ -24,18 +24,18 @@ Each of these worlds must be connected to the Archipelago Server via the Archipe
 
 This guide uses the following terms to refer to the software:
 
-- **Archipelago Server** - The central Archipelago server, which connects all games to each other.
-- **Archipelago Client** - The desktop application used by many Archipelago games as middleware. Accessed via the
+* **Archipelago Server** - The central Archipelago server, which connects all games to each other.
+* **Archipelago Client** - The desktop application used by many Archipelago games as middleware. Accessed via the
   menu point `Anno 1800 Client` in the Archipelago Launcher.
-- **Archipelago (Anno 1800) mod** - The Anno 1800 mod which implements Archipelago in-game functionality and
+* **Archipelago (Anno 1800) mod** - The Anno 1800 mod which implements Archipelago in-game functionality and
   connectivity. All Anno 1800 players must have this mod installed.
-- **Anno 1800** - The Anno 1800 instance (game client) with which players play the actual game.
+* **Anno 1800** - The Anno 1800 instance (game client) with which players play the actual game.
 
 ### What a Playable State Looks Like
 
-- An Archipelago Server
-- An Archipelago client, connected to both the Archipelago Server and a modded Anno 1800 instance
-- One running modded Anno 1800 instance
+* An Archipelago Server
+* An Archipelago client, connected to both the Archipelago Server and a modded Anno 1800 instance
+* One running modded Anno 1800 instance
 
 ## Preparing to Play Anno 1800 Archipelago
 
@@ -46,6 +46,7 @@ all of the supported DLCs as you desire:
 * Sunken Treasures
 * Botanica
 * Seat of Power
+* Bright Harvest
 
 Additional purchased DLCs are not an issue, but will not be taken into account in the randomizer.
 

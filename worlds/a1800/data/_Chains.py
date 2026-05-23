@@ -141,6 +141,24 @@ _a1800_chains: list[A1800Chain] = [
     A1800Chain("Chocolate", DLC.VANILLA, Region.NW, 500909,
                {("Sugar Cane Plantation", Region.NW), ("Sugar Refinery", Region.NW), ("Cocoa Plantation", Region.NW),
                 ("Chocolate Factory", Region.NW)}),
+
+    ################################################################################################################
+    ### BRIGHT_HARVEST                                                                                           ###
+    ################################################################################################################
+    A1800Chain("Fuel", DLC.BRIGHT_HARVEST, Region.OW, 269756,
+               {("Oil Refinery", Region.OW), ("Rails", Region.OW | Region.NW), ("Small Oil Harbour", Region.OW),
+                ("Oil Store", Region.OW), ("Fuel Station", Region.OW)}),
+    A1800Chain("Fuel", DLC.BRIGHT_HARVEST, Region.NW, 269835,
+               {("Oil Refinery", Region.NW), ("Rails", Region.OW | Region.NW), ("Small Oil Harbour", Region.NW),
+                ("Oil Store", Region.NW), ("Fuel Station", Region.NW)}),
+
+    ################################################################################################################
+    ### LAND_OF_LIONS                                                                                            ###
+    ################################################################################################################
+    ### Needs Bright Harvest ###
+    A1800Chain("Fuel", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, 119030,
+               {("Oil Refinery", Region.OW), ("Rails", Region.EN), ("Small Oil Harbour", Region.EN),
+                ("Oil Store", Region.EN), ("Fuel Station", Region.EN)}),
 ]
 
 

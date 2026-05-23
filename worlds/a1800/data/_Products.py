@@ -150,15 +150,35 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Special Scrap", DLC.SUNKEN_TREASURES, ALL_REGIONS, 112523, ProductType.GOOD),
 
     ################################################################################################################
+    ### BRIGHT_HARVEST                                                                                           ###
+    ################################################################################################################
+    A1800Product("Fuel", DLC.BRIGHT_HARVEST, Region.OW, 270042, ProductType.SERVICE),
+    A1800Product("Fuel", DLC.BRIGHT_HARVEST, Region.NW, 270042, ProductType.SERVICE),
+
+    ################################################################################################################
+    ### LAND_OF_LIONS                                                                                            ###
+    ################################################################################################################
+    A1800Product("Shepherds", DLC.LAND_OF_LIONS, Region.EN, 114340, ProductType.WORKFORCE),
+    A1800Product("Elders", DLC.LAND_OF_LIONS, Region.EN, 114341, ProductType.WORKFORCE),
+
+    ### Needs Bright Harvest ###
+    A1800Product("Railway", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),
+    A1800Product("Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),
+
+    A1800Product("Oil", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, 1010566, ProductType.GOOD),
+
+    A1800Product("Fuel", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, 270042, ProductType.SERVICE),
+
+    ################################################################################################################
     ### TOURIST_SEASON                                                                                           ###
     ################################################################################################################
     A1800Product("Zoo", DLC.TOURIST_SEASON, Region.OW, 601485, ProductType.SERVICE),
     A1800Product("Museum", DLC.TOURIST_SEASON, Region.OW, 133535, ProductType.SERVICE),
 
-    # Needs Botanica
+    ### Needs Botanica ###
     A1800Product("Botanical Garden", DLC.BOTANICA | DLC.TOURIST_SEASON, Region.OW, 355, ProductType.SERVICE),
 
-    # Needs Seat of Power
+    ### Needs Seat of Power ###
     A1800Product("Palace", DLC.SEAT_OF_POWER | DLC.TOURIST_SEASON, Region.OW, 134257, ProductType.SERVICE),
 ]
 

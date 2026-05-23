@@ -53,7 +53,7 @@ class Trigger:
                 assert isinstance(args[0], DLC), f"{trigger_type.name} requires an argument of type DLC, got " \
                     f"{type(args[0])} instead"
                 self.dlc = args[0]
-                self.guid = self.dlc.guid
+                self.guids = {dlc.guid for dlc in DLC.__members__.values() if dlc != DLC.VANILLA and dlc in self.dlc}
                 self.region = START_REGION
 
         self.trigger_type: TriggerType = trigger_type
@@ -81,7 +81,15 @@ class Trigger:
             case TriggerType.UNLOCK:
                 out_name = f"On unlocking: {self.guid}"
             case TriggerType.DLC:
-                out_name = f"DLC active: {self.dlc.name}"
+                if self.dlc in DLC.__members__.values():
+                    out_name = f"DLC active: {self.dlc.name}"
+                else:
+                    out_name = ""
+                    for name in {dlc.name for dlc in DLC.__members__.values() if dlc in self.dlc and dlc.name}:
+                        if out_name:
+                            out_name += ", "
+                        out_name += name
+                    out_name = "DLCs active: " + out_name
         return out_name
 
     def get_ap_location_name(self, name: str = "") -> str:

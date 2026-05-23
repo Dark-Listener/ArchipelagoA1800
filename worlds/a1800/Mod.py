@@ -30,17 +30,12 @@ def _get_trigger_with_dlc(trigger: Trigger, trigger_dlc: DLC) -> Trigger:
     if trigger_dlc == DLC.VANILLA:
         return trigger
 
-    new_triggers = [
-        Trigger(TriggerType.DLC, dlc) for dlc in DLC.__members__.values()
-        if dlc != DLC.VANILLA and dlc in trigger_dlc
-    ]
+    new_trigger = Trigger(TriggerType.DLC, trigger_dlc)
 
-    if not new_triggers:
-        return trigger
     if trigger.trigger_type == TriggerType.ALL:
-        return Trigger(TriggerType.ALL, *trigger.triggers, *new_triggers)
+        return Trigger(TriggerType.ALL, *trigger.triggers, new_trigger)
     else:
-        return Trigger(TriggerType.ALL, trigger, *new_triggers)
+        return Trigger(TriggerType.ALL, trigger, new_trigger)
 
 
 class A1800ModFile(APPlayerContainer):

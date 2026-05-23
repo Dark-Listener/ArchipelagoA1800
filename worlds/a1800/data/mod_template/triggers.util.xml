@@ -111,9 +111,11 @@
     <Condition/>
     <ConditionIsDLCActive>
       <DLCAssetList>
+{%    for guid in trigger_data.guids %}
         <Item>
-          <DLCAsset>{{ trigger_data.guid }}</DLCAsset>
+          <DLCAsset>{{ guid }}</DLCAsset>
         </Item>
+{%    endfor %}
       </DLCAssetList>
     </ConditionIsDLCActive>
     <ConditionPropsNegatable/>

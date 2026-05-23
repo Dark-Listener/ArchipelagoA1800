@@ -41,9 +41,48 @@ This guide uses the following terms to refer to the software:
 
 ### Installing Anno 1800
 
-Purchase and install Anno 1800 via one the sources linked [above](#required-software). DLCs are currently not supported.
+Purchase and install Anno 1800 via one the sources linked [above](#required-software). You could also purchase some or
+all of the supported DLCs as you desire:
+* Sunken Treasures
+* Botanica
+* Seat of Power
+
+Additional purchased DLCs are not an issue, but will not be taken into account in the randomizer.
 
 Install Archipelago via the link [above](#required-software).
+
+### Installing Archipelago
+
+Install Archipelago as described in its [setup guide](https://archipelago.gg/tutorial/Archipelago/setup_en).
+
+### Installing the Anno 1800 Custom APWorld
+
+Open the Archipelago Launcher,  select `Install APWorld` and point it to the `.apworld`-file in the download.
+
+Alternatively, take the `.apworld`-file in the download and put it into the `custom_worlds`folder in your Archipelago
+installation. If you don't have this folder, create an empty one with the name first.
+
+### Creating a Config (.yaml) File
+
+#### What is a config file and why do I need one?
+
+Your config file contains a set of configuration options which provide the generator with information about how it
+should generate your game. Each player of a multiworld will provide their own config file. This setup allows each player
+to enjoy an experience customized for their taste, and different players in the same multiworld can all have different
+options.
+
+#### Where do I get a config file?
+
+Usually, the Player Options page on the website would allow you to configure your personal options and export them into
+a config file. However, this is a custom apworld, so either start your Achipelago Launcher and select
+`Generate Template Options` to find a template yaml in your `Players/Templates` subfolder or use the one in the
+download. Afterwards, pass it to the host of your game. If that's you, check out the hosting instructions
+[below](#hosting-your-own-anno-1800-game).
+
+#### Verifying Your Config File
+
+If you would like to validate your config file to make sure it works, you may do so on the
+[Yaml Validation Page](https://archipelago.gg/check)<!--(/check)-->.
 
 ### Installing the Archipelago Mod
 
@@ -75,14 +114,17 @@ Start the Archipelago Client. It will ask for the Anno 1800 mods folder. Point i
 [above](#installing-the-archipelago-mod). The order in which you start the client and Anno 1800 does not matter. On
 Windows, if Anno is located in a protected folder, it may be necessary to start the client as administrator.
 
-Then start a new Anno 1800 free play game or load into your existing savegame. Currently, the starting conditions do
-not really matter, but here are a few recommendations:
-- Turn off all DLC since they are not randomized - should you keep any on, they will unlock as normal
-- Turn off all NPCs - you are not guarantueed to get weapons and may not be able to defend yourself
-- Turn off pirates - you are not guarantueed to get luxury goods and money might be tight
-- Start without ships - ships allow you to circumvent early game logic due to having sea travel capability
-- You shouldn't buy goods at NPC shops, as this also circumvent logic
-- You probably don't want to set any victory conditions in Anno itself - or at least continue playing afterwards if your
+Then start a new Anno 1800 free play game or load into your existing savegame. For the starting conditions, make sure
+to turn on all DLCs that were selected in the player options for your world.
+
+Currently, the other starting conditions do not really matter, but here are a few recommendations:
+* Turn off all other DLCs. Should you keep any on, they will unlock as normal
+  * Especially don't turn on Docklands, unless you want the option to skip everything
+* Turn off all NPCs - you are not guarantueed to get weapons and may not be able to defend yourself
+* Turn off pirates - you are not guarantueed to get luxury goods and money might be tight
+* Start without ships - ships allow you to circumvent early game logic due to having sea travel capability
+* You shouldn't buy goods at NPC shops, as this also circumvent logic
+* You probably don't want to set any victory conditions in Anno itself - or at least continue playing afterwards if your
 Archipelago victory has not been achieved yet
 
 Be careful not to load into vanilla savegames or those from other modding setups as this mod will likely trigger some
@@ -103,32 +145,12 @@ server entirely and just locally play a randomized game - all unlocks will happe
 
 If you're hosting your own Anno 1800 game, you will need to configure and generate an Archipelago world.
 
-### Create a Config (.yaml) File
-
-#### What is a config file and why do I need one?
-
-Your config file contains a set of configuration options which provide the generator with information about how it
-should generate your game. Each player of a multiworld will provide their own config file. This setup allows each player
-to enjoy an experience customized for their taste, and different players in the same multiworld can all have different
-options.
-
-#### Where do I get a config file?
-
-Usually, the Player Options page on the website would allow you to configure your personal options and export them into
-a config file. However, this is a custom apworld, so either start your Achipelago Launcher and select
-`Generate Template Options` to find a template yaml in your `Players` subfolder or use the one in the download.
-
-#### Verifying Your Config File
-
-If you would like to validate your config file to make sure it works, you may do so on the
-[Yaml Validation Page](https://archipelago.gg/check)<!--(/check)-->.
-
 ### Generating and Hosting the Multiworld
 
 Generating a game and hosting an Archipelago server is explained in the
 [Archipelago Setup Guide](https://archipelago.gg/tutorial/Archipelago/setup/en)<!--(/tutorial/Archipelago/setup/en)-->.
 
-### Allowing Other People to Join Your Game
+## Allowing Other People to Join Your Game
 
 Additional players can join your game using the game's built-in multiplayer functionality if you start a multiplayer
 session. Co-op play works as normal, but if you join as separate players, all unlocks will be shared - whoever reaches

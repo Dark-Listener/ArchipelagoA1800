@@ -4,7 +4,7 @@
 
 The following features are planned to be added at some point (in no specific order):
 
-* MORE DLCs!!!
+* MORE DLCs!!! (Not Docklands though, defeats the purpose)
 * Include ship unlocks in the item pool
 * Include expeditions for session unlocks in the item pool
 * Create some filler items
@@ -27,3 +27,4 @@ The following features are being considered, but it's unclear whether they are r
 * Improve spoiler log
 * If possible, try to not place items "later" than any chosen victory condition, e.g. don't require items at 600
 obreros if 1 was chosen as victory condition
+* Docklands DLC? Somehow all the unlocks would have to be redone

@@ -36,8 +36,13 @@ means you send multiple checks at once at a certain population threshold, for ex
 
 ## What about DLCs?
 
-Currently, no DLCs are supported. If you enable DLCs in your savegame, the buildings will unlock as they would in
-without mods. For example, silos will unlock at 300 workers with Bright Harvest enabled.
+The follwing DLCs are supported:
+* Sunken Treasures
+* Botanica
+* Seat of Power
+
+If you enable unsupported DLCs in your savegame, the buildings will unlock as they would in without mods. For example,
+the docklands complex will unlock at 250 artisans with Docklands enabled.
 
 ## What about incidents?
 

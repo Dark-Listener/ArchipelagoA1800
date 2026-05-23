@@ -14,6 +14,7 @@ The following features are planned to be added at some point (in no specific ord
 * More options in general!
 * Option to send hints for unlocks visible in chains
 * Remove starting fish
+* Introduce progressive items for trading posts, warehouses, monument stages...
 
 ## Potential Features | Considerations
 
@@ -24,3 +25,5 @@ The following features are being considered, but it's unclear whether they are r
   * Cosmetic DLC should probably be avoided due to issues with compatibility
 * Handle NPC shops and item pools
 * Improve spoiler log
+* If possible, try to not place items "later" than any chosen victory condition, e.g. don't require items at 600
+obreros if 1 was chosen as victory condition

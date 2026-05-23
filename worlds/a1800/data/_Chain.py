@@ -15,6 +15,9 @@ class A1800Chain:
 
 
 _a1800_chains: list[A1800Chain] = [
+    ####################################################################################################################
+    # VANILLA                                                                                                          #
+    ####################################################################################################################
     A1800Chain("Timber", DLC.VANILLA, Region.OW, 500091,
                {("Lumberjack's Hut", Region.OW), ("Sawmill", Region.OW)}),
     A1800Chain("Work Clothes", DLC.VANILLA, Region.OW, 500505,
@@ -147,13 +150,26 @@ assert len(_a1800_chains) == len({(chain.name, chain.region) for chain in _a1800
     "Duplicate name/region pair in chains"
 
 
-def get_chains() -> Sequence[A1800Chain]:
-    global _a1800_chains
-    return _a1800_chains
+class _Chains:
+    _initialized: bool = False
+
+    def init(self, enabled_dlcs: set[DLC]) -> None:
+        global _a1800_chains
+
+        self._a1800_chains = [chain for chain in _a1800_chains if chain.dlc in enabled_dlcs]
+
+        self._initialized = True
+
+    def get_chains(self) -> Sequence[A1800Chain]:
+        assert self._initialized, "The Anno 1800 chains module was used before it was initialized."
+        return self._a1800_chains
+
+    def find_chains(self, name: str, unlock_name: str, unlock_region: Region, region: Optional[Region] = None) -> Iterator[A1800Chain]:
+        assert self._initialized, "The Anno 1800 chains module was used before it was initialized."
+        return (chain for chain in self._a1800_chains if chain.name == name and
+                next((element_name for element_name, element_region in chain.elements
+                      if element_name == unlock_name and element_region == unlock_region), None)
+                and (chain.region == region if region else chain.region & unlock_region != NO_REGION))
 
 
-def find_chains(name: str, unlock_name: str, unlock_region: Region, region: Optional[Region] = None) -> Iterator[A1800Chain]:
-    return (chain for chain in _a1800_chains if chain.name == name and
-            next((element_name for element_name, element_region in chain.elements
-                  if element_name == unlock_name and element_region == unlock_region), None)
-            and (chain.region == region if region else chain.region & unlock_region != NO_REGION))
+CHAINS = _Chains()

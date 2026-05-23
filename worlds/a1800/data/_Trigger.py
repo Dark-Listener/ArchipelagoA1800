@@ -2,7 +2,7 @@ from functools import reduce
 from typing import Any, Callable
 
 from ._Enums import NO_REGION, Region, Session, START_REGION, TriggerType
-from ._Product import find_populations
+from ._Product import _a1800_populations  # pyright: ignore[reportPrivateUsage]
 
 
 class Trigger:
@@ -40,7 +40,8 @@ class Trigger:
                 self.region: Region = args[0]
                 self.population: str = args[1]
                 self.amount: int = args[2]
-                self.guid: int = next(find_populations(self.population, self.region)).guid
+                self.guid: int = next(population for population in _a1800_populations if population.name ==
+                                      self.population and self.region in population.region).guid
         self.trigger_type: TriggerType = trigger_type
         self.ap_location_name: str = self._get_ap_location_name()
 
@@ -60,7 +61,8 @@ class Trigger:
                 out_name = f"On entering: {self.session.name}"
             case TriggerType.POPULATION:
                 out_name = f"{self.amount} {self.population if self.amount != 1 else self.population[:-1]}"
-                if len(list(find_populations(self.population))) > 1:
+                if len([population for population in _a1800_populations
+                        if population.name == self.population and self.region in population.region]) > 1:
                     out_name += f" ({self.region})"
         return out_name
 

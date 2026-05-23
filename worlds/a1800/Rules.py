@@ -2,7 +2,7 @@ from typing import Iterable, Optional, TYPE_CHECKING
 
 from rule_builder.rules import And, HasAll, Or, Rule, True_
 
-from .data import A1800Requirement, ALL_REGIONS, ANNO_DATA, Trigger, TriggerType
+from .data import A1800Requirement, ALL_REGIONS, A1800_DATA, Trigger, TriggerType
 from .Locations import LOCATIONS
 
 if TYPE_CHECKING:
@@ -19,7 +19,7 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
             case TriggerType.ANY:
                 return Or(*[rule for trigger in data.triggers for rule in [_create_rule(trigger)] if rule is not None])
             case TriggerType.SESSION_ENTER:
-                return _create_rule(ANNO_DATA.find_session(data.session).requirements)
+                return _create_rule(A1800_DATA.find_session(data.session).requirements)
             case TriggerType.POPULATION:
                 return _create_rule({A1800Requirement(data.population, data.region)})
     else:
@@ -36,7 +36,7 @@ def _create_and_set_rule(world: "A1800World", location_name: str, data: Iterable
 
 
 def set_rules(world: "A1800World") -> None:
-    for region in ANNO_DATA.get_regions():
+    for region in A1800_DATA.get_regions():
         if region.region.full_name != world.origin_region_name:
             world.set_rule(
                 world.get_entrance(f"{world.origin_region_name} => {region.region.full_name}"),
@@ -50,7 +50,7 @@ def set_rules(world: "A1800World") -> None:
 
     for data in LOCATIONS.get_event_location_data_list():
         requirements = next(
-            (requirement for name, requirement in ANNO_DATA.get_location_requirements() if name == data.name), None)
+            (requirement for name, requirement in A1800_DATA.get_location_requirements() if name == data.name), None)
         if requirements:
             _create_and_set_rule(world, data.name, requirements)
 

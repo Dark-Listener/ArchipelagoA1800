@@ -3,7 +3,7 @@ from typing import Optional
 
 from BaseClasses import Location, Region as APRegion
 
-from .data import ANNO_DATA, Region, START_REGION, Trigger, TriggerType
+from .data import A1800_DATA, Region, START_REGION, Trigger, TriggerType
 
 
 @dataclass
@@ -30,7 +30,7 @@ class _Locations:
     _event_location_data_list: list[A1800LocationData] = []
     _location_data_list: list[A1800LocationData] = []
 
-    def process_locations(self):
+    def init(self):
         self._unlock_location_data_list = [
             A1800LocationData(
                 location.ap_location_name,
@@ -38,11 +38,11 @@ class _Locations:
                 location.trigger,
                 location.ap_code,
                 False
-            ) for location in ANNO_DATA.get_unlock_locations()
+            ) for location in A1800_DATA.get_unlock_locations()
             if location.trigger.trigger_type != TriggerType.TRUE
             and (location.trigger.trigger_type != TriggerType.SESSION_ENTER
                  or location.trigger.session.region != START_REGION
-                 or ANNO_DATA.find_session(location.trigger.session).requirements)
+                 or A1800_DATA.find_session(location.trigger.session).requirements)
         ]
 
         self._event_location_data_list = [
@@ -50,7 +50,7 @@ class _Locations:
                 location.ap_location_name,
                 START_REGION if location.output == "Settling" else location.region,
                 is_event=True
-            ) for location in ANNO_DATA.get_event_locations() if location.is_progressive
+            ) for location in A1800_DATA.get_event_locations() if location.is_progressive
         ]
 
         self._location_data_list = [

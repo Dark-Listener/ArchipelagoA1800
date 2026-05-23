@@ -3,6 +3,21 @@ from enum import auto, Enum, Flag, IntEnum, KEEP
 
 class DLC(Enum):
     VANILLA = auto()
+    SUNKEN_TREASURES = auto()
+#    BOTANICA = auto()
+#    THE_PASSAGE = auto()
+#    SEAT_OF_POWER = auto()
+#    BRIGHT_HARVEST = auto()
+#    LAND_OF_LIONS = auto()
+#    DOCKLANDS = auto()
+#    TOURIST_SEASON = auto()
+#    THE_HIGH_LIFE = auto()
+#    SEEDS_OF_CHANGE = auto()
+#    EMPIRE_OF_THE_SKIES = auto()
+#    NEW_WORLD_RISING = auto()
+
+
+ALL_DLC = list(DLC.__members__.values())
 
 
 class ProductType(Enum):

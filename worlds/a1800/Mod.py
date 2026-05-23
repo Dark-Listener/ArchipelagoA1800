@@ -10,7 +10,7 @@ import jinja2
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .data import ANNO_DATA, Trigger, TriggerType
+from .data import A1800_DATA, Trigger, TriggerType
 from .Items import A1800Item
 from .Locations import A1800Location
 
@@ -111,7 +111,7 @@ def generate_mod(world: "A1800World", output_directory: str):
                           for _, (_, locations) in trigger_to_location_data.items()
                           for location_guid, location, _ in locations}
 
-    item_id_to_guids = {unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in ANNO_DATA.get_unlocks()} | {
+    item_id_to_guids = {unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in A1800_DATA.get_unlocks()} | {
         location.item.code: (unlock_guids, location_guid) for _, (_, locations) in trigger_to_location_data.items()
         for location_guid, location, unlock_guids in locations
         if location.item and isinstance(location.item, A1800Item) and location.item.code
@@ -125,7 +125,7 @@ def generate_mod(world: "A1800World", output_directory: str):
                                for guid in item.data.unlock_guids]))
 
     template_data: dict[str, Any] = {
-        "lock_guid_list": sorted(set([guid for unlock in ANNO_DATA.get_unlocks() for guid in unlock.lock_guids])),
+        "lock_guid_list": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),
         "trigger_to_location_data": trigger_to_location_data,
         "trigger_type": TriggerType,
         "location_guid_data": location_guid_data,
@@ -136,7 +136,7 @@ def generate_mod(world: "A1800World", output_directory: str):
             starting_guids[0] if starting_guids else 0, None, starting_guids[1:] if len(starting_guids) > 1 else []
         )],
         "victory_trigger_guid": victory_trigger_guid,
-        "victory_trigger": ANNO_DATA.get_victory_trigger(),
+        "victory_trigger": A1800_DATA.get_victory_trigger(),
         "victory_trigger_data": [(victory_guid, None, [])],
         "mod_name": versioned_mod_name,
         "ap_version": __version__,

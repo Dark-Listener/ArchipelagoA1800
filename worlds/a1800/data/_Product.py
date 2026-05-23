@@ -15,6 +15,9 @@ class A1800Product:
 
 
 _a1800_products: list[A1800Product] = [
+    ####################################################################################################################
+    # VANILLA                                                                                                          #
+    ####################################################################################################################
     A1800Product("Sea Travel", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Settling", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.VANILLA, Region.OW, 0, ProductType.META),
@@ -142,30 +145,41 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Boxing Arena", DLC.VANILLA, Region.NW, 1010349, ProductType.SERVICE),
 ]
 
-
-def get_products() -> Sequence[A1800Product]:
-    global _a1800_products
-    return _a1800_products
-
-
-def find_products(name: str, region: Region = NO_REGION) -> Iterator[A1800Product]:
-    global _a1800_products
-    return (product for product in _a1800_products if product.name == name and region in product.region)
-
-
 _a1800_populations = [product for product in _a1800_products if product.type == ProductType.WORKFORCE]
 
 # Assure populations only have a single region flag
-for population in _a1800_populations:
-    assert population.region in Region.__members__.values(), f"Population {population.name} has multiple regions: "\
-        f"{population.region}"
+for population in _a1800_products:
+    if population.type == ProductType.WORKFORCE:
+        assert population.region in Region.__members__.values(), \
+            f"Population {population.name} has multiple regions: {population.region}"
 
 
-def get_populations() -> Sequence[A1800Product]:
-    global _a1800_populations
-    return _a1800_populations
+class _Products:
+    _initialized: bool = False
+
+    def init(self, enabled_dlcs: set[DLC]) -> None:
+        global _a1800_products, _a1800_populations
+
+        self._a1800_products = [product for product in _a1800_products if product.dlc in enabled_dlcs]
+        self._a1800_populations = [population for population in _a1800_populations if population.dlc in enabled_dlcs]
+
+        self._initialized = True
+
+    def get_products(self) -> Sequence[A1800Product]:
+        assert self._initialized, "The Anno 1800 products module was used before it was initialized."
+        return self._a1800_products
+
+    def find_products(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Product]:
+        assert self._initialized, "The Anno 1800 products module was used before it was initialized."
+        return (product for product in self._a1800_products if product.name == name and region in product.region)
+
+    def get_populations(self) -> Sequence[A1800Product]:
+        assert self._initialized, "The Anno 1800 products module was used before it was initialized."
+        return self._a1800_populations
+
+    def find_populations(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Product]:
+        assert self._initialized, "The Anno 1800 products module was used before it was initialized."
+        return (population for population in self._a1800_populations if population.name == name and region in population.region)
 
 
-def find_populations(name: str, region: Region = NO_REGION) -> Iterator[A1800Product]:
-    global _a1800_populations
-    return (population for population in _a1800_populations if population.name == name and region in population.region)
+PRODUCTS = _Products()

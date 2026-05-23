@@ -1,11 +1,10 @@
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, START_REGION, UnlockType
-from ._EventItem import A1800EventItem, find_event_items, get_event_items
-from ._EventLocation import _a1800_event_locations  # pyright: ignore[reportPrivateUsage]
-from ._EventLocation import A1800EventLocation, find_event_locations, get_event_locations
-from ._Region import find_region
+from ._EventItem import A1800EventItem, EVENT_ITEMS
+from ._EventLocation import A1800EventLocation, EVENT_LOCATIONS
+from ._Region import REGIONS
 from ._Requirement import A1800Requirement
 from ._Trigger import ALL, POPULATION, Trigger, TRUE
-from ._Unlock import A1800Unlock, find_unlocks, get_unlocks
+from ._Unlock import A1800Unlock, UNLOCKS
 
 
 def _get_victory_condition_name_and_requirements(
@@ -27,7 +26,7 @@ def _get_victory_condition_name_and_requirements(
         victory_triggers.append(POPULATION(region, population, amount))
 
         residence = next(
-            unlock for unlock in get_unlocks()
+            unlock for unlock in UNLOCKS.get_unlocks()
             if UnlockType.RESIDENCE in unlock.type and region in unlock.region and population in unlock.output)
 
         if supplied:
@@ -49,9 +48,15 @@ def _get_victory_condition_name_and_requirements(
 
 
 class _Logic:
+    _initialized: bool = False
     _a1800_required_items: set[A1800Requirement] = set()
     _a1800_location_requirements: list[tuple[str, frozenset[A1800Requirement]]] = []
     _victory_trigger: Trigger = TRUE
+
+    def init(self, population_requirements: list[tuple[str, Region, int, bool, bool, bool]]) -> None:
+        self._population_requirements = population_requirements
+
+        self._initialized = True
 
     def _generate_requirements_and_rules(
         self,
@@ -60,23 +65,24 @@ class _Logic:
         checked_regions: Region,
         location_requirements: list[tuple[str, frozenset[A1800Requirement]]]
     ) -> tuple[set[A1800Requirement], list[tuple[str, frozenset[A1800Requirement]]]]:
+        assert self._initialized, "The Anno 1800 logic module was used before it was initialized."
         while to_check:
             requirement = to_check.pop()
             checked.add(requirement)
 
             new_requirements: set[A1800Requirement] = set()
             if requirement.type == RequirementType.PRODUCT:
-                event_item = next(find_event_items(requirement.name, requirement.region), None)
+                event_item = next(EVENT_ITEMS.find_event_items(requirement.name, requirement.region), None)
                 if event_item:
                     for event_location_name in event_item.locations:
-                        for event_location in find_event_locations(event_location_name, event_item.name, event_item.region):
+                        for event_location in EVENT_LOCATIONS.find_event_locations(event_location_name, event_item.name, event_item.region):
                             new_requirements.add(A1800Requirement(event_location.name,
                                                                   event_location.region, RequirementType.UNLOCK))
                 else:
                     raise ValueError(f"Requirement name {requirement.name} doesn't match any product.")
 
             elif requirement.type == RequirementType.UNLOCK:
-                unlock = next(find_unlocks(requirement.name, requirement.region), None)
+                unlock = next(UNLOCKS.find_unlocks(requirement.name, requirement.region), None)
                 if unlock:
                     new_requirements.add(A1800Requirement(unlock.name, unlock.region, RequirementType.UNLOCK))
 
@@ -89,7 +95,7 @@ class _Logic:
                             name, str) else A1800Requirement(name[0], name[1]) for name in unlock.input}
 
                     if UnlockType.UPGRADE in unlock.type:
-                        previous_unlock = next(find_unlocks(unlock.previous_building, unlock.region))
+                        previous_unlock = next(UNLOCKS.find_unlocks(unlock.previous_building, unlock.region))
                         new_requirements.add(A1800Requirement(previous_unlock.name,
                                                               previous_unlock.region, RequirementType.UNLOCK))
 
@@ -99,14 +105,14 @@ class _Logic:
                             new_requirements |= {A1800Requirement(name, previous_unlock.region)
                                                  for name in previous_unlock.consumption}
 
-                    for event_location in find_event_locations(unlock.name, region=unlock.region):
+                    for event_location in EVENT_LOCATIONS.find_event_locations(unlock.name, region=unlock.region):
                         location_requirements.append((event_location.ap_location_name, frozenset(new_requirements)))
 
                     # Traverse region requirements, but don't add them to location rule
                     if unlock.region ^ checked_regions != NO_REGION:
                         for region in [region for region in Region.__members__.values()
                                        if region in unlock.region & (unlock.region ^ checked_regions)]:
-                            anno_region = find_region(region)
+                            anno_region = REGIONS.find_region(region)
                             if anno_region:
                                 new_requirements |= anno_region.requirements
                             checked_regions |= region
@@ -130,18 +136,17 @@ class _Logic:
             requirement for requirement in self._a1800_required_items if requirement.type == requirement_type
             and requirement.name == obj.name and requirement.region in obj.region), None))
 
-    def generate_logic(self, population_requirements: list[tuple[str, Region, int, bool, bool, bool]]) -> None:
-        global _a1800_event_locations
-
+    def generate_logic(self) -> None:
+        assert self._initialized, "The Anno 1800 logic module was used before it was initialized."
         victory_event_location_name, initial_required_items, self._victory_trigger = _get_victory_condition_name_and_requirements(
-            population_requirements)
+            self._population_requirements)
         self._victory_trigger.ap_location_name = "Victory Condition"
 
         victory_event_location = A1800EventLocation(
             victory_event_location_name, DLC.VANILLA, Region.OW, "Victory", is_progressive=True)
-        _a1800_event_locations.append(victory_event_location)
+        EVENT_LOCATIONS._a1800_event_locations.append(victory_event_location)  # pyright: ignore[reportPrivateUsage]
 
-        for event_item in get_event_items():
+        for event_item in EVENT_ITEMS.get_event_items():
             if event_item.name == "Victory":
                 event_item.locations = {victory_event_location.name}
 
@@ -152,7 +157,7 @@ class _Logic:
         self._a1800_required_items, self._a1800_location_requirements = self._generate_requirements_and_rules(
             initial_required_items, initial_checked_items, START_REGION, initial_location_requirements)
 
-        for obj in list(get_unlocks()) + list(get_event_items()) + list(get_event_locations()):
+        for obj in list(UNLOCKS.get_unlocks()) + list(EVENT_ITEMS.get_event_items()) + list(EVENT_LOCATIONS.get_event_locations()):
             if self._is_progressive(obj):
                 obj.is_progressive = True
 

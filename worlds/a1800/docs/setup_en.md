@@ -60,6 +60,9 @@ resulting folder structure should look like `mods\AP-%1-P%2-%3-%4\modinfo.json`.
 If this worked, then Anno 1800 should display a gear next to the main menu point `Mod Browser`. If you hover over it,
 it should display `[Gameplay] AP-%1-P%2-%3-%4` (might be cut off due to length).
 
+There should only ever be one Anno 1800 Archipelago mod installed at a time - otherwise, the Archipelago Client will
+connect to the first one it finds while the game will try to load all of them.
+
 ### Installing Additional Mods
 
 You can install additional mods by adding them to the same folder or via the Mod Browser / mod.io. Note that there may
@@ -79,6 +82,8 @@ not really matter, but here are a few recommendations:
 - Turn off pirates - you are not guarantueed to get luxury goods and money might be tight
 - Start without ships - ships allow you to circumvent early game logic due to having sea travel capability
 - You shouldn't buy goods at NPC shops, as this also circumvent logic
+- You probably don't want to set any victory conditions in Anno itself - or at least continue playing afterwards if your
+Archipelago victory has not been achieved yet
 
 Be careful not to load into vanilla savegames or those from other modding setups as this mod will likely trigger some
 irreversible unlocks. Once loaded into the savegame, the client should print that it is connected to the game within a

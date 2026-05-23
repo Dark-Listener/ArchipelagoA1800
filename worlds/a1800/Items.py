@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional
 
 from BaseClasses import Item, ItemClassification as IC
 
-from .data import ANNO_DATA, A1800EventItem, A1800Unlock, START_REGION, TriggerType
+from .data import A1800_DATA, A1800EventItem, A1800Unlock, START_REGION, TriggerType
 
 if TYPE_CHECKING:
     from . import A1800World
@@ -37,7 +37,7 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
             and (obj.trigger.trigger_type == TriggerType.TRUE
                  or (obj.trigger.trigger_type == TriggerType.SESSION_ENTER
                      and obj.trigger.session.region == START_REGION
-                     and not ANNO_DATA.find_session(obj.trigger.session).requirements))
+                     and not A1800_DATA.find_session(obj.trigger.session).requirements))
         return A1800ItemData(
             obj.ap_item_name,
             IC.progression if obj.is_progressive else IC.filler,
@@ -57,7 +57,7 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
             is_starting_item=is_starting_item,
             is_event=True,
             event_locations=[event_location.ap_location_name for event_location_name in obj.locations for event_location
-                             in ANNO_DATA.find_event_locations(event_location_name, obj.name, obj.region)]
+                             in A1800_DATA.find_event_locations(event_location_name, obj.name, obj.region)]
         )
     else:
         return None
@@ -67,7 +67,7 @@ def create_item(world: "A1800World", item: str | A1800ItemData) -> Item:
     if isinstance(item, A1800ItemData):
         data = item
     else:
-        ap_item = ANNO_DATA.find_ap_item(item)
+        ap_item = A1800_DATA.find_ap_item(item)
         assert ap_item, f"Couldn't find item for string {item}"
         data = _to_item_data(ap_item)
         assert data, f"Couldn't create item data for item {ap_item}"
@@ -80,14 +80,14 @@ class _Items:
     _event_item_data_list: list[A1800ItemData] = []
     _item_data_list: list[A1800ItemData] = []
 
-    def process_items(self) -> None:
-        all_unlock_item_data = [item_data for item in ANNO_DATA.get_unlocks()
+    def init(self) -> None:
+        all_unlock_item_data = [item_data for item in A1800_DATA.get_unlocks()
                                 for item_data in [_to_item_data(item)] if item_data]
         self._unlock_item_data_list = [
             item_data for item_data in all_unlock_item_data if not item_data.is_starting_item]
         self._start_item_data_list += [item_data for item_data in all_unlock_item_data if item_data.is_starting_item]
 
-        self._event_item_data_list = [item_data for item in ANNO_DATA.get_event_items()
+        self._event_item_data_list = [item_data for item in A1800_DATA.get_event_items()
                                       for item_data in [_to_item_data(item)] if item_data]
         self._start_item_data_list += [item_data for item_data in self._event_item_data_list if item_data.is_starting_item]
 

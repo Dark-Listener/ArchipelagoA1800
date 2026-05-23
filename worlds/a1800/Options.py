@@ -1,10 +1,29 @@
 from dataclasses import dataclass
 from itertools import groupby
 from worlds.AutoWorld import PerGameCommonOptions
-from Options import OptionCounter, OptionGroup
-from .data import ANNO_DATA
+from Options import OptionCounter, OptionGroup, OptionSet
+from .data._Product import _a1800_populations  # pyright: ignore[reportPrivateUsage]
+from .data import DLC
 
-_grouped_required_population = groupby(sorted(ANNO_DATA.get_populations(), key=lambda population: (
+
+_default_enabled_dlcs = [dlc.name for dlc in sorted(
+    (dlc for dlc in DLC.__members__.values() if dlc != DLC.VANILLA), key=lambda dlc: dlc.value)]
+
+
+class EnabledDLCs(OptionSet):
+    """
+    List of enabled DLCs. Per default, all implemented DLCs are enabled.
+    It's recommended to match this list when creating the game.
+    Duplicates will be ignored.
+    Some DLCs (currently) have no effect on the randomizer: SUNKEN_TREASURES
+    """
+
+    valid_keys = _default_enabled_dlcs
+
+    default = _default_enabled_dlcs
+
+
+_grouped_required_population = groupby(sorted(_a1800_populations, key=lambda population: (
     population.region.value, -population.guid)), key=lambda population: population.region)
 _default_required_population_amount = {
     f"{region_idx}-{region.full_name.replace(' ', '_').lower()}"
@@ -30,13 +49,17 @@ class RequiredPopulationAmount(OptionCounter):
 
 @dataclass
 class A1800Options(PerGameCommonOptions):
+    # Game Settings
+    enabled_dlcs: EnabledDLCs
     # Victory Conditions
     required_population_amount: RequiredPopulationAmount
 
 
 a1800_option_groups: list[OptionGroup] = [
+    OptionGroup("Game Settings", [
+        EnabledDLCs,
+    ]),
     OptionGroup("Victory Conditions", [
         RequiredPopulationAmount,
-        RequiredPopulationAmount
     ]),
 ]

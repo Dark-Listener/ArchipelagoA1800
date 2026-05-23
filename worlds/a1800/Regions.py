@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Region
 
-from .data import A1800Region, ANNO_DATA, START_REGION
+from .data import A1800Region, A1800_DATA, START_REGION
 from .Locations import A1800Location, LOCATIONS
 
 if TYPE_CHECKING:
@@ -10,10 +10,10 @@ if TYPE_CHECKING:
 
 
 def create_regions(world: "A1800World") -> None:
-    for region in ANNO_DATA.get_regions():
+    for region in A1800_DATA.get_regions():
         _create_region(world, region)
 
-    for region in ANNO_DATA.get_regions():
+    for region in A1800_DATA.get_regions():
         if region.region.full_name != world.origin_region_name:
             world.create_entrance(
                 world.get_region(world.origin_region_name),

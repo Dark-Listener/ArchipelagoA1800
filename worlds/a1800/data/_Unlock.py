@@ -2,9 +2,9 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import ClassVar, Iterator, Optional
 
-from ._Chain import find_chains, get_chains
+from ._Chain import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerType, UnlockType
-from ._Product import find_populations, find_products
+from ._Product import PRODUCTS
 from ._Trigger import ANY, POPULATION, SESSION_ENTER, Trigger, TRUE
 
 
@@ -51,6 +51,7 @@ class A1800Unlock:
 
         self.ap_location_name = self.trigger.get_ap_location_name(self.ap_item_name)
 
+    def init(self) -> None:
         self.unlock_guids = self.guids
 
         if self.type == UnlockType.UNLOCK:
@@ -59,20 +60,20 @@ class A1800Unlock:
 
                 if self.unlock_chain:
                     if isinstance(self.unlock_chain, str):
-                        for chain in find_chains(self.unlock_chain, self.name, self.region):
+                        for chain in CHAINS.find_chains(self.unlock_chain, self.name, self.region):
                             self.unlock_guids.add(chain.guid)
                     else:
                         for chain, region in self.unlock_chain:
-                            self.unlock_guids.add(next(find_chains(chain, self.name, self.region, region)).guid)
+                            self.unlock_guids.add(next(CHAINS.find_chains(chain, self.name, self.region, region)).guid)
 
             if self.input or self.output:
                 self.type |= UnlockType.FACTORY
 
                 for output in self.output:
                     if isinstance(output, str):
-                        output_guid = next(find_products(output, self.region)).guid
+                        output_guid = next(PRODUCTS.find_products(output, self.region)).guid
                     else:
-                        output_guid = next(find_products(output[0], output[1])).guid
+                        output_guid = next(PRODUCTS.find_products(output[0], output[1])).guid
                     if output_guid:
                         self.unlock_guids.add(output_guid)
 
@@ -84,6 +85,9 @@ class A1800Unlock:
 
 
 _a1800_unlocks: list[A1800Unlock] = [
+    ####################################################################################################################
+    # VANILLA                                                                                                          #
+    ####################################################################################################################
     # Meta
     A1800Unlock("Oil Transport OW => NW", DLC.VANILLA, ALL_REGIONS, set(), set(),
                 TRUE, input={("Oil", Region.OW), "Oil Transport"}, output={("Oil", Region.NW)}),
@@ -840,122 +844,143 @@ _a1800_unlocks: list[A1800Unlock] = [
 ]
 
 
-def get_unlocks() -> Sequence[A1800Unlock]:
-    global _a1800_unlocks
-    return _a1800_unlocks
+class _Unlocks:
+    _initialized: bool = False
+
+    def init(self, enabled_dlcs: set[DLC]) -> None:
+        global _a1800_unlocks
+
+        self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if unlock.dlc in enabled_dlcs]
+        for a1800_unlock in self._a1800_unlocks:
+            a1800_unlock.init()
+
+        self._a1800_unlock_locations = sorted(
+            self._a1800_unlocks, key=lambda location: location.trigger.get_sort_key())
+
+        self._initialized = True
+
+        self._verify_data()
+
+    def _verify_data(self) -> None:
+        # Assure all references exist
+        removed_anything: bool = False
+        for unlock in _a1800_unlocks:
+            assert unlock.region, f"Unlock {unlock.name} has no region"
+
+            if unlock.trigger.trigger_type == TriggerType.POPULATION:
+                assert next(PRODUCTS.find_populations(unlock.trigger.population, unlock.trigger.region), None), \
+                    f"Unlock {unlock.name} trigger references non-existent population {unlock.trigger.population}, " \
+                    f"{unlock.trigger.region}"
+
+            for cost in unlock.cost:
+                assert next(PRODUCTS.find_products(cost, unlock.region), None), \
+                    f"Unlock {unlock.name} references non-existent cost {cost}, "
+
+            for maintenance in unlock.maintenance:
+                assert next(PRODUCTS.find_products(maintenance, unlock.region), None), \
+                    f"Unlock {unlock.name} references non-existent maintenance {maintenance}, "
+
+            for input in unlock.input:
+                if isinstance(input, str):
+                    assert next(PRODUCTS.find_products(input, unlock.region), None), \
+                        f"Unlock {unlock.name} references non-existent input {input}, "
+                else:
+                    assert next(PRODUCTS.find_products(input[0], input[1]), None), \
+                        f"Unlock {unlock.name} references non-existent input {input}, "
+
+            for output in unlock.output:
+                if isinstance(output, str):
+                    assert next(PRODUCTS.find_products(output, unlock.region), None), \
+                        f"Unlock {unlock.name} references non-existent output {output}, "
+                else:
+                    assert next(PRODUCTS.find_products(output[0], output[1]), None), \
+                        f"Unlock {unlock.name} references non-existent output {output}, "
+
+            if unlock.unlock_chain:
+                if isinstance(unlock.unlock_chain, str):
+                    assert next(CHAINS.find_chains(unlock.unlock_chain, unlock.name, unlock.region), None), \
+                        f"Unlock {unlock.name} references non-existent chain {unlock.unlock_chain}, "
+                else:
+                    for chain, region in unlock.unlock_chain:
+                        assert next(CHAINS.find_chains(chain, unlock.name, unlock.region, region), None), \
+                            f"Unlock {unlock.name} references non-existent chain {chain}, "
+
+            if unlock.previous_building:
+                assert next(self.find_unlocks(unlock.previous_building, unlock.region), None), \
+                    f"Unlock {unlock.name} references non-existent previous building {unlock.previous_building}, "
+
+            for consumption in unlock.consumption:
+                assert next(PRODUCTS.find_products(consumption, unlock.region), None), \
+                    f"Unlock {unlock.name} references non-existent consumption {consumption}, "
+
+            for luxury in unlock.luxury:
+                assert next(PRODUCTS.find_products(luxury, unlock.region), None), \
+                    f"Unlock {unlock.name} references non-existent luxury {luxury}, "
+
+        #    for lifestyle in unlock.lifestyle:
+        #        assert next(PRODUCTS.find_products(lifestyle, unlock.region), None), \
+        #            f"Unlock {unlock.name} references non-existent lifestyle {lifestyle}, "
+
+        #   missing_consumptions: set[str] = set()
+        #   for consumption in unlock.consumption:
+        #       if not next(PRODUCTS.find_products(consumption, unlock.region), None):
+        #           missing_consumptions.add(consumption)
+        #   if missing_consumptions:
+        #       print(f"Warning for {unlock.name}: removing unknown needs: {missing_consumptions}")
+        #       unlock.consumption -= missing_consumptions
+        #       removed_anything = True
+
+        #    missing_luxuries: set[str] = set()
+        #    for luxury in unlock.luxury:
+        #        if not next(PRODUCTS.find_products(luxury, unlock.region), None):
+        #            missing_luxuries.add(luxury)
+        #    if missing_luxuries:
+        #        print(f"Warning for {unlock.name}: removing unknown luxury needs: {missing_luxuries}")
+        #        unlock.consumption -= missing_luxuries
+        #        removed_anything = True
+
+            missing_lifestyles: set[str] = set()
+            for lifestyle in unlock.lifestyle:
+                if not next(PRODUCTS.find_products(lifestyle, unlock.region), None):
+                    missing_lifestyles.add(lifestyle)
+            if missing_lifestyles:
+                print(f"Warning for {unlock.name}: removing unknown lifestyle needs: {missing_lifestyles}")
+                unlock.lifestyle -= missing_lifestyles
+                removed_anything = True
+
+        if removed_anything:
+            print("Warnings about removal of lifestyle goods are due to missing DLC implemenations and can be safely ignored!")
+
+        # Assure all chain references exist
+        for chain in CHAINS.get_chains():
+            assert chain.region, f"Chain {chain.name} has no region"
+
+            for name, region in chain.elements:
+                assert next(self.find_unlocks(name, region), None), f"Chain {chain.name} references non-existent unlock {name}, " \
+                    f"{region}"
+
+        # Assure all trigger references exist
+        for unlock in self.get_unlocks():
+            if unlock.trigger.trigger_type == TriggerType.POPULATION:
+                population = next(PRODUCTS.find_populations(unlock.trigger.population, unlock.trigger.region), None)
+                assert population, f"Population {unlock.trigger.population} referenced in {unlock.name} was filtered "\
+                    "during init and no longer is available!"
+
+    def get_unlocks(self) -> Sequence[A1800Unlock]:
+        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
+        return self._a1800_unlocks
+
+    def find_unlocks(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Unlock]:
+        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
+        return (unlock for unlock in self._a1800_unlocks if unlock.name == name and region in unlock.region)
+
+    def find_ap_item(self, ap_name: str) -> Optional[A1800Unlock]:
+        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
+        return next((unlock for unlock in self._a1800_unlocks if unlock.ap_item_name == ap_name), None)
+
+    def get_unlock_locations(self) -> Sequence[A1800Unlock]:
+        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
+        return self._a1800_unlock_locations
 
 
-def find_unlocks(name: str, region: Region = NO_REGION) -> Iterator[A1800Unlock]:
-    global _a1800_unlocks
-    return (unlock for unlock in _a1800_unlocks if unlock.name == name and region in unlock.region)
-
-
-def find_ap_item(ap_name: str) -> Optional[A1800Unlock]:
-    global _a1800_unlocks
-    return next((unlock for unlock in _a1800_unlocks if unlock.ap_item_name == ap_name), None)
-
-
-# Assure all references exist
-removed_anything: bool = False
-for unlock in _a1800_unlocks:
-    assert unlock.region, f"Unlock {unlock.name} has no region"
-
-    if unlock.trigger.trigger_type == TriggerType.POPULATION:
-        assert next(find_populations(unlock.trigger.population, unlock.trigger.region), None), \
-            f"Unlock {unlock.name} trigger references non-existent population {unlock.trigger.population}, " \
-            f"{unlock.trigger.region}"
-
-    for cost in unlock.cost:
-        assert next(find_products(cost, unlock.region), None), \
-            f"Unlock {unlock.name} references non-existent cost {cost}, "
-
-    for maintenance in unlock.maintenance:
-        assert next(find_products(maintenance, unlock.region), None), \
-            f"Unlock {unlock.name} references non-existent maintenance {maintenance}, "
-
-    for input in unlock.input:
-        if isinstance(input, str):
-            assert next(find_products(input, unlock.region), None), \
-                f"Unlock {unlock.name} references non-existent input {input}, "
-        else:
-            assert next(find_products(input[0], input[1]), None), \
-                f"Unlock {unlock.name} references non-existent input {input}, "
-
-    for output in unlock.output:
-        if isinstance(output, str):
-            assert next(find_products(output, unlock.region), None), \
-                f"Unlock {unlock.name} references non-existent output {output}, "
-        else:
-            assert next(find_products(output[0], output[1]), None), \
-                f"Unlock {unlock.name} references non-existent output {output}, "
-
-    if unlock.unlock_chain:
-        if isinstance(unlock.unlock_chain, str):
-            assert next(find_chains(unlock.unlock_chain, unlock.name, unlock.region), None), \
-                f"Unlock {unlock.name} references non-existent chain {unlock.unlock_chain}, "
-        else:
-            for chain, region in unlock.unlock_chain:
-                assert next(find_chains(chain, unlock.name, unlock.region, region), None), \
-                    f"Unlock {unlock.name} references non-existent chain {chain}, "
-
-    if unlock.previous_building:
-        assert next(find_unlocks(unlock.previous_building, unlock.region), None), \
-            f"Unlock {unlock.name} references non-existent previous building {unlock.previous_building}, "
-
-    for consumption in unlock.consumption:
-        assert next(find_products(consumption, unlock.region), None), \
-            f"Unlock {unlock.name} references non-existent consumption {consumption}, "
-
-    for luxury in unlock.luxury:
-        assert next(find_products(luxury, unlock.region), None), \
-            f"Unlock {unlock.name} references non-existent luxury {luxury}, "
-
-#    for lifestyle in unlock.lifestyle:
-#        assert next(find_products(lifestyle, unlock.region), None), \
-#            f"Unlock {unlock.name} references non-existent lifestyle {lifestyle}, "
-
-#   missing_consumptions: set[str] = set()
-#   for consumption in unlock.consumption:
-#       if not next(find_products(consumption, unlock.region), None):
-#           missing_consumptions.add(consumption)
-#   if missing_consumptions:
-#       print(f"Warning for {unlock.name}: removing unknown needs: {missing_consumptions}")
-#       unlock.consumption -= missing_consumptions
-#       removed_anything = True
-
-#    missing_luxuries: set[str] = set()
-#    for luxury in unlock.luxury:
-#        if not next(find_products(luxury, unlock.region), None):
-#            missing_luxuries.add(luxury)
-#    if missing_luxuries:
-#        print(f"Warning for {unlock.name}: removing unknown luxury needs: {missing_luxuries}")
-#        unlock.consumption -= missing_luxuries
-#        removed_anything = True
-
-    missing_lifestyles: set[str] = set()
-    for lifestyle in unlock.lifestyle:
-        if not next(find_products(lifestyle, unlock.region), None):
-            missing_lifestyles.add(lifestyle)
-    if missing_lifestyles:
-        print(f"Warning for {unlock.name}: removing unknown lifestyle needs: {missing_lifestyles}")
-        unlock.lifestyle -= missing_lifestyles
-        removed_anything = True
-
-if removed_anything:
-    print("Warnings about removal of lifestyle goods are due to missing DLC implemenations and can be safely ignored!")
-
-# Assure all chain references exist
-for chain in get_chains():
-    assert chain.region, f"Chain {chain.name} has no region"
-
-    for name, region in chain.elements:
-        assert next(find_unlocks(name, region), None), f"Chain {chain.name} references non-existent unlock {name}, " \
-            f"{region}"
-
-
-_a1800_unlock_locations = sorted(_a1800_unlocks, key=lambda location: location.trigger.get_sort_key())
-
-
-def get_unlock_locations() -> Sequence[A1800Unlock]:
-    global _a1800_unlock_locations
-    return _a1800_unlock_locations
+UNLOCKS = _Unlocks()

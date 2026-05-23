@@ -621,7 +621,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Corn Farm", DLC.VANILLA, Region.NW, {101270}, {130101},
                 POPULATION(Region.NW, "Obreros", 1), {"Timber"}, {"Jornaleros"}, set(), {"Corn"}, "Tortillas"),
 
-    A1800Unlock("Tortilla Maker", DLC.VANILLA, Region.NW, {101268}, {130101},
+    A1800Unlock("Tortilla Maker", DLC.VANILLA, Region.NW, {101271}, {130101},
                 POPULATION(Region.NW, "Obreros", 1),
                 {"Timber", "Bricks"}, {"Obreros"}, {"Beef", "Corn"}, {"Tortillas"}, "Tortillas"),
 

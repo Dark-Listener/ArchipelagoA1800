@@ -86,11 +86,14 @@ class _A1800Data:
     def get_unlock_locations(self) -> Sequence[A1800Unlock]:
         return UNLOCKS.get_unlock_locations()
 
+    def get_victory_dlcs(self) -> DLC:
+        return LOGIC.get_victory_dlcs()
+
     def get_victory_trigger(self) -> Trigger:
         return LOGIC.get_victory_trigger()
 
     def _parse_remaining_options(self, options: "A1800Options") -> None:
-        self._population_requirements: list[tuple[str, Region, int, bool, bool, bool]] = []
+        self._population_requirements: list[tuple[A1800Product, int, bool, bool, bool]] = []
         for identifier, amount_str in options.required_population_amount.value.items():
             id_split = identifier.split("-")
             if len(id_split) != 4:
@@ -114,7 +117,7 @@ class _A1800Data:
             if not amount:
                 continue
 
-            self._population_requirements.append((population.name, population.region, amount, False, False, False))
+            self._population_requirements.append((population, amount, False, False, False))
 
 
 A1800_DATA = _A1800Data()

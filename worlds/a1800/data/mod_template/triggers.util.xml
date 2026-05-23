@@ -1,4 +1,4 @@
-{% macro generate_trigger_actions(location_data) %}
+{% macro generate_trigger_actions(has_unlocks, has_unhides, location_data) %}
 <TriggerActions>
   <Item>
     <TriggerAction>
@@ -6,8 +6,9 @@
       <Values>
         <Action/>
         <ActionUnlockAsset>
+{%        if has_unlocks %}
           <UnlockAssets>
-{%        for guid, _, unlock_guids in location_data %}
+{%        for guid, _, unlock_guids, _ in location_data %}
             <Item>
               <Asset>{{ guid }}</Asset>
             </Item>
@@ -18,7 +19,22 @@
 {%        endfor %}
 {%        endfor %}
           </UnlockAssets>
+{%        else %}
+          <UnlockAssets />
+{%        endif %}
+{%        if has_unhides %}
+          <UnhideAssets>
+{%        for _, _, _, unhide_guids in location_data %}
+{%        for unhide_guid in unhide_guids %}
+            <Item>
+              <Asset>{{ unhide_guid }}</Asset>
+            </Item>
+{%        endfor %}
+{%        endfor %}
+          </UnhideAssets>
+{%        else %}
           <UnhideAssets />
+{%        endif %}
         </ActionUnlockAsset>
       </Values>
     </TriggerAction>
@@ -77,6 +93,32 @@
     </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>
+{% elif trigger_data.trigger_type == trigger_type.UNLOCK %}
+<TriggerCondition>
+  <Template>ConditionUnlocked</Template>
+  <Values>
+    <Condition />
+    <ConditionUnlocked>
+      <UnlockNeeded>{{ trigger_data.guid }}</UnlockNeeded>
+    </ConditionUnlocked>
+    <ConditionPropsNegatable/>
+  </Values>
+</TriggerCondition>
+{% elif trigger_data.trigger_type == trigger_type.DLC %}
+<TriggerCondition>
+  <Template>ConditionIsDLCActive</Template>
+  <Values>
+    <Condition/>
+    <ConditionIsDLCActive>
+      <DLCAssetList>
+        <Item>
+          <DLCAsset>{{ trigger_data.guid }}</DLCAsset>
+        </Item>
+      </DLCAssetList>
+    </ConditionIsDLCActive>
+    <ConditionPropsNegatable/>
+  </Values>
+</TriggerCondition>
 {% endif %}
 {% endmacro %}
 
@@ -100,7 +142,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro generate_trigger_asset(trigger_type, trigger_guid, trigger_data, location_data) %}
+{% macro generate_trigger_asset(trigger_type, trigger_guid, trigger_data, has_unlocks, has_unhides, location_data) %}
 <Asset>
   <Template>Trigger</Template>
   <Values>
@@ -110,7 +152,7 @@
     </Standard>
     <Trigger>
       {{ generate_trigger_condition(trigger_type, trigger_data) | indent(6) }}
-      {{ generate_trigger_actions(location_data) | indent(6) }}
+      {{ generate_trigger_actions(has_unlocks, has_unhides, location_data) | indent(6) }}
       {{ generate_sub_triggers(trigger_type, trigger_data) | indent(6) }}
       <ResetTrigger>
         <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>

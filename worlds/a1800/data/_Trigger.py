@@ -1,7 +1,7 @@
 from functools import reduce
 from typing import Any, Callable
 
-from ._Enums import NO_REGION, Region, Session, START_REGION, TriggerType
+from ._Enums import DLC, NO_REGION, Region, Session, START_REGION, TriggerType
 from ._Products import _a1800_populations  # pyright: ignore[reportPrivateUsage]
 
 
@@ -9,46 +9,60 @@ class Trigger:
     def __init__(self, trigger_type: TriggerType, *args: Any) -> None:
         match(trigger_type):
             case TriggerType.TRUE:
-                assert len(args) == 0, f"{trigger_type} requires no arguments"
+                assert len(args) == 0, f"{trigger_type.name} requires no arguments"
                 self.region = NO_REGION
                 pass
             case TriggerType.ALL:
-                assert len(args) >= 2, f"{trigger_type} requires at least 2 arguments"
+                assert len(args) >= 2, f"{trigger_type.name} requires at least 2 arguments"
                 for arg in args:
                     assert isinstance(
-                        arg, Trigger), f"{trigger_type} requires arguments of type Trigger, got {type(arg)} instead"
+                        arg, Trigger), f"{trigger_type.name} requires arguments of type Trigger, got {type(arg)} instead"
                 self.triggers: list[Trigger] = list(args)
                 self.region = reduce(Region.__or__, [trigger.region for trigger in self.triggers])
             case TriggerType.ANY:
-                assert len(args) >= 2, f"{trigger_type} requires at least 2 arguments"
+                assert len(args) >= 2, f"{trigger_type.name} requires at least 2 arguments"
                 for arg in args:
                     assert isinstance(
-                        arg, Trigger), f"{trigger_type} requires arguments of type Trigger, got {type(arg)} instead"
+                        arg, Trigger), f"{trigger_type.name} requires arguments of type Trigger, got {type(arg)} instead"
                 self.triggers: list[Trigger] = list(args)
                 self.region = reduce(Region.__or__, [trigger.region for trigger in self.triggers])
             case TriggerType.SESSION_ENTER:
-                assert len(args) == 1, f"{trigger_type} requires at exactly 1 argument"
-                assert isinstance(args[0], Session), f"{trigger_type} requires arguments of type str, got " \
+                assert len(args) == 1, f"{trigger_type.name} requires exactly 1 argument"
+                assert isinstance(args[0], Session), f"{trigger_type.name} requires an argument of type Session, got " \
                     f"{type(args[0])} instead"
                 self.session: Session = args[0]
                 self.region = START_REGION
             case TriggerType.POPULATION:
-                assert len(args) == 3, f"{trigger_type} requires at exactly 3 arguments"
+                assert len(args) == 3, f"{trigger_type.name} requires exactly 3 arguments"
                 assert isinstance(args[0], Region) and isinstance(args[1], str) and isinstance(args[2], int), \
-                    f"{trigger_type} requires arguments of type (str, Region, int), got " \
+                    f"{trigger_type.name} requires arguments of types (str, Region, int), got " \
                     f"({type(args[0])}, {type(args[1])}, {type(args[2])}) instead"
                 self.region: Region = args[0]
                 self.population: str = args[1]
                 self.amount: int = args[2]
                 self.guid: int = next(population for population in _a1800_populations if population.name ==
                                       self.population and self.region in population.region).guid
+            case TriggerType.UNLOCK:
+                assert len(args) == 1, f"{trigger_type.name} requires exactly 1 arguments"
+                assert isinstance(args[0], int), f"{trigger_type.name} requires an argument of type int, got " \
+                    f"{type(args[0])} instead"
+                self.guid = args[0]
+                self.region = START_REGION
+            case TriggerType.DLC:
+                assert len(args) == 1, f"{trigger_type.name} requires exactly 1 arguments"
+                assert isinstance(args[0], DLC), f"{trigger_type.name} requires an argument of type DLC, got " \
+                    f"{type(args[0])} instead"
+                self.dlc = args[0]
+                self.guid = self.dlc.guid
+                self.region = START_REGION
+
         self.trigger_type: TriggerType = trigger_type
         self.ap_location_name: str = self._get_ap_location_name()
 
     def _get_ap_location_name(self) -> str:
         match(self.trigger_type):
             case TriggerType.TRUE:
-                return "True"
+                out_name = "True"
             case TriggerType.ALL:
                 out_name = f"({self.triggers[0].get_ap_location_name()})"
                 for trigger in self.triggers[1:]:
@@ -64,12 +78,16 @@ class Trigger:
                 if len([population for population in _a1800_populations
                         if population.name == self.population and self.region in population.region]) > 1:
                     out_name += f" ({self.region})"
+            case TriggerType.UNLOCK:
+                out_name = f"On unlocking: {self.guid}"
+            case TriggerType.DLC:
+                out_name = f"DLC active: {self.dlc.name}"
         return out_name
 
     def get_ap_location_name(self, name: str = "") -> str:
         return f"{self.ap_location_name}{f' ({name})' if name else ''}"
 
-    def get_sort_key(self) -> tuple[TriggerType | Session | int, ...]:
+    def get_sort_key(self) -> tuple[TriggerType | Session | int | DLC, ...]:
         match(self.trigger_type):
             case TriggerType.TRUE:
                 return self.trigger_type,
@@ -82,9 +100,13 @@ class Trigger:
                                             sorted([trigger.get_sort_key() for trigger in self.triggers])
                                             for key in sort_key]
             case TriggerType.SESSION_ENTER:
-                return self.trigger_type, self.session
+                return self.trigger_type, self.session.value
             case TriggerType.POPULATION:
                 return self.trigger_type, self.guid, self.amount
+            case TriggerType.UNLOCK:
+                return self.trigger_type, self.guid
+            case TriggerType.DLC:
+                return self.trigger_type, self.dlc.value
 
 
 TRUE: Trigger = Trigger(TriggerType.TRUE)

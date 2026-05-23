@@ -154,8 +154,12 @@ _a1800_products: list[A1800Product] = [
     ################################################################################################################
     A1800Product("Zoo", DLC.TOURIST_SEASON, Region.OW, 601485, ProductType.SERVICE),
     A1800Product("Museum", DLC.TOURIST_SEASON, Region.OW, 133535, ProductType.SERVICE),
+
     # Needs Botanica
     A1800Product("Botanical Garden", DLC.BOTANICA | DLC.TOURIST_SEASON, Region.OW, 355, ProductType.SERVICE),
+
+    # Needs Seat of Power
+    A1800Product("Palace", DLC.SEAT_OF_POWER | DLC.TOURIST_SEASON, Region.OW, 134257, ProductType.SERVICE),
 ]
 
 _a1800_populations = [product for product in _a1800_products if product.type == ProductType.WORKFORCE]

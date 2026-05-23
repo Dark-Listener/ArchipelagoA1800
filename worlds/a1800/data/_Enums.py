@@ -7,7 +7,7 @@ class DLC(Flag, boundary=KEEP):
     SUNKEN_TREASURES = auto()
     BOTANICA = auto()
 #    THE_PASSAGE = auto()
-#    SEAT_OF_POWER = auto()
+    SEAT_OF_POWER = auto()
 #    BRIGHT_HARVEST = auto()
 #    LAND_OF_LIONS = auto()
 #    DOCKLANDS = auto()
@@ -17,6 +17,27 @@ class DLC(Flag, boundary=KEEP):
 #    EMPIRE_OF_THE_SKIES = auto()
 #    NEW_WORLD_RISING = auto()
 
+    @property
+    def guid(self) -> int:
+        global _DLC_GUIDS
+        return _DLC_GUIDS[self]
+
+
+_DLC_GUIDS = {
+    DLC.VANILLA: 0,
+    DLC.SUNKEN_TREASURES: 410040,
+    DLC.BOTANICA: 410041,
+    #    DLC.THE_PASSAGE: 410042,
+    DLC.SEAT_OF_POWER: 410059,
+    #    DLC.BRIGHT_HARVEST: 410070,
+    #    DLC.LAND_OF_LIONS: 410071,
+    #    DLC.DOCKLANDS: 410083,
+    DLC.TOURIST_SEASON: 410084,
+    #    DLC.THE_HIGH_LIFE: 410085,
+    #    DLC.SEEDS_OF_CHANGE: 24961,
+    #    DLC.EMPIRE_OF_THE_SKIES: 24962,
+    #    DLC.NEW_WORLD_RISING: 24963,
+}
 
 ALL_DLC = reduce(DLC.__or__, DLC.__members__.values())
 
@@ -123,6 +144,8 @@ _SESSION_REGIONS = {
 class TriggerType(IntEnum):
     SESSION_ENTER = auto()
     POPULATION = auto()
+    UNLOCK = auto()
+    DLC = auto()
     ANY = auto()
     ALL = auto()
     TRUE = auto()

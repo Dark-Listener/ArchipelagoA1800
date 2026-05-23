@@ -17,10 +17,12 @@
   <ModOp Type="remove" Path="//ActionUnlockAsset/UnlockAssets/Item[Asset='{{ guid }}']" />
   <ModOp Type="remove" Path="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" Condition="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" />
 {% endfor %}
+  <!-- Remove palace ministry unhide at 1 investor -->
+  <ModOp Type="remove" GUID="130295" Path="/Values/Trigger/TriggerActions/Item/TriggerAction/Values//ActionUnlockAsset/UnhideAssets/Item[Asset='269602']" />
 
   <ModOp Type="addNextSibling" GUID="105568">
 {% for _, (_, location_data) in trigger_to_location_data.items() %}
-{% for guid, location, _ in location_data %}
+{% for guid, location, _, _ in location_data %}
     <Asset>
       <Template>UnlockableAsset</Template>
       <Values>
@@ -49,13 +51,16 @@
 
   <ModOp Type="addNextSibling" GUID="130248">
 {%  if start_trigger_data[0] != 0 %}
-    {{ generate_trigger_asset(trigger_type, start_trigger_guid, start_trigger, start_trigger_data) | indent(4) }}
+    {{ generate_trigger_asset(trigger_type, start_trigger_guid, start_trigger, True, False, start_trigger_data) | indent(4) }}
 {%  endif %}
 
+    <!-- Unhide palace ministry with palace unlock -->
+    {{ generate_trigger_asset(trigger_type, palace_ministry_unhide_guid, palace_ministry_unhide_trigger, False, True, palace_ministry_unhide_trigger_data) | indent(4) }}
+
 {%  for trigger_guid, (trigger_data, location_data) in trigger_to_location_data.items() %}
-    {{ generate_trigger_asset(trigger_type, trigger_guid, trigger_data, location_data) | indent(4) }}
+    {{ generate_trigger_asset(trigger_type, trigger_guid, trigger_data, True, False, location_data) | indent(4) }}
 {%  endfor %}
 
-    {{ generate_trigger_asset(trigger_type, victory_trigger_guid, victory_trigger, victory_trigger_data) | indent(4) }}
+    {{ generate_trigger_asset(trigger_type, victory_trigger_guid, victory_trigger, True, False, victory_trigger_data) | indent(4) }}
   </ModOp>
 </ModOps>

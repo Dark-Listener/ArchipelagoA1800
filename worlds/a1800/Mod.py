@@ -10,7 +10,7 @@ import jinja2
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .data import A1800_DATA, Trigger, TriggerType
+from .data import A1800_DATA, DLC, Trigger, TriggerType
 from .Items import A1800Item
 from .Locations import A1800Location
 
@@ -20,10 +20,27 @@ if TYPE_CHECKING:
 _g_next_guid: int = 1701000000  # Start of Anno 1800 Archipelago Randomizer GUID range
 
 
-def get_next_guid() -> int:
+def _get_next_guid() -> int:
     global _g_next_guid
     _g_next_guid += 1
     return _g_next_guid
+
+
+def _get_trigger_with_dlc(trigger: Trigger, trigger_dlc: DLC) -> Trigger:
+    if trigger_dlc == DLC.VANILLA:
+        return trigger
+
+    new_triggers = [
+        Trigger(TriggerType.DLC, dlc) for dlc in DLC.__members__.values()
+        if dlc != DLC.VANILLA and dlc in trigger_dlc
+    ]
+
+    if not new_triggers:
+        return trigger
+    if trigger.trigger_type == TriggerType.ALL:
+        return Trigger(TriggerType.ALL, *trigger.triggers, *new_triggers)
+    else:
+        return Trigger(TriggerType.ALL, trigger, *new_triggers)
 
 
 class A1800ModFile(APPlayerContainer):
@@ -86,43 +103,53 @@ def generate_mod(world: "A1800World", output_directory: str):
     mod_name = f"AP-{multiworld.seed_name}-P{player}-{multiworld.get_file_safe_player_name(player)}"
     versioned_mod_name = mod_name + "-" + __version__
 
-    start_trigger_guid = get_next_guid()
+    start_trigger_guid = _get_next_guid()
 
     trigger_key: Callable[[A1800Location], tuple[Any, ...]] = \
         lambda location: location.data.trigger.get_sort_key() if location.data.trigger else tuple()
 
     checkable_locations = [location for location in multiworld.get_filled_locations(
         player) if isinstance(location, A1800Location) and not location.is_event]
-    trigger_to_locations = {get_next_guid(): list(locations) for _, locations in groupby(
-        sorted(checkable_locations, key=trigger_key), key=trigger_key)}
-    victory_trigger_guid = get_next_guid()
 
-    def location_to_data(location: A1800Location) -> tuple[int, A1800Location, list[int]]:
+    for location in checkable_locations:
+        if location.item and isinstance(location.item, A1800Item) and location.data.trigger:
+            location.data.trigger = _get_trigger_with_dlc(location.data.trigger, location.item.data.dlc)
+
+    palace_ministry_unhide_guid = _get_next_guid()
+    trigger_guid_to_locations = {_get_next_guid(): list(locations) for _, locations in groupby(
+        sorted(checkable_locations, key=trigger_key), key=trigger_key)}
+    victory_trigger_guid = _get_next_guid()
+
+    def location_to_data(location: A1800Location) -> tuple[int, A1800Location, list[int], list[int]]:
         return (
-            get_next_guid(),
+            _get_next_guid(),
             location,
-            location.item.data.unlock_guids if isinstance(location.item, A1800Item) else []
+            location.item.data.unlock_guids if location.item and isinstance(location.item, A1800Item) else [],
+            []
         )
 
     trigger_to_location_data = {guid: (locations[0].data.trigger, list(map(location_to_data, locations)))
-                                for guid, locations in trigger_to_locations.items()}
+                                for guid, locations in trigger_guid_to_locations.items()}
 
     location_guid_data = {location_guid: (location.address, False)
                           for _, (_, locations) in trigger_to_location_data.items()
-                          for location_guid, location, _ in locations}
+                          for location_guid, location, _, _ in locations}
 
     item_id_to_guids = {unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in A1800_DATA.get_unlocks()} | {
         location.item.code: (unlock_guids, location_guid) for _, (_, locations) in trigger_to_location_data.items()
-        for location_guid, location, unlock_guids in locations
+        for location_guid, location, unlock_guids, _ in locations
         if location.item and isinstance(location.item, A1800Item) and location.item.code
     }
 
-    victory_guid = get_next_guid()
+    victory_guid = _get_next_guid()
 
     start_trigger = Trigger(TriggerType.TRUE)
     start_trigger.ap_location_name = "Game Start"
     starting_guids = list(set([guid for item in multiworld.precollected_items[player] if isinstance(item, A1800Item)
                                for guid in item.data.unlock_guids]))
+
+    palace_ministry_unhide_trigger = Trigger(TriggerType.ALL, Trigger(
+        TriggerType.UNLOCK, 249947), Trigger(TriggerType.DLC, DLC.SEAT_OF_POWER))
 
     template_data: dict[str, Any] = {
         "lock_guid_list": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),
@@ -133,11 +160,14 @@ def generate_mod(world: "A1800World", output_directory: str):
         "start_trigger_guid": start_trigger_guid,
         "start_trigger": start_trigger,
         "start_trigger_data": [(
-            starting_guids[0] if starting_guids else 0, None, starting_guids[1:] if len(starting_guids) > 1 else []
+            starting_guids[0] if starting_guids else 0, None, starting_guids[1:] if len(starting_guids) > 1 else [], []
         )],
         "victory_trigger_guid": victory_trigger_guid,
-        "victory_trigger": A1800_DATA.get_victory_trigger(),
-        "victory_trigger_data": [(victory_guid, None, [])],
+        "victory_trigger": _get_trigger_with_dlc(A1800_DATA.get_victory_trigger(), A1800_DATA.get_victory_dlcs()),
+        "victory_trigger_data": [(victory_guid, None, [], [])],
+        "palace_ministry_unhide_guid": palace_ministry_unhide_guid,
+        "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,
+        "palace_ministry_unhide_trigger_data": [(0, None, [], [269602])],
         "mod_name": versioned_mod_name,
         "ap_version": __version__,
         "slot_name": world.player_name,

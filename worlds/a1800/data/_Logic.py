@@ -1,42 +1,45 @@
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, START_REGION, UnlockType
 from ._EventItems import A1800EventItem, EVENT_ITEMS
 from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
+from ._Products import A1800Product
 from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
 from ._Trigger import ALL, POPULATION, Trigger, TRUE
 from ._Unlocks import A1800Unlock, UNLOCKS
 
 
-def _get_victory_condition_name_and_requirements(
-    population_requirements: list[tuple[str, Region, int, bool, bool, bool]]
-) -> tuple[str, set[A1800Requirement], Trigger]:
+def _get_victory_condition_info(
+    population_requirements: list[tuple[A1800Product, int, bool, bool, bool]]
+) -> tuple[str, set[A1800Requirement], Trigger, DLC]:
     victory_event_location_name = ""
     victory_required_items: set[A1800Requirement] = set()
     victory_triggers: list[Trigger] = []
+    victory_dlcs: DLC = DLC.VANILLA
     for population_requirement in population_requirements:
-        population, region, amount, supplied, luxury, lifestyle = population_requirement
+        population, amount, supplied, luxury, lifestyle = population_requirement
 
         victory_event_location_name += f"{', ' if victory_event_location_name else ''}"\
-            f"{amount} {population if amount > 1 else population[:-1]}"  # ("\
+            f"{amount} {population.name if amount > 1 else population.name[:-1]}"  # ("\
         # f"Supplied: {'Yes' if supplied else 'No'}, "\
         # f"Luxury: {'Yes' if luxury else 'No'}, "\
         # f"Lifestyle: {'Yes' if lifestyle else 'No'})"
 
-        victory_required_items.add(A1800Requirement(population, region))
-        victory_triggers.append(POPULATION(region, population, amount))
+        victory_required_items.add(A1800Requirement(population.name, population.region))
+        victory_triggers.append(POPULATION(population.region, population.name, amount))
+        victory_dlcs |= population.dlc
 
         residence = next(
             unlock for unlock in UNLOCKS.get_unlocks()
-            if UnlockType.RESIDENCE in unlock.type and region in unlock.region and population in unlock.output)
+            if UnlockType.RESIDENCE in unlock.type and population.region in unlock.region and population.name in unlock.output)
 
         if supplied:
-            victory_required_items |= set(A1800Requirement(consumption, region)
+            victory_required_items |= set(A1800Requirement(consumption, population.region)
                                           for consumption in residence.consumption)
         if luxury:
-            victory_required_items |= set(A1800Requirement(luxury, region)
+            victory_required_items |= set(A1800Requirement(luxury, population.region)
                                           for luxury in residence.luxury)
         if lifestyle:
-            victory_required_items |= set(A1800Requirement(lifestyle, region)
+            victory_required_items |= set(A1800Requirement(lifestyle, population.region)
                                           for lifestyle in residence.lifestyle)
 
     if len(victory_triggers) == 1:
@@ -44,7 +47,7 @@ def _get_victory_condition_name_and_requirements(
     else:
         victory_trigger = ALL(*victory_triggers)
 
-    return victory_event_location_name, victory_required_items, victory_trigger
+    return victory_event_location_name, victory_required_items, victory_trigger, victory_dlcs
 
 
 class _Logic:
@@ -53,7 +56,7 @@ class _Logic:
     _a1800_location_requirements: list[tuple[str, frozenset[A1800Requirement]]] = []
     _victory_trigger: Trigger = TRUE
 
-    def init(self, population_requirements: list[tuple[str, Region, int, bool, bool, bool]]) -> None:
+    def init(self, population_requirements: list[tuple[A1800Product, int, bool, bool, bool]]) -> None:
         self._population_requirements = population_requirements
 
         self._initialized = True
@@ -138,7 +141,7 @@ class _Logic:
 
     def generate_logic(self) -> None:
         assert self._initialized, "The Anno 1800 logic module was used before it was initialized."
-        victory_event_location_name, initial_required_items, self._victory_trigger = _get_victory_condition_name_and_requirements(
+        victory_event_location_name, initial_required_items, self._victory_trigger, self._victory_dlcs = _get_victory_condition_info(
             self._population_requirements)
         self._victory_trigger.ap_location_name = "Victory Condition"
 
@@ -163,6 +166,9 @@ class _Logic:
 
     def get_location_requirements(self) -> list[tuple[str, frozenset[A1800Requirement]]]:
         return self._a1800_location_requirements
+
+    def get_victory_dlcs(self) -> DLC:
+        return self._victory_dlcs
 
     def get_victory_trigger(self) -> Trigger:
         return self._victory_trigger

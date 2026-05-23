@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional
 
 from BaseClasses import Item, ItemClassification as IC
 
-from .data import A1800_DATA, A1800EventItem, A1800Unlock, START_REGION, TriggerType
+from .data import A1800_DATA, A1800EventItem, A1800Unlock, DLC, START_REGION, TriggerType
 
 if TYPE_CHECKING:
     from . import A1800World
@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 class A1800ItemData:
     name: str
     ICification: IC
+    dlc: DLC
     unlock_guids: list[int] = field(default_factory=lambda: [])
     lock_guids: list[int] = field(default_factory=lambda: [])
     ap_code: Optional[int] = None
@@ -41,6 +42,7 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
         return A1800ItemData(
             obj.ap_item_name,
             IC.progression if obj.is_progressive else IC.filler,
+            obj.dlc,
             list(obj.unlock_guids),
             list(obj.lock_guids),
             obj.ap_code,
@@ -54,6 +56,7 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
         return A1800ItemData(
             obj.ap_item_name,
             IC.progression,
+            obj.dlc,
             is_starting_item=is_starting_item,
             is_event=True,
             event_locations=[event_location.ap_location_name for event_location_name in obj.locations for event_location

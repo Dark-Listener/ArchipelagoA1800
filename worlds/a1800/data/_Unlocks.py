@@ -853,6 +853,14 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Botanical Garden", DLC.BOTANICA, Region.OW, {110935}, {110935},
                 POPULATION(Region.OW, "Engineers", 1000),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Botanical Garden"}),
+
+    ################################################################################################################
+    ### SEAT_OF_POWER                                                                                            ###
+    ################################################################################################################
+    # Building
+    A1800Unlock("Palace", DLC.SEAT_OF_POWER, Region.OW, {249947, 269667}, {249947, 269667},
+                POPULATION(Region.OW, "Investors", 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}),
 ]
 
 

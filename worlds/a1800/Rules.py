@@ -22,6 +22,10 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
                 return _create_rule(A1800_DATA.find_session(data.session).requirements)
             case TriggerType.POPULATION:
                 return _create_rule({A1800Requirement(data.population, data.region)})
+            case TriggerType.UNLOCK:
+                assert False, "TriggerType UNLOCK should never be used for rules"
+            case TriggerType.DLC:
+                assert False, "TriggerType DLC should never be used for rules"
     else:
         if data:
             return HasAll(*set([ap_item_name for requirement in data for ap_item_name in requirement.ap_item_names]))

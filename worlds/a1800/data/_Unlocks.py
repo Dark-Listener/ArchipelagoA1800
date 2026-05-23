@@ -859,10 +859,13 @@ _a1800_unlocks: list[A1800Unlock] = [
 class _Unlocks:
     _initialized: bool = False
 
-    def init(self, enabled_dlcs: set[DLC]) -> None:
+    def init(self, enabled_dlcs: DLC) -> None:
         global _a1800_unlocks
 
         self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if unlock.dlc in enabled_dlcs]
+
+        self._clean_dlc_references()
+
         for a1800_unlock in self._a1800_unlocks:
             a1800_unlock.init()
 
@@ -870,12 +873,44 @@ class _Unlocks:
             self._a1800_unlocks, key=lambda location: location.trigger.get_sort_key())
 
         self._initialized = True
-
         self._verify_data()
+
+    def get_unlocks(self) -> Sequence[A1800Unlock]:
+        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
+        return self._a1800_unlocks
+
+    def find_unlocks(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Unlock]:
+        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
+        return (unlock for unlock in self._a1800_unlocks if unlock.name == name and region in unlock.region)
+
+    def find_ap_item(self, ap_name: str) -> Optional[A1800Unlock]:
+        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
+        return next((unlock for unlock in self._a1800_unlocks if unlock.ap_item_name == ap_name), None)
+
+    def get_unlock_locations(self) -> Sequence[A1800Unlock]:
+        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
+        return self._a1800_unlock_locations
+
+    def _clean_dlc_references(self) -> None:
+        for unlock in self._a1800_unlocks:
+            missing_outputs: set[str | tuple[str, Region]] = set()
+            for output in unlock.output:
+                name = output if isinstance(output, str) else output[0]
+                region = unlock.region if isinstance(output, str) else output[1]
+                if not next(PRODUCTS.find_products(name, region), None):
+                    missing_outputs.add(output)
+            if missing_outputs:
+                unlock.output -= missing_outputs
+
+            missing_lifestyles: set[str] = set()
+            for lifestyle in unlock.lifestyle:
+                if not next(PRODUCTS.find_products(lifestyle, unlock.region), None):
+                    missing_lifestyles.add(lifestyle)
+            if missing_lifestyles:
+                unlock.lifestyle -= missing_lifestyles
 
     def _verify_data(self) -> None:
         # Assure all references exist
-        removed_anything: bool = False
         for unlock in _a1800_unlocks:
             assert unlock.region, f"Unlock {unlock.name} has no region"
 
@@ -929,39 +964,9 @@ class _Unlocks:
                 assert next(PRODUCTS.find_products(luxury, unlock.region), None), \
                     f"Unlock {unlock.name} references non-existent luxury {luxury}, "
 
-        #    for lifestyle in unlock.lifestyle:
-        #        assert next(PRODUCTS.find_products(lifestyle, unlock.region), None), \
-        #            f"Unlock {unlock.name} references non-existent lifestyle {lifestyle}, "
-
-        #   missing_consumptions: set[str] = set()
-        #   for consumption in unlock.consumption:
-        #       if not next(PRODUCTS.find_products(consumption, unlock.region), None):
-        #           missing_consumptions.add(consumption)
-        #   if missing_consumptions:
-        #       print(f"Warning for {unlock.name}: removing unknown needs: {missing_consumptions}")
-        #       unlock.consumption -= missing_consumptions
-        #       removed_anything = True
-
-        #    missing_luxuries: set[str] = set()
-        #    for luxury in unlock.luxury:
-        #        if not next(PRODUCTS.find_products(luxury, unlock.region), None):
-        #            missing_luxuries.add(luxury)
-        #    if missing_luxuries:
-        #        print(f"Warning for {unlock.name}: removing unknown luxury needs: {missing_luxuries}")
-        #        unlock.consumption -= missing_luxuries
-        #        removed_anything = True
-
-            missing_lifestyles: set[str] = set()
             for lifestyle in unlock.lifestyle:
-                if not next(PRODUCTS.find_products(lifestyle, unlock.region), None):
-                    missing_lifestyles.add(lifestyle)
-            if missing_lifestyles:
-                print(f"Warning for {unlock.name}: removing unknown lifestyle needs: {missing_lifestyles}")
-                unlock.lifestyle -= missing_lifestyles
-                removed_anything = True
-
-        if removed_anything:
-            print("Warnings about removal of lifestyle goods are due to missing DLC implemenations and can be safely ignored!")
+                assert next(PRODUCTS.find_products(lifestyle, unlock.region), None), \
+                    f"Unlock {unlock.name} references non-existent lifestyle {lifestyle}, "
 
         # Assure all chain references exist
         for chain in CHAINS.get_chains():
@@ -977,22 +982,6 @@ class _Unlocks:
                 population = next(PRODUCTS.find_populations(unlock.trigger.population, unlock.trigger.region), None)
                 assert population, f"Population {unlock.trigger.population} referenced in {unlock.name} was filtered "\
                     "during init and no longer is available!"
-
-    def get_unlocks(self) -> Sequence[A1800Unlock]:
-        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
-        return self._a1800_unlocks
-
-    def find_unlocks(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Unlock]:
-        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
-        return (unlock for unlock in self._a1800_unlocks if unlock.name == name and region in unlock.region)
-
-    def find_ap_item(self, ap_name: str) -> Optional[A1800Unlock]:
-        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
-        return next((unlock for unlock in self._a1800_unlocks if unlock.ap_item_name == ap_name), None)
-
-    def get_unlock_locations(self) -> Sequence[A1800Unlock]:
-        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
-        return self._a1800_unlock_locations
 
 
 UNLOCKS = _Unlocks()

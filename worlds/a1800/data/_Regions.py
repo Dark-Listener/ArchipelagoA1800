@@ -34,7 +34,7 @@ class A1800Region:
 class _Regions:
     _initialized: bool = False
 
-    def init(self, enabled_dlcs: set[DLC]) -> None:
+    def init(self, enabled_dlcs: DLC) -> None:
         global _a1800_regions
 
         self._a1800_regions = {

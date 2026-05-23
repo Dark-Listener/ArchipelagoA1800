@@ -1,7 +1,8 @@
 from enum import auto, Enum, Flag, IntEnum, KEEP
+from functools import reduce
 
 
-class DLC(Enum):
+class DLC(Flag, boundary=KEEP):
     VANILLA = auto()
     SUNKEN_TREASURES = auto()
     BOTANICA = auto()
@@ -10,14 +11,14 @@ class DLC(Enum):
 #    BRIGHT_HARVEST = auto()
 #    LAND_OF_LIONS = auto()
 #    DOCKLANDS = auto()
-#    TOURIST_SEASON = auto()
+    TOURIST_SEASON = auto()
 #    THE_HIGH_LIFE = auto()
 #    SEEDS_OF_CHANGE = auto()
 #    EMPIRE_OF_THE_SKIES = auto()
 #    NEW_WORLD_RISING = auto()
 
 
-ALL_DLC = list(DLC.__members__.values())
+ALL_DLC = reduce(DLC.__or__, DLC.__members__.values())
 
 
 class ProductType(Enum):
@@ -61,7 +62,7 @@ NO_REGION = Region(0)
 
 START_REGION = Region.OW
 
-ALL_REGIONS = Region.OW | Region.NW | Region.AR | Region.EN
+ALL_REGIONS = reduce(Region.__or__, Region.__members__.values())
 
 
 class RequirementType(Enum):

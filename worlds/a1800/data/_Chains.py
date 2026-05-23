@@ -153,7 +153,7 @@ assert len(_a1800_chains) == len({(chain.name, chain.region) for chain in _a1800
 class _Chains:
     _initialized: bool = False
 
-    def init(self, enabled_dlcs: set[DLC]) -> None:
+    def init(self, enabled_dlcs: DLC) -> None:
         global _a1800_chains
 
         self._a1800_chains = [chain for chain in _a1800_chains if chain.dlc in enabled_dlcs]

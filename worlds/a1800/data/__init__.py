@@ -1,4 +1,5 @@
 from collections.abc import Sequence
+from functools import reduce
 from typing import Iterator, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -27,8 +28,8 @@ class _A1800Data:
             _a1800_unlocks, key=lambda location: location.trigger.get_sort_key()) if unlock.ap_code}
 
     def init(self, options: "A1800Options") -> None:
-        self._enabled_dlcs = {DLC.VANILLA} | {
-            dlc for dlc in DLC.__members__.values() if dlc.name in options.enabled_dlcs}
+        self._enabled_dlcs = DLC.VANILLA | reduce(DLC.__or__, (
+            dlc for dlc in DLC.__members__.values() if dlc.name in options.enabled_dlcs))
 
         CHAINS.init(self._enabled_dlcs)
         PRODUCTS.init(self._enabled_dlcs)

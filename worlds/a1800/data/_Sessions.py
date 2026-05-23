@@ -27,7 +27,7 @@ class A1800Session:
 class _Sessions:
     _initialized: bool = False
 
-    def init(self, enabled_dlcs: set[DLC]) -> None:
+    def init(self, enabled_dlcs: DLC) -> None:
         global _a1800_sessions
 
         self._a1800_sessions = {

@@ -133,9 +133,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Church", DLC.VANILLA, Region.OW, 1010350, ProductType.SERVICE),
     A1800Product("School", DLC.VANILLA, Region.OW, 1010351, ProductType.SERVICE),
     A1800Product("Variety Theatre", DLC.VANILLA, Region.OW, 1010352, ProductType.SERVICE),
-    A1800Product("Zoo", DLC.VANILLA, Region.OW, 601485, ProductType.SERVICE),
     A1800Product("University", DLC.VANILLA, Region.OW, 1010353, ProductType.SERVICE),
-    A1800Product("Museum", DLC.VANILLA, Region.OW, 133535, ProductType.SERVICE),
     A1800Product("Electricity", DLC.VANILLA, Region.OW, 120022, ProductType.SERVICE),
     A1800Product("Bank", DLC.VANILLA, Region.OW, 1010356, ProductType.SERVICE),
     A1800Product("Members Club", DLC.VANILLA, Region.OW, 1010355, ProductType.SERVICE),
@@ -152,9 +150,12 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Special Scrap", DLC.SUNKEN_TREASURES, ALL_REGIONS, 112523, ProductType.GOOD),
 
     ################################################################################################################
-    ### BOTANICA                                                                                                 ###
+    ### TOURIST_SEASON                                                                                           ###
     ################################################################################################################
-    A1800Product("Botanical Garden", DLC.VANILLA, Region.OW, 355, ProductType.SERVICE),
+    A1800Product("Zoo", DLC.TOURIST_SEASON, Region.OW, 601485, ProductType.SERVICE),
+    A1800Product("Museum", DLC.TOURIST_SEASON, Region.OW, 133535, ProductType.SERVICE),
+    # Needs Botanica
+    A1800Product("Botanical Garden", DLC.BOTANICA | DLC.TOURIST_SEASON, Region.OW, 355, ProductType.SERVICE),
 ]
 
 _a1800_populations = [product for product in _a1800_products if product.type == ProductType.WORKFORCE]
@@ -169,7 +170,7 @@ for population in _a1800_products:
 class _Products:
     _initialized: bool = False
 
-    def init(self, enabled_dlcs: set[DLC]) -> None:
+    def init(self, enabled_dlcs: DLC) -> None:
         global _a1800_products, _a1800_populations
 
         self._a1800_products = [product for product in _a1800_products if product.dlc in enabled_dlcs]

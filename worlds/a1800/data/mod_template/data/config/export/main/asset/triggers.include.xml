@@ -14,8 +14,10 @@
   </ModOp>
 
 {% for guid in lock_guid_list %}
+{% if not guid in [1010517, 1010540, 101290, 101293] %}
   <ModOp Type="remove" Path="//ActionUnlockAsset/UnlockAssets/Item[Asset='{{ guid }}']" />
   <ModOp Type="remove" Path="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" Condition="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" />
+{% endif %}
 {% endfor %}
   <!-- Remove palace ministry unhide at 1 investor -->
   <ModOp Type="remove" GUID="130295" Path="/Values/Trigger/TriggerActions/Item/TriggerAction/Values//ActionUnlockAsset/UnhideAssets/Item[Asset='269602']" />

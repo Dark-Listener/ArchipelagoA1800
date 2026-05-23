@@ -27,7 +27,6 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Oil Harbour", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Oil Field", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Oil Transport", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
-    A1800Product("Settling", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Riot Control", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Healthcare", DLC.VANILLA, Region.NW, 0, ProductType.META),

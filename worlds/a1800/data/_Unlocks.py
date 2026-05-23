@@ -96,6 +96,9 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TRUE, input={("Oil", Region.NW), "Oil Transport"}, output={("Oil", Region.OW)}),
 
     # Building
+    A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, {1010517, 1010540}, {1010517, 1010540},
+                TRUE, {"Timber", "Steel Beams"}, {"Sea Travel"}),
+
     A1800Unlock("Dirt Road", DLC.VANILLA, Region.OW, {1000178}, {1000178},
                 SESSION_ENTER(Session.OW), type=UnlockType.BUILDING),
 
@@ -153,6 +156,9 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Investors", 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}),
 
+    A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, {101290, 101293}, {101290, 101293},
+                TRUE, {"Timber", "Steel Beams"}, {"Sea Travel"}),
+
     A1800Unlock("Dirt Road", DLC.VANILLA, Region.NW, {101308}, {101308},
                 SESSION_ENTER(Session.NW), type=UnlockType.BUILDING),
 
@@ -204,9 +210,6 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.NW, "Obreros", 1500), {"Bricks", "Steel Beams", "Advanced Weapons"}),
 
     # Building, Factory
-    A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, {1010517, 1010540}, {1010517, 1010540},
-                SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}, {"Sea Travel"}, set(), {"Settling"}),
-
     A1800Unlock("Lumberjack's Hut", DLC.VANILLA, Region.OW, {1010266}, {140029},
                 SESSION_ENTER(Session.OW), set(), {"Farmers"}, set(), {"Wood"}, "Timber"),
 
@@ -303,7 +306,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Hop Farm", DLC.VANILLA, Region.OW, {1010264}, {140035, 130141},
                 ANY(POPULATION(Region.OW, "Workers", 500), POPULATION(Region.NW, "Obreros", 600)),
-                {"Timber"}, {"Farmers", "Settling"},
+                {"Timber"}, {"Farmers", "Sea Travel"},
                 set(), {"Hops"}, {("Beer", Region.OW), ("Beer", Region.NW)}),
 
     A1800Unlock("Malthouse", DLC.VANILLA, Region.OW, {1010314}, {140035, 130141},
@@ -342,7 +345,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Red Pepper Farm", DLC.VANILLA, Region.OW, {100654}, {140036},
                 POPULATION(Region.OW, "Artisans", 1),
-                {"Timber"}, {"Farmers", "Settling"}, set(), {"Red Peppers"}, "Canned Food"),
+                {"Timber"}, {"Farmers", "Sea Travel"}, set(), {"Red Peppers"}, "Canned Food"),
 
     A1800Unlock("Artisanal Kitchen", DLC.VANILLA, Region.OW, {1010293}, {140036},
                 POPULATION(Region.OW, "Artisans", 1),
@@ -356,7 +359,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Coal Mine", DLC.VANILLA, Region.OW, {1010304}, {140032, 130134},
                 POPULATION(Region.OW, "Artisans", 250),
-                {"Timber", "Bricks"}, {"Workers", "Settling"},
+                {"Timber", "Bricks"}, {"Workers", "Sea Travel"},
                 set(), {"Coal"}, {("Sewing Machines", Region.OW), ("Sewing Machines", Region.NW)}),
 
     A1800Unlock("Sewing Machine Factory", DLC.VANILLA, Region.OW, {1010284}, {140032, 130134},
@@ -375,7 +378,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Hunting Cabin", DLC.VANILLA, Region.OW, {1010558}, {140046, 130201},
                 ANY(POPULATION(Region.OW, "Artisans", 900), POPULATION(Region.NW, "Jornaleros", 100)),
-                {"Timber"}, {"Farmers", "Settling"},
+                {"Timber"}, {"Farmers", "Sea Travel"},
                 set(), {"Furs"}, {("Fur Coats", Region.OW), ("Fur Coats", Region.NW)}),
 
     A1800Unlock("Cotton Plantation", DLC.VANILLA, Region.NW, {1010331}, {140046, 130201, 130098},
@@ -407,7 +410,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Limestone Quarry", DLC.VANILLA, Region.OW, {1010309}, {140043},
                 POPULATION(Region.OW, "Engineers", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Workers", "Settling"},
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Workers", "Sea Travel"},
                 set(), {"Cement"}, "Reinforced Concrete"),
 
     A1800Unlock("Concrete Factory", DLC.VANILLA, Region.OW, {1010280}, {140043},
@@ -441,12 +444,12 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Zinc Mine", DLC.VANILLA, Region.OW, {1010307}, {130041},
                 POPULATION(Region.OW, "Engineers", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Settling"},
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Sea Travel"},
                 set(), {"Zinc"}, "Spectacles"),
 
     A1800Unlock("Copper Mine", DLC.VANILLA, Region.OW, {1010308}, {130041},
                 POPULATION(Region.OW, "Engineers", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Settling"},
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Sea Travel"},
                 set(), {"Copper"}, "Spectacles"),
 
     A1800Unlock("Brass Smeltery", DLC.VANILLA, Region.OW, {1010282}, {130041},
@@ -476,7 +479,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Saltpetre Works", DLC.VANILLA, Region.OW, {1010310}, {140053},
                 POPULATION(Region.OW, "Engineers", 500),
-                {"Timber", "Bricks", "Steel Beams"}, {"Workers", "Settling"}, set(), {"Saltpetre"}, "Advanced Weapons"),
+                {"Timber", "Bricks", "Steel Beams"}, {"Workers", "Sea Travel"}, set(), {"Saltpetre"}, "Advanced Weapons"),
 
     A1800Unlock("Dynamite Factory", DLC.VANILLA, Region.OW, {1010300}, {140053},
                 POPULATION(Region.OW, "Engineers", 500),
@@ -514,7 +517,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Vineyard", DLC.VANILLA, Region.OW, {100655}, {130055},
                 POPULATION(Region.OW, "Investors", 1),
-                {"Timber"}, {"Farmers", "Settling"}, set(), {"Grapes"}, "Champagne"),
+                {"Timber"}, {"Farmers", "Sea Travel"}, set(), {"Grapes"}, "Champagne"),
 
     A1800Unlock("Champagne Cellar", DLC.VANILLA, Region.OW, {100659}, {130055},
                 POPULATION(Region.OW, "Investors", 1),
@@ -549,9 +552,6 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Investors", 5000),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers", "Electricity"},
                 {"Chassis", "Steam Motors"}, {"Steam Carriages"}, "Steam Carriages"),
-
-    A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, {101290, 101293}, {101290, 101293},
-                SESSION_ENTER(Session.NW), {"Timber", "Steel Beams"}, {"Sea Travel"}, set(), {"Settling"}),
 
     A1800Unlock("Lumberjack's Hut", DLC.VANILLA, Region.NW, {101260}, {130093},
                 SESSION_ENTER(Session.NW), set(), {"Jornaleros"}, set(), {"Wood"}, "Timber"),
@@ -858,7 +858,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     ### SEAT_OF_POWER                                                                                            ###
     ################################################################################################################
     # Building
-    A1800Unlock("Palace", DLC.SEAT_OF_POWER, Region.OW, {249947, 269667}, {249947, 269667},
+    A1800Unlock("Palace", DLC.SEAT_OF_POWER, Region.OW, {249947}, {249947},
                 POPULATION(Region.OW, "Investors", 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}),
 

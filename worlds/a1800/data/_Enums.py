@@ -4,7 +4,7 @@ from enum import auto, Enum, Flag, IntEnum, KEEP
 class DLC(Enum):
     VANILLA = auto()
     SUNKEN_TREASURES = auto()
-#    BOTANICA = auto()
+    BOTANICA = auto()
 #    THE_PASSAGE = auto()
 #    SEAT_OF_POWER = auto()
 #    BRIGHT_HARVEST = auto()

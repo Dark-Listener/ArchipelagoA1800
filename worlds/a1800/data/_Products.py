@@ -150,6 +150,11 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Scrap", DLC.SUNKEN_TREASURES, ALL_REGIONS, 112518, ProductType.GOOD),
     A1800Product("Nice Scrap", DLC.SUNKEN_TREASURES, ALL_REGIONS, 112520, ProductType.GOOD),
     A1800Product("Special Scrap", DLC.SUNKEN_TREASURES, ALL_REGIONS, 112523, ProductType.GOOD),
+
+    ################################################################################################################
+    ### BOTANICA                                                                                                 ###
+    ################################################################################################################
+    A1800Product("Botanical Garden", DLC.VANILLA, Region.OW, 355, ProductType.SERVICE),
 ]
 
 _a1800_populations = [product for product in _a1800_products if product.type == ProductType.WORKFORCE]

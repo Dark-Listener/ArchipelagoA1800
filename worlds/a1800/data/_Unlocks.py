@@ -841,6 +841,18 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Rum", "Chapel", "Boxing Arena", "Beer", "Cigars"},
                 {"Spectacles", "Typewriter", "Illuminated Script", "Local Mail",
                     "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooter"}),
+
+    ################################################################################################################
+    ### BOTANICA                                                                                                 ###
+    ################################################################################################################
+    # Building
+    A1800Unlock("Botanical Garden", DLC.BOTANICA, Region.NW, {114141}, {114141},
+                POPULATION(Region.NW, "Obreros", 1500), {"Timber", "Bricks", "Steel Beams", "Windows"}),
+
+    # Building, Factory
+    A1800Unlock("Botanical Garden", DLC.BOTANICA, Region.OW, {110935}, {110935},
+                POPULATION(Region.OW, "Engineers", 1000),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Botanical Garden"}),
 ]
 
 

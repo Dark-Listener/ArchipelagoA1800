@@ -113,7 +113,8 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     item_id_to_guids = {unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in ANNO_DATA.get_unlocks()} | {
         location.item.code: (unlock_guids, location_guid) for _, (_, locations) in trigger_to_location_data.items()
-        for location_guid, location, unlock_guids in locations if location.item and location.item.code
+        for location_guid, location, unlock_guids in locations
+        if location.item and isinstance(location.item, A1800Item) and location.item.code
     }
 
     victory_guid = get_next_guid()

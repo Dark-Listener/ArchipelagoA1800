@@ -97,7 +97,7 @@ class _A1800Data:
 
     def _parse_remaining_options(self, options: "A1800Options") -> None:
         self._population_requirements: list[tuple[A1800Product, int, bool, bool, bool]] = []
-        for identifier, amount_str in options.required_population_amount.value.items():
+        for identifier, amount_str in options.required_population_amounts.value.items():
             id_split = identifier.split("-")
             if len(id_split) != 4:
                 continue

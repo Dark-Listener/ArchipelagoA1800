@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from itertools import groupby
-from worlds.AutoWorld import PerGameCommonOptions
-from Options import OptionCounter, OptionGroup, OptionSet
+from Options import OptionCounter, OptionGroup, OptionSet, PerGameCommonOptions
 from .data._Products import _a1800_populations  # pyright: ignore[reportPrivateUsage]
 from .data import DLC
 
@@ -10,16 +9,15 @@ _default_enabled_dlcs = [dlc.name for dlc in sorted(
     (dlc for dlc in DLC.__members__.values() if not dlc in DLC.VANILLA | DLC.TOURIST_SEASON | DLC.LAND_OF_LIONS), key=lambda dlc: dlc.value)]
 
 
-class EnabledDLCs(OptionSet):
+class EnabledDLCsOption(OptionSet):
     """
     List of enabled DLCs. Per default, all implemented DLCs are enabled.
     It's recommended to match this list when creating the game.
     Duplicates will be ignored.
     Some DLCs (currently) have no effect on the randomizer: SUNKEN_TREASURES
     """
-
+    display_name = "Enabled DLCs"
     valid_keys = _default_enabled_dlcs
-
     default = _default_enabled_dlcs
 
 
@@ -34,32 +32,29 @@ _default_required_population_amount = {
 }
 
 
-class RequiredPopulationAmount(OptionCounter):
+class RequiredPopulationAmountsOption(OptionCounter):
     """
     This many citizens of each population are required to win the randomizer.
     If a population's required amount is 0, the population will not be required.
     Ignore the numbers before the world and population, they are there to make sure this is sorted properly.
     """
+    display_name = "Required Population Amounts"
     valid_keys = _default_required_population_amount.keys()
-
-    min = 0
-
     default = _default_required_population_amount
+    min = 0
 
 
 @dataclass
 class A1800Options(PerGameCommonOptions):
-    # Game Settings
-    enabled_dlcs: EnabledDLCs
+    # Game Options (=> ungrouped)
+    enabled_dlcs: EnabledDLCsOption
+
     # Victory Conditions
-    required_population_amount: RequiredPopulationAmount
+    required_population_amounts: RequiredPopulationAmountsOption
 
 
 a1800_option_groups: list[OptionGroup] = [
-    OptionGroup("Game Settings", [
-        EnabledDLCs,
-    ]),
     OptionGroup("Victory Conditions", [
-        RequiredPopulationAmount,
+        RequiredPopulationAmountsOption,
     ]),
 ]

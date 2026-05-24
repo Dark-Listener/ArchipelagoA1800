@@ -28,7 +28,7 @@ icon_paths["a1800"] = f"ap:{__name__}/icons/a1800.png"
 
 class A1800Web(WebWorld):
     bug_report_page = "https://https://github.com/Dark-Listener/ArchipelagoA1800/issues"
-    options_groups = a1800_option_groups
+    option_groups = a1800_option_groups
     setup_en = Tutorial(
         "Multiworld Setup Guide",
         "A guide to setting up the Archipelago Anno 1800 randomizer on your computer.",

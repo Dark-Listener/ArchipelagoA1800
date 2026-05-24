@@ -629,11 +629,11 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.NW, "Obreros", 1),
                 {"Timber", "Bricks"}, {"Obreros"}, {"Beef", "Corn"}, {"Tortillas"}, "Tortillas"),
 
-    A1800Unlock("Coffee Plantation", DLC.VANILLA, Region.NW, {101251}, {130063},
+    A1800Unlock("Coffee Plantation", DLC.VANILLA, Region.NW, {101251}, {130063, 130126},
                 POPULATION(Region.NW, "Obreros", 300), {"Timber"}, {"Jornaleros"}, set(), {"Coffee Beans"},
                 {("Coffee", Region.NW), ("Coffee", Region.OW)}),
 
-    A1800Unlock("Coffee Roaster", DLC.VANILLA, Region.NW, {101252}, {130101},
+    A1800Unlock("Coffee Roaster", DLC.VANILLA, Region.NW, {101252}, {130063, 130126},
                 POPULATION(Region.NW, "Obreros", 300),
                 {"Timber", "Bricks"}, {"Obreros"}, {"Coffee Beans"}, {"Coffee"},
                 {("Coffee", Region.NW), ("Coffee", Region.OW)}),

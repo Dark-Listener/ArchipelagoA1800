@@ -84,7 +84,7 @@ class _Items:
     _item_data_list: list[A1800ItemData] = []
 
     def init(self) -> None:
-        all_unlock_item_data = [item_data for item in A1800_DATA.get_unlocks()
+        all_unlock_item_data = [item_data for item in A1800_DATA.get_unlock_locations()
                                 for item_data in [_to_item_data(item)] if item_data]
         self._unlock_item_data_list = [
             item_data for item_data in all_unlock_item_data if not item_data.is_starting_item]

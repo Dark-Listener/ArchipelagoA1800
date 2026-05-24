@@ -96,8 +96,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TRUE, input={("Oil", Region.NW), "Oil Transport"}, output={("Oil", Region.OW)}),
 
     # Building
-    A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, {1010517, 1010540}, {1010517, 1010540},
-                TRUE, {"Timber", "Steel Beams"}, {"Sea Travel"}),
+    A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, {1010517, 1010540}, set(),
+                SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
 
     A1800Unlock("Dirt Road", DLC.VANILLA, Region.OW, {1000178}, {1000178},
                 SESSION_ENTER(Session.OW), type=UnlockType.BUILDING),
@@ -156,8 +156,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Investors", 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}),
 
-    A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, {101290, 101293}, {101290, 101293},
-                TRUE, {"Timber", "Steel Beams"}, {"Sea Travel"}),
+    A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, {101290, 101293}, set(),
+                SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
 
     A1800Unlock("Dirt Road", DLC.VANILLA, Region.NW, {101308}, {101308},
                 SESSION_ENTER(Session.NW), type=UnlockType.BUILDING),
@@ -960,7 +960,9 @@ class _Unlocks:
             a1800_unlock.init()
 
         self._a1800_unlock_locations = sorted(
-            self._a1800_unlocks, key=lambda location: location.trigger.get_sort_key())
+            [unlock for unlock in self._a1800_unlocks if unlock.trigger.trigger_type != TriggerType.TRUE],
+            key=lambda location: location.trigger.get_sort_key()
+        )
 
         self._initialized = True
         self._verify_data()

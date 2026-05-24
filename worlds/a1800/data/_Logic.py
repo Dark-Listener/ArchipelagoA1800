@@ -4,7 +4,7 @@ from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
 from ._Products import A1800Product
 from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
-from ._Trigger import ALL, POPULATION, Trigger, TRUE
+from ._Trigger import ALL, POPULATION, Trigger, TriggerType, TRUE
 from ._Unlocks import A1800Unlock, UNLOCKS
 
 
@@ -87,7 +87,8 @@ class _Logic:
             elif requirement.type == RequirementType.UNLOCK:
                 unlock = next(UNLOCKS.find_unlocks(requirement.name, requirement.region), None)
                 if unlock:
-                    new_requirements.add(A1800Requirement(unlock.name, unlock.region, RequirementType.UNLOCK))
+                    if unlock.trigger.trigger_type != TriggerType.TRUE:
+                        new_requirements.add(A1800Requirement(unlock.name, unlock.region, RequirementType.UNLOCK))
 
                     if UnlockType.BUILDING in unlock.type:
                         new_requirements |= {A1800Requirement(name, unlock.region)

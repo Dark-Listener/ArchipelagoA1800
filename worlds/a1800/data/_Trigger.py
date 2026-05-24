@@ -43,10 +43,11 @@ class Trigger:
                 self.guid: int = next(population for population in _a1800_populations if population.name ==
                                       self.population and self.region in population.region).guid
             case TriggerType.UNLOCK:
-                assert len(args) == 1, f"{trigger_type.name} requires exactly 1 arguments"
-                assert isinstance(args[0], int), f"{trigger_type.name} requires an argument of type int, got " \
-                    f"{type(args[0])} instead"
+                assert len(args) == 2, f"{trigger_type.name} requires exactly 2 arguments"
+                assert isinstance(args[0], int) and isinstance(args[1], str), f"{trigger_type.name} requires "\
+                    f"arguments of types (int, str), got ({type(args[0])}, {type(args[1])}) instead"
                 self.guid = args[0]
+                self.name = args[1]
                 self.region = START_REGION
             case TriggerType.DLC:
                 assert len(args) == 1, f"{trigger_type.name} requires exactly 1 arguments"
@@ -79,7 +80,7 @@ class Trigger:
                         if population.name == self.population and self.region in population.region]) > 1:
                     out_name += f" ({self.region})"
             case TriggerType.UNLOCK:
-                out_name = f"On unlocking: {self.guid}"
+                out_name = f"On unlocking: {self.name}"
             case TriggerType.DLC:
                 if self.dlc in DLC.__members__.values():
                     out_name = f"DLC active: {self.dlc.name}"

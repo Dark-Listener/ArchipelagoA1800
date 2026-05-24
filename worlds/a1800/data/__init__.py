@@ -59,6 +59,9 @@ class _A1800Data:
     def find_session(self, session: Session) -> A1800Session:
         return SESSIONS.find_session(session)
 
+    def get_enabled_dlcs(self) -> DLC:
+        return self._enabled_dlcs
+
     def get_event_items(self) -> Sequence[A1800EventItem]:
         return EVENT_ITEMS.get_event_items()
 

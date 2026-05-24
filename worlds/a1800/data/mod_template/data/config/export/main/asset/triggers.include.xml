@@ -13,11 +13,10 @@
     </Item>
   </ModOp>
 
+  <!-- Removals don't have to care about DLCs, just remove everything -->
 {% for guid in lock_guid_list %}
-{% if not guid in [1010517, 1010540, 101290, 101293] %}
   <ModOp Type="remove" Path="//ActionUnlockAsset/UnlockAssets/Item[Asset='{{ guid }}']" />
   <ModOp Type="remove" Path="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" Condition="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" />
-{% endif %}
 {% endfor %}
   <!-- Remove palace ministry unhide at 1 investor -->
   <ModOp Type="remove" GUID="130295" Path="/Values/Trigger/TriggerActions/Item/TriggerAction/Values//ActionUnlockAsset/UnhideAssets/Item[Asset='269602']" />
@@ -53,16 +52,18 @@
 
   <ModOp Type="addNextSibling" GUID="130248">
 {%  if start_trigger_data[0] != 0 %}
-    {{ generate_trigger_asset(trigger_type, start_trigger_guid, start_trigger, True, False, start_trigger_data) | indent(4) }}
+    {{ generate_trigger_asset(TriggerType, start_trigger_guid, start_trigger, True, False, start_trigger_data) | indent(4) }}
 {%  endif %}
 
+{%  if DLC.SEAT_OF_POWER in enabled_dlcs %}
     <!-- Unhide palace ministry with palace unlock -->
-    {{ generate_trigger_asset(trigger_type, palace_ministry_unhide_guid, palace_ministry_unhide_trigger, False, True, palace_ministry_unhide_trigger_data) | indent(4) }}
+    {{ generate_trigger_asset(TriggerType, palace_ministry_unhide_guid, palace_ministry_unhide_trigger, False, True, palace_ministry_unhide_trigger_data) | indent(4) }}
+{%  endif %}
 
 {%  for trigger_guid, (trigger_data, location_data) in trigger_to_location_data.items() %}
-    {{ generate_trigger_asset(trigger_type, trigger_guid, trigger_data, True, False, location_data) | indent(4) }}
+    {{ generate_trigger_asset(TriggerType, trigger_guid, trigger_data, True, False, location_data) | indent(4) }}
 {%  endfor %}
 
-    {{ generate_trigger_asset(trigger_type, victory_trigger_guid, victory_trigger, True, False, victory_trigger_data) | indent(4) }}
+    {{ generate_trigger_asset(TriggerType, victory_trigger_guid, victory_trigger, True, False, victory_trigger_data) | indent(4) }}
   </ModOp>
 </ModOps>

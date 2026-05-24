@@ -144,12 +144,14 @@ def generate_mod(world: "A1800World", output_directory: str):
                                for guid in item.data.unlock_guids]))
 
     palace_ministry_unhide_trigger = Trigger(TriggerType.ALL, Trigger(
-        TriggerType.UNLOCK, 249947), Trigger(TriggerType.DLC, DLC.SEAT_OF_POWER))
+        TriggerType.UNLOCK, 249947, "OW: Palace"), Trigger(TriggerType.DLC, DLC.SEAT_OF_POWER))
 
     template_data: dict[str, Any] = {
         "lock_guid_list": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),
         "trigger_to_location_data": trigger_to_location_data,
-        "trigger_type": TriggerType,
+        "TriggerType": TriggerType,
+        "DLC": DLC,
+        "enabled_dlcs": A1800_DATA.get_enabled_dlcs(),
         "location_guid_data": location_guid_data,
         "item_id_to_guids": item_id_to_guids,
         "start_trigger_guid": start_trigger_guid,

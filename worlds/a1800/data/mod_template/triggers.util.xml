@@ -42,8 +42,8 @@
 </TriggerActions>
 {% endmacro %}
 
-{% macro generate_trigger_condition(trigger_type, trigger_data) %}
-{% if trigger_data.trigger_type == trigger_type.TRUE %}
+{% macro generate_trigger_condition(TriggerType, trigger_data) %}
+{% if trigger_data.trigger_type == TriggerType.TRUE %}
 <TriggerCondition>
   <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
   <Values>
@@ -51,7 +51,7 @@
     <ConditionAlwaysTrue />
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == trigger_type.ALL %}
+{% elif trigger_data.trigger_type == TriggerType.ALL %}
 <TriggerCondition>
   <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
   <Values>
@@ -61,7 +61,7 @@
     <ConditionAlwaysTrue />
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == trigger_type.ANY %}
+{% elif trigger_data.trigger_type == TriggerType.ANY %}
 <TriggerCondition>
   <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
   <Values>
@@ -71,7 +71,7 @@
     <ConditionAlwaysTrue />
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == trigger_type.SESSION_ENTER %}
+{% elif trigger_data.trigger_type == TriggerType.SESSION_ENTER %}
 <TriggerCondition>
   <Template>ConditionActiveSession</Template>
   <Values>
@@ -81,7 +81,7 @@
     </ConditionActiveSession>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == trigger_type.POPULATION %}
+{% elif trigger_data.trigger_type == TriggerType.POPULATION %}
 <TriggerCondition>
   <Template>ConditionPlayerCounter</Template>
   <Values>
@@ -93,7 +93,7 @@
     </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == trigger_type.UNLOCK %}
+{% elif trigger_data.trigger_type == TriggerType.UNLOCK %}
 <TriggerCondition>
   <Template>ConditionUnlocked</Template>
   <Values>
@@ -104,7 +104,7 @@
     <ConditionPropsNegatable/>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == trigger_type.DLC %}
+{% elif trigger_data.trigger_type == TriggerType.DLC %}
 <TriggerCondition>
   <Template>ConditionIsDLCActive</Template>
   <Values>
@@ -124,8 +124,8 @@
 {% endif %}
 {% endmacro %}
 
-{% macro generate_sub_triggers(trigger_type, trigger_data) %}
-{% if trigger_data.trigger_type == trigger_type.ALL or trigger_data.trigger_type == trigger_type.ANY %}
+{% macro generate_sub_triggers(TriggerType, trigger_data) %}
+{% if trigger_data.trigger_type == TriggerType.ALL or trigger_data.trigger_type == TriggerType.ANY %}
 <SubTriggers>
 {% for trigger in trigger_data.triggers %}
   <Item>
@@ -133,8 +133,8 @@
       <Template>AutoCreateTrigger</Template>
       <Values>
         <Trigger>
-          {{ generate_trigger_condition(trigger_type, trigger) | indent(10) }}
-          {{ generate_sub_triggers(trigger_type, trigger) | indent(10) }}
+          {{ generate_trigger_condition(TriggerType, trigger) | indent(10) }}
+          {{ generate_sub_triggers(TriggerType, trigger) | indent(10) }}
         </Trigger>
       </Values>
     </SubTrigger>
@@ -144,7 +144,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro generate_trigger_asset(trigger_type, trigger_guid, trigger_data, has_unlocks, has_unhides, location_data) %}
+{% macro generate_trigger_asset(TriggerType, trigger_guid, trigger_data, has_unlocks, has_unhides, location_data) %}
 <Asset>
   <Template>Trigger</Template>
   <Values>
@@ -153,9 +153,9 @@
       <Name>{{ trigger_data.ap_location_name }}</Name>
     </Standard>
     <Trigger>
-      {{ generate_trigger_condition(trigger_type, trigger_data) | indent(6) }}
+      {{ generate_trigger_condition(TriggerType, trigger_data) | indent(6) }}
       {{ generate_trigger_actions(has_unlocks, has_unhides, location_data) | indent(6) }}
-      {{ generate_sub_triggers(trigger_type, trigger_data) | indent(6) }}
+      {{ generate_sub_triggers(TriggerType, trigger_data) | indent(6) }}
       <ResetTrigger>
         <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
         <Values>

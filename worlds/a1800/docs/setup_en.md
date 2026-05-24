@@ -115,9 +115,10 @@ Start the Archipelago Client. It will ask for the Anno 1800 mods folder. Point i
 [above](#installing-the-archipelago-mod). The order in which you start the client and Anno 1800 does not matter. On
 Windows, if Anno is located in a protected folder, it may be necessary to start the client as administrator.
 
-Then start a new Anno 1800 free play game or load into your existing savegame. For the starting conditions, make sure
-to turn on all DLCs that were selected in the player options for your world.
+Then start a new Anno 1800 free play game or load into your existing savegame. Singleplayer or multiplayer should both
+work the same, none of the standard singleplayer questlines will trigger. The campaign won't work.
 
+For the starting conditions, make sure to turn on all DLCs that were selected in the player options for your world.
 Currently, the other starting conditions do not really matter, but here are a few recommendations:
 * Turn off all other DLCs. Should you keep any on, they will unlock as normal
   * Especially don't turn on Docklands, unless you want the option to skip everything

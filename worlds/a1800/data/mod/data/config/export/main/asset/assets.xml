@@ -1,3 +1,4 @@
 <ModOps>
+  <Include File="./convert_to_multiplayer.include.xml" />
   <Include File="./triggers.include.xml" />
 </ModOps>

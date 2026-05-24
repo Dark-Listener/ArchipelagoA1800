@@ -16,7 +16,9 @@ the Archipelago client and the game!
 
 Special thanks to Serpens66/Serp for their
 [shared_EventOnGameLoaded mod](https://github.com/Serpens66/Anno-1800-SharedMods-for-Modders-/tree/main/shared_EventOnGameLoaded),
-which was vital to start the communication services when players load into a game!
+which was vital to start the communication services when players load into a game and their
+[Story Quests in Coop mod](https://mod.io/g/anno-1800/m/story-quests-in-coop-serp),
+which helped me achieve the opposite: disabling single player features.
 
 Thanks to all other members of the Anno modding community for their amazing tutorials, guides and resources!
 

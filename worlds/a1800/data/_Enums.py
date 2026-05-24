@@ -153,6 +153,7 @@ class TriggerType(IntEnum):
 
 class UnlockType(Flag, boundary=KEEP):
     UNLOCK = 0
+    META = auto()
     BUILDING = auto()
     FACTORY = auto()
     UPGRADE = auto()

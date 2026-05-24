@@ -1,4 +1,4 @@
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from functools import reduce
 from typing import Iterator, Optional, TYPE_CHECKING
 
@@ -6,7 +6,7 @@ if TYPE_CHECKING:
     from ..Options import A1800Options
 
 from ._Chains import CHAINS
-from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, REGION_NAMES, Session, START_REGION, TriggerType
+from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, REGION_NAMES, Session, START_REGION, TriggerType, UnlockType
 from ._EventItems import A1800EventItem, EVENT_ITEMS
 from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
 from ._Logic import LOGIC
@@ -77,7 +77,7 @@ class _A1800Data:
     def get_regions(self) -> Sequence[A1800Region]:
         return REGIONS.get_regions()
 
-    def get_location_requirements(self) -> Sequence[tuple[str, frozenset[A1800Requirement]]]:
+    def get_location_requirements(self) -> Mapping[str, set[A1800Requirement]]:
         return LOGIC.get_location_requirements()
 
     def get_populations(self) -> Sequence[A1800Product]:
@@ -137,4 +137,5 @@ __all__ = [
     "START_REGION",
     "Trigger",
     "TriggerType",
+    "UnlockType",
 ]

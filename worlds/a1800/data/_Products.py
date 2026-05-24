@@ -19,21 +19,22 @@ _a1800_products: list[A1800Product] = [
     ### VANILLA                                                                                                  ###
     ################################################################################################################
     A1800Product("Sea Travel", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
-    A1800Product("Settling", DLC.VANILLA, Region.OW, 0, ProductType.META),
+    A1800Product("Oil Transport", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
+
+    A1800Product("Victory", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
+
+    A1800Product("Settling", DLC.VANILLA, Region.OW | Region.NW, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Riot Control", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Healthcare", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Railway", DLC.VANILLA, Region.OW | Region.NW, 0, ProductType.META),
     A1800Product("Oil Harbour", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Oil Field", DLC.VANILLA, Region.OW, 0, ProductType.META),
-    A1800Product("Oil Transport", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Riot Control", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Healthcare", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Oil Harbour", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Oil Field", DLC.VANILLA, Region.NW, 0, ProductType.META),
-
-    A1800Product("Victory", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
 
     A1800Product("Farmers", DLC.VANILLA, Region.OW, 15000000, ProductType.WORKFORCE),
     A1800Product("Workers", DLC.VANILLA, Region.OW, 15000001, ProductType.WORKFORCE),

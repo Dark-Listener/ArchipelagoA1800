@@ -36,6 +36,7 @@ class A1800Unlock:
     ap_code: Optional[int] = None
     ap_item_name: str = ""
     ap_location_name: str = ""
+    ap_region: Region = NO_REGION
     unlock_guids: set[int] = field(default_factory=lambda: set())
     type: UnlockType = UnlockType.UNLOCK
     is_early: bool = False
@@ -58,24 +59,8 @@ class A1800Unlock:
             if self.cost or self.maintenance or self.unlock_chain:
                 self.type |= UnlockType.BUILDING
 
-                if self.unlock_chain:
-                    if isinstance(self.unlock_chain, str):
-                        for chain in CHAINS.find_chains(self.unlock_chain, self.name, self.region):
-                            self.unlock_guids.add(chain.guid)
-                    else:
-                        for chain, region in self.unlock_chain:
-                            self.unlock_guids.add(next(CHAINS.find_chains(chain, self.name, self.region, region)).guid)
-
             if self.input or self.output:
                 self.type |= UnlockType.FACTORY
-
-                for output in self.output:
-                    if isinstance(output, str):
-                        output_guid = next(PRODUCTS.find_products(output, self.region)).guid
-                    else:
-                        output_guid = next(PRODUCTS.find_products(output[0], output[1])).guid
-                    if output_guid:
-                        self.unlock_guids.add(output_guid)
 
             if self.previous_building:
                 self.type |= UnlockType.UPGRADE
@@ -83,17 +68,41 @@ class A1800Unlock:
             if self.consumption or self.luxury or self.lifestyle:
                 self.type |= UnlockType.RESIDENCE
 
+        if UnlockType.BUILDING in self.type:
+            if self.unlock_chain:
+                if isinstance(self.unlock_chain, str):
+                    for chain in CHAINS.find_chains(self.unlock_chain, self.name, self.region):
+                        self.unlock_guids.add(chain.guid)
+                else:
+                    for chain, region in self.unlock_chain:
+                        self.unlock_guids.add(next(CHAINS.find_chains(chain, self.name, self.region, region)).guid)
+
+        if UnlockType.FACTORY in self.type:
+            for output in self.output:
+                if isinstance(output, str):
+                    output_guid = next(PRODUCTS.find_products(output, self.region)).guid
+                else:
+                    output_guid = next(PRODUCTS.find_products(output[0], output[1])).guid
+                if output_guid:
+                    self.unlock_guids.add(output_guid)
+
 
 _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     ### VANILLA                                                                                                  ###
     ################################################################################################################
     # Meta
+    A1800Unlock("Trading Post Materials and Sea Travel", DLC.VANILLA, ALL_REGIONS, set(), set(),
+                TRUE, input={"Timber", "Steel Beams", "Sea Travel"}, output={("Settling", Region.OW | Region.NW)},
+                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+
     A1800Unlock("Oil Transport OW => NW", DLC.VANILLA, ALL_REGIONS, set(), set(),
-                TRUE, input={("Oil", Region.OW), "Oil Transport"}, output={("Oil", Region.NW)}),
+                TRUE, input={("Oil", Region.OW), "Oil Transport"}, output={("Oil", Region.NW)},
+                type=UnlockType.META | UnlockType.FACTORY),
 
     A1800Unlock("Oil Transport NW => OW", DLC.VANILLA, ALL_REGIONS, set(), set(),
-                TRUE, input={("Oil", Region.NW), "Oil Transport"}, output={("Oil", Region.OW)}),
+                TRUE, input={("Oil", Region.NW), "Oil Transport"}, output={("Oil", Region.OW)},
+                type=UnlockType.META | UnlockType.FACTORY),
 
     # Building
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, {1010517, 1010540}, set(),
@@ -306,7 +315,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Hop Farm", DLC.VANILLA, Region.OW, {1010264}, {140035, 130141},
                 ANY(POPULATION(Region.OW, "Workers", 500), POPULATION(Region.NW, "Obreros", 600)),
-                {"Timber"}, {"Farmers", "Sea Travel"},
+                {"Timber"}, {"Farmers", "Settling"},
                 set(), {"Hops"}, {("Beer", Region.OW), ("Beer", Region.NW)}),
 
     A1800Unlock("Malthouse", DLC.VANILLA, Region.OW, {1010314}, {140035, 130141},
@@ -345,7 +354,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Red Pepper Farm", DLC.VANILLA, Region.OW, {100654}, {140036},
                 POPULATION(Region.OW, "Artisans", 1),
-                {"Timber"}, {"Farmers", "Sea Travel"}, set(), {"Red Peppers"}, "Canned Food"),
+                {"Timber"}, {"Farmers", "Settling"}, set(), {"Red Peppers"}, "Canned Food"),
 
     A1800Unlock("Artisanal Kitchen", DLC.VANILLA, Region.OW, {1010293}, {140036},
                 POPULATION(Region.OW, "Artisans", 1),
@@ -359,7 +368,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Coal Mine", DLC.VANILLA, Region.OW, {1010304}, {140032, 130134},
                 POPULATION(Region.OW, "Artisans", 250),
-                {"Timber", "Bricks"}, {"Workers", "Sea Travel"},
+                {"Timber", "Bricks"}, {"Workers", "Settling"},
                 set(), {"Coal"}, {("Sewing Machines", Region.OW), ("Sewing Machines", Region.NW)}),
 
     A1800Unlock("Sewing Machine Factory", DLC.VANILLA, Region.OW, {1010284}, {140032, 130134},
@@ -378,7 +387,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Hunting Cabin", DLC.VANILLA, Region.OW, {1010558}, {140046, 130201},
                 ANY(POPULATION(Region.OW, "Artisans", 900), POPULATION(Region.NW, "Jornaleros", 100)),
-                {"Timber"}, {"Farmers", "Sea Travel"},
+                {"Timber"}, {"Farmers", "Settling"},
                 set(), {"Furs"}, {("Fur Coats", Region.OW), ("Fur Coats", Region.NW)}),
 
     A1800Unlock("Cotton Plantation", DLC.VANILLA, Region.NW, {1010331}, {140046, 130201, 130098},
@@ -410,7 +419,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Limestone Quarry", DLC.VANILLA, Region.OW, {1010309}, {140043},
                 POPULATION(Region.OW, "Engineers", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Workers", "Sea Travel"},
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Workers", "Settling"},
                 set(), {"Cement"}, "Reinforced Concrete"),
 
     A1800Unlock("Concrete Factory", DLC.VANILLA, Region.OW, {1010280}, {140043},
@@ -444,12 +453,12 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Zinc Mine", DLC.VANILLA, Region.OW, {1010307}, {130041},
                 POPULATION(Region.OW, "Engineers", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Sea Travel"},
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Settling"},
                 set(), {"Zinc"}, "Spectacles"),
 
     A1800Unlock("Copper Mine", DLC.VANILLA, Region.OW, {1010308}, {130041},
                 POPULATION(Region.OW, "Engineers", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Sea Travel"},
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Settling"},
                 set(), {"Copper"}, "Spectacles"),
 
     A1800Unlock("Brass Smeltery", DLC.VANILLA, Region.OW, {1010282}, {130041},
@@ -517,7 +526,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Vineyard", DLC.VANILLA, Region.OW, {100655}, {130055},
                 POPULATION(Region.OW, "Investors", 1),
-                {"Timber"}, {"Farmers", "Sea Travel"}, set(), {"Grapes"}, "Champagne"),
+                {"Timber"}, {"Farmers", "Settling"}, set(), {"Grapes"}, "Champagne"),
 
     A1800Unlock("Champagne Cellar", DLC.VANILLA, Region.OW, {100659}, {130055},
                 POPULATION(Region.OW, "Investors", 1),
@@ -781,14 +790,14 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     # Building, Factory, Residence
     A1800Unlock("Farmer Residence", DLC.VANILLA, Region.OW, {1010343}, {1010343},
-                SESSION_ENTER(Session.OW), {"Timber"}, set(), {"Market"}, {"Farmers"}, "",
+                SESSION_ENTER(Session.OW), {"Timber"}, set(), {"Market"}, {"Farmers"},
                 consumption={"Market", "Fish", "Work Clothes", "Fire Protection"},
                 luxury={"Schnapps", "Pub"},
                 lifestyle={"Flour", "Sugar", "Jam", "Local Mail", "Regional Mail",
                            "Overseas Mail", "Soap", "Herbs", "Hibiscus Petals"}),
 
     A1800Unlock("Jornalero Residence", DLC.VANILLA, Region.NW, {101254}, {101254},
-                SESSION_ENTER(Session.NW), {"Timber"}, set(), {"Market"}, {"Jornaleros"}, "",
+                SESSION_ENTER(Session.NW), {"Timber"}, set(), {"Market"}, {"Jornaleros"},
                 consumption={"Market", "Fried Plantains", "Ponchos", "Fire Protection", "Riot Control"},
                 luxury={"Rum", "Chapel"},
                 lifestyle={"Work Clothes", "Felt", "Teff", "Local Mail",
@@ -869,22 +878,22 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Silo", DLC.BRIGHT_HARVEST, Region.OW, {269957, 269999}, {269957, 269999},
                 POPULATION(Region.OW, "Workers", 300),
                 {"Timber", "Bricks"}, {"Grain"}),
-    A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST, Region.OW, {269837, 269839}, {269755},
+    A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST, Region.OW, {269837, 269839, 269832}, {269755, 269832},
                 POPULATION(Region.OW, "Engineers", 500),
                 {"Steel Beams", "Steam Motors"}, {"Fuel"}),
     A1800Unlock("Silo", DLC.BRIGHT_HARVEST, Region.NW, {269958, 269999}, {269958, 269999},
                 POPULATION(Region.NW, "Obreros", 1),
                 {"Timber", "Bricks"}, {"Corn"}),
-    A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST, Region.NW, {269848, 269849}, {270062},
+    A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST, Region.NW, {269848, 269849, 269832}, {270062, 269832},
                 POPULATION(Region.NW, "Obreros", 600),
                 {"Steel Beams", "Steam Motors"}, {"Fuel"}),
 
     # Building, Factory
-    A1800Unlock("Fuel Station", DLC.BRIGHT_HARVEST, Region.OW, {118571, 269751, 269832}, {269755, 269832},
+    A1800Unlock("Fuel Station", DLC.BRIGHT_HARVEST, Region.OW, {118571, 269751}, {269755},
                 POPULATION(Region.OW, "Engineers", 500),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers"},
                 {"Oil", "Railway", "Oil Harbour"}, {"Fuel"}, "Fuel"),
-    A1800Unlock("Fuel Station", DLC.BRIGHT_HARVEST, Region.NW, {269840, 269751, 269832}, {269755, 270062, 269832},
+    A1800Unlock("Fuel Station", DLC.BRIGHT_HARVEST, Region.NW, {269840, 269751}, {270062},
                 POPULATION(Region.NW, "Obreros", 600),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Obreros"},
                 {"Oil", "Railway", "Oil Harbour"}, {"Fuel"}, "Fuel"),
@@ -905,9 +914,12 @@ _a1800_unlocks: list[A1800Unlock] = [
     ### Needs Bright Harvest ###
     # Meta
     A1800Unlock("Oil Transport OW => EN", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, ALL_REGIONS, set(), set(),
-                TRUE, input={("Oil", Region.OW), "Oil Transport"}, output={("Oil", Region.EN)}),
+                TRUE, input={("Oil", Region.OW), "Oil Transport"}, output={("Oil", Region.EN)},
+                type=UnlockType.META | UnlockType.FACTORY),
+
     A1800Unlock("Oil Transport NW => EN", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, ALL_REGIONS, set(), set(),
-                TRUE, input={("Oil", Region.NW), "Oil Transport"}, output={("Oil", Region.EN)}),
+                TRUE, input={("Oil", Region.NW), "Oil Transport"}, output={("Oil", Region.EN)},
+                type=UnlockType.META | UnlockType.FACTORY),
 
     # Building
     A1800Unlock("Silo", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119025, 269999}, {119025, 269999},
@@ -916,7 +928,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Oil Store", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119034}, {270173},
                 POPULATION(Region.EN, "Elders", 600),
                 {"Wanza Timber", "Mud Bricks"}, unlock_chain="Fuel"),
-    A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119026, 119027}, {270173},
+    A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119026, 119027, 269832},
+                {270173, 269832},
                 POPULATION(Region.EN, "Elders", 600),
                 {"Steel Beams", "Steam Motors"}, {"Fuel"}),
 
@@ -924,8 +937,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Rails", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119035}, {270173},
                 POPULATION(Region.EN, "Elders", 600),
                 {"Wanza Timber", "Steel Beams"}, set(), set(), {"Railway"}, "Fuel"),
-    A1800Unlock("Fuel Station", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119028, 269751, 269832},
-                {270173, 269832},
+    A1800Unlock("Fuel Station", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119028, 269751}, {270173},
                 POPULATION(Region.EN, "Elders", 600),
                 {"Wanza Timber", "Mud Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Elders"},
                 {"Oil", "Railway", "Oil Harbour"}, {"Fuel"}, "Fuel"),
@@ -950,17 +962,13 @@ class _Unlocks:
     _initialized: bool = False
 
     def init(self, enabled_dlcs: DLC) -> None:
-        global _a1800_unlocks
-
-        self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if unlock.dlc in enabled_dlcs]
-
-        self._clean_dlc_references()
+        self._apply_options(enabled_dlcs)
 
         for a1800_unlock in self._a1800_unlocks:
             a1800_unlock.init()
 
         self._a1800_unlock_locations = sorted(
-            [unlock for unlock in self._a1800_unlocks if unlock.trigger.trigger_type != TriggerType.TRUE],
+            [unlock for unlock in self._a1800_unlocks if not UnlockType.META in unlock.type],
             key=lambda location: location.trigger.get_sort_key()
         )
 
@@ -994,12 +1002,27 @@ class _Unlocks:
             if missing_outputs:
                 unlock.output -= missing_outputs
 
+            missing_chains: set[tuple[str, Region]] = set()
+            if isinstance(unlock.unlock_chain, set):
+                for chain in unlock.unlock_chain:
+                    if not next(PRODUCTS.find_products(chain[0], chain[1]), None):
+                        missing_chains.add(chain)
+                if missing_chains:
+                    unlock.unlock_chain -= missing_chains
+
             missing_lifestyles: set[str] = set()
             for lifestyle in unlock.lifestyle:
                 if not next(PRODUCTS.find_products(lifestyle, unlock.region), None):
                     missing_lifestyles.add(lifestyle)
             if missing_lifestyles:
                 unlock.lifestyle -= missing_lifestyles
+
+    def _apply_options(self, enabled_dlcs: DLC) -> None:
+        global _a1800_unlocks
+
+        self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if unlock.dlc in enabled_dlcs]
+
+        self._clean_dlc_references()
 
     def _verify_data(self) -> None:
         # Assure all references exist
@@ -1013,52 +1036,52 @@ class _Unlocks:
 
             for cost in unlock.cost:
                 assert next(PRODUCTS.find_products(cost, unlock.region), None), \
-                    f"Unlock {unlock.name} references non-existent cost {cost}, "
+                    f"Unlock {unlock.name} references non-existent cost {cost}"
 
             for maintenance in unlock.maintenance:
                 assert next(PRODUCTS.find_products(maintenance, unlock.region), None), \
-                    f"Unlock {unlock.name} references non-existent maintenance {maintenance}, "
+                    f"Unlock {unlock.name} references non-existent maintenance {maintenance}"
 
             for input in unlock.input:
                 if isinstance(input, str):
                     assert next(PRODUCTS.find_products(input, unlock.region), None), \
-                        f"Unlock {unlock.name} references non-existent input {input}, "
+                        f"Unlock {unlock.name} references non-existent input {input}"
                 else:
                     assert next(PRODUCTS.find_products(input[0], input[1]), None), \
-                        f"Unlock {unlock.name} references non-existent input {input}, "
+                        f"Unlock {unlock.name} references non-existent input {input}"
 
             for output in unlock.output:
                 if isinstance(output, str):
                     assert next(PRODUCTS.find_products(output, unlock.region), None), \
-                        f"Unlock {unlock.name} references non-existent output {output}, "
+                        f"Unlock {unlock.name} references non-existent output {output}"
                 else:
                     assert next(PRODUCTS.find_products(output[0], output[1]), None), \
-                        f"Unlock {unlock.name} references non-existent output {output}, "
+                        f"Unlock {unlock.name} references non-existent output {output}"
 
             if unlock.unlock_chain:
                 if isinstance(unlock.unlock_chain, str):
                     assert next(CHAINS.find_chains(unlock.unlock_chain, unlock.name, unlock.region), None), \
-                        f"Unlock {unlock.name} references non-existent chain {unlock.unlock_chain}, "
+                        f"Unlock {unlock.name} references non-existent chain {unlock.unlock_chain}"
                 else:
                     for chain, region in unlock.unlock_chain:
                         assert next(CHAINS.find_chains(chain, unlock.name, unlock.region, region), None), \
-                            f"Unlock {unlock.name} references non-existent chain {chain}, "
+                            f"Unlock {unlock.name} references non-existent chain {chain}"
 
             if unlock.previous_building:
                 assert next(self.find_unlocks(unlock.previous_building, unlock.region), None), \
-                    f"Unlock {unlock.name} references non-existent previous building {unlock.previous_building}, "
+                    f"Unlock {unlock.name} references non-existent previous building {unlock.previous_building}"
 
             for consumption in unlock.consumption:
                 assert next(PRODUCTS.find_products(consumption, unlock.region), None), \
-                    f"Unlock {unlock.name} references non-existent consumption {consumption}, "
+                    f"Unlock {unlock.name} references non-existent consumption {consumption}"
 
             for luxury in unlock.luxury:
                 assert next(PRODUCTS.find_products(luxury, unlock.region), None), \
-                    f"Unlock {unlock.name} references non-existent luxury {luxury}, "
+                    f"Unlock {unlock.name} references non-existent luxury {luxury}"
 
             for lifestyle in unlock.lifestyle:
                 assert next(PRODUCTS.find_products(lifestyle, unlock.region), None), \
-                    f"Unlock {unlock.name} references non-existent lifestyle {lifestyle}, "
+                    f"Unlock {unlock.name} references non-existent lifestyle {lifestyle}"
 
         # Assure all chain references exist
         for chain in CHAINS.get_chains():

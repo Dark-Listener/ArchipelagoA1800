@@ -52,10 +52,9 @@ def set_rules(world: "A1800World") -> None:
         assert data.trigger, "Unlock location has no trigger"
         _create_and_set_rule(world, data.name, data.trigger)
 
+    location_requirements = A1800_DATA.get_location_requirements()
     for data in LOCATIONS.get_event_location_data_list():
-        requirements = next(
-            (requirement for name, requirement in A1800_DATA.get_location_requirements() if name == data.name), None)
-        if requirements:
-            _create_and_set_rule(world, data.name, requirements)
+        if data.name in location_requirements:
+            _create_and_set_rule(world, data.name, location_requirements[data.name])
 
     world.set_completion_rule(HasAll(*A1800Requirement("Victory", ALL_REGIONS).ap_item_names))

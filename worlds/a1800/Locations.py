@@ -3,7 +3,7 @@ from typing import Optional
 
 from BaseClasses import Location, Region as APRegion
 
-from .data import A1800_DATA, Region, START_REGION, Trigger, TriggerType
+from .data import A1800_DATA, Region, START_REGION, Trigger, TriggerType, UnlockType
 
 
 @dataclass
@@ -34,12 +34,12 @@ class _Locations:
         self._unlock_location_data_list = [
             A1800LocationData(
                 location.ap_location_name,
-                location.trigger.region,
+                location.ap_region or location.trigger.region,
                 location.trigger,
                 location.ap_code,
                 False
             ) for location in A1800_DATA.get_unlock_locations()
-            if location.trigger.trigger_type != TriggerType.TRUE
+            if not UnlockType.META in location.type
             and (location.trigger.trigger_type != TriggerType.SESSION_ENTER
                  or location.trigger.session.region != START_REGION
                  or A1800_DATA.find_session(location.trigger.session).requirements)
@@ -48,7 +48,7 @@ class _Locations:
         self._event_location_data_list = [
             A1800LocationData(
                 location.ap_location_name,
-                location.region,
+                location.ap_region or location.region,
                 is_event=True
             ) for location in A1800_DATA.get_event_locations() if location.is_progressive
         ]

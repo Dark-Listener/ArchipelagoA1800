@@ -71,7 +71,18 @@
   </ModOp>
   <ModOp Type="remove" GUID="113818" Path="Values/Trigger/SubTriggers/Item[SubTrigger/Values/Trigger/TriggerCondition/Template='ConditionTimer']" />
 
+  <!-- Remove timers from silo and tractor newspapers and make tractor newspaper independent from silos -->
+  <ModOp Type="remove" GUID="270008" Path="Values/Trigger/SubTriggers" />
+  <ModOp Type="replace" GUID="269865" Path="/Values/Trigger/TriggerCondition">
+    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.TRUE)) | indent(4) }}
+  </ModOp>
+  <ModOp Type="remove" GUID="269865" Path="Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/SubTriggers" />
+  <ModOp Type="replace" GUID="269865" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/TriggerCondition">
+    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, 269832, "")) | indent(4) }}
+  </ModOp>
+
   <ModOp Type="addNextSibling" GUID="130248">
+    <!-- Grant start items -->
 {%  if start_trigger_data[0] != 0 %}
     {{ generate_trigger_asset(TriggerType, start_trigger_guid, start_trigger, True, False, start_trigger_data) | indent(4) }}
 {%  endif %}
@@ -81,10 +92,12 @@
     {{ generate_trigger_asset(TriggerType, palace_ministry_unhide_guid, palace_ministry_unhide_trigger, False, True, palace_ministry_unhide_trigger_data) | indent(4) }}
 {%  endif %}
 
+    <!-- Unlock triggers -->
 {%  for trigger_guid, (trigger_data, location_data) in trigger_to_location_data.items() %}
     {{ generate_trigger_asset(TriggerType, trigger_guid, trigger_data, True, False, location_data) | indent(4) }}
 {%  endfor %}
 
+    <!-- Victory condition trigger -->
     {{ generate_trigger_asset(TriggerType, victory_trigger_guid, victory_trigger, True, False, victory_trigger_data) | indent(4) }}
   </ModOp>
 </ModOps>

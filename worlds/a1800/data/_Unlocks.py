@@ -736,6 +736,16 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
                 previous_building="Large Trading Post"),
 
+    A1800Unlock("Medium Oil Harbour", DLC.VANILLA, Region.OW, {101403}, {130047},
+                POPULATION(Region.OW, "Engineers", 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
+                previous_building="Small Oil Harbour"),
+
+    A1800Unlock("Large Oil Harbour", DLC.VANILLA, Region.OW, {101404}, {130047},
+                POPULATION(Region.OW, "Engineers", 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
+                previous_building="Medium Oil Harbour"),
+
     A1800Unlock("World's Fair: Superstructure", DLC.VANILLA, Region.OW, {1010490}, {1010490},
                 POPULATION(Region.OW, "Investors", 750),
                 {"Timber", "Cement"}, {"Farmers"}, previous_building="World's Fair: Foundations"),
@@ -758,6 +768,16 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Medium Trading Post", DLC.VANILLA, Region.NW, {101291, 101294}, {130104},
                 POPULATION(Region.NW, "Obreros", 1), {"Timber", "Bricks"}, previous_building="Small Trading Post"),
 
+    A1800Unlock("Medium Oil Harbour", DLC.VANILLA, Region.NW, {101405}, {130124},
+                POPULATION(Region.NW, "Obreros", 600),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
+                previous_building="Small Oil Harbour"),
+
+    A1800Unlock("Large Oil Harbour", DLC.VANILLA, Region.NW, {101406}, {130124},
+                POPULATION(Region.NW, "Obreros", 600),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
+                previous_building="Medium Oil Harbour"),
+
     A1800Unlock("Large Warehouse", DLC.VANILLA, Region.NW, {101325}, {130105},
                 POPULATION(Region.NW, "Obreros", 1500),
                 {"Timber", "Bricks", "Steel Beams"}, previous_building="Medium Warehouse"),
@@ -767,30 +787,10 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, previous_building="Medium Trading Post"),
 
     # Building, Factory, Upgrade
-    A1800Unlock("Medium Oil Harbour", DLC.VANILLA, Region.OW, {101403}, {130047},
-                POPULATION(Region.OW, "Engineers", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
-                set(), {"Oil Harbour"}, previous_building="Small Oil Harbour"),
-
-    A1800Unlock("Large Oil Harbour", DLC.VANILLA, Region.OW, {101404}, {130047},
-                POPULATION(Region.OW, "Engineers", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
-                set(), {"Oil Harbour"}, previous_building="Medium Oil Harbour"),
-
     A1800Unlock("World's Fair", DLC.VANILLA, Region.OW, {1010492}, {1010492},
                 POPULATION(Region.OW, "Investors", 5000),
                 {"Filaments", "Light Bulbs", "Caoutchouc"}, {"Engineers", "Electricity"}, output={"World's Fair"},
                 previous_building="World's Fair: Infrastructure"),
-
-    A1800Unlock("Medium Oil Harbour", DLC.VANILLA, Region.NW, {101405}, {130124},
-                POPULATION(Region.NW, "Obreros", 600),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
-                set(), {"Oil Harbour"}, previous_building="Small Oil Harbour"),
-
-    A1800Unlock("Large Oil Harbour", DLC.VANILLA, Region.NW, {101406}, {130124},
-                POPULATION(Region.NW, "Obreros", 600),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
-                set(), {"Oil Harbour"}, previous_building="Medium Oil Harbour"),
 
     # Building, Factory, Residence
     A1800Unlock("Farmer Residence", DLC.VANILLA, Region.OW, {1010343}, {1010343},
@@ -909,15 +909,15 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Obreros"},
                 {"Oil", "Railway", "Oil Harbour"}, {"Fuel"}, "Fuel"),
 
-    # Building, Factory, Upgrade
+    # Building, Upgrade
     A1800Unlock("Grand Oil Harbour", DLC.BRIGHT_HARVEST, Region.OW, {119259}, {119259},
                 POPULATION(Region.OW, "Engineers", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
-                set(), {"Oil Harbour"}, previous_building="Large Oil Harbour"),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
+                previous_building="Large Oil Harbour"),
     A1800Unlock("Grand Oil Harbour", DLC.BRIGHT_HARVEST, Region.NW, {119281}, {119281},
                 POPULATION(Region.NW, "Obreros", 600),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
-                set(), {"Oil Harbour"}, previous_building="Large Oil Harbour"),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
+                previous_building="Large Oil Harbour"),
 
     ################################################################################################################
     ### LAND_OF_LIONS                                                                                            ###

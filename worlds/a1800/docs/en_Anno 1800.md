@@ -47,8 +47,9 @@ the docklands complex will unlock at 250 artisans with Docklands enabled.
 
 ## What about incidents?
 
-Currently, availability of institutions is guaranteed by the end of the population that unlocks the incidents. For
-example, a fire station is guaranteed before you need to reach workers as fires unlock at 150 farmers.
+Currently, availability of institutions is guaranteed by the end of the population that usually unlocks the incidents.
+For example, a fire station is guaranteed before you need to reach workers as fires usually unlock at 150 farmers.
+Additionally, incidents can only occur once you unlocked the respective institution.
 
 ## What about expeditions?
 Currently, the expeditions to new regions unlock as they would without mods, meaning you need artisans to reach the new

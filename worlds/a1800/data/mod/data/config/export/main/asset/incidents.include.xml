@@ -1,0 +1,19 @@
+<ModOps>
+  <!-- Couple incident unlocks to incident resolver unlocks -->
+  <ModOp Type="replace" GUID="140595,141671" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
+    <UnlockNeeded>1010463</UnlockNeeded>
+  </ModOp>
+  <ModOp Type="replace" GUID="140596" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
+    <UnlockNeeded>1010462</UnlockNeeded>
+  </ModOp>
+  <ModOp Type="replace" GUID="140597" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
+    <UnlockNeeded>1010464</UnlockNeeded>
+  </ModOp>
+
+  <ModOp Type="replace" GUID="117660" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
+    <UnlockNeeded>114508</UnlockNeeded>
+  </ModOp>
+  <ModOp Type="replace" GUID="117661" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
+    <UnlockNeeded>117668</UnlockNeeded>
+  </ModOp>
+</ModOps>

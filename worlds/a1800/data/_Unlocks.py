@@ -583,11 +583,11 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.NW, "Jornaleros", 50),
                 {"Timber"}, {"Jornaleros"}, {"Plantains", "Fish Oil"}, {"Fried Plantains"}, "Fried Plantains"),
 
-    A1800Unlock("Sugar Cane Plantation", DLC.VANILLA, Region.NW, {1010329}, {140039},
+    A1800Unlock("Sugar Cane Plantation", DLC.VANILLA, Region.NW, {1010329}, {140039, 500013},
                 POPULATION(Region.NW, "Jornaleros", 100),
                 {"Timber"}, {"Jornaleros"}, set(), {"Sugar Cane"}, {("Rum", Region.NW), ("Rum", Region.OW)}),
 
-    A1800Unlock("Rum Distillery", DLC.VANILLA, Region.NW, {1010340}, {140039},
+    A1800Unlock("Rum Distillery", DLC.VANILLA, Region.NW, {1010340}, {140039, 500013},
                 POPULATION(Region.NW, "Jornaleros", 100),
                 {"Timber"}, {"Jornaleros"}, {"Sugar Cane", "Wood"}, {"Rum"}, {("Rum", Region.NW), ("Rum", Region.OW)}),
 

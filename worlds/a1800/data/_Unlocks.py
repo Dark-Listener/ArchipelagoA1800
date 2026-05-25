@@ -165,10 +165,6 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Engineers", 500),
                 {"Bricks", "Steel Beams", "Reinforced Concrete", "Advanced Weapons"}),
 
-    A1800Unlock("World's Fair: Foundations", DLC.VANILLA, Region.OW, {1010489}, {1010489},
-                POPULATION(Region.OW, "Investors", 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}),
-
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, {101290, 101293}, set(),
                 SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
 
@@ -541,6 +537,11 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Artisans"},
                 {"Glass", "Grapes"}, {"Champagne"}, "Champagne"),
 
+    A1800Unlock("World's Fair: Foundations", DLC.VANILLA, Region.OW, {1010489}, {1010489},
+                POPULATION(Region.OW, "Investors", 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Farmers"},
+                {"Timber", "Cement"}, {"World's Fair: Foundations"}),
+
     A1800Unlock("Marquetry Workshop", DLC.VANILLA, Region.OW, {1010320}, {130116},
                 POPULATION(Region.OW, "Investors", 750),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
@@ -550,15 +551,30 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Investors", 750),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(), set(), {"Members Club"}),
 
+    A1800Unlock("World's Fair: Superstructure", DLC.VANILLA, Region.OW, {1010490}, {1010490},
+                POPULATION(Region.OW, "Investors", 750),
+                {"World's Fair: Foundations"}, {"Workers"},
+                {"Bricks", "Steel Beams", "Reinforced Concrete"}, {"World's Fair: Superstructure"}),
+
     A1800Unlock("Jewellers", DLC.VANILLA, Region.OW, {1010328}, {140048},
                 POPULATION(Region.OW, "Investors", 1750),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Artisans"},
                 {"Pearls", "Gold"}, {"Jewellery"}, "Jewellery"),
 
+    A1800Unlock("World's Fair: Glazing", DLC.VANILLA, Region.OW, {101336}, {101336},
+                POPULATION(Region.OW, "Investors", 1750),
+                {"World's Fair: Superstructure"}, {"Artisans"},
+                {"Windows", "Steam Motors", "Wood Veneers"}, {"World's Fair: Glazing"}),
+
     A1800Unlock("Gramophone Factory", DLC.VANILLA, Region.OW, {1010326}, {140047},
                 POPULATION(Region.OW, "Investors", 3000),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers", "Electricity"},
                 {"Wood Veneers", "Brass"}, {"Gramophones"}, "Gramophones"),
+
+    A1800Unlock("World's Fair: Infrastructure", DLC.VANILLA, Region.OW, {1010491}, {1010491},
+                POPULATION(Region.OW, "Investors", 3000),
+                {"World's Fair: Glazing"}, {"Engineers", "Electricity"},
+                {"Filaments", "Light Bulbs", "Caoutchouc"}, {"World's Fair: Infrastructure"}),
 
     A1800Unlock("Coachmakers", DLC.VANILLA, Region.OW, {1010289}, {140049},
                 POPULATION(Region.OW, "Investors", 5000),
@@ -569,6 +585,11 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Investors", 5000),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers", "Electricity"},
                 {"Chassis", "Steam Motors"}, {"Steam Carriages"}, "Steam Carriages"),
+
+    A1800Unlock("World's Fair", DLC.VANILLA, Region.OW, {1010492}, {1010492},
+                POPULATION(Region.OW, "Investors", 5000),
+                {"World's Fair: Infrastructure"}, {"Investors", "Electricity"},
+                set(), {"World's Fair: Exhibitions", "World's Fair"}),
 
     A1800Unlock("Lumberjack's Hut", DLC.VANILLA, Region.NW, {101260}, {130093},
                 SESSION_ENTER(Session.NW), set(), {"Jornaleros"}, set(), {"Wood"}, "Timber"),
@@ -750,19 +771,6 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
                 previous_building="Medium Oil Harbour"),
 
-    A1800Unlock("World's Fair: Superstructure", DLC.VANILLA, Region.OW, {1010490}, {1010490},
-                POPULATION(Region.OW, "Investors", 750),
-                {"Timber", "Cement"}, {"Farmers"}, previous_building="World's Fair: Foundations"),
-
-    A1800Unlock("World's Fair: Glazing", DLC.VANILLA, Region.OW, {101336}, {101336},
-                POPULATION(Region.OW, "Investors", 1750),
-                {"Bricks", "Steel Beams", "Reinforced Concrete"}, {"Workers"},
-                previous_building="World's Fair: Superstructure"),
-
-    A1800Unlock("World's Fair: Infrastructure", DLC.VANILLA, Region.OW, {1010491}, {1010491},
-                POPULATION(Region.OW, "Investors", 3000),
-                {"Windows", "Steam Motors", "Wood Veneers"}, {"Artisans"}, previous_building="World's Fair: Glazing"),
-
     A1800Unlock("Paved Street", DLC.VANILLA, Region.NW, {101309}, {130100},
                 POPULATION(Region.NW, "Obreros", 1), {"Bricks"}, previous_building="Dirt Road"),
 
@@ -789,12 +797,6 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Large Trading Post", DLC.VANILLA, Region.NW, {101292, 101295}, {130105},
                 POPULATION(Region.NW, "Obreros", 1500),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, previous_building="Medium Trading Post"),
-
-    # Building, Factory, Upgrade
-    A1800Unlock("World's Fair", DLC.VANILLA, Region.OW, {1010492}, {1010492},
-                POPULATION(Region.OW, "Investors", 5000),
-                {"Filaments", "Light Bulbs", "Caoutchouc"}, {"Engineers", "Electricity"}, output={"World's Fair"},
-                previous_building="World's Fair: Infrastructure"),
 
     # Building, Factory, Residence
     A1800Unlock("Farmer Residence", DLC.VANILLA, Region.OW, {1010343}, {1010343},
@@ -907,9 +909,6 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Small Warehouse", DLC.THE_PASSAGE, Region.AR, {112656}, {112716},
                 SESSION_ENTER(Session.AR), {"Timber"}),
 
-    A1800Unlock("Arctic Airship Hangar: Foundations", DLC.THE_PASSAGE, Region.AR, {112685}, {112685},
-                POPULATION(Region.AR, "Technicians", 1), {"Timber", "Steel Beams"}),
-
     A1800Unlock("Depot", DLC.THE_PASSAGE, Region.AR, {112670}, {112670},
                 POPULATION(Region.AR, "Technicians", 1), {"Timber"}),
 
@@ -978,8 +977,18 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.AR, "Explorers", 500),
                 {"Timber"}, {"Explorers", "Heat"}, {"Brass", "Whale Oil"}, {"Oil Lamps"}, "Oil Lamps"),
 
+    A1800Unlock("Arctic Airship Hangar: Foundations", DLC.THE_PASSAGE, Region.AR, {112685}, {112685},
+                POPULATION(Region.AR, "Technicians", 1),
+                {"Timber", "Steel Beams"}, {"Explorers", "Heat"},
+                {"Timber", "Cement"}, {"Arctic Airship Hangar: Foundations"}),
+
     A1800Unlock("Post Office", DLC.THE_PASSAGE, Region.AR, {112684}, {112684},
                 POPULATION(Region.AR, "Technicians", 100), {"Timber", "Steel Beams"}, set(), set(), {"Post Office"}),
+
+    A1800Unlock("Arctic Airship Hangar: Structure", DLC.THE_PASSAGE, Region.AR, {112687}, {112687},
+                POPULATION(Region.AR, "Technicians", 100),
+                {"Arctic Airship Hangar: Foundations"}, {"Technicians", "Heat"},
+                {"Steel Beams", "Reinforced Concrete"}, {"Arctic Airship Hangar: Structure"}),
 
     A1800Unlock("Bear Hunting Cabin", DLC.THE_PASSAGE, Region.AR, {112673}, {112719},
                 POPULATION(Region.AR, "Technicians", 300),
@@ -991,6 +1000,11 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Prime Hunting Cabin", DLC.THE_PASSAGE, Region.AR, {116034}, {116034},
                 POPULATION(Region.AR, "Technicians", 300), {"Timber"}, {"Explorers", "Heat"}, set(), {"Furs"}),
+
+    A1800Unlock("Arctic Airship Hangar: Roof", DLC.THE_PASSAGE, Region.AR, {112688}, {112688},
+                POPULATION(Region.AR, "Technicians", 300),
+                {"Arctic Airship Hangar: Structure"}, {"Technicians", "Heat"},
+                {"Sails", "Windows", "Steam Motors"}, {"Arctic Airship Hangar: Roof"}),
 
     A1800Unlock("Husky Farm", DLC.THE_PASSAGE, Region.AR, {112682}, {112722},
                 POPULATION(Region.AR, "Technicians", 750),
@@ -1014,6 +1028,12 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Steel Beams"}, {"Technicians", "Heat", "Plateau Settling"},
                 set(), {"Arctic Gas"}, "Electricity (Gas)"),
 
+    # No arctic gas input to avoid cyclic dependency - Nate will always give you some if you have none and no Boreas
+    A1800Unlock("Arctic Airship Hangar", DLC.THE_PASSAGE, Region.AR, {112689}, {112689},
+                POPULATION(Region.AR, "Technicians", 750),
+                {"Arctic Airship Hangar: Roof"}, {"Technicians", "Heat"},
+                {"Timber", "Sails", "Steam Motors"}, {"Air Travel"}),
+
     # Building, Upgrade
     A1800Unlock("Medium Warehouse", DLC.THE_PASSAGE, Region.AR, {112657}, {112723},
                 POPULATION(Region.AR, "Explorers", 500), {"Timber"}, previous_building="Small Warehouse"),
@@ -1026,10 +1046,6 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.AR, "Explorers", 500),
                 {"Timber", "Steel Beams"}, previous_building="Small Sky Trading Post"),
 
-    A1800Unlock("Arctic Airship Hangar: Structure", DLC.THE_PASSAGE, Region.AR, {112687}, {112687},
-                POPULATION(Region.AR, "Technicians", 100),
-                {"Timber", "Cement"}, {"Explorers", "Heat"}, previous_building="Arctic Airship Hangar: Foundations"),
-
     A1800Unlock("Large Warehouse", DLC.THE_PASSAGE, Region.AR, {112658}, {112724},
                 POPULATION(Region.AR, "Technicians", 100), {"Timber"}, previous_building="Medium Warehouse"),
 
@@ -1040,19 +1056,6 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Large Sky Trading Post", DLC.THE_PASSAGE, Region.AR, {116004}, {112724},
                 POPULATION(Region.AR, "Technicians", 100),
                 {"Timber", "Steel Beams", "Windows"}, previous_building="Medium Sky Trading Post"),
-
-    A1800Unlock("Arctic Airship Hangar: Roof", DLC.THE_PASSAGE, Region.AR, {112688}, {112688},
-                POPULATION(Region.AR, "Technicians", 300),
-                {"Steel Beams", "Reinforced Concrete"}, {"Technicians", "Heat"},
-                previous_building="Arctic Airship Hangar: Structure"),
-
-    # Building, Factory, Upgrade
-    # No arctic gas input to avoid cyclic dependency - Nate will always give you some if you have none
-    A1800Unlock("Arctic Airship Hangar", DLC.THE_PASSAGE, Region.AR, {112689}, {112689},
-                POPULATION(Region.AR, "Technicians", 750),
-                {"Windows", "Steam Motors", "Sails"}, {"Technicians", "Heat"},
-                {"Timber", "Sails", "Steam Motors"}, {"Air Travel"},
-                previous_building="Arctic Airship Hangar: Roof"),
 
     # Building, Factory, Residence
     A1800Unlock("Explorer Shelter", DLC.THE_PASSAGE, Region.AR, {112091}, {112091},

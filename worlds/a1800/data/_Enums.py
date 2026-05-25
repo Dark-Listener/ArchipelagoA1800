@@ -44,6 +44,7 @@ ALL_DLC = reduce(DLC.__or__, DLC.__members__.values())
 
 class ProductType(Enum):
     META = auto()
+    STAGE = auto()
     WORKFORCE = auto()
     GOOD = auto()
     SERVICE = auto()

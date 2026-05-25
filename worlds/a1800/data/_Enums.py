@@ -49,6 +49,20 @@ class ProductType(Enum):
     GOOD = auto()
     SERVICE = auto()
 
+    @property
+    def full_name(self) -> str:
+        global _PRODUCT_TYPE_NAMES
+        return _PRODUCT_TYPE_NAMES[self]
+
+
+_PRODUCT_TYPE_NAMES = {
+    ProductType.META: "Meta",
+    ProductType.STAGE: "Stage",
+    ProductType.WORKFORCE: "Workforce",
+    ProductType.GOOD: "Good",
+    ProductType.SERVICE: "Service",
+}
+
 
 class Region(Flag, boundary=KEEP):
     OW = auto()
@@ -58,10 +72,10 @@ class Region(Flag, boundary=KEEP):
 
     @property
     def full_name(self) -> str:
-        global REGION_NAMES
+        global _REGION_NAMES
 
         out_name = ""
-        for region, full_name in REGION_NAMES.items():
+        for region, full_name in _REGION_NAMES.items():
             if region in self:
                 if out_name:
                     out_name += "|"
@@ -73,7 +87,7 @@ class Region(Flag, boundary=KEEP):
         return self in Region.__members__.values()
 
 
-REGION_NAMES = {
+_REGION_NAMES = {
     Region.OW: "Old World",
     Region.NW: "New World",
     Region.AR: "The Arctic",

@@ -6,7 +6,7 @@ if TYPE_CHECKING:
     from ..Options import A1800Options
 
 from ._Chains import CHAINS
-from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, REGION_NAMES, Session, START_REGION, TriggerType, UnlockType
+from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, START_REGION, TriggerType, UnlockType
 from ._EventItems import A1800EventItem, EVENT_ITEMS
 from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
 from ._Logic import LOGIC
@@ -102,7 +102,7 @@ class _A1800Data:
             if len(id_split) != 4:
                 continue
 
-            region = {full_name: region for region, full_name in REGION_NAMES.items()}[
+            region = {region.full_name: region for region in Region.__members__.values()}[
                 id_split[1].replace("_", " ").title()]
             name = id_split[3].replace("_", " ").title()
             if not region or not name:

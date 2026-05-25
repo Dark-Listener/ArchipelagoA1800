@@ -3,13 +3,15 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from ._Enums import ALL_REGIONS, DLC, Region, START_REGION
+from ._Products import PRODUCTS
 from ._Requirement import A1800Requirement
+from ._Unlocks import UNLOCKS
 
 
 _a1800_regions: dict[Region, tuple[DLC, set[tuple[str, Region]], set[tuple[str, Region]]]] = {
     Region.OW: (DLC.VANILLA, set(), set()),
     Region.NW: (DLC.VANILLA, {
-        ("Artisans", Region.OW),
+        ("Expedition: New World", ALL_REGIONS),
         ("Sea Travel", ALL_REGIONS),
     }, {
         ("Settling", Region.NW),
@@ -51,6 +53,13 @@ class _Regions:
         # Assure START_REGION has no requirements
         assert not self._a1800_regions[START_REGION].requirements, \
             f"Start region {self._a1800_regions[START_REGION]} has non-empty requirements"
+
+        # Assure all references exist
+        for region in self._a1800_regions.values():
+            for requirement in region.requirements:
+                assert next(PRODUCTS.find_products(requirement.name, requirement.region), None) \
+                    or next(UNLOCKS.find_unlocks(requirement.name, requirement.region), None), \
+                    f"Region {region.region.full_name} references non-existent requirement {requirement}"
 
     def get_regions(self) -> Sequence[A1800Region]:
         assert self._initialized, "The Anno 1800 regions module was used before it was initialized."

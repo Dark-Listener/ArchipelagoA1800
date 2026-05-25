@@ -27,12 +27,7 @@ Your goal is to reach 1 artisan at this early stage of the Archipelago world.
 Whenever you'd normally unlock a building in Anno 1800, you instead send a location check to the server. This often
 means you send multiple checks at once at a certain population threshold, for example 5 checks at 100 farmers.
 
-## The game shows (strange) unlock requirements. Why and what do they mean?
-
- Anno 1800 automatically shows the player how to unlock revealed but locked buildings. This is not preventable unless
- without breaking local (=serverless) play. It is planned to show these revealed buildings as proper hints to
- Archipelago at some point. Starnge requirements, like empty strings, "continue your journey", or populations from
- disabled DLC occur when the building unlock is not located locally.
+Additionally, each expedition that unlocks a new session is also a location check.
 
 ## What about DLCs?
 
@@ -51,10 +46,6 @@ Currently, availability of institutions is guaranteed by the end of the populati
 For example, a fire station is guaranteed before you need to reach workers as fires usually unlock at 150 farmers.
 Additionally, incidents can only occur once you unlocked the respective institution.
 
-## What about expeditions?
-Currently, the expeditions to new regions unlock as they would without mods, meaning you need artisans to reach the new
-world.
-
 ## What about NPCs?
 
 Currently, NPCs are not supported and ignored. This means you can get steel beams or other goods before the randomizer
@@ -64,3 +55,12 @@ expects you to.
 
 Currently, townhall items are not supported and ignored. This means you can use alternate prouciton items to acquire
 goods before the randomizer expects you to.
+
+## The game shows (strange) unlock requirements. Why and what do they mean?
+
+ Anno 1800 automatically shows the player how to unlock revealed but locked buildings. This is not preventable unless
+ without breaking local (=serverless) play. It is planned to show these revealed buildings as proper hints to
+ Archipelago at some point. Starnge requirements, like empty strings, "continue your journey", or populations from
+ disabled DLCs occur when the building unlock is not located locally.
+
+ Similarly, some location names in Archipelago may still include names from disabled DLCs.

@@ -17,7 +17,8 @@ from .Locations import A1800Location
 if TYPE_CHECKING:
     from . import A1800World
 
-_g_next_guid: int = 1701000000  # Start of Anno 1800 Archipelago Randomizer GUID range
+_GUID_RANGE_START = 1701000000  # Start of Anno 1800 Archipelago Randomizer GUID range
+_g_next_guid: int = _GUID_RANGE_START + 3  # -1 GUID offset, 4 GUIDS used for expedition unlocks
 
 
 def _get_next_guid() -> int:
@@ -143,12 +144,20 @@ def generate_mod(world: "A1800World", output_directory: str):
     starting_guids = list(set([guid for item in multiworld.precollected_items[player] if isinstance(item, A1800Item)
                                for guid in item.data.unlock_guids]))
 
+    expedition_unlocks = [
+        ("Expedition: New World", 1701000000),
+        ("Expedition: Cape Trelawney", 1701000001),
+        ("Expedition: The Arctic", 1701000002),
+        ("Expedition: Enbesa", 1701000003),
+    ]
+
     palace_ministry_unhide_trigger = Trigger(TriggerType.ALL, Trigger(
         TriggerType.UNLOCK, 249947, "OW: Palace"), Trigger(TriggerType.DLC, DLC.SEAT_OF_POWER))
 
     template_data: dict[str, Any] = {
         "lock_guid_list": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),
         "trigger_to_location_data": trigger_to_location_data,
+        "Trigger": Trigger,
         "TriggerType": TriggerType,
         "DLC": DLC,
         "enabled_dlcs": A1800_DATA.get_enabled_dlcs(),
@@ -159,6 +168,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "start_trigger_data": [(
             starting_guids[0] if starting_guids else 0, None, starting_guids[1:] if len(starting_guids) > 1 else [], []
         )],
+        "expedition_unlocks": expedition_unlocks,
         "victory_trigger_guid": victory_trigger_guid,
         "victory_trigger": _get_trigger_with_dlc(A1800_DATA.get_victory_trigger(), A1800_DATA.get_victory_dlcs()),
         "victory_trigger_data": [(victory_guid, None, [], [])],

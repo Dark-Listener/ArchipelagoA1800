@@ -14,7 +14,6 @@ class EnabledDLCsOption(OptionSet):
     List of enabled DLCs. Per default, all implemented DLCs are enabled.
     It's recommended to match this list when creating the game.
     Duplicates will be ignored.
-    Some DLCs (currently) have no effect on the randomizer: SUNKEN_TREASURES
     """
     display_name = "Enabled DLCs"
     valid_keys = _default_enabled_dlcs

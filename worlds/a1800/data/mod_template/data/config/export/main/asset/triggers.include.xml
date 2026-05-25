@@ -22,6 +22,18 @@
   <ModOp Type="remove" GUID="130295" Path="/Values/Trigger/TriggerActions/Item/TriggerAction/Values//ActionUnlockAsset/UnhideAssets/Item[Asset='269602']" />
 
   <ModOp Type="addNextSibling" GUID="105568">
+{% for name, guid in expedition_unlocks %}
+    <Asset>
+      <Template>UnlockableAsset</Template>
+      <Values>
+        <Standard>
+          <GUID>{{ guid }}</GUID>
+          <Name>{{ name }}</Name>
+        </Standard>
+        <Locked/>
+      </Values>
+    </Asset>
+{% endfor %}
 {% for _, (_, location_data) in trigger_to_location_data.items() %}
 {% for guid, location, _, _ in location_data %}
     <Asset>
@@ -29,7 +41,7 @@
       <Values>
         <Standard>
           <GUID>{{ guid }}</GUID>
-          <Name>Unlock {{ location.name }}</Name>
+          <Name>Unlock: {{ location.name }}</Name>
         </Standard>
         <Locked/>
       </Values>
@@ -48,7 +60,16 @@
     </Asset>
   </ModOp>
 
-{% from 'triggers.util.xml' import generate_trigger_asset %}
+{% from 'triggers.util.xml' import generate_trigger_asset, generate_trigger_condition %}
+
+  <!-- Make expedition unlocks dependent on custom unlocks -->
+  <ModOp Type="replace" GUID="140885" Path="/Values/Trigger/TriggerCondition">
+    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[0][1], "")) | indent(4) }}
+  </ModOp>
+  <ModOp Type="replace" GUID="113818" Path="/Values/Trigger/TriggerCondition">
+    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[1][1], "")) | indent(4) }}
+  </ModOp>
+  <ModOp Type="remove" GUID="113818" Path="Values/Trigger/SubTriggers/Item[SubTrigger/Values/Trigger/TriggerCondition/Template='ConditionTimer']" />
 
   <ModOp Type="addNextSibling" GUID="130248">
 {%  if start_trigger_data[0] != 0 %}

@@ -1,13 +1,17 @@
 from dataclasses import dataclass
 
-from ._Enums import DLC, Region, Session
+
+from ._Enums import ALL_REGIONS, DLC, Region, Session
+from ._Products import PRODUCTS
 from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
+from ._Unlocks import UNLOCKS
 
 
 _a1800_sessions: dict[Session, tuple[DLC, set[tuple[str, Region]]]] = {
     Session.OW: (DLC.VANILLA, set()),
     Session.NW: (DLC.VANILLA, set()),
+    Session.CT: (DLC.SUNKEN_TREASURES, {("Expedition: Cape Trelawney", ALL_REGIONS)}),
 }
 
 
@@ -36,6 +40,13 @@ class _Sessions:
         }
 
         self._initialized = True
+
+        # Assure all references exist
+        for session in self._a1800_sessions.values():
+            for requirement in session.requirements:
+                assert next(PRODUCTS.find_products(requirement.name, requirement.region), None) \
+                    or next(UNLOCKS.find_unlocks(requirement.name, requirement.region), None), \
+                    f"Session {session.session.full_name} references non-existent requirement {requirement}"
 
     def find_session(self, session: Session) -> A1800Session:
         assert self._initialized, "The Anno 1800 sessions module was used before it was initialized."

@@ -6,7 +6,6 @@ The following features are planned to be added at some point (in no specific ord
 
 * MORE DLCs!!! (Not Docklands though, defeats the purpose)
 * Include ship unlocks in the item pool
-* Include expeditions for session unlocks in the item pool
 * Create some filler items
 * Ingame notifications for sending&receiving unlocks
 * Ingame quests for the victory condition

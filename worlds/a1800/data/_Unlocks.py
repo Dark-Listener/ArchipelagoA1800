@@ -104,6 +104,10 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TRUE, input={("Oil", Region.NW), "Oil Transport"}, output={("Oil", Region.OW)},
                 type=UnlockType.META | UnlockType.FACTORY),
 
+    # Unlock
+    A1800Unlock("Expedition: New World", DLC.VANILLA, ALL_REGIONS, {1701000000}, set(),
+                POPULATION(Region.OW, "Artisans", 1)),
+
     # Building
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, {1010517, 1010540}, set(),
                 SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
@@ -850,6 +854,13 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Rum", "Chapel", "Boxing Arena", "Beer", "Cigars"},
                 {"Spectacles", "Typewriter", "Illuminated Script", "Local Mail",
                     "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooter"}),
+
+    ################################################################################################################
+    ### SUNKEN_TREASURES                                                                                         ###
+    ################################################################################################################
+    # Unlock
+    A1800Unlock("Expedition: Cape Trelawney", DLC.SUNKEN_TREASURES, ALL_REGIONS, {1701000001}, set(),
+                POPULATION(Region.OW, "Artisans", 700)),
 
     ################################################################################################################
     ### BOTANICA                                                                                                 ###

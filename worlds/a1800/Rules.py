@@ -1,6 +1,6 @@
 from typing import Iterable, Optional, TYPE_CHECKING
 
-from rule_builder.rules import And, HasAll, Or, Rule, True_
+from rule_builder.rules import And, False_, HasAll, Or, Rule, True_
 
 from .data import A1800Requirement, ALL_REGIONS, A1800_DATA, Trigger, TriggerType
 from .Locations import LOCATIONS
@@ -14,6 +14,8 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
         match(data.trigger_type):
             case TriggerType.TRUE:
                 return True_()
+            case TriggerType.FALSE:
+                return False_()
             case TriggerType.ALL:
                 return And(*[rule for trigger in data.triggers for rule in [_create_rule(trigger)] if rule is not None])
             case TriggerType.ANY:

@@ -6,7 +6,7 @@ class DLC(Flag, boundary=KEEP):
     VANILLA = auto()
     SUNKEN_TREASURES = auto()
     BOTANICA = auto()
-#    THE_PASSAGE = auto()
+    THE_PASSAGE = auto()
     SEAT_OF_POWER = auto()
     BRIGHT_HARVEST = auto()
     LAND_OF_LIONS = auto()
@@ -14,7 +14,7 @@ class DLC(Flag, boundary=KEEP):
     TOURIST_SEASON = auto()
 #    THE_HIGH_LIFE = auto()
 #    SEEDS_OF_CHANGE = auto()
-#    EMPIRE_OF_THE_SKIES = auto()
+    EMPIRE_OF_THE_SKIES = auto()
 #    NEW_WORLD_RISING = auto()
 
     @property
@@ -27,7 +27,7 @@ _DLC_GUIDS = {
     DLC.VANILLA: 0,
     DLC.SUNKEN_TREASURES: 410040,
     DLC.BOTANICA: 410041,
-    #    DLC.THE_PASSAGE: 410042,
+    DLC.THE_PASSAGE: 410042,
     DLC.SEAT_OF_POWER: 410059,
     DLC.BRIGHT_HARVEST: 410070,
     #    DLC.LAND_OF_LIONS: 410071,
@@ -35,7 +35,7 @@ _DLC_GUIDS = {
     DLC.TOURIST_SEASON: 410084,
     #    DLC.THE_HIGH_LIFE: 410085,
     #    DLC.SEEDS_OF_CHANGE: 24961,
-    #    DLC.EMPIRE_OF_THE_SKIES: 24962,
+    DLC.EMPIRE_OF_THE_SKIES: 24962,
     #    DLC.NEW_WORLD_RISING: 24963,
 }
 
@@ -149,6 +149,7 @@ class TriggerType(IntEnum):
     ANY = auto()
     ALL = auto()
     TRUE = auto()
+    FALSE = auto()
 
 
 class UnlockType(Flag, boundary=KEEP):

@@ -143,6 +143,38 @@ _a1800_chains: list[A1800Chain] = [
                 ("Chocolate Factory", Region.NW)}),
 
     ################################################################################################################
+    ### THE_PASSAGE                                                                                              ###
+    ################################################################################################################
+    A1800Chain("Electricity (Gas)", DLC.THE_PASSAGE, Region.OW, 117559,
+               {("Arctic Gas Mine", Region.AR), ("Gas-Fired Power Plant", Region.OW)}),
+    A1800Chain("Heater", DLC.THE_PASSAGE, Region.AR, 112856,
+               {("Charcoal Kiln", Region.AR), ("Heater", Region.AR)}),
+    A1800Chain("Timber", DLC.THE_PASSAGE, Region.AR, 112709,
+               {("Lumberjack's Hut", Region.AR), ("Sawmill", Region.AR)}),
+    A1800Chain("Pemmican", DLC.THE_PASSAGE, Region.AR, 112710,
+               {("Caribou Hunting Cabin", Region.AR), ("Whaling Station", Region.AR),
+                ("Pemmican Cookhouse", Region.AR)}),
+    A1800Chain("Sleeping Bags", DLC.THE_PASSAGE, Region.AR, 112712,
+               {("Goose Farm", Region.AR), ("Seal Hunting Docks", Region.AR), ("Sleeping Bag Factory", Region.AR)}),
+    A1800Chain("Oil Lamps", DLC.THE_PASSAGE, Region.AR, 112713,
+               {("Zinc Mine", Region.OW), ("Copper Mine", Region.OW), ("Brass Smeltery", Region.OW),
+                ("Whaling Station", Region.AR), ("Oil Lamp Factory", Region.AR)}),
+    A1800Chain("Schnapps", DLC.THE_PASSAGE, Region.AR, 117077,
+               {("Potato Farm", Region.OW), ("Schnapps Distillery", Region.OW)}),
+    A1800Chain("Parkas", DLC.THE_PASSAGE, Region.AR, 112711,
+               {("Seal Hunting Docks", Region.AR), ("Bear Hunting Cabin", Region.AR), ("Parka Factory", Region.AR)}),
+    A1800Chain("Canned Food", DLC.THE_PASSAGE, Region.AR, 117268,
+               {("Cattle Farm", Region.OW), ("Red Pepper Farm", Region.OW), ("Artisanal Kitchen", Region.OW),
+                ("Iron Mine", Region.OW), ("Cannery", Region.OW)}),
+    A1800Chain("Husky Sleds", DLC.THE_PASSAGE, Region.AR, 112714,
+               {("Lumberjack's Hut", Region.AR), ("Seal Hunting Docks", Region.AR), ("Sled Frame Factory", Region.AR),
+                ("Husky Farm", Region.AR), ("Husky Sled Factory", Region.AR)}),
+    A1800Chain("Coffee", DLC.THE_PASSAGE, Region.AR, 117075,
+               {("Coffee Plantation", Region.NW), ("Coffee Roaster", Region.NW)}),
+    A1800Chain("Electricity (Gas)", DLC.THE_PASSAGE, Region.AR, 117556,
+               {("Arctic Gas Mine", Region.AR), ("Gas-Fired Power Plant", Region.OW)}),
+
+    ################################################################################################################
     ### BRIGHT_HARVEST                                                                                           ###
     ################################################################################################################
     A1800Chain("Fuel", DLC.BRIGHT_HARVEST, Region.OW, 269756,

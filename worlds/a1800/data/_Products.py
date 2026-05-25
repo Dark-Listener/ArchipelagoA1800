@@ -19,6 +19,7 @@ _a1800_products: list[A1800Product] = [
     ### VANILLA                                                                                                  ###
     ################################################################################################################
     A1800Product("Sea Travel", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
+    A1800Product("Air Travel", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Oil Transport", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
 
     A1800Product("Victory", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
@@ -154,6 +155,36 @@ _a1800_products: list[A1800Product] = [
     ################################################################################################################
     A1800Product("Fuel", DLC.BRIGHT_HARVEST, Region.OW, 270042, ProductType.SERVICE),
     A1800Product("Fuel", DLC.BRIGHT_HARVEST, Region.NW, 270042, ProductType.SERVICE),
+
+    ################################################################################################################
+    ### THE_PASSAGE                                                                                              ###
+    ################################################################################################################
+    A1800Product("Settling", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
+    A1800Product("Plateau Settling", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
+    A1800Product("Fire Protection", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
+    A1800Product("Healthcare", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
+
+    A1800Product("Explorers", DLC.THE_PASSAGE, Region.AR, 112642, ProductType.WORKFORCE),
+    A1800Product("Technicians", DLC.THE_PASSAGE, Region.AR, 112643, ProductType.WORKFORCE),
+
+    A1800Product("Caribou Meat", DLC.THE_PASSAGE, ALL_REGIONS, 112694, ProductType.GOOD),
+    A1800Product("Whale Oil", DLC.THE_PASSAGE, ALL_REGIONS, 112699, ProductType.GOOD),
+    A1800Product("Pemmican", DLC.THE_PASSAGE, ALL_REGIONS, 112705, ProductType.GOOD),
+    A1800Product("Goose Feathers", DLC.THE_PASSAGE, ALL_REGIONS, 112697, ProductType.GOOD),
+    A1800Product("Seal Skin", DLC.THE_PASSAGE, ALL_REGIONS, 112696, ProductType.GOOD),
+    A1800Product("Sleeping Bags", DLC.THE_PASSAGE, ALL_REGIONS, 112701, ProductType.GOOD),
+    A1800Product("Oil Lamps", DLC.THE_PASSAGE, ALL_REGIONS, 112702, ProductType.GOOD),
+    A1800Product("Bear Fur", DLC.THE_PASSAGE, ALL_REGIONS, 112695, ProductType.GOOD),
+    A1800Product("Parkas", DLC.THE_PASSAGE, ALL_REGIONS, 112700, ProductType.GOOD),
+    A1800Product("Lost Expedition Scrap", DLC.THE_PASSAGE, ALL_REGIONS, 115980, ProductType.GOOD),
+    A1800Product("Huskies", DLC.THE_PASSAGE, ALL_REGIONS, 112698, ProductType.GOOD),
+    A1800Product("Sleds", DLC.THE_PASSAGE, ALL_REGIONS, 112704, ProductType.GOOD),
+    A1800Product("Husky Sleds", DLC.THE_PASSAGE, ALL_REGIONS, 112703, ProductType.GOOD),
+    A1800Product("Arctic Gas", DLC.THE_PASSAGE, ALL_REGIONS, 112706, ProductType.GOOD),
+
+    A1800Product("Heat", DLC.THE_PASSAGE, Region.AR, 112708, ProductType.SERVICE),
+    A1800Product("Canteen", DLC.THE_PASSAGE, Region.AR, 114890, ProductType.SERVICE),
+    A1800Product("Post Office", DLC.THE_PASSAGE, Region.AR, 112693, ProductType.SERVICE),
 
     ################################################################################################################
     ### LAND_OF_LIONS                                                                                            ###

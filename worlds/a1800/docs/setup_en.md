@@ -45,6 +45,7 @@ Purchase and install Anno 1800 via one the sources linked [above](#required-soft
 all of the supported DLCs as you desire:
 * Sunken Treasures
 * Botanica
+* The Passage
 * Seat of Power
 * Bright Harvest
 

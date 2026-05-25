@@ -5,7 +5,7 @@ from typing import ClassVar, Iterator, Optional
 from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerType, UnlockType
 from ._Products import PRODUCTS
-from ._Trigger import ANY, POPULATION, SESSION_ENTER, Trigger, TRUE
+from ._Trigger import ANY, FALSE, POPULATION, SESSION_ENTER, Trigger, TRUE
 
 
 def create_unlock_name(name: str, region: Region, prefix: str = "", postfix: str = "") -> str:
@@ -243,11 +243,14 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Farmers", 100),
                 {"Timber"}, {"Farmers"}, {"Wool"}, {"Work Clothes"}, "Work Clothes", is_early=True),
 
-    A1800Unlock("Potato Farm", DLC.VANILLA, Region.OW, {1010265}, {140028},
-                POPULATION(Region.OW, "Farmers", 100), {"Timber"}, {"Farmers"}, set(), {"Potatoes"}, "Schnapps"),
+    A1800Unlock("Potato Farm", DLC.VANILLA, Region.OW, {1010265}, {140028, 117078},
+                ANY(POPULATION(Region.OW, "Farmers", 100), POPULATION(Region.AR, "Explorers", 500)),
+                {"Timber"}, {"Farmers"}, set(), {"Potatoes"}, {("Schnapps", Region.OW), ("Schnapps", Region.AR)}),
 
-    A1800Unlock("Schnapps Distillery", DLC.VANILLA, Region.OW, {1010294}, {140028},
-                POPULATION(Region.OW, "Farmers", 100), {"Timber"}, {"Farmers"}, {"Potatoes"}, {"Schnapps"}, "Schnapps"),
+    A1800Unlock("Schnapps Distillery", DLC.VANILLA, Region.OW, {1010294}, {140028, 117078},
+                ANY(POPULATION(Region.OW, "Farmers", 100), POPULATION(Region.AR, "Explorers", 500)),
+                {"Timber"}, {"Farmers"},
+                {"Potatoes"}, {"Schnapps"}, {("Schnapps", Region.OW), ("Schnapps", Region.AR)}),
 
     A1800Unlock("Fire Station", DLC.VANILLA, Region.OW, {1010463}, {1010463},
                 POPULATION(Region.OW, "Farmers", 150), {"Timber"}, set(), set(), {"Fire Protection"}, is_early=True),
@@ -352,23 +355,24 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.OW, "Artisans", 1),
                 {"Timber", "Bricks", "Steel Beams"}, {"Artisans"}, {"Wood", "Glass"}, {"Windows"}, "Windows"),
 
-    A1800Unlock("Cattle Farm", DLC.VANILLA, Region.OW, {1010263}, {140036},
-                POPULATION(Region.OW, "Artisans", 1),
-                {"Timber"}, {"Farmers"}, set(), {"Beef"}, "Canned Food"),
+    A1800Unlock("Cattle Farm", DLC.VANILLA, Region.OW, {1010263}, {140036, 117267},
+                ANY(POPULATION(Region.OW, "Artisans", 1), POPULATION(Region.AR, "Technicians", 300)),
+                {"Timber"}, {"Farmers"}, set(), {"Beef"}, {("Canned Food", Region.OW), ("Canned Food", Region.AR)}),
 
-    A1800Unlock("Red Pepper Farm", DLC.VANILLA, Region.OW, {100654}, {140036},
-                POPULATION(Region.OW, "Artisans", 1),
-                {"Timber"}, {"Farmers", "Settling"}, set(), {"Red Peppers"}, "Canned Food"),
+    A1800Unlock("Red Pepper Farm", DLC.VANILLA, Region.OW, {100654}, {140036, 117267},
+                ANY(POPULATION(Region.OW, "Artisans", 1), POPULATION(Region.AR, "Technicians", 300)),
+                {"Timber"}, {"Farmers", "Settling"}, set(), {"Red Peppers"},
+                {("Canned Food", Region.OW), ("Canned Food", Region.AR)}),
 
-    A1800Unlock("Artisanal Kitchen", DLC.VANILLA, Region.OW, {1010293}, {140036},
-                POPULATION(Region.OW, "Artisans", 1),
+    A1800Unlock("Artisanal Kitchen", DLC.VANILLA, Region.OW, {1010293}, {140036, 117267},
+                ANY(POPULATION(Region.OW, "Artisans", 1), POPULATION(Region.AR, "Technicians", 300)),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Artisans"},
-                {"Beef", "Red Peppers"}, {"Goulash"}, "Canned Food"),
+                {"Beef", "Red Peppers"}, {"Goulash"}, {("Canned Food", Region.OW), ("Canned Food", Region.AR)}),
 
-    A1800Unlock("Cannery", DLC.VANILLA, Region.OW, {1010295}, {140036},
-                POPULATION(Region.OW, "Artisans", 1),
+    A1800Unlock("Cannery", DLC.VANILLA, Region.OW, {1010295}, {140036, 117267},
+                ANY(POPULATION(Region.OW, "Artisans", 1), POPULATION(Region.AR, "Technicians", 300)),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Artisans"},
-                {"Iron", "Goulash"}, {"Canned Food"}, "Canned Food"),
+                {"Iron", "Goulash"}, {"Canned Food"}, {("Canned Food", Region.OW), ("Canned Food", Region.AR)}),
 
     A1800Unlock("Coal Mine", DLC.VANILLA, Region.OW, {1010304}, {140032, 130134},
                 POPULATION(Region.OW, "Artisans", 250),
@@ -642,14 +646,14 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.NW, "Obreros", 1),
                 {"Timber", "Bricks"}, {"Obreros"}, {"Beef", "Corn"}, {"Tortillas"}, "Tortillas"),
 
-    A1800Unlock("Coffee Plantation", DLC.VANILLA, Region.NW, {101251}, {130063, 130126},
+    A1800Unlock("Coffee Plantation", DLC.VANILLA, Region.NW, {101251}, {130063, 130126, 117074},
                 POPULATION(Region.NW, "Obreros", 300), {"Timber"}, {"Jornaleros"}, set(), {"Coffee Beans"},
-                {("Coffee", Region.NW), ("Coffee", Region.OW)}),
+                {("Coffee", Region.NW), ("Coffee", Region.OW), ("Coffee", Region.AR)}),
 
-    A1800Unlock("Coffee Roaster", DLC.VANILLA, Region.NW, {101252}, {130063, 130126},
+    A1800Unlock("Coffee Roaster", DLC.VANILLA, Region.NW, {101252}, {130063, 130126, 117074},
                 POPULATION(Region.NW, "Obreros", 300),
                 {"Timber", "Bricks"}, {"Obreros"}, {"Coffee Beans"}, {"Coffee"},
-                {("Coffee", Region.NW), ("Coffee", Region.OW)}),
+                {("Coffee", Region.NW), ("Coffee", Region.OW), ("Coffee", Region.AR)}),
 
     A1800Unlock("Boxing Arena", DLC.VANILLA, Region.NW, {101259}, {130102},
                 POPULATION(Region.NW, "Obreros", 300), {"Timber", "Bricks"}, set(), set(), {"Boxing Arena"}),
@@ -875,6 +879,198 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), {"Botanical Garden"}),
 
     ################################################################################################################
+    ### THE_PASSAGE                                                                                              ###
+    ################################################################################################################
+    # Meta
+    A1800Unlock("Trading Post Materials and Sea Travel", DLC.THE_PASSAGE, Region.AR, set(), set(),
+                TRUE, input={"Timber", "Steel Beams", "Sea Travel"}, output={"Settling"},
+                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+
+    A1800Unlock("Sky Post Materials and Air Travel", DLC.THE_PASSAGE, Region.AR, set(), set(),
+                TRUE, input={"Timber", "Steel Beams", "Air Travel"}, output={"Plateau Settling"},
+                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+
+    # Unlock
+    A1800Unlock("Expedition: The Arctic", DLC.SUNKEN_TREASURES, ALL_REGIONS, {1701000002}, set(),
+                POPULATION(Region.OW, "Engineers", 1), output={"Expedition to The Arctic"}),
+
+    # Building
+    A1800Unlock("Small Trading Post", DLC.THE_PASSAGE, Region.AR, {112659, 112865}, set(),
+                SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
+
+    A1800Unlock("Small Sky Trading Post", DLC.THE_PASSAGE, Region.AR, {112726}, set(),
+                SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
+
+    A1800Unlock("Road", DLC.THE_PASSAGE, Region.AR, {112113}, {112113},
+                SESSION_ENTER(Session.AR), type=UnlockType.BUILDING),
+
+    A1800Unlock("Small Warehouse", DLC.THE_PASSAGE, Region.AR, {112656}, {112716},
+                SESSION_ENTER(Session.AR), {"Timber"}),
+
+    A1800Unlock("Arctic Airship Hangar: Foundations", DLC.THE_PASSAGE, Region.AR, {112685}, {112685},
+                POPULATION(Region.AR, "Technicians", 1), {"Timber", "Steel Beams"}),
+
+    A1800Unlock("Depot", DLC.THE_PASSAGE, Region.AR, {112670}, {112670},
+                POPULATION(Region.AR, "Technicians", 1), {"Timber"}),
+
+    A1800Unlock("Cannon Tower", DLC.THE_PASSAGE, Region.AR, {112671}, {112671},
+                POPULATION(Region.AR, "Technicians", 1), {"Timber", "Steel Beams", "Weapons"}),
+
+    A1800Unlock("Pier", DLC.THE_PASSAGE, Region.AR, {116030}, {116030},
+                POPULATION(Region.AR, "Technicians", 1), {"Timber", "Steel Beams"}),
+
+    A1800Unlock("Flame Tower", DLC.THE_PASSAGE, Region.AR, {824}, {824},
+                POPULATION(Region.AR, "Technicians", 1), {"Timber", "Bricks", "Weapons"}),
+
+    A1800Unlock("Arctic Lodge", DLC.THE_PASSAGE, Region.AR, {112678}, {112678},
+                POPULATION(Region.AR, "Technicians", 100), {"Timber", "Steel Beams"}),
+
+    # Building, Factory
+    A1800Unlock("Gas-Fired Power Plant", DLC.THE_PASSAGE, Region.OW, {117547}, {117562},
+                POPULATION(Region.OW, "Investors", 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
+                {"Arctic Gas"}, {"Electricity"}, "Electricity (Gas)"),
+
+    A1800Unlock("Charcoal Kiln", DLC.THE_PASSAGE, Region.AR, {114705}, {112715},
+                SESSION_ENTER(Session.AR), {"Timber"}, {"Explorers"}, set(), {"Coal"}, "Heater"),
+
+    A1800Unlock("Heater", DLC.THE_PASSAGE, Region.AR, {114751}, {112715},
+                SESSION_ENTER(Session.AR), {"Timber"}, set(), {"Coal"}, {"Heat"}, "Heater"),
+
+    A1800Unlock("Lumberjack's Hut", DLC.THE_PASSAGE, Region.AR, {114703}, {112717},
+                SESSION_ENTER(Session.AR), set(), {"Explorers", "Heat"}, set(), {"Wood"}, "Timber"),
+
+    A1800Unlock("Sawmill", DLC.THE_PASSAGE, Region.AR, {114704}, {112717},
+                SESSION_ENTER(Session.AR), set(), {"Explorers", "Heat"}, {"Wood"}, {"Timber"}, "Timber"),
+
+    A1800Unlock("Canteen", DLC.THE_PASSAGE, Region.AR, {114889}, {114889},
+                SESSION_ENTER(Session.AR), {"Timber"}, set(), set(), {"Canteen"}),
+
+    A1800Unlock("Caribou Hunting Cabin", DLC.THE_PASSAGE, Region.AR, {112667}, {112718},
+                POPULATION(Region.AR, "Explorers", 100),
+                {"Timber"}, {"Explorers", "Heat"}, set(), {"Caribou Meat"}, "Pemmican"),
+
+    A1800Unlock("Whaling Station", DLC.THE_PASSAGE, Region.AR, {112666}, {112718},
+                POPULATION(Region.AR, "Explorers", 100),
+                {"Timber"}, {"Explorers", "Heat"}, set(), {"Whale Oil"}, "Pemmican"),
+
+    A1800Unlock("Pemmican Cookhouse", DLC.THE_PASSAGE, Region.AR, {112668}, {112718},
+                POPULATION(Region.AR, "Explorers", 100),
+                {"Timber"}, {"Explorers", "Heat"}, {"Caribou Meat", "Whale Oil"}, {"Pemmican"}, "Pemmican"),
+
+    A1800Unlock("Ranger Station", DLC.THE_PASSAGE, Region.AR, {112669}, {112669},
+                POPULATION(Region.AR, "Explorers", 250),
+                {"Timber", "Steel Beams"}, {"Heat"}, set(), {"Fire Protection", "Healthcare"}),
+
+    A1800Unlock("Goose Farm", DLC.THE_PASSAGE, Region.AR, {112676}, {112720},
+                POPULATION(Region.AR, "Explorers", 250),
+                {"Timber"}, {"Explorers", "Heat"}, set(), {"Goose Feathers"}, "Sleeping Bags"),
+
+    A1800Unlock("Seal Hunting Docks", DLC.THE_PASSAGE, Region.AR, {112674}, {112720},
+                POPULATION(Region.AR, "Explorers", 250),
+                {"Timber"}, {"Explorers", "Heat"}, set(), {"Seal Skin"}, "Sleeping Bags"),
+
+    A1800Unlock("Sleeping Bag Factory", DLC.THE_PASSAGE, Region.AR, {112675}, {112720},
+                POPULATION(Region.AR, "Explorers", 250),
+                {"Timber"}, {"Explorers", "Heat"}, {"Goose Feathers", "Seal Skin"}, {"Sleeping Bags"}, "Sleeping Bags"),
+
+    A1800Unlock("Oil Lamp Factory", DLC.THE_PASSAGE, Region.AR, {112679}, {112721},
+                POPULATION(Region.AR, "Explorers", 500),
+                {"Timber"}, {"Explorers", "Heat"}, {"Brass", "Whale Oil"}, {"Oil Lamps"}, "Oil Lamps"),
+
+    A1800Unlock("Post Office", DLC.THE_PASSAGE, Region.AR, {112684}, {112684},
+                POPULATION(Region.AR, "Technicians", 100), {"Timber", "Steel Beams"}, set(), set(), {"Post Office"}),
+
+    A1800Unlock("Bear Hunting Cabin", DLC.THE_PASSAGE, Region.AR, {112673}, {112719},
+                POPULATION(Region.AR, "Technicians", 300),
+                {"Timber"}, {"Explorers", "Heat"}, set(), {"Bear Fur"}, "Parkas"),
+
+    A1800Unlock("Parka Factory", DLC.THE_PASSAGE, Region.AR, {112672}, {112719},
+                POPULATION(Region.AR, "Technicians", 300),
+                {"Timber", "Steel Beams"}, {"Technicians", "Heat"}, {"Seal Skin", "Bear Fur"}, {"Parkas"}, "Parkas"),
+
+    A1800Unlock("Prime Hunting Cabin", DLC.THE_PASSAGE, Region.AR, {116034}, {116034},
+                POPULATION(Region.AR, "Technicians", 300), {"Timber"}, {"Explorers", "Heat"}, set(), {"Furs"}),
+
+    A1800Unlock("Husky Farm", DLC.THE_PASSAGE, Region.AR, {112682}, {112722},
+                POPULATION(Region.AR, "Technicians", 750),
+                {"Timber"}, {"Technicians", "Heat"}, set(), {"Huskies"}, "Husky Sleds"),
+
+    A1800Unlock("Sled Frame Factory", DLC.THE_PASSAGE, Region.AR, {112681}, {112722},
+                POPULATION(Region.AR, "Technicians", 750),
+                {"Timber", "Steel Beams"}, {"Technicians", "Heat"}, {"Seal Skin", "Wood"}, {"Sleds"}, "Husky Sleds"),
+
+    A1800Unlock("Husky Sled Factory", DLC.THE_PASSAGE, Region.AR, {112680}, {112722},
+                POPULATION(Region.AR, "Technicians", 750),
+                {"Timber", "Steel Beams"}, {"Technicians", "Heat"},
+                {"Huskies", "Sleds"}, {"Husky Sleds"}, "Husky Sleds"),
+
+    A1800Unlock("Deep Gold Mine", DLC.THE_PASSAGE, Region.AR, {116029}, {116029},
+                POPULATION(Region.AR, "Technicians", 750),
+                {"Timber", "Steel Beams"}, {"Technicians", "Heat"}, set(), {"Gold Ore"}),
+
+    A1800Unlock("Arctic Gas Mine", DLC.THE_PASSAGE, Region.AR, {112690}, {114192, 117561},
+                POPULATION(Region.AR, "Technicians", 750),
+                {"Timber", "Steel Beams"}, {"Technicians", "Heat", "Plateau Settling"},
+                set(), {"Arctic Gas"}, "Electricity (Gas)"),
+
+    # Building, Upgrade
+    A1800Unlock("Medium Warehouse", DLC.THE_PASSAGE, Region.AR, {112657}, {112723},
+                POPULATION(Region.AR, "Explorers", 500), {"Timber"}, previous_building="Small Warehouse"),
+
+    A1800Unlock("Medium Trading Post", DLC.THE_PASSAGE, Region.AR, {112660, 112866}, {112723},
+                POPULATION(Region.AR, "Explorers", 500),
+                {"Timber", "Steel Beams"}, previous_building="Small Trading Post"),
+
+    A1800Unlock("Medium Sky Trading Post", DLC.THE_PASSAGE, Region.AR, {116003}, {112723},
+                POPULATION(Region.AR, "Explorers", 500),
+                {"Timber", "Steel Beams"}, previous_building="Small Sky Trading Post"),
+
+    A1800Unlock("Arctic Airship Hangar: Structure", DLC.THE_PASSAGE, Region.AR, {112687}, {112687},
+                POPULATION(Region.AR, "Technicians", 100),
+                {"Timber", "Cement"}, {"Explorers", "Heat"}, previous_building="Arctic Airship Hangar: Foundations"),
+
+    A1800Unlock("Large Warehouse", DLC.THE_PASSAGE, Region.AR, {112658}, {112724},
+                POPULATION(Region.AR, "Technicians", 100), {"Timber"}, previous_building="Medium Warehouse"),
+
+    A1800Unlock("Large Trading Post", DLC.THE_PASSAGE, Region.AR, {112661, 112867}, {112724},
+                POPULATION(Region.AR, "Technicians", 100),
+                {"Timber", "Steel Beams"}, previous_building="Medium Trading Post"),
+
+    A1800Unlock("Large Sky Trading Post", DLC.THE_PASSAGE, Region.AR, {116004}, {112724},
+                POPULATION(Region.AR, "Technicians", 100),
+                {"Timber", "Steel Beams", "Windows"}, previous_building="Medium Sky Trading Post"),
+
+    A1800Unlock("Arctic Airship Hangar: Roof", DLC.THE_PASSAGE, Region.AR, {112688}, {112688},
+                POPULATION(Region.AR, "Technicians", 300),
+                {"Steel Beams", "Reinforced Concrete"}, {"Technicians", "Heat"},
+                previous_building="Arctic Airship Hangar: Structure"),
+
+    # Building, Factory, Upgrade
+    # No arctic gas input to avoid cyclic dependency - Nate will always give you some if you have none
+    A1800Unlock("Arctic Airship Hangar", DLC.THE_PASSAGE, Region.AR, {112689}, {112689},
+                POPULATION(Region.AR, "Technicians", 750),
+                {"Windows", "Steam Motors", "Sails"}, {"Technicians", "Heat"},
+                {"Timber", "Sails", "Steam Motors"}, {"Air Travel"},
+                previous_building="Arctic Airship Hangar: Roof"),
+
+    # Building, Factory, Residence
+    A1800Unlock("Explorer Shelter", DLC.THE_PASSAGE, Region.AR, {112091}, {112091},
+                SESSION_ENTER(Session.AR), {"Timber"}, {"Heat"}, {"Canteen"}, {"Explorers"},
+                consumption={"Canteen", "Pemmican", "Oil Lamps", "Fire Protection", "Healthcare"},
+                luxury={"Sleeping Bags", "Schnapps"},
+                lifestyle={"Bread", "Tallow", "Local Mail", "Regional Mail", "Overseas Mail", "Hot Sauce"}),
+
+    # Building, Factory, Residence, Upgrade
+    A1800Unlock("Technician Shelter", DLC.THE_PASSAGE, Region.AR, {112652}, {112652},
+                POPULATION(Region.AR, "Explorers", 500),
+                {"Timber"}, {"Heat"}, set(), {"Technicians"}, "", "Explorer Shelter",
+                consumption={"Canteen", "Pemmican", "Oil Lamps", "Post Office",
+                             "Canned Food", "Husky Sleds", "Fire Protection", "Healthcare"},
+                luxury={"Sleeping Bags", "Schnapps", "Parkas", "Coffee"},
+                lifestyle={"Rum", "Dynamite", "Local Mail", "Regional Mail", "Overseas Mail", "Mezcal", "Motor"}),
+
+    ################################################################################################################
     ### SEAT_OF_POWER                                                                                            ###
     ################################################################################################################
     # Building
@@ -966,6 +1162,12 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Grand Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {270172}, {270172},
                 POPULATION(Region.EN, "Elders", 600),
                 {"Wanza Timber", "Mud Bricks"}, set(), set(), {"Oil Harbour"}, previous_building="Large Oil Harbour"),
+
+    ################################################################################################################
+    ### EMPIRE_OF_THE_SKIES                                                                                      ###
+    ################################################################################################################
+
+    # TODO: Meta Upgrades for Alpaca and Cattle Farms with Electricity
 ]
 
 
@@ -1002,8 +1204,40 @@ class _Unlocks:
         assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
         return self._a1800_unlock_locations
 
-    def _clean_dlc_references(self) -> None:
+    def _clean_dlc_trigger(self, enabled_dlcs: DLC, trigger: Trigger) -> Trigger:
+        if trigger.trigger_type == TriggerType.ALL:
+            trigger.triggers = [clean_trigger for subtrigger in trigger.triggers for clean_trigger in [
+                self._clean_dlc_trigger(enabled_dlcs, subtrigger)] if clean_trigger.trigger_type != TriggerType.TRUE]
+
+            if len(trigger.triggers) == 0:
+                return TRUE
+            elif len(trigger.triggers) == 1:
+                return trigger.triggers[0]
+            elif any([subtrigger.trigger_type == TriggerType.FALSE for subtrigger in trigger.triggers]):
+                return FALSE
+            else:
+                return trigger
+        elif trigger.trigger_type == TriggerType.ANY:
+            trigger.triggers = [clean_trigger for subtrigger in trigger.triggers for clean_trigger in [
+                self._clean_dlc_trigger(enabled_dlcs, subtrigger)] if clean_trigger.trigger_type != TriggerType.FALSE]
+
+            if len(trigger.triggers) == 0:
+                return FALSE
+            elif len(trigger.triggers) == 1:
+                return trigger.triggers[0]
+            elif any([subtrigger.trigger_type == TriggerType.TRUE for subtrigger in trigger.triggers]):
+                return TRUE
+            else:
+                return trigger
+        elif trigger.trigger_type == TriggerType.POPULATION:
+            return FALSE if not next(PRODUCTS.find_populations(trigger.population, trigger.region), None) else trigger
+        else:
+            return trigger
+
+    def _clean_dlc_references(self, enabled_dlcs: DLC) -> None:
         for unlock in self._a1800_unlocks:
+            unlock.trigger = self._clean_dlc_trigger(enabled_dlcs, unlock.trigger)
+
             missing_outputs: set[str | tuple[str, Region]] = set()
             for output in unlock.output:
                 name = output if isinstance(output, str) else output[0]
@@ -1016,7 +1250,7 @@ class _Unlocks:
             missing_chains: set[tuple[str, Region]] = set()
             if isinstance(unlock.unlock_chain, set):
                 for chain in unlock.unlock_chain:
-                    if not next(PRODUCTS.find_products(chain[0], chain[1]), None):
+                    if not next(CHAINS.find_chains(chain[0], unlock.name, unlock.region, chain[1]), None):
                         missing_chains.add(chain)
                 if missing_chains:
                     unlock.unlock_chain -= missing_chains
@@ -1033,7 +1267,14 @@ class _Unlocks:
 
         self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if unlock.dlc in enabled_dlcs]
 
-        self._clean_dlc_references()
+        if DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES in enabled_dlcs:
+            for unlock in self._a1800_unlocks:
+                if unlock.name == "Post Office" and unlock.region == Region.AR:
+                    unlock.maintenance.add("Explorers")
+                    unlock.output.add("Local Mail")
+                    break
+
+        self._clean_dlc_references(enabled_dlcs)
 
     def _verify_data(self) -> None:
         # Assure all references exist

@@ -26,4 +26,5 @@ The following features are being considered, but it's unclear whether they are r
 * Improve spoiler log
 * If possible, try to not place items "later" than any chosen victory condition, e.g. don't require items at 600
 obreros if 1 was chosen as victory condition
+* Add traps (e.g. cause incidents)
 * Docklands DLC? Somehow all the unlocks would have to be redone

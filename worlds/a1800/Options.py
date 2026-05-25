@@ -6,7 +6,7 @@ from .data import DLC
 
 
 _default_enabled_dlcs = [dlc.name for dlc in sorted(
-    (dlc for dlc in DLC.__members__.values() if not dlc in DLC.VANILLA | DLC.TOURIST_SEASON | DLC.LAND_OF_LIONS), key=lambda dlc: dlc.value)]
+    (dlc for dlc in DLC.__members__.values() if not dlc in DLC.VANILLA | DLC.TOURIST_SEASON | DLC.LAND_OF_LIONS | DLC.EMPIRE_OF_THE_SKIES), key=lambda dlc: dlc.value)]
 
 
 class EnabledDLCsOption(OptionSet):
@@ -25,7 +25,8 @@ _grouped_required_population = groupby(sorted(_a1800_populations, key=lambda pop
 _default_required_population_amount = {
     f"{region_idx}-{region.full_name.replace(' ', '_').lower()}"
     f"-{population_idx:02}-{population.name.replace(' ', '_').lower()}":
-    5000 if population.name == "Investors" else 2000 if population.name == "Obreros" else 0
+    5000 if population.name == "Investors" else 2000 if population.name == "Obreros" else
+    1250 if population.name == "Technicians" else 0
     for region_idx, (region, populations) in enumerate(_grouped_required_population)
     for population_idx, population in enumerate(populations)
 }

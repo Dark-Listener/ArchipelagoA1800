@@ -18,6 +18,15 @@ _a1800_regions: dict[Region, tuple[DLC, set[tuple[str, Region]], set[tuple[str, 
         ("Dirt Road", Region.NW),
         ("Small Warehouse", Region.NW),
     }),
+    Region.AR: (DLC.THE_PASSAGE, {
+        ("Expedition: The Arctic", ALL_REGIONS),
+        ("Sea Travel", ALL_REGIONS),
+        ("Artisans", Region.OW),
+    }, {
+        ("Settling", Region.AR),
+        ("Road", Region.AR),
+        ("Small Warehouse", Region.AR),
+    }),
 }
 
 

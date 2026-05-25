@@ -74,14 +74,14 @@ class _A1800Data:
     def get_location_name_to_ap_code(self) -> dict[str, int]:
         return self._location_name_to_ap_code
 
-    def get_regions(self) -> Sequence[A1800Region]:
-        return REGIONS.get_regions()
-
     def get_location_requirements(self) -> Mapping[str, set[A1800Requirement]]:
         return LOGIC.get_location_requirements()
 
     def get_populations(self) -> Sequence[A1800Product]:
         return PRODUCTS.get_populations()
+
+    def get_regions(self) -> Sequence[A1800Region]:
+        return REGIONS.get_regions()
 
     def get_unlocks(self) -> Sequence[A1800Unlock]:
         return UNLOCKS.get_unlocks()

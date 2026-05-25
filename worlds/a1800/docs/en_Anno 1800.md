@@ -27,15 +27,20 @@ Your goal is to reach 1 artisan at this early stage of the Archipelago world.
 Whenever you'd normally unlock a building in Anno 1800, you instead send a location check to the server. This often
 means you send multiple checks at once at a certain population threshold, for example 5 checks at 100 farmers.
 
-Additionally, each expedition that unlocks a new session is also a location check.
+Additionally, each expedition that unlocks a new session is also a location check. Should you enable "The Passage", the
+randomizer will expect you to have at least Artisans before you must make your trip to "The Arctic" due to the
+difficulty of the expedition (Artisans unlock the Clipper).
 
 ## What about DLCs?
 
 The follwing DLCs are supported:
 * Sunken Treasures
 * Botanica
+* The Passage
 * Seat of Power
 * Bright Harvest
+
+Docklands will not be supported as it would render the randomizer pointless.
 
 If you enable unsupported DLCs in your savegame, the buildings will unlock as they would in without mods. For example,
 the docklands complex will unlock at 250 artisans with Docklands enabled.

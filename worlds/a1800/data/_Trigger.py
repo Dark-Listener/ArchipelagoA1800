@@ -12,6 +12,10 @@ class Trigger:
                 assert len(args) == 0, f"{trigger_type.name} requires no arguments"
                 self.region = NO_REGION
                 pass
+            case TriggerType.FALSE:
+                assert len(args) == 0, f"{trigger_type.name} requires no arguments"
+                self.region = NO_REGION
+                pass
             case TriggerType.ALL:
                 assert len(args) >= 2, f"{trigger_type.name} requires at least 2 arguments"
                 for arg in args:
@@ -64,6 +68,8 @@ class Trigger:
         match(self.trigger_type):
             case TriggerType.TRUE:
                 out_name = "True"
+            case TriggerType.FALSE:
+                out_name = "False"
             case TriggerType.ALL:
                 out_name = f"({self.triggers[0].get_ap_location_name()})"
                 for trigger in self.triggers[1:]:
@@ -100,6 +106,8 @@ class Trigger:
         match(self.trigger_type):
             case TriggerType.TRUE:
                 return self.trigger_type,
+            case TriggerType.FALSE:
+                return self.trigger_type,
             case TriggerType.ALL:
                 return self.trigger_type, *[key for sort_key in
                                             sorted([trigger.get_sort_key() for trigger in self.triggers])
@@ -119,6 +127,7 @@ class Trigger:
 
 
 TRUE: Trigger = Trigger(TriggerType.TRUE)
+FALSE: Trigger = Trigger(TriggerType.FALSE)
 ALL: Callable[..., Trigger] = lambda *triggers: Trigger(TriggerType.ALL, *triggers)
 ANY: Callable[..., Trigger] = lambda *triggers: Trigger(TriggerType.ANY, *triggers)
 POPULATION: Callable[[Region, str, int], Trigger] = lambda region, population, amount: Trigger(

@@ -36,6 +36,7 @@ class RequiredPopulationAmountsOption(OptionCounter):
     """
     This many citizens of each population are required to win the randomizer.
     If a population's required amount is 0, the population will not be required.
+    Populations that are not available in the DLCs selected in 'Enabled DLCs' will be ignored.
     Ignore the numbers before the world and population, they are there to make sure this is sorted properly.
     """
     display_name = "Required Population Amounts"

@@ -12,15 +12,16 @@ file in the download. See the setup page for details.
 
 ## What does randomization do to this game?
 
-In Anno 1800, the building unlocks are shuffled, causing buildings to be unlocked in a non-standard order. Frequently,
-luxury goods will be available later than usual. You might even have to import goods from other sessions that you'd
-usually have available on location!
+In Anno 1800, the building and expedition unlocks are shuffled, causing buildings to be unlocked in a non-standard
+order. Frequently, luxury goods will be available later than usual. You might even have to import goods from other
+sessions that you'd usually have available on location!
 
 Note: Ornaments are currently excluded.
 
 ## What's the goal?
 
-Your goal is to reach 1 artisan at this early stage of the Archipelago world.
+Your goal is to reach 5000 investors, 1500 obreros, 750 technicians and 7000 scholars at this stage of the Archipelago
+world. This is, of course, configurable.
 
 ## What are locations?
 
@@ -67,6 +68,6 @@ goods before the randomizer expects you to.
  Anno 1800 automatically shows the player how to unlock revealed but locked buildings. This is not preventable unless
  without breaking local (=serverless) play. It is planned to show these revealed buildings as proper hints to
  Archipelago at some point. Starnge requirements, like empty strings, "continue your journey", or populations from
- disabled DLCs occur when the building unlock is not located locally.
+ disabled DLCs occur when the building unlock is not located locally or at a non-standard locations.
 
  Similarly, some location names in Archipelago may still include names from disabled DLCs.

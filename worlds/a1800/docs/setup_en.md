@@ -92,14 +92,20 @@ The host of the Archipelago multiworld should supply you with a zip file name `A
 seed number, `%2` is the slot number, `%3` is the slot name and `%4` is the Archipelago version this mod was created by.
 
 Before installing mods, Anno 1800 must have been started and closed at least once. Then, you can create the following
-folder: `<game installation>\Anno 1800\mods`. After another game start, there should be a popup about mod use, which
-must be accepted. Now the game can be closed again.
+folder: `...\Ubisoft Game Launcher\games\Anno 1800\mods` (exact location might be different if you changed the folder
+Ubisoft Connect installs games to). After another game start, there should be a popup about mod use, which must be
+accepted. Now the game can be closed again.
 
 To install the mod, extract the zip file and move or copy the resulting folder into the folder you created above. The
 resulting folder structure should look like `mods\AP-%1-P%2-%3-%4\modinfo.json`.
 
+**Important**: Do **NOT** install the mod in your `...\Documents\Anno 1800\mods` folder - the game will not find this
+path.
+
 If this worked, then Anno 1800 should display a gear next to the main menu point `Mod Browser`. If you hover over it,
-it should display `[Gameplay] AP-%1-P%2-%3-%4` (might be cut off due to length).
+it should display `[Gameplay] AP-%1-P%2-%3-%4` (might be cut off due to length) like so:
+
+![Active Mod](images/active_mod.png "Active Mod")
 
 There should only ever be one Anno 1800 Archipelago mod installed at a time - otherwise, the Archipelago Client will
 connect to the first one it finds while the game will try to load all of them.
@@ -115,6 +121,9 @@ be modified and work as usual.
 Start the Archipelago Client. It will ask for the Anno 1800 mods folder. Point it to the folder you installed the mod to
 [above](#installing-the-archipelago-mod). The order in which you start the client and Anno 1800 does not matter. On
 Windows, if Anno is located in a protected folder, it may be necessary to start the client as administrator.
+
+If you ever need to change this path, you can find it in your Archipelago folder in the `host.yaml` file under
+`a1800_options`, named `a1800_mods_folder_path`.
 
 Then start a new Anno 1800 free play game or load into your existing savegame. Singleplayer or multiplayer should both
 work the same, none of the standard singleplayer questlines will trigger. The campaign won't work.

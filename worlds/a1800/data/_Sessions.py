@@ -93,6 +93,8 @@ class _Sessions:
                 return trigger
             case TriggerType.UNLOCK:
                 return trigger
+            case TriggerType.COUNTER:
+                return trigger
             case TriggerType.DLC:
                 return trigger
 

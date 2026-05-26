@@ -53,6 +53,17 @@ class Trigger:
                 self.guid = args[0]
                 self.name = args[1]
                 self.region = START_REGION
+            case TriggerType.COUNTER:
+                assert len(args) == 5, f"{trigger_type.name} requires exactly 5 arguments"
+                assert isinstance(args[0], int) and isinstance(args[1], int) and isinstance(args[2], str) \
+                    and isinstance(args[3], str) and isinstance(args[4], Region), f"{trigger_type.name} requires "\
+                    f"arguments of types (int, int, str, str, Region), got "\
+                    f"({type(args[0])}, {type(args[1])}, {type(args[2])}, {type(args[3])}, {type(args[4])}) instead"
+                self.guid = args[0]
+                self.amount = args[1]
+                self.unlock_name = args[2]
+                self.product_name = args[3]
+                self.region = args[4]
             case TriggerType.DLC:
                 assert len(args) == 1, f"{trigger_type.name} requires exactly 1 arguments"
                 assert isinstance(args[0], DLC), f"{trigger_type.name} requires an argument of type DLC, got " \
@@ -87,6 +98,8 @@ class Trigger:
                     out_name += f" ({self.region})"
             case TriggerType.UNLOCK:
                 out_name = f"On unlocking: {self.name}"
+            case TriggerType.COUNTER:
+                out_name = f"Have at least {self.amount} {self.unlock_name}"
             case TriggerType.DLC:
                 if self.dlc in DLC.__members__.values():
                     out_name = f"DLC active: {self.dlc.name}"
@@ -122,6 +135,8 @@ class Trigger:
                 return self.trigger_type, self.guid, self.amount
             case TriggerType.UNLOCK:
                 return self.trigger_type, self.guid
+            case TriggerType.COUNTER:
+                return self.trigger_type, self.guid, self.amount
             case TriggerType.DLC:
                 return self.trigger_type, self.dlc.value
 
@@ -133,3 +148,5 @@ ANY: Callable[..., Trigger] = lambda *triggers: Trigger(TriggerType.ANY, *trigge
 POPULATION: Callable[[Region, str, int], Trigger] = lambda region, population, amount: Trigger(
     TriggerType.POPULATION, region, population, amount)
 SESSION_ENTER: Callable[[Session], Trigger] = lambda session: Trigger(TriggerType.SESSION_ENTER, session)
+COUNTER: Callable[[int, int, str, str, Region], Trigger] = lambda guid, amount, unlock_name, product_name, region: Trigger(
+    TriggerType.COUNTER, guid, amount, unlock_name, product_name, region)

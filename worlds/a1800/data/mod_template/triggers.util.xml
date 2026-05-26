@@ -104,6 +104,17 @@
     <ConditionPropsNegatable/>
   </Values>
 </TriggerCondition>
+{% elif trigger_data.trigger_type == TriggerType.COUNTER %}
+<TriggerCondition>
+  <Template>ConditionPlayerCounter</Template>
+  <Values>
+    <Condition/>
+    <ConditionPlayerCounter>
+      <Context>{{ trigger_data.guid }}</Context>
+      <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+    </ConditionPlayerCounter>
+  </Values>
+</TriggerCondition>
 {% elif trigger_data.trigger_type == TriggerType.DLC %}
 <TriggerCondition>
   <Template>ConditionIsDLCActive</Template>

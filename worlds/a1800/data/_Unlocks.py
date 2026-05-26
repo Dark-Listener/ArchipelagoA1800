@@ -1237,6 +1237,10 @@ class _Unlocks:
                 return trigger
         elif trigger.trigger_type == TriggerType.POPULATION:
             return FALSE if not next(PRODUCTS.find_populations(trigger.population, trigger.region), None) else trigger
+        elif trigger.trigger_type == TriggerType.COUNTER:
+            return FALSE if not next(PRODUCTS.find_products(trigger.product_name, trigger.region), None) or \
+                not len([unlock for unlock in self._a1800_unlocks
+                         if unlock.name == trigger.unlock_name and trigger.region in unlock.region]) else trigger
         else:
             return trigger
 

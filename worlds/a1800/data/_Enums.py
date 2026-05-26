@@ -159,6 +159,7 @@ _SESSION_REGIONS = {
 class TriggerType(IntEnum):
     SESSION_ENTER = auto()
     POPULATION = auto()
+    COUNTER = auto()
     UNLOCK = auto()
     DLC = auto()
     ANY = auto()

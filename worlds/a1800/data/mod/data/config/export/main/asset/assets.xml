@@ -5,4 +5,18 @@
 
   <!-- Unlock all regular needs (not luxury or lifestyle) at 1 population amount to allow filling needs earlier -->
   <ModOp Type="remove" Path="//PopulationLevel7/PopulationInputs/Item[SupplyWeight and not(IsBonusNeed)]/NoWeightPopulationCount" />
+
+  <!-- Make scholar, advanced coffee, advanced rum, advanced cotton fabric, advanced pier permit research 5x faster -->
+  <ModOp Type="replace" GUID="125340" Path="/Values/Godlike/CraftingConfig/MinimumWorkforceTime">
+    <MinimumWorkforceTime>360000</MinimumWorkforceTime>
+  </ModOp>
+  <ModOp Type="replace" GUID="125340" Path="/Values/Godlike/CraftingConfig/MaximumWorkforceTime">
+    <MaximumWorkforceTime>60000</MaximumWorkforceTime>
+  </ModOp>
+  <ModOp Type="replace" GUID="124844,124845,124849,124850" Path="/Values/Godlike/CraftingConfig/MinimumWorkforceTime">
+    <MinimumWorkforceTime>1080000</MinimumWorkforceTime>
+  </ModOp>
+  <ModOp Type="replace" GUID="124844,124845,124849,124850" Path="/Values/Godlike/CraftingConfig/MaximumWorkforceTime">
+    <MaximumWorkforceTime>60000</MaximumWorkforceTime>
+  </ModOp>
 </ModOps>

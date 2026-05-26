@@ -31,6 +31,8 @@ class _A1800Data:
         self._enabled_dlcs = DLC.VANILLA | reduce(DLC.__or__, (
             dlc for dlc in DLC.__members__.values() if dlc.name in options.enabled_dlcs))
 
+        self._full_accessibility = options.accessibility == "full"
+
         CHAINS.init(self._enabled_dlcs)
         PRODUCTS.init(self._enabled_dlcs)
         UNLOCKS.init(self._enabled_dlcs)  # Chains, products must init before unlocks
@@ -41,7 +43,7 @@ class _A1800Data:
 
         self._parse_remaining_options(options)
 
-        LOGIC.init(self._population_requirements)  # Logic comes last
+        LOGIC.init(self._population_requirements, self._full_accessibility)  # Logic comes last
         LOGIC.generate_logic()
 
     def find_ap_item(self, ap_name: str) -> Optional[A1800Unlock]:

@@ -50,14 +50,11 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
             is_starting_item,
             False)
     elif obj.is_progressive:
-        # Player starts with some timber and enough unlocks to let them produce more
-        # This avoids circular logic blocking the randomizer
-        is_starting_item: bool = obj.name == "Timber"
         return A1800ItemData(
             obj.ap_item_name,
             IC.progression,
             obj.dlc,
-            is_starting_item=is_starting_item,
+            is_starting_item=False,
             is_event=True,
             event_locations=[event_location.ap_location_name for event_location_name in obj.locations for event_location
                              in A1800_DATA.find_event_locations(event_location_name, obj.name, obj.region)]

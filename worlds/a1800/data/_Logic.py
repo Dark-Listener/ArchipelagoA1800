@@ -1,9 +1,12 @@
-from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, START_REGION, UnlockType
+from typing import Optional
+
+from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, START_REGION, TriggerType, UnlockType
 from ._EventItems import A1800EventItem, EVENT_ITEMS
 from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
 from ._Products import A1800Product
 from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
+from ._Sessions import SESSIONS
 from ._Trigger import ALL, POPULATION, Trigger, TRUE
 from ._Unlocks import A1800Unlock, UNLOCKS
 
@@ -50,14 +53,39 @@ def _get_victory_condition_info(
     return victory_event_location_name, victory_required_items, victory_trigger, victory_dlcs
 
 
+def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requirement]]:
+    match(trigger.trigger_type):
+        case TriggerType.TRUE:
+            return set[A1800Requirement]()
+        case TriggerType.FALSE:
+            assert False, "TriggerType False should never be used for unlocks"
+        case TriggerType.ALL:
+            return {requirement for trigger in trigger.triggers for requirement in _get_requirements_from_trigger(trigger) or set()}
+        case TriggerType.ANY:
+            return {requirement for trigger in trigger.triggers for requirement in _get_requirements_from_trigger(trigger) or set()}
+        case TriggerType.SESSION_ENTER:
+            return SESSIONS.find_session(trigger.session).requirements
+        case TriggerType.POPULATION:
+            return {A1800Requirement(trigger.population, trigger.region)}
+        case TriggerType.COUNTER:
+            return {A1800Requirement(trigger.product_name, trigger.region)}
+        case TriggerType.UNLOCK:
+            assert False, "TriggerType UNLOCK should never be used for unlocks"
+        case TriggerType.DLC:
+            assert False, "TriggerType DLC should never be used for unlocks"
+
+
 class _Logic:
     _initialized: bool = False
     _a1800_required_items: set[A1800Requirement] = set()
     _a1800_location_requirements: dict[str, set[A1800Requirement]] = {}
     _victory_trigger: Trigger = TRUE
 
-    def init(self, population_requirements: list[tuple[A1800Product, int, bool, bool, bool]]) -> None:
+    def init(
+            self, population_requirements: list[tuple[A1800Product, int, bool, bool, bool]], full_accessibility: bool
+    ) -> None:
         self._population_requirements = population_requirements
+        self._full_accessibility = full_accessibility
 
         self._initialized = True
 
@@ -142,15 +170,27 @@ class _Logic:
     def _is_progressive(self, obj: A1800Unlock | A1800EventItem | A1800EventLocation) -> bool:
         requirement_type = RequirementType.PRODUCT if isinstance(obj, A1800EventItem) else RequirementType.UNLOCK
 
-        return bool(next((
-            requirement for requirement in self._a1800_required_items if requirement.type == requirement_type
-            and requirement.name == obj.name and requirement.region in obj.region), None))
+        if isinstance(obj, A1800EventLocation):
+            return bool(next((
+                requirement for requirement in self._a1800_required_items if requirement.type == requirement_type
+                and requirement.name == obj.name and requirement.region in obj.region), None)) and \
+                self._is_progressive(next(EVENT_ITEMS.find_event_items(obj.output, obj.region)))
+        else:
+            return bool(next((
+                requirement for requirement in self._a1800_required_items if requirement.type == requirement_type
+                and requirement.name == obj.name and requirement.region in obj.region), None))
 
     def generate_logic(self) -> None:
         assert self._initialized, "The Anno 1800 logic module was used before it was initialized."
-        victory_event_location_name, initial_required_items, self._victory_trigger, self._victory_dlcs = _get_victory_condition_info(
+        victory_event_location_name, victory_required_items, self._victory_trigger, self._victory_dlcs = _get_victory_condition_info(
             self._population_requirements)
         self._victory_trigger.ap_location_name = "Victory Condition"
+
+        if self._full_accessibility:
+            initial_required_items = victory_required_items.copy() | {requirement for unlock in UNLOCKS.get_unlock_locations(
+            ) for requirement in _get_requirements_from_trigger(unlock.trigger) or set()}
+        else:
+            initial_required_items = victory_required_items.copy()
 
         victory_event_location = A1800EventLocation(
             victory_event_location_name, DLC.VANILLA, Region.OW, NO_REGION, "Victory", is_progressive=True)
@@ -162,7 +202,7 @@ class _Logic:
 
         initial_checked_items: set[A1800Requirement] = {A1800Requirement("Victory", ALL_REGIONS)}
 
-        initial_location_requirements = {victory_event_location.ap_location_name: initial_required_items.copy()}
+        initial_location_requirements = {victory_event_location.ap_location_name: victory_required_items.copy()}
 
         self._a1800_required_items, self._a1800_location_requirements = self._generate_requirements_and_rules(
             initial_required_items, initial_checked_items, START_REGION, initial_location_requirements)

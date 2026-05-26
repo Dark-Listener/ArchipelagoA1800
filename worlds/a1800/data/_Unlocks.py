@@ -92,6 +92,9 @@ _a1800_unlocks: list[A1800Unlock] = [
     ### VANILLA                                                                                                  ###
     ################################################################################################################
     # Meta
+    A1800Unlock("Starting Goods", DLC.VANILLA, Region.OW, set(), set(),  # Resolves circular dependency at game start
+                TRUE, output={"Timber"}, type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+
     A1800Unlock("Trading Post Materials and Sea Travel", DLC.VANILLA, ALL_REGIONS, set(), set(),
                 TRUE, input={"Timber", "Steel Beams", "Sea Travel"}, output={("Settling", Region.OW | Region.NW)},
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
@@ -893,8 +896,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     # Unlock
-    A1800Unlock("Expedition: The Arctic", DLC.SUNKEN_TREASURES, ALL_REGIONS, {1701000002}, set(),
-                POPULATION(Region.OW, "Engineers", 1), output={"Expedition to The Arctic"}),
+    A1800Unlock("Expedition: The Arctic", DLC.THE_PASSAGE, ALL_REGIONS, {1701000002}, set(),
+                POPULATION(Region.OW, "Engineers", 1)),
 
     # Building
     A1800Unlock("Small Trading Post", DLC.THE_PASSAGE, Region.AR, {112659, 112865}, set(),

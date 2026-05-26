@@ -28,3 +28,9 @@ class A1800Requirement:
             unlocks = list(UNLOCKS.find_unlocks(self.name, self.region))
             ap_item_names += [unlock.ap_item_name for unlock in unlocks]
         object.__setattr__(self, "ap_item_names", frozenset(ap_item_names))
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    def __str__(self) -> str:
+        return f"({self.name}, {self.region}, {self.type.name})"

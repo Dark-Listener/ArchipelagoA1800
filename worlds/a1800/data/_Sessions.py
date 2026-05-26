@@ -14,6 +14,7 @@ _a1800_sessions: dict[Session, tuple[DLC, set[tuple[str, Region]]]] = {
     Session.NW: (DLC.VANILLA, set()),
     Session.CT: (DLC.SUNKEN_TREASURES, {("Expedition: Cape Trelawney", ALL_REGIONS)}),
     Session.AR: (DLC.THE_PASSAGE, set()),
+    Session.EN: (DLC.LAND_OF_LIONS, set()),
 }
 
 

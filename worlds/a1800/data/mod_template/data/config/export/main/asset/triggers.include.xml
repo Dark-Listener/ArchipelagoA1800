@@ -75,6 +75,11 @@
       {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[2][1], "")) | indent(6) }}
     </Trigger>
   </ModOp>
+  <ModOp Type="replace" GUID="119863" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger">
+    <Trigger>
+      {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[3][1], "")) | indent(6) }}
+    </Trigger>
+  </ModOp>
 
   <!-- Remove timers from silo and tractor newspapers and make tractor newspaper independent from silos -->
   <ModOp Type="remove" GUID="270008" Path="Values/Trigger/SubTriggers" />

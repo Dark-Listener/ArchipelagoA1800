@@ -5,7 +5,7 @@ from typing import ClassVar, Iterator, Optional
 from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerType, UnlockType
 from ._Products import PRODUCTS
-from ._Trigger import ANY, FALSE, POPULATION, SESSION_ENTER, Trigger, TRUE
+from ._Trigger import ANY, COUNTER, FALSE, POPULATION, SESSION_ENTER, Trigger, TRUE
 
 
 def create_unlock_name(name: str, region: Region, prefix: str = "", postfix: str = "") -> str:
@@ -458,25 +458,25 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Engineers", "Railway", "Oil Harbour"}, {"Oil"}, {"Electricity"},
                 {("Electricity", Region.OW), ("Electricity", Region.NW)}),
 
-    A1800Unlock("Zinc Mine", DLC.VANILLA, Region.OW, {1010307}, {130041},
+    A1800Unlock("Zinc Mine", DLC.VANILLA, Region.OW, {1010307}, {130041, 117740},
                 POPULATION(Region.OW, "Engineers", 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Settling"},
-                set(), {"Zinc"}, "Spectacles"),
+                set(), {"Zinc"}, {("Spectacles", Region.OW), ("Spectacles", Region.EN)}),
 
-    A1800Unlock("Copper Mine", DLC.VANILLA, Region.OW, {1010308}, {130041},
+    A1800Unlock("Copper Mine", DLC.VANILLA, Region.OW, {1010308}, {130041, 117740},
                 POPULATION(Region.OW, "Engineers", 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Settling"},
-                set(), {"Copper"}, "Spectacles"),
+                set(), {"Copper"}, {("Spectacles", Region.OW), ("Spectacles", Region.EN)}),
 
-    A1800Unlock("Brass Smeltery", DLC.VANILLA, Region.OW, {1010282}, {130041},
+    A1800Unlock("Brass Smeltery", DLC.VANILLA, Region.OW, {1010282}, {130041, 117740},
                 POPULATION(Region.OW, "Engineers", 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers"},
-                {"Zinc", "Copper"}, {"Brass"}, "Spectacles"),
+                {"Zinc", "Copper"}, {"Brass"}, {("Spectacles", Region.OW), ("Spectacles", Region.EN)}),
 
-    A1800Unlock("Spectacle Factory", DLC.VANILLA, Region.OW, {101250}, {130041},
+    A1800Unlock("Spectacle Factory", DLC.VANILLA, Region.OW, {101250}, {130041, 117740},
                 POPULATION(Region.OW, "Engineers", 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers"},
-                {"Glass", "Brass"}, {"Spectacles"}, "Spectacles"),
+                {"Glass", "Brass"}, {"Spectacles"}, {("Spectacles", Region.OW), ("Spectacles", Region.EN)}),
 
     A1800Unlock("Bicycle Factory", DLC.VANILLA, Region.OW, {1010323}, {140040},
                 POPULATION(Region.OW, "Engineers", 500),
@@ -615,13 +615,15 @@ _a1800_unlocks: list[A1800Unlock] = [
                 POPULATION(Region.NW, "Jornaleros", 50),
                 {"Timber"}, {"Jornaleros"}, {"Plantains", "Fish Oil"}, {"Fried Plantains"}, "Fried Plantains"),
 
-    A1800Unlock("Sugar Cane Plantation", DLC.VANILLA, Region.NW, {1010329}, {140039, 500013},
+    A1800Unlock("Sugar Cane Plantation", DLC.VANILLA, Region.NW, {1010329}, {140039, 500013, 127050},
                 POPULATION(Region.NW, "Jornaleros", 100),
-                {"Timber"}, {"Jornaleros"}, set(), {"Sugar Cane"}, {("Rum", Region.NW), ("Rum", Region.OW)}),
+                {"Timber"}, {"Jornaleros"}, set(), {"Sugar Cane"},
+                {("Rum", Region.NW), ("Rum", Region.OW), ("Rum (Scholars)", Region.OW)}),
 
-    A1800Unlock("Rum Distillery", DLC.VANILLA, Region.NW, {1010340}, {140039, 500013},
+    A1800Unlock("Rum Distillery", DLC.VANILLA, Region.NW, {1010340}, {140039, 500013, 127050},
                 POPULATION(Region.NW, "Jornaleros", 100),
-                {"Timber"}, {"Jornaleros"}, {"Sugar Cane", "Wood"}, {"Rum"}, {("Rum", Region.NW), ("Rum", Region.OW)}),
+                {"Timber"}, {"Jornaleros"}, {"Sugar Cane", "Wood"}, {"Rum"},
+                {("Rum", Region.NW), ("Rum", Region.OW), ("Rum (Scholars)", Region.OW)}),
 
     A1800Unlock("Sailmakers", DLC.VANILLA, Region.NW, {101265}, {130098},
                 POPULATION(Region.NW, "Jornaleros", 100),
@@ -685,13 +687,15 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Gold Mine", DLC.VANILLA, Region.NW, {101311}, {101311},
                 POPULATION(Region.NW, "Obreros", 300), {"Timber", "Bricks"}, {"Obreros"}, set(), {"Gold Ore"}),
 
-    A1800Unlock("Felt Producer", DLC.VANILLA, Region.NW, {101415}, {130103},
+    A1800Unlock("Felt Producer", DLC.VANILLA, Region.NW, {101415}, {130103, 120290},
                 POPULATION(Region.NW, "Obreros", 600),
-                {"Timber", "Bricks"}, {"Jornaleros"}, {"Alpaca Wool"}, {"Felt"}, "Bombins"),
+                {"Timber", "Bricks"}, {"Jornaleros"}, {"Alpaca Wool"}, {"Felt"},
+                {("Bombins", Region.NW), ("Bombins", Region.OW)}),
 
-    A1800Unlock("Bombin Weaver", DLC.VANILLA, Region.NW, {101273}, {130103},
+    A1800Unlock("Bombin Weaver", DLC.VANILLA, Region.NW, {101273}, {130103, 120290},
                 POPULATION(Region.NW, "Obreros", 600),
-                {"Timber", "Bricks"}, {"Obreros"}, {"Cotton Fabric", "Felt"}, {"Bombins"}, "Bombins"),
+                {"Timber", "Bricks"}, {"Obreros"}, {"Cotton Fabric", "Felt"}, {"Bombins"},
+                {("Bombins", Region.NW), ("Bombins", Region.OW)}),
 
     A1800Unlock("Hospital", DLC.VANILLA, Region.NW, {101276}, {101276},
                 POPULATION(Region.NW, "Obreros", 600), {"Timber", "Bricks"}, set(), set(), {"Healthcare"}),
@@ -1124,6 +1128,343 @@ _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     ### LAND_OF_LIONS                                                                                            ###
     ################################################################################################################
+    # Meta
+    A1800Unlock("Sea Travel => Free Clipper", DLC.LAND_OF_LIONS, Region.EN, set(), set(),
+                TRUE, input={"Sea Travel"}, output={"Initial Settling", "Wanza Timber"},
+                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+
+    A1800Unlock("Trading Post Materials and Sea Travel", DLC.LAND_OF_LIONS, Region.EN, set(), set(),
+                TRUE, input={"Wanza Timber", "Mud Bricks", "Sea Travel"}, output={"Settling"},
+                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.EN),
+
+    # Research Institute for infinite permits
+    A1800Unlock("1500 Elders", DLC.LAND_OF_LIONS, Region.EN, set(), set(),
+                TRUE, input={("Elders", Region.EN), ("Engineers", Region.OW), ("Research Institute", Region.OW)},
+                output={"Permit: Scholar Residence"},
+                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.EN),
+
+    A1800Unlock("Research: Advanced Coffee Roaster", DLC.LAND_OF_LIONS, Region.OW, set(), set(),
+                TRUE, input={"Engineers", "Research Institute", "Research Points"},
+                output={"Permit: Advanced Coffee Roaster"},
+                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+
+    A1800Unlock("Research: Advanced Rum Distillery", DLC.LAND_OF_LIONS, Region.OW, set(), set(),
+                TRUE, input={"Engineers", "Research Institute", "Research Points"},
+                output={"Permit: Advanced Rum Distillery"},
+                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+
+    A1800Unlock("Research: Advanced Cotton Mill", DLC.LAND_OF_LIONS, Region.OW, set(), set(),
+                TRUE, input={"Engineers", "Research Institute", "Research Points"},
+                output={"Permit: Advanced Cotton Mill"},
+                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+
+    A1800Unlock("Research: Advanced Pier", DLC.LAND_OF_LIONS, Region.OW, set(), set(),
+                TRUE, input={"Engineers", "Research Institute", "Research Points"},
+                output={"Permit: Advanced Pier"},
+                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+
+    # Unlock
+    A1800Unlock("Expedition: Enbesa", DLC.LAND_OF_LIONS, ALL_REGIONS, {1701000003}, set(),
+                POPULATION(Region.OW, "Artisans", 100)),
+
+    # Building
+    A1800Unlock("Small Trading Post", DLC.LAND_OF_LIONS, Region.EN, {114626, 114629}, set(),
+                SESSION_ENTER(Session.OW), {"Wanza Timber", "Mud Bricks"}),
+
+    A1800Unlock("Small Warehouse", DLC.LAND_OF_LIONS, Region.EN, {114509}, {114509},
+                SESSION_ENTER(Session.EN), {"Wanza Timber"}),
+
+    A1800Unlock("Desert Road", DLC.LAND_OF_LIONS, Region.EN, {114523}, {114523},
+                SESSION_ENTER(Session.EN), type=UnlockType.BUILDING),
+
+    A1800Unlock("Quay", DLC.LAND_OF_LIONS, Region.EN, {117729}, {117918},
+                POPULATION(Region.EN, "Shepherds", 150), {"Wanza Timber"}),
+
+    A1800Unlock("Depot", DLC.LAND_OF_LIONS, Region.EN, {117870}, {117918},
+                POPULATION(Region.EN, "Shepherds", 150), {"Wanza Timber"}),
+
+    A1800Unlock("Harbourmaster's Office", DLC.LAND_OF_LIONS, Region.EN, {117860}, {117918},
+                POPULATION(Region.EN, "Shepherds", 150), {"Wanza Timber"}),
+
+    A1800Unlock("Repair Crane", DLC.LAND_OF_LIONS, Region.EN, {117864}, {117918},
+                POPULATION(Region.EN, "Shepherds", 150), {"Wanza Timber", "Mud Bricks"}),
+
+    A1800Unlock("Mounted Guns", DLC.LAND_OF_LIONS, Region.EN, {117861}, {117918},
+                POPULATION(Region.EN, "Shepherds", 150), {"Wanza Timber", "Mud Bricks", "Weapons"}),
+
+    A1800Unlock("Trade Union", DLC.LAND_OF_LIONS, Region.EN, {117858}, {117858},
+                POPULATION(Region.EN, "Shepherds", 150), {"Wanza Timber"}),
+
+    A1800Unlock("Town Hall", DLC.LAND_OF_LIONS, Region.EN, {117859}, {117859},
+                POPULATION(Region.EN, "Elders", 300), {"Wanza Timber", "Mud Bricks"}),
+
+    A1800Unlock("Pier", DLC.LAND_OF_LIONS, Region.EN, {117871}, {117921},
+                POPULATION(Region.EN, "Elders", 1000), {"Wanza Timber", "Mud Bricks"}),
+
+    A1800Unlock("Cannon Tower", DLC.LAND_OF_LIONS, Region.EN, {117863}, {117921},
+                POPULATION(Region.EN, "Elders", 1000), {"Wanza Timber", "Mud Bricks", "Weapons"}),
+
+    A1800Unlock("Flame Tower", DLC.LAND_OF_LIONS, Region.EN, {823}, {823},
+                POPULATION(Region.EN, "Elders", 1000), {"Wanza Timber", "Mud Bricks", "Weapons"}),
+
+    A1800Unlock("Anti-Armour Gun", DLC.LAND_OF_LIONS, Region.EN, {4799}, {4799},
+                POPULATION(Region.EN, "Elders", 1000),
+                {"Wanza Timber", "Mud Bricks", "Steel Beams", "Advanced Weapons"}),
+
+    # Building, Factory
+    A1800Unlock("Research Institute: Foundations", DLC.LAND_OF_LIONS, Region.OW, {118938}, {118938},
+                POPULATION(Region.EN, "Elders", 300),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers"},
+                {"Bricks", "Cement"}, {"Research Institute: Foundations"}),
+
+    A1800Unlock("Research Institute: Superstructure", DLC.LAND_OF_LIONS, Region.OW, {118939}, {118939},
+                POPULATION(Region.EN, "Elders", 300),
+                {"Research Institute: Foundations"}, {"Engineers"},
+                {"Steel Beams", "Windows", "Reinforced Concrete"}, {"Research Institute: Superstructure"}),
+
+    A1800Unlock("Research Institute", DLC.LAND_OF_LIONS, Region.OW, {118940, 119392}, {118940, 119392},
+                POPULATION(Region.EN, "Elders", 300),
+                {"Research Institute: Superstructure"}, {"Engineers", "Electricity"}, set(), {"Research Institute"}),
+
+    A1800Unlock("Advanced Coffee Roaster", DLC.LAND_OF_LIONS, Region.OW, {124738}, {127612},
+                COUNTER(118940, 1, "Research Institute", "Research Institute", Region.OW),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Permit: Advanced Coffee Roaster"},
+                {"Engineers", "Electricity"}, {"Malt"}, {"Coffee"}, "Coffee (alt)"),
+
+    A1800Unlock("Advanced Rum Distillery", DLC.LAND_OF_LIONS, Region.OW, {124737}, {127613},
+                COUNTER(118940, 1, "Research Institute", "Research Institute", Region.OW),
+                {"Timber", "Bricks", "Steel Beams", "Reinforced Concrete", "Permit: Advanced Rum Distillery"},
+                {"Engineers", "Electricity"}, {"Potatoes", "Coal"}, {"Rum"}, "Rum (alt)"),
+
+    A1800Unlock("Advanced Cotton Mill", DLC.LAND_OF_LIONS, Region.OW, {124739}, {127614},
+                COUNTER(118940, 1, "Research Institute", "Research Institute", Region.OW),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Permit: Advanced Cotton Mill"},
+                {"Engineers", "Electricity"}, {"Wood", "Wool"}, {"Cotton Fabric"}, "Cotton Fabric (alt)"),
+
+    A1800Unlock("Bootmakers", DLC.LAND_OF_LIONS, Region.OW, {118733}, {118740},
+                POPULATION(Region.OW, "Scholars", 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Artisans"},
+                {"Sanga Cow"}, {"Leather Boots"}, "Leather Boots"),
+
+    A1800Unlock("Tailor's Shop", DLC.LAND_OF_LIONS, Region.OW, {118734}, {118743},
+                POPULATION(Region.OW, "Scholars", 300),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, {"Artisans"},
+                {"Cotton Fabric", "Linen"}, {"Tailored Suits"}, "Tailored Suits"),
+
+    A1800Unlock("Telephone Manufacturer", DLC.LAND_OF_LIONS, Region.OW, {118735}, {118744},
+                POPULATION(Region.OW, "Scholars", 4000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Engineers", "Electricity"},
+                {"Filaments", "Wood Veneers"}, {"Telephones"}, "Telephones"),
+
+    A1800Unlock("Radio Tower", DLC.LAND_OF_LIONS, Region.OW, {118736}, {118736},
+                POPULATION(Region.OW, "Scholars", 7000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(), set(), {"Radio Tower"}),
+
+    A1800Unlock("Canal", DLC.LAND_OF_LIONS, Region.EN, {112842, 117786}, {117783},
+                SESSION_ENTER(Session.EN), output={"Canal System"}, unlock_chain="Irrigation"),
+
+    A1800Unlock("Water Pump", DLC.LAND_OF_LIONS, Region.EN, {114544}, {117783},
+                SESSION_ENTER(Session.EN), {"Wanza Timber"}, {"Canal System"}, set(), {"Irrigation"}, "Irrigation"),
+
+    A1800Unlock("Marketplace", DLC.LAND_OF_LIONS, Region.EN, {114518}, {114518},
+                SESSION_ENTER(Session.EN), {"Wanza Timber"}, set(), set(), {"Market"}),
+
+    A1800Unlock("Wanza Woodcutter", DLC.LAND_OF_LIONS, Region.EN, {122963}, {122963, 114356},
+                SESSION_ENTER(Session.EN), set(), {"Shepherds"}, set(), {"Wanza Timber"}),
+
+    A1800Unlock("Goat Farm", DLC.LAND_OF_LIONS, Region.EN, {114456}, {114456, 114371},
+                POPULATION(Region.EN, "Shepherds", 50), {"Wanza Timber"}, {"Shepherds"}, set(), {"Goat Milk"}),
+
+    A1800Unlock("Linseed Farm", DLC.LAND_OF_LIONS, Region.EN, {114448}, {114527},
+                POPULATION(Region.EN, "Shepherds", 150),
+                {"Wanza Timber"}, {"Shepherds", "Irrigation"}, set(), {"Linseed"}, "Finery"),
+
+    A1800Unlock("Linen Mill", DLC.LAND_OF_LIONS, Region.EN, {114441}, {114527},
+                POPULATION(Region.EN, "Shepherds", 150),
+                {"Wanza Timber"}, {"Shepherds", "Irrigation"}, {"Linseed"}, {"Linen"}, "Finery"),
+
+    A1800Unlock("Embroiderer", DLC.LAND_OF_LIONS, Region.EN, {114466}, {114527},
+                POPULATION(Region.EN, "Shepherds", 150),
+                {"Wanza Timber"}, {"Shepherds", "Irrigation"}, {"Linen"}, {"Finery"}, "Finery"),
+
+    A1800Unlock("Musicians' Court", DLC.LAND_OF_LIONS, Region.EN, {114519}, {114519},
+                POPULATION(Region.EN, "Shepherds", 150), {"Wanza Timber"}, set(), set(), {"Musicians' Court"}),
+
+    A1800Unlock("Fire Station", DLC.LAND_OF_LIONS, Region.EN, {119892}, {119892},
+                POPULATION(Region.EN, "Shepherds", 150), {"Wanza Timber"}, {"Irrigation"}, set(), {"Fire Protection"}),
+
+    A1800Unlock("Sanga Farm", DLC.LAND_OF_LIONS, Region.EN, {114439}, {114524},
+                POPULATION(Region.EN, "Shepherds", 300),
+                {"Wanza Timber"}, {"Shepherds"}, set(), {"Sanga Cow"}, "Dried Meat"),
+
+    A1800Unlock("Salt Works", DLC.LAND_OF_LIONS, Region.EN, {114440}, {114524},
+                POPULATION(Region.EN, "Shepherds", 300),
+                {"Wanza Timber"}, {"Shepherds"}, set(), {"Salt"}, "Dried Meat"),
+
+    A1800Unlock("Dry-House", DLC.LAND_OF_LIONS, Region.EN, {114444}, {114524},
+                POPULATION(Region.EN, "Shepherds", 300),
+                {"Wanza Timber"}, {"Shepherds"}, {"Sanga Cow", "Salt"}, {"Dried Meat"}, "Dried Meat"),
+
+    A1800Unlock("Hibiscus Farm", DLC.LAND_OF_LIONS, Region.EN, {114447}, {114525, 120286},
+                POPULATION(Region.EN, "Shepherds", 300),
+                {"Wanza Timber"}, {"Shepherds", "Irrigation", "Settling"}, set(), {"Hibiscus Petals"},
+                {("Hibiscus Tea", Region.EN), ("Hibiscus Tea", Region.OW)}),
+
+    A1800Unlock("Tea Spicer", DLC.LAND_OF_LIONS, Region.EN, {114468}, {114525, 120286},
+                POPULATION(Region.EN, "Shepherds", 300),
+                {"Wanza Timber"}, {"Shepherds"}, {"Hibiscus Petals"}, {"Hibiscus Tea"},
+                {("Hibiscus Tea", Region.EN), ("Hibiscus Tea", Region.OW)}),
+
+    A1800Unlock("Clay Collector", DLC.LAND_OF_LIONS, Region.EN, {117743}, {114528},
+                POPULATION(Region.EN, "Elders", 1),
+                {"Wanza Timber"}, {"Shepherds"}, set(), {"Clay"}, "Mud Bricks"),
+
+    A1800Unlock("Teff Farm", DLC.LAND_OF_LIONS, Region.EN, {114450}, {114528},
+                POPULATION(Region.EN, "Elders", 1),
+                {"Wanza Timber"}, {"Shepherds", "Irrigation"}, set(), {"Teff"}, "Mud Bricks"),
+
+    A1800Unlock("Brick Dry-House", DLC.LAND_OF_LIONS, Region.EN, {114467}, {114528},
+                POPULATION(Region.EN, "Elders", 1),
+                {"Wanza Timber"}, {"Elders"}, {"Clay", "Teff"}, {"Mud Bricks"}, "Mud Bricks"),
+
+    A1800Unlock("Indigo Farm", DLC.LAND_OF_LIONS, Region.EN, {114451}, {118730},
+                POPULATION(Region.EN, "Elders", 1),
+                {"Wanza Timber"}, {"Shepherds", "Irrigation", "Settling"}, set(), {"Indigo Dye"}, "Ceramics"),
+
+    A1800Unlock("Ceramics Workshop", DLC.LAND_OF_LIONS, Region.EN, {118725}, {118730},
+                POPULATION(Region.EN, "Elders", 1),
+                {"Wanza Timber", "Mud Bricks"}, {"Elders"}, {"Clay", "Indigo Dye"}, {"Ceramics"}, "Ceramics"),
+
+    A1800Unlock("Tapestry Looms", DLC.LAND_OF_LIONS, Region.EN, {114469}, {114530, 120288},
+                POPULATION(Region.EN, "Elders", 1),
+                {"Wanza Timber", "Mud Bricks"}, {"Elders"},
+                {"Linen", "Indigo Dye"}, {"Tapestries"}, {("Tapestries", Region.EN), ("Tapestries", Region.OW)}),
+
+    A1800Unlock("Police Station", DLC.LAND_OF_LIONS, Region.EN, {114508}, {114508},
+                POPULATION(Region.EN, "Elders", 1), {"Wanza Timber"}, set(), set(), {"Riot Control"}),
+
+    A1800Unlock("Spice Farm", DLC.LAND_OF_LIONS, Region.EN, {114452}, {114531, 120287},
+                POPULATION(Region.EN, "Elders", 300),
+                {"Wanza Timber"}, {"Shepherds", "Irrigation", "Settling"}, set(), {"Spices"},
+                {("Seafood Stew", Region.EN), ("Seafood Stew", Region.OW)}),
+
+    A1800Unlock("Teff Mill", DLC.LAND_OF_LIONS, Region.EN, {114459}, {114531, 120287},
+                POPULATION(Region.EN, "Elders", 300),
+                {"Wanza Timber", "Mud Bricks"}, {"Elders"}, {"Teff", "Spices"}, {"Spiced Flour"},
+                {("Seafood Stew", Region.EN), ("Seafood Stew", Region.OW)}),
+
+    A1800Unlock("Lobster Fishery", DLC.LAND_OF_LIONS, Region.EN, {118729}, {114531, 120287},
+                POPULATION(Region.EN, "Elders", 300),
+                {"Wanza Timber", "Mud Bricks"}, {"Shepherds", "Settling"}, set(), {"Lobster"},
+                {("Seafood Stew", Region.EN), ("Seafood Stew", Region.OW)}),
+
+    A1800Unlock("Wat Kitchen", DLC.LAND_OF_LIONS, Region.EN, {114471}, {114531, 120287},
+                POPULATION(Region.EN, "Elders", 300),
+                {"Wanza Timber", "Mud Bricks"}, {"Elders"},
+                {"Spiced Flour", "Lobster"}, {"Seafood Stew"},
+                {("Seafood Stew", Region.EN), ("Seafood Stew", Region.OW)}),
+
+    A1800Unlock("Pipe Maker", DLC.LAND_OF_LIONS, Region.EN, {114472}, {114532, 120289},
+                POPULATION(Region.EN, "Elders", 300),
+                {"Wanza Timber", "Mud Bricks"}, {"Elders"}, {"Clay", "Tobacco"}, {"Clay Pipes"},
+                {("Clay Pipes", Region.EN), ("Clay Pipes", Region.OW)}),
+
+    A1800Unlock("Hospital", DLC.LAND_OF_LIONS, Region.EN, {117668}, {117668},
+                POPULATION(Region.EN, "Elders", 600), {"Wanza Timber", "Mud Bricks"}, set(), set(), {"Healthcare"}),
+
+    A1800Unlock("Paper Mill", DLC.LAND_OF_LIONS, Region.EN, {117744}, {117719},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Wanza Timber", "Mud Bricks"}, {"Elders"}, {"Wood"}, {"Paper"}, "Illuminated Script"),
+
+    A1800Unlock("Luminer", DLC.LAND_OF_LIONS, Region.EN, {114470}, {117719},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Wanza Timber", "Mud Bricks"}, {"Elders"},
+                {"Paper", "Indigo Dye"}, {"Illuminated Script"}, "Illuminated Script"),
+
+    A1800Unlock("Apiary", DLC.LAND_OF_LIONS, Region.EN, {114453}, {117720},
+                POPULATION(Region.EN, "Elders", 1000),
+                {"Wanza Timber"}, {"Shepherds", "Irrigation", "Settling"}, set(), {"Beeswax"}, "Lanterns"),
+
+    A1800Unlock("Chandler", DLC.LAND_OF_LIONS, Region.EN, {114461}, {117720},
+                POPULATION(Region.EN, "Elders", 1000),
+                {"Wanza Timber", "Mud Bricks"}, {"Elders"}, {"Beeswax", "Cotton"}, {"Ornate Candles"}, "Lanterns"),
+
+    A1800Unlock("Lanternsmith", DLC.LAND_OF_LIONS, Region.EN, {114464}, {117720},
+                POPULATION(Region.EN, "Elders", 1000),
+                {"Wanza Timber", "Mud Bricks"}, {"Elders"}, {"Ornate Candles", "Glass"}, {"Lanterns"}, "Lanterns"),
+
+    A1800Unlock("Monastery", DLC.LAND_OF_LIONS, Region.EN, {114520}, {114520},
+                POPULATION(Region.EN, "Elders", 1000),
+                {"Wanza Timber", "Mud Bricks"}, set(), set(), {"Monastery"}),
+
+    # Building, Upgrade
+    A1800Unlock("Advanced Pier", DLC.LAND_OF_LIONS, Region.OW, {125028}, {125028},
+                COUNTER(118940, 1, "Research Institute", "Research Institute", Region.OW),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Permit: Advanced Pier"},
+                previous_building="Pier"),
+
+    A1800Unlock("Advanced Pier", DLC.LAND_OF_LIONS, Region.NW, {125191}, {125191},
+                COUNTER(118940, 1, "Research Institute", "Research Institute", Region.OW),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Permit: Advanced Pier"},
+                previous_building="Pier"),
+
+    A1800Unlock("Paved Street", DLC.LAND_OF_LIONS, Region.EN, {119029}, {119029},
+                POPULATION(Region.EN, "Elders", 1), {"Mud Bricks"}, previous_building="Desert Road"),
+
+    A1800Unlock("Medium Warehouse", DLC.LAND_OF_LIONS, Region.EN, {114537}, {114633},
+                POPULATION(Region.EN, "Elders", 1),
+                {"Wanza Timber", "Mud Bricks"}, previous_building="Small Warehouse"),
+
+    A1800Unlock("Medium Trading Post", DLC.LAND_OF_LIONS, Region.EN, {114627, 114630}, {114633},
+                POPULATION(Region.EN, "Elders", 1),
+                {"Wanza Timber", "Mud Bricks"}, previous_building="Small Trading Post"),
+
+    A1800Unlock("Large Warehouse", DLC.LAND_OF_LIONS, Region.EN, {114635}, {114634},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Wanza Timber", "Mud Bricks"}, previous_building="Medium Warehouse"),
+
+    A1800Unlock("Large Trading Post", DLC.LAND_OF_LIONS, Region.EN, {114628, 114631}, {114634},
+                POPULATION(Region.EN, "Elders", 600),
+                {"Wanza Timber", "Mud Bricks"}, previous_building="Medium Trading Post"),
+
+    A1800Unlock("Advanced Pier", DLC.LAND_OF_LIONS, Region.EN, {125193}, {125193},
+                COUNTER(118940, 1, "Research Institute", "Research Institute", Region.OW),
+                {"Wanza Timber", "Mud Bricks", "Permit: Advanced Pier"}, previous_building="Pier"),
+
+    # Building, Factory, Residence
+    # University + Canned Food guarantuee enough scholars to make infinite permits
+    A1800Unlock("Scholar Residence", DLC.LAND_OF_LIONS, Region.OW, {114445}, {114445},
+                POPULATION(Region.EN, "Elders", 1500),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Permit: Scholar Residence"}, set(),
+                {"University", "Canned Food"}, {"Scholars", "Research Points"},
+                consumption={"University", "Canned Food", "Tailored Suits", "Electricity", "Seafood Stew",
+                             "Telephones", "Radio Tower", "Fire Protection", "Riot Control", "Healthcare"},
+                luxury={"Leather Boots", "Rum", "Bombins", "Hibiscus Tea", "Tapestries", "Clay Pipes", "Gramophones"},
+                lifestyle={"Local Mail", "Regional Mail", "Overseas Mail", "Saltpeter",
+                           "New World Reports", "Arctic Reports", "Film Reel", "Fans", "Scooter"}),
+
+    A1800Unlock("Shepherd Residence", DLC.LAND_OF_LIONS, Region.EN, {114436}, {114436},
+                SESSION_ENTER(Session.EN), {"Wanza Timber"}, set(), {"Market"}, {"Shepherds"},
+                consumption={"Market", "Goat Milk", "Finery", "Dried Meat", "Fire Protection"},
+                luxury={"Musicians' Court", "Hibiscus Tea"},
+                lifestyle={"Wanza Timber", "Grain", "Ponchos", "Canned Food", "Hot Sauce", "Jam"}),
+
+    # Building, Factory, Upgrade, Residence
+    A1800Unlock("Elder Residence", DLC.LAND_OF_LIONS, Region.EN, {114437}, {114437},
+                POPULATION(Region.EN, "Shepherds", 300),
+                {"Wanza Timber"}, set(), set(), {"Elders"}, "", "Shepherd Residence",
+                {"Market", "Goat Milk", "Finery", "Dried Meat", "Ceramics", "Seafood Stew",
+                    "Illuminated Script", "Lanterns", "Fire Protection", "Riot Control", "Healthcare"},
+                {"Musicians' Court", "Hibiscus Tea", "Tapestries", "Clay Pipes", "Spectacles", "Monastery"},
+                {"Cotton Fabric", "Sewing Machines", "Goose Feathers", "Soap", "Herbs", "Orchid"}),
+
+    ### Needs The Passage ###
+    # Building, Upgrade
+    A1800Unlock("Advanced Pier", DLC.THE_PASSAGE | DLC.LAND_OF_LIONS, Region.AR, {125192}, {125192},
+                COUNTER(118940, 1, "Research Institute", "Research Institute", Region.OW),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Permit: Advanced Pier"},
+                previous_building="Pier"),
+
     ### Needs Bright Harvest ###
     # Meta
     A1800Unlock("Oil Transport OW => EN", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, ALL_REGIONS, set(), set(),
@@ -1136,24 +1477,25 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     # Building
     A1800Unlock("Silo", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119025, 269999}, {119025, 269999},
-                POPULATION(Region.EN, "Elders", 1),
-                {"Wanza Timber", "Mud Bricks"}, {"Teff"}),
+                POPULATION(Region.EN, "Elders", 1), {"Wanza Timber", "Mud Bricks"}, {"Teff"}),
+
     A1800Unlock("Oil Store", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119034}, {270173},
-                POPULATION(Region.EN, "Elders", 600),
-                {"Wanza Timber", "Mud Bricks"}, unlock_chain="Fuel"),
+                POPULATION(Region.EN, "Elders", 600), {"Wanza Timber", "Mud Bricks"}, unlock_chain="Fuel"),
+
     A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119026, 119027, 269832},
                 {270173, 269832},
-                POPULATION(Region.EN, "Elders", 600),
-                {"Steel Beams", "Steam Motors"}, {"Fuel"}),
+                POPULATION(Region.EN, "Elders", 600), {"Steel Beams", "Steam Motors"}, {"Fuel"}),
 
     # Building, Factory
     A1800Unlock("Rails", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119035}, {270173},
                 POPULATION(Region.EN, "Elders", 600),
                 {"Wanza Timber", "Steel Beams"}, set(), set(), {"Railway"}, "Fuel"),
+
     A1800Unlock("Fuel Station", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119028, 269751}, {270173},
                 POPULATION(Region.EN, "Elders", 600),
                 {"Wanza Timber", "Mud Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Elders"},
                 {"Oil", "Railway", "Oil Harbour"}, {"Fuel"}, "Fuel"),
+
     A1800Unlock("Small Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119031}, {270173},
                 POPULATION(Region.EN, "Elders", 600),
                 {"Wanza Timber", "Mud Bricks"}, set(), set(), {"Oil Harbour"}, "Fuel"),
@@ -1162,9 +1504,11 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Medium Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119032}, {119032},
                 POPULATION(Region.EN, "Elders", 600),
                 {"Wanza Timber", "Mud Bricks"}, set(), set(), {"Oil Harbour"}, previous_building="Small Oil Harbour"),
+
     A1800Unlock("Large Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {119033}, {119033},
                 POPULATION(Region.EN, "Elders", 600),
                 {"Wanza Timber", "Mud Bricks"}, set(), set(), {"Oil Harbour"}, previous_building="Medium Oil Harbour"),
+
     A1800Unlock("Grand Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, {270172}, {270172},
                 POPULATION(Region.EN, "Elders", 600),
                 {"Wanza Timber", "Mud Bricks"}, set(), set(), {"Oil Harbour"}, previous_building="Large Oil Harbour"),

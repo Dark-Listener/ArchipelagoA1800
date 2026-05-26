@@ -12,7 +12,8 @@ The following features are planned to be added at some point (in no specific ord
 * More options for victory conditions
 * More options in general!
 * Option to send hints for unlocks visible in chains
-* Remove starting fish
+* Option to start with flagship, enabling expeditions from the get-go
+* Figure out how to handle free session starting items in logic (ships and goods)
 * Introduce progressive items for trading posts, warehouses, monument stages...
 
 ## Potential Features | Considerations
@@ -27,4 +28,6 @@ The following features are being considered, but it's unclear whether they are r
 * If possible, try to not place items "later" than any chosen victory condition, e.g. don't require items at 600
 obreros if 1 was chosen as victory condition
 * Add traps (e.g. cause incidents)
+* Require Elders to be fully supplied before unlocking Scholars? Otherwise most of Enbesa can be skipped - see 128474
+* Instead of grouped triggers and unlockable assets, use feature unlocks?
 * Docklands DLC? Somehow all the unlocks would have to be redone

@@ -27,6 +27,15 @@ _a1800_regions: dict[Region, tuple[DLC, set[tuple[str, Region]], set[tuple[str, 
         ("Road", Region.AR),
         ("Small Warehouse", Region.AR),
     }),
+    Region.EN: (DLC.LAND_OF_LIONS, {
+        ("Expedition: Enbesa", ALL_REGIONS),
+        ("Sea Travel", ALL_REGIONS),
+    }, {
+        ("Initial Settling", Region.EN),
+        ("Desert Road", Region.EN),
+        ("Small Warehouse", Region.EN),
+        ("Wanza Woodcutter", Region.EN),
+    }),
 }
 
 

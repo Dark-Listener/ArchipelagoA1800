@@ -48,6 +48,7 @@ all of the supported DLCs as you desire:
 * The Passage
 * Seat of Power
 * Bright Harvest
+* Land of Lions
 
 Additional purchased DLCs are not an issue, but will not be taken into account in the randomizer.
 

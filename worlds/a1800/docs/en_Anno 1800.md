@@ -39,6 +39,7 @@ The follwing DLCs are supported:
 * The Passage
 * Seat of Power
 * Bright Harvest
+* Land of Lions
 
 Docklands will not be supported as it would render the randomizer pointless.
 

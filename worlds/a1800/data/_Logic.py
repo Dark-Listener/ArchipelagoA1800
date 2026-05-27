@@ -7,7 +7,7 @@ from ._Products import A1800Product
 from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
 from ._Sessions import SESSIONS
-from ._Trigger import ALL, POPULATION, Trigger, TRUE
+from ._Trigger import Trigger
 from ._Unlocks import A1800Unlock, UNLOCKS
 
 
@@ -28,7 +28,7 @@ def _get_victory_condition_info(
         # f"Lifestyle: {'Yes' if lifestyle else 'No'})"
 
         victory_required_items.add(A1800Requirement(population.name, population.region))
-        victory_triggers.append(POPULATION(population.region, population.name, amount))
+        victory_triggers.append(Trigger.POPULATION(population.name, population.region, amount))
         victory_dlcs |= population.dlc
 
         residence = next(
@@ -48,7 +48,7 @@ def _get_victory_condition_info(
     if len(victory_triggers) == 1:
         victory_trigger = victory_triggers[0]
     else:
-        victory_trigger = ALL(*victory_triggers)
+        victory_trigger = Trigger.ALL(*victory_triggers)
 
     return victory_event_location_name, victory_required_items, victory_trigger, victory_dlcs
 
@@ -68,7 +68,7 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
         case TriggerType.SESSION_ENTER:
             return SESSIONS.find_session(trigger.session).requirements
         case TriggerType.POPULATION:
-            return {A1800Requirement(trigger.population, trigger.region)}
+            return {A1800Requirement(trigger.population_name, trigger.region)}
         case TriggerType.COUNTER:
             return {A1800Requirement(trigger.product_name, trigger.region)}
         case TriggerType.COUNTER_GOOD_IN_REGION:
@@ -79,15 +79,15 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
             return {A1800Requirement(trigger.product_name, trigger.product_region)} | a1800_region.requirements
         case TriggerType.UNLOCK:
             return {A1800Requirement(trigger.unlock_name, trigger.region, type=RequirementType.UNLOCK)}
-        case TriggerType.DLC:
-            assert False, "TriggerType DLC should never be used for unlocks"
+        case TriggerType.ACTIVE_DLC:
+            assert False, "TriggerType ACTIVE_DLC should never be used for unlocks"
 
 
 class _Logic:
     _initialized: bool = False
     _a1800_required_items: set[A1800Requirement] = set()
     _a1800_location_requirements: dict[str, set[A1800Requirement]] = {}
-    _victory_trigger: Trigger = TRUE
+    _victory_trigger: Trigger = Trigger.TRUE()
 
     def init(
             self, population_requirements: list[tuple[A1800Product, int, bool, bool, bool]], full_accessibility: bool

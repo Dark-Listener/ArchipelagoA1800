@@ -5,7 +5,7 @@ from ._Enums import ALL_REGIONS, DLC, Region, Session, TriggerType
 from ._Products import PRODUCTS
 from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
-from ._Trigger import FALSE, TRUE, Trigger
+from ._Trigger import Trigger
 from ._Unlocks import UNLOCKS
 
 
@@ -64,11 +64,11 @@ class _Sessions:
                 self._clean_dlc_trigger(enabled_dlcs, subtrigger)] if clean_trigger.trigger_type != TriggerType.TRUE]
 
             if len(trigger.triggers) == 0:
-                return TRUE
+                return Trigger.TRUE()
             elif len(trigger.triggers) == 1:
                 return trigger.triggers[0]
             elif any([subtrigger.trigger_type == TriggerType.FALSE for subtrigger in trigger.triggers]):
-                return FALSE
+                return Trigger.FALSE()
             else:
                 return trigger
         elif trigger.trigger_type == TriggerType.ANY:
@@ -76,15 +76,15 @@ class _Sessions:
                 self._clean_dlc_trigger(enabled_dlcs, subtrigger)] if clean_trigger.trigger_type != TriggerType.FALSE]
 
             if len(trigger.triggers) == 0:
-                return FALSE
+                return Trigger.FALSE()
             elif len(trigger.triggers) == 1:
                 return trigger.triggers[0]
             elif any([subtrigger.trigger_type == TriggerType.TRUE for subtrigger in trigger.triggers]):
-                return TRUE
+                return Trigger.TRUE()
             else:
                 return trigger
         elif trigger.trigger_type == TriggerType.SESSION_ENTER:
-            return FALSE if not trigger.session in self._a1800_sessions else trigger
+            return Trigger.FALSE() if not trigger.session in self._a1800_sessions else trigger
         else:
             return trigger
 

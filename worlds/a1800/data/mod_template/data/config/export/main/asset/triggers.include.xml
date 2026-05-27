@@ -50,32 +50,32 @@
 
   <!-- Make expedition unlocks dependent on custom unlocks -->
   <ModOp Type="replace" GUID="140885" Path="/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks["Expedition: New World"], "", Region(0))) | indent(4) }}
+    {{ generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: New World"])) | indent(4) }}
   </ModOp>
   <ModOp Type="replace" GUID="113818" Path="/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks["Expedition: Cape Trelawney"], "", Region(0))) | indent(4) }}
+    {{ generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: Cape Trelawney"])) | indent(4) }}
   </ModOp>
   <ModOp Type="remove" GUID="113818" Path="Values/Trigger/SubTriggers/Item[SubTrigger/Values/Trigger/TriggerCondition/Template='ConditionTimer']" />
   <ModOp Type="replace" GUID="114115" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger">
     <Trigger>
-      {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks["Expedition: The Arctic"], "", Region(0))) | indent(6) }}
+      {{ generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: The Arctic"])) | indent(6) }}
     </Trigger>
   </ModOp>
   <ModOp Type="replace" GUID="119863" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger">
     <Trigger>
-      {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks["Expedition: Enbesa"], "", Region(0))) | indent(6) }}
+      {{ generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: Enbesa"])) | indent(6) }}
     </Trigger>
   </ModOp>
 
   <!-- Remove timers from silo and tractor newspapers and make tractor newspaper independent from silos -->
   <ModOp Type="remove" GUID="270008" Path="Values/Trigger/SubTriggers" />
   <ModOp Type="replace" GUID="269865" Path="/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.TRUE)) | indent(4) }}
+    {{ generate_trigger_condition(TriggerType, Trigger.TRUE()) | indent(4) }}
   </ModOp>
   <ModOp Type="remove" GUID="269865" Path="Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/SubTriggers" />
   <ModOp Type="replace" GUID="269865" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, 269832, "", Region(0))) | indent(4) }}
-  </ModOp>
+    {{ generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), 269832)) | indent(4) }}
+      </ModOp>
 
   <!-- Add all triggers -->
   <ModOp Type="addNextSibling" GUID="130248">

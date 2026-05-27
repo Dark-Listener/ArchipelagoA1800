@@ -85,6 +85,12 @@ class Region(Flag, boundary=KEEP):
         return out_name
 
     @property
+    def guids(self) -> list[int]:
+        global _REGION_GUIDS
+
+        return [guid for region, guid in _REGION_GUIDS.items() if region in self]
+
+    @property
     def is_unique(self) -> bool:
         return self in Region.__members__.values()
 
@@ -94,6 +100,13 @@ _REGION_NAMES = {
     Region.NW: "New World",
     Region.AR: "The Arctic",
     Region.EN: "Enbesa",
+}
+
+_REGION_GUIDS = {
+    Region.OW: 5000000,
+    Region.NW: 5000001,
+    Region.AR: 160001,
+    Region.EN: 114327,
 }
 
 NO_REGION = Region(0)
@@ -175,10 +188,12 @@ class TriggerType(IntEnum):
     SESSION_ENTER = auto()
     POPULATION = auto()
     COUNTER = auto()
+    COUNTER_GOOD_IN_REGION = auto()
     UNLOCK = auto()
-    DLC = auto()
+    ACTIVE_DLC = auto()
     ANY = auto()
     ALL = auto()
+    LINEAR = auto()
     TRUE = auto()
     FALSE = auto()
 

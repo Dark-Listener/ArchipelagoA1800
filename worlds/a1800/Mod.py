@@ -22,12 +22,12 @@ def _get_trigger_with_dlc(trigger: Trigger, trigger_dlc: DLC) -> Trigger:
     if trigger_dlc == DLC.VANILLA:
         return trigger
 
-    new_trigger = Trigger(TriggerType.DLC, trigger_dlc)
+    new_trigger = Trigger.ACTIVE_DLC(trigger_dlc)
 
     if trigger.trigger_type == TriggerType.ALL:
-        return Trigger(TriggerType.ALL, *trigger.triggers, new_trigger)
+        return Trigger.ALL(*trigger.triggers, new_trigger)
     else:
-        return Trigger(TriggerType.ALL, trigger, new_trigger)
+        return Trigger.ALL(trigger, new_trigger)
 
 
 class A1800ModFile(APPlayerContainer):
@@ -142,8 +142,8 @@ def generate_mod(world: "A1800World", output_directory: str):
         "Expedition: Enbesa": Session.EN.expedition_unlock_guid,
     }
 
-    palace_ministry_unhide_trigger = Trigger(TriggerType.ALL, Trigger(
-        TriggerType.UNLOCK, 249947, "Palace", Region.OW), Trigger(TriggerType.DLC, DLC.SEAT_OF_POWER))
+    palace_ministry_unhide_trigger = Trigger.ALL(Trigger.UNLOCK(
+        "Palace", Region.OW, 249947), Trigger.ACTIVE_DLC(DLC.SEAT_OF_POWER))
 
     template_data: dict[str, Any] = {
         "lock_guid_list": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),

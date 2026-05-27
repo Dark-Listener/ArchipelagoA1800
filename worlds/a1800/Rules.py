@@ -25,7 +25,7 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
             case TriggerType.SESSION_ENTER:
                 return _create_rule(A1800_DATA.find_session(data.session).requirements)
             case TriggerType.POPULATION:
-                return _create_rule({A1800Requirement(data.population, data.region)})
+                return _create_rule({A1800Requirement(data.population_name, data.region)})
             case TriggerType.COUNTER:
                 return _create_rule({A1800Requirement(data.product_name, data.region)})
             case TriggerType.COUNTER_GOOD_IN_REGION:
@@ -37,8 +37,8 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
                     {A1800Requirement(data.product_name, data.product_region)} | a1800_region.requirements)
             case TriggerType.UNLOCK:
                 return _create_rule({A1800Requirement(data.unlock_name, data.region, type=RequirementType.UNLOCK)})
-            case TriggerType.DLC:
-                assert False, "TriggerType DLC should never be used for rules"
+            case TriggerType.ACTIVE_DLC:
+                assert False, "TriggerType ACTIVE_DLC should never be used for rules"
     else:
         if data:
             return HasAll(*set([ap_item_name for requirement in data for ap_item_name in requirement.ap_item_names]))

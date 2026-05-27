@@ -1,97 +1,30 @@
 from functools import reduce
-from typing import Any, Callable, Self
+from typing import Self
 
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, START_REGION, TriggerType
-from ._Products import _a1800_populations  # pyright: ignore[reportPrivateUsage]
 
 
 class Trigger:
-    def __init__(self, trigger_type: TriggerType, *args: Any) -> None:
-        match(trigger_type):
-            case TriggerType.TRUE:
-                assert len(args) == 0, f"{trigger_type.name} requires no arguments"
-                self.region = NO_REGION
-                pass
-            case TriggerType.FALSE:
-                assert len(args) == 0, f"{trigger_type.name} requires no arguments"
-                self.region = NO_REGION
-                pass
-            case TriggerType.ALL:
-                assert len(args) >= 2, f"{trigger_type.name} requires at least 2 arguments"
-                for arg in args:
-                    assert isinstance(
-                        arg, Trigger), f"{trigger_type.name} requires arguments of type Trigger, got {type(arg)} instead"
-                self.triggers: list[Trigger] = list(args)
-                self.region = reduce(Region.__or__, [trigger.region for trigger in self.triggers])
-            case TriggerType.LINEAR:
-                assert len(args) >= 2, f"{trigger_type.name} requires at least 2 arguments"
-                for arg in args:
-                    assert isinstance(
-                        arg, Trigger), f"{trigger_type.name} requires arguments of type Trigger, got {type(arg)} instead"
-                self.triggers: list[Trigger] = list(args)
-                self.region = reduce(Region.__or__, [trigger.region for trigger in self.triggers])
-            case TriggerType.ANY:
-                assert len(args) >= 2, f"{trigger_type.name} requires at least 2 arguments"
-                for arg in args:
-                    assert isinstance(
-                        arg, Trigger), f"{trigger_type.name} requires arguments of type Trigger, got {type(arg)} instead"
-                self.triggers: list[Trigger] = list(args)
-                self.region = reduce(Region.__or__, [trigger.region for trigger in self.triggers])
-            case TriggerType.SESSION_ENTER:
-                assert len(args) == 1, f"{trigger_type.name} requires exactly 1 argument"
-                assert isinstance(args[0], Session), f"{trigger_type.name} requires an argument of type Session, got " \
-                    f"{type(args[0])} instead"
-                self.session: Session = args[0]
-                self.region = START_REGION
-            case TriggerType.POPULATION:
-                assert len(args) == 3, f"{trigger_type.name} requires exactly 3 arguments"
-                assert isinstance(args[0], Region) and isinstance(args[1], str) and isinstance(args[2], int), \
-                    f"{trigger_type.name} requires arguments of types (str, Region, int), got " \
-                    f"({type(args[0])}, {type(args[1])}, {type(args[2])}) instead"
-                self.region: Region = args[0]
-                self.population: str = args[1]
-                self.amount: int = args[2]
-                self.guid: int = next(population for population in _a1800_populations if population.name ==
-                                      self.population and self.region in population.region).guid
-            case TriggerType.UNLOCK:
-                assert len(args) == 3, f"{trigger_type.name} requires exactly 3 arguments"
-                assert isinstance(args[0], int) and isinstance(args[1], str) and isinstance(args[2], Region), \
-                    f"{trigger_type.name} requires arguments of types (int, str, Region), got "\
-                    f"({type(args[0])}, {type(args[1])}, {type(args[2])}) instead"
-                self.guid = args[0]
-                self.unlock_name = args[1]
-                self.region = args[2]
-            case TriggerType.COUNTER:
-                assert len(args) == 5, f"{trigger_type.name} requires exactly 5 arguments"
-                assert isinstance(args[0], int) and isinstance(args[1], int) and isinstance(args[2], str) \
-                    and isinstance(args[3], str) and isinstance(args[4], Region), f"{trigger_type.name} requires "\
-                    f"arguments of types (int, int, str, str, Region), got "\
-                    f"({type(args[0])}, {type(args[1])}, {type(args[2])}, {type(args[3])}, {type(args[4])}) instead"
-                self.guid = args[0]
-                self.amount = args[1]
-                self.unlock_name = args[2]
-                self.product_name = args[3]
-                self.region = args[4]
-            case TriggerType.COUNTER_GOOD_IN_REGION:
-                assert len(args) == 5, f"{trigger_type.name} requires exactly 5 arguments"
-                assert isinstance(args[0], int) and isinstance(args[1], int) and isinstance(args[2], str) \
-                    and isinstance(args[3], Region) and isinstance(args[4], Region), f"{trigger_type.name} requires "\
-                    f"arguments of types (int, int, str, Region, Region), got "\
-                    f"({type(args[0])}, {type(args[1])}, {type(args[2])}, {type(args[3])}, {type(args[4])}) instead"
-                self.guid = args[0]
-                self.amount = args[1]
-                self.product_name = args[2]
-                self.product_region = args[3]
-                self.region = args[4]
-            case TriggerType.DLC:
-                assert len(args) == 1, f"{trigger_type.name} requires exactly 1 arguments"
-                assert isinstance(args[0], DLC), f"{trigger_type.name} requires an argument of type DLC, got " \
-                    f"{type(args[0])} instead"
-                self.dlc = args[0]
-                self.guids = {dlc.guid for dlc in DLC.__members__.values() if dlc != DLC.VANILLA and dlc in self.dlc}
-                self.region = START_REGION
+    trigger_type: TriggerType
 
-        self.trigger_type: TriggerType = trigger_type
+    region: Region
+    triggers: list[Self]
+    session: Session
+    guid: int
+    guids: set[int]
+    population_name: str
+    product_name: str
+    product_region: Region
+    unlock_name: str
+    amount: int
+    dlc: DLC
+
+    ap_location_name: str
+
+    def __init__(self, trigger_type: TriggerType) -> None:
+        self.trigger_type = trigger_type
+
+    def post_init(self) -> None:
         self.ap_location_name: str = self._get_ap_location_name()
 
     def _get_ap_location_name(self) -> str:
@@ -115,10 +48,7 @@ class Trigger:
             case TriggerType.SESSION_ENTER:
                 out_name = f"On entering: {self.session.name}"
             case TriggerType.POPULATION:
-                out_name = f"{self.amount} {self.population if self.amount != 1 else self.population[:-1]}"
-                if len([population for population in _a1800_populations
-                        if population.name == self.population and self.region in population.region]) > 1:
-                    out_name += f" ({self.region})"
+                out_name = f"{self.amount} {self.population_name if self.amount != 1 else self.population_name[:-1]}"
             case TriggerType.UNLOCK:
                 out_name = f"On unlocking: "\
                     f"{f'{self.region.name}: ' if self.region and self.region != ALL_REGIONS else ''}{self.unlock_name}"
@@ -130,7 +60,7 @@ class Trigger:
                     f"{f'{self.product_region.name}: ' if self.product_region and self.product_region != ALL_REGIONS else ''}"\
                     f"{self.product_name[:-1] if self.product_name.endswith('s') else self.product_name} "\
                     f"in {self.region.full_name}"
-            case TriggerType.DLC:
+            case TriggerType.ACTIVE_DLC:
                 if self.dlc in DLC.__members__.values():
                     out_name = f"DLC active: {self.dlc.name}"
                 else:
@@ -172,7 +102,7 @@ class Trigger:
                 return self.trigger_type, self.guid, self.amount
             case TriggerType.COUNTER_GOOD_IN_REGION:
                 return self.trigger_type, self.guid, self.region.value, self.amount
-            case TriggerType.DLC:
+            case TriggerType.ACTIVE_DLC:
                 return self.trigger_type, self.dlc.value
 
     def add_rules_requirement(self, name: str, region: Region) -> Self:
@@ -182,18 +112,99 @@ class Trigger:
             self.rules_requirements.add((name, region))
         return self
 
+    @classmethod
+    def TRUE(cls) -> Self:
+        trigger = cls(TriggerType.TRUE)
+        trigger.region = NO_REGION
+        trigger.post_init()
+        return trigger
 
-TRUE: Trigger = Trigger(TriggerType.TRUE)
-FALSE: Trigger = Trigger(TriggerType.FALSE)
-ALL: Callable[..., Trigger] = lambda *triggers: Trigger(TriggerType.ALL, *triggers)
-LINEAR: Callable[..., Trigger] = lambda *triggers: Trigger(TriggerType.LINEAR, *triggers)
-ANY: Callable[..., Trigger] = lambda *triggers: Trigger(TriggerType.ANY, *triggers)
-POPULATION: Callable[[Region, str, int], Trigger] = lambda region, population, amount: Trigger(
-    TriggerType.POPULATION, region, population, amount)
-SESSION_ENTER: Callable[[Session], Trigger] = lambda session: Trigger(TriggerType.SESSION_ENTER, session)
-UNLOCK: Callable[[int, str, Region], Trigger] = lambda guid, unlock_name, region: Trigger(
-    TriggerType.UNLOCK, guid, unlock_name, region)
-COUNTER: Callable[[int, int, str, str, Region], Trigger] = lambda guid, amount, unlock_name, product_name, region: Trigger(
-    TriggerType.COUNTER, guid, amount, unlock_name, product_name, region)
-COUNTER_GOOD_IN_REGION: Callable[[int, int, str, Region, Region], Trigger] = lambda guid, amount, product_name, product_region, region: Trigger(
-    TriggerType.COUNTER_GOOD_IN_REGION, guid, amount, product_name, product_region, region)
+    @classmethod
+    def FALSE(cls) -> Self:
+        trigger = cls(TriggerType.FALSE)
+        trigger.region = NO_REGION
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def ALL(cls, *triggers: Self) -> Self:
+        trigger = cls(TriggerType.ALL)
+        trigger.triggers = list(triggers)
+        trigger.region = reduce(Region.__or__, [subtrigger.region for subtrigger in trigger.triggers])
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def LINEAR(cls, *triggers: Self) -> Self:
+        trigger = cls(TriggerType.LINEAR)
+        trigger.triggers = list(triggers)
+        trigger.region = reduce(Region.__or__, [subtrigger.region for subtrigger in trigger.triggers])
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def ANY(cls, *triggers: Self) -> Self:
+        trigger = cls(TriggerType.ANY)
+        trigger.triggers = list(triggers)
+        trigger.region = reduce(Region.__or__, [subtrigger.region for subtrigger in trigger.triggers])
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def SESSION_ENTER(cls, session: Session) -> Self:
+        trigger = cls(TriggerType.SESSION_ENTER)
+        trigger.session = session
+        trigger.region = START_REGION
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def POPULATION(cls, population_name: str, region: Region, amount: int, guid: int = 0) -> Self:
+        trigger = cls(TriggerType.POPULATION)
+        trigger.population_name = population_name
+        trigger.region = region
+        trigger.amount = amount
+        trigger.guid = guid
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def UNLOCK(cls, unlock_name: str, region: Region, guid: int = 0) -> Self:
+        trigger = cls(TriggerType.UNLOCK)
+        trigger.unlock_name = unlock_name
+        trigger.region = region
+        trigger.guid = guid
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def COUNTER(cls, unlock_name: str, product_name: str, region: Region, amount: int, guid: int = 0) -> Self:
+        trigger = cls(TriggerType.COUNTER)
+        trigger.unlock_name = unlock_name
+        trigger.product_name = product_name
+        trigger.region = region
+        trigger.amount = amount
+        trigger.guid = guid
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def COUNTER_GOOD_IN_REGION(
+            cls, product_name: str, product_region: Region, amount: int, region: Region, guid: int = 0) -> Self:
+        trigger = cls(TriggerType.COUNTER_GOOD_IN_REGION)
+        trigger.product_name = product_name
+        trigger.product_region = product_region
+        trigger.amount = amount
+        trigger.region = region
+        trigger.guid = guid
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def ACTIVE_DLC(cls, dlc: DLC) -> Self:
+        trigger = cls(TriggerType.ACTIVE_DLC)
+        trigger.dlc = dlc
+        trigger.guids = {dlc.guid for dlc in DLC.__members__.values() if dlc != DLC.VANILLA and dlc in trigger.dlc}
+        trigger.region = START_REGION
+        trigger.post_init()
+        return trigger

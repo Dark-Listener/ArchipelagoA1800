@@ -4,14 +4,17 @@ from typing import Callable, ClassVar, Iterator, Optional
 from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerType, UnlockType
 from ._Products import PRODUCTS
-from ._Trigger import ANY, COUNTER as _COUNTER, FALSE, POPULATION, SESSION_ENTER, UNLOCK as _UNLOCK, Trigger, TRUE
+from ._Trigger import ANY, COUNTER as _COUNTER, COUNTER_GOOD_IN_REGION as _COUNTER_GOOD_IN_REGION, FALSE, LINEAR, POPULATION, SESSION_ENTER, UNLOCK as _UNLOCK, Trigger, TRUE
 
 
-UNLOCK: Callable[[str, Region], Trigger] = lambda unlock_name, region: _UNLOCK(0, unlock_name, region)
+UNLOCK: Callable[[str, Region], Trigger] = lambda unlock_name, region: \
+    _UNLOCK(0, unlock_name, region)
 
+COUNTER: Callable[[str, str, Region, int], Trigger] = lambda unlock_name, product_name, region, amount: \
+    _COUNTER(0, amount, unlock_name, product_name, region)
 
-COUNTER: Callable[[str, str, Region, int], Trigger] = lambda unlock_name, product_name, region, amount: _COUNTER(
-    0, amount, unlock_name, product_name, region)
+COUNTER_GOOD_IN_REGION: Callable[[str, Region, Region, int], Trigger] = lambda product_name, product_region, region, amount: \
+    _COUNTER_GOOD_IN_REGION(0, amount, product_name, product_region, region)
 
 
 def create_unlock_name(name: str, region: Region, prefix: str = "", postfix: str = "") -> str:
@@ -19,6 +22,28 @@ def create_unlock_name(name: str, region: Region, prefix: str = "", postfix: str
         return prefix + name + postfix
     else:
         return f"{prefix}{region.name}: {name}{postfix}"
+
+
+def _add_guids_to_trigger(trigger: Trigger) -> None:
+    if trigger.trigger_type in [TriggerType.ALL, TriggerType.LINEAR, TriggerType.ANY]:
+        for subtrigger in trigger.triggers:
+            _add_guids_to_trigger(subtrigger)
+    elif (trigger.trigger_type == TriggerType.UNLOCK or trigger.trigger_type == TriggerType.COUNTER) \
+            and trigger.guid == 0:
+        references = [unlock for unlock in UNLOCKS._a1800_unlocks  # pyright: ignore[reportPrivateUsage]
+                      if unlock.name == trigger.unlock_name and trigger.region in unlock.region]
+        assert references, f"Trigger references unknown unlock {trigger.unlock_name}"
+        assert len(references) == 1, \
+            f"Trigger references multiple unlocks {[reference.name for reference in references]}"
+        assert references[0].unlock_guids, \
+            f"Trigger references unlock {references[0].name}, which has no guids"
+        trigger.guid = references[0].unlock_guids[0]
+    elif (trigger.trigger_type == TriggerType.COUNTER_GOOD_IN_REGION) and trigger.guid == 0:
+        references = list(PRODUCTS.find_products(trigger.product_name))
+        assert references, f"Trigger references unknown product {trigger.product_name}"
+        assert len(references) == 1, \
+            f"Trigger references multiple products {[reference.name for reference in references]}"
+        trigger.guid = references[0].guid
 
 
 class A1800Unlock:
@@ -101,19 +126,7 @@ class A1800Unlock:
         self.ap_location_name = self.trigger.get_ap_location_name(self.ap_item_name)
 
     def post_init(self) -> None:
-        if (self.trigger.trigger_type == TriggerType.UNLOCK or self.trigger.trigger_type == TriggerType.UNLOCK) \
-                and self.trigger.guid == 0:
-            references = [unlock for unlock in UNLOCKS._a1800_unlocks  # pyright: ignore[reportPrivateUsage]
-                          if unlock.name == self.trigger.unlock_name and self.trigger.region in unlock.region]
-            assert references, f"Unlock {self}'s trigger references unkown unlock {self.trigger.unlock_name}"
-            assert len(references) == 1, \
-                f"Unlock {self}'s trigger references multiple unlocks {[reference.name for reference in references]}"
-            assert references[0].unlock_guids, \
-                f"Unlock {self}'s trigger references unlock {references[0].name}, which has no guids"
-            assert len(
-                references[0].unlock_guids) == 1, \
-                f"Unlock {self}'s trigger references unlock {references[0].name}, which has multiple guids"
-            self.trigger.guid = references[0].unlock_guids[0]
+        _add_guids_to_trigger(self.trigger)
 
         if self.type == UnlockType.UNLOCK:
             if self.cost or self.maintenance or self.unlock_chain:
@@ -129,9 +142,8 @@ class A1800Unlock:
                 self.type |= UnlockType.RESIDENCE
 
         if UnlockType.BUILDING in self.type:
-            if self.unlock_chain:
-                for chain, region in self.unlock_chain:
-                    self.unlock_guids.append(next(CHAINS.find_chains(chain, self.name, self.region, region)).guid)
+            for chain, region in self.unlock_chain:
+                self.unlock_guids.append(next(CHAINS.find_chains(chain, self.name, self.region, region)).guid)
 
         if UnlockType.FACTORY in self.type:
             for name, region in self.output:
@@ -1611,7 +1623,7 @@ class _Unlocks:
         return self._a1800_unlock_locations
 
     def _clean_dlc_trigger(self, enabled_dlcs: DLC, trigger: Trigger) -> Trigger:
-        if trigger.trigger_type == TriggerType.ALL:
+        if trigger.trigger_type in [TriggerType.ALL, TriggerType.LINEAR]:
             trigger.triggers = [clean_trigger for subtrigger in trigger.triggers for clean_trigger in [
                 self._clean_dlc_trigger(enabled_dlcs, subtrigger)] if clean_trigger.trigger_type != TriggerType.TRUE]
 
@@ -1637,12 +1649,16 @@ class _Unlocks:
                 return trigger
         elif trigger.trigger_type == TriggerType.POPULATION:
             return FALSE if not next(PRODUCTS.find_populations(trigger.population, trigger.region), None) else trigger
-        elif trigger.trigger_type == TriggerType.UNLOCK or trigger.trigger_type == TriggerType.COUNTER:
-            if trigger.trigger_type == TriggerType.COUNTER and \
-                    not next(PRODUCTS.find_products(trigger.product_name, trigger.region), None):
-                return FALSE
+        elif trigger.trigger_type == TriggerType.UNLOCK:
             return FALSE if not len([unlock for unlock in self._a1800_unlocks if unlock.name == trigger.unlock_name
                                      and trigger.region in unlock.region]) else trigger
+        elif trigger.trigger_type == TriggerType.COUNTER:
+            return FALSE if not next(PRODUCTS.find_products(trigger.product_name, trigger.region), None) or \
+                not len([unlock for unlock in self._a1800_unlocks if unlock.name == trigger.unlock_name
+                         and trigger.region in unlock.region]) else trigger
+        elif trigger.trigger_type == TriggerType.COUNTER_GOOD_IN_REGION:
+            return FALSE if not next(
+                PRODUCTS.find_products(trigger.product_name, trigger.product_region), None) else trigger
         else:
             return trigger
 

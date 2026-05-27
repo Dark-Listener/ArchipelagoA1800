@@ -59,45 +59,34 @@ class _Sessions:
         return self._a1800_sessions[session]
 
     def _clean_dlc_trigger(self, enabled_dlcs: DLC, trigger: Trigger) -> Trigger:
-        match(trigger.trigger_type):
-            case TriggerType.TRUE:
-                return trigger
-            case TriggerType.FALSE:
-                return trigger
-            case TriggerType.ALL:
-                trigger.triggers = [clean_trigger for subtrigger in trigger.triggers for clean_trigger in [
-                    self._clean_dlc_trigger(enabled_dlcs, subtrigger)] if clean_trigger.trigger_type != TriggerType.TRUE]
+        if trigger.trigger_type in [TriggerType.ALL, TriggerType.LINEAR]:
+            trigger.triggers = [clean_trigger for subtrigger in trigger.triggers for clean_trigger in [
+                self._clean_dlc_trigger(enabled_dlcs, subtrigger)] if clean_trigger.trigger_type != TriggerType.TRUE]
 
-                if len(trigger.triggers) == 0:
-                    return TRUE
-                elif len(trigger.triggers) == 1:
-                    return trigger.triggers[0]
-                elif any([subtrigger.trigger_type == TriggerType.FALSE for subtrigger in trigger.triggers]):
-                    return FALSE
-                else:
-                    return trigger
-            case TriggerType.ANY:
-                trigger.triggers = [clean_trigger for subtrigger in trigger.triggers for clean_trigger in [
-                    self._clean_dlc_trigger(enabled_dlcs, subtrigger)] if clean_trigger.trigger_type != TriggerType.FALSE]
+            if len(trigger.triggers) == 0:
+                return TRUE
+            elif len(trigger.triggers) == 1:
+                return trigger.triggers[0]
+            elif any([subtrigger.trigger_type == TriggerType.FALSE for subtrigger in trigger.triggers]):
+                return FALSE
+            else:
+                return trigger
+        elif trigger.trigger_type == TriggerType.ANY:
+            trigger.triggers = [clean_trigger for subtrigger in trigger.triggers for clean_trigger in [
+                self._clean_dlc_trigger(enabled_dlcs, subtrigger)] if clean_trigger.trigger_type != TriggerType.FALSE]
 
-                if len(trigger.triggers) == 0:
-                    return FALSE
-                elif len(trigger.triggers) == 1:
-                    return trigger.triggers[0]
-                elif any([subtrigger.trigger_type == TriggerType.TRUE for subtrigger in trigger.triggers]):
-                    return TRUE
-                else:
-                    return trigger
-            case TriggerType.SESSION_ENTER:
-                return FALSE if not trigger.session in self._a1800_sessions else trigger
-            case TriggerType.POPULATION:
+            if len(trigger.triggers) == 0:
+                return FALSE
+            elif len(trigger.triggers) == 1:
+                return trigger.triggers[0]
+            elif any([subtrigger.trigger_type == TriggerType.TRUE for subtrigger in trigger.triggers]):
+                return TRUE
+            else:
                 return trigger
-            case TriggerType.UNLOCK:
-                return trigger
-            case TriggerType.COUNTER:
-                return trigger
-            case TriggerType.DLC:
-                return trigger
+        elif trigger.trigger_type == TriggerType.SESSION_ENTER:
+            return FALSE if not trigger.session in self._a1800_sessions else trigger
+        else:
+            return trigger
 
 
 SESSIONS = _Sessions()

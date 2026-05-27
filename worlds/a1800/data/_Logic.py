@@ -61,6 +61,8 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
             assert False, "TriggerType False should never be used for unlocks"
         case TriggerType.ALL:
             return {requirement for trigger in trigger.triggers for requirement in _get_requirements_from_trigger(trigger) or set()}
+        case TriggerType.LINEAR:
+            return {requirement for trigger in trigger.triggers for requirement in _get_requirements_from_trigger(trigger) or set()}
         case TriggerType.ANY:
             return {requirement for trigger in trigger.triggers for requirement in _get_requirements_from_trigger(trigger) or set()}
         case TriggerType.SESSION_ENTER:
@@ -69,6 +71,12 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
             return {A1800Requirement(trigger.population, trigger.region)}
         case TriggerType.COUNTER:
             return {A1800Requirement(trigger.product_name, trigger.region)}
+        case TriggerType.COUNTER_GOOD_IN_REGION:
+            a1800_region = REGIONS.find_region(trigger.region)
+            assert a1800_region, \
+                f"Trigger {trigger.trigger_type.name} {trigger.amount} {trigger.product_name} in {trigger.region.name} "\
+                f"has 0 or multiple regions"
+            return {A1800Requirement(trigger.product_name, trigger.product_region)} | a1800_region.requirements
         case TriggerType.UNLOCK:
             return {A1800Requirement(trigger.unlock_name, trigger.region, type=RequirementType.UNLOCK)}
         case TriggerType.DLC:

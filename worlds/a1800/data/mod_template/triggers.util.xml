@@ -61,6 +61,16 @@
     <ConditionAlwaysTrue />
   </Values>
 </TriggerCondition>
+{% elif trigger_data.trigger_type == TriggerType.LINEAR %}
+<TriggerCondition>
+  <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+  <Values>
+    <Condition>
+      <SubConditionCompletionOrder>Linear</SubConditionCompletionOrder>
+    </Condition>
+    <ConditionAlwaysTrue />
+  </Values>
+</TriggerCondition>
 {% elif trigger_data.trigger_type == TriggerType.ANY %}
 <TriggerCondition>
   <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
@@ -115,6 +125,21 @@
     </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>
+{% elif trigger_data.trigger_type == TriggerType.COUNTER_GOOD_IN_REGION %}
+<TriggerCondition>
+  <Template>ConditionPlayerCounter</Template>
+  <Values>
+    <Condition/>
+    <ConditionPlayerCounter>
+      <PlayerCounter>GoodsInStock</PlayerCounter>
+      <Context>{{ trigger_data.guid }}</Context>
+      <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+      <CounterScope>Region</CounterScope>
+      <CounterScopeUseCurrentContext>0</CounterScopeUseCurrentContext>
+      <CounterScopeContext>{{ trigger_data.region.guids[0] }}</CounterScopeContext>
+    </ConditionPlayerCounter>
+  </Values>
+</TriggerCondition>
 {% elif trigger_data.trigger_type == TriggerType.DLC %}
 <TriggerCondition>
   <Template>ConditionIsDLCActive</Template>
@@ -136,7 +161,7 @@
 {% endmacro %}
 
 {% macro generate_sub_triggers(TriggerType, trigger_data) %}
-{% if trigger_data.trigger_type == TriggerType.ALL or trigger_data.trigger_type == TriggerType.ANY %}
+{% if trigger_data.trigger_type == TriggerType.ALL or trigger_data.trigger_type == TriggerType.ANY or trigger_data.trigger_type == TriggerType.LINEAR %}
 <SubTriggers>
 {% for trigger in trigger_data.triggers %}
   <Item>

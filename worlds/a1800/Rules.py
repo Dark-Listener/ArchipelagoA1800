@@ -18,6 +18,8 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
                 return False_()
             case TriggerType.ALL:
                 return And(*[rule for trigger in data.triggers for rule in [_create_rule(trigger)] if rule is not None])
+            case TriggerType.LINEAR:
+                return And(*[rule for trigger in data.triggers for rule in [_create_rule(trigger)] if rule is not None])
             case TriggerType.ANY:
                 return Or(*[rule for trigger in data.triggers for rule in [_create_rule(trigger)] if rule is not None])
             case TriggerType.SESSION_ENTER:
@@ -26,6 +28,13 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
                 return _create_rule({A1800Requirement(data.population, data.region)})
             case TriggerType.COUNTER:
                 return _create_rule({A1800Requirement(data.product_name, data.region)})
+            case TriggerType.COUNTER_GOOD_IN_REGION:
+                a1800_region = A1800_DATA.find_region(data.region)
+                assert a1800_region, \
+                    f"Trigger {data.trigger_type.name} {data.amount} {data.product_name} in {data.region.name} "\
+                    f"has 0 or multiple regions"
+                return _create_rule(
+                    {A1800Requirement(data.product_name, data.product_region)} | a1800_region.requirements)
             case TriggerType.UNLOCK:
                 return _create_rule({A1800Requirement(data.unlock_name, data.region, type=RequirementType.UNLOCK)})
             case TriggerType.DLC:

@@ -1,5 +1,5 @@
 from functools import reduce
-from typing import Any, Callable
+from typing import Any, Callable, Self
 
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, START_REGION, TriggerType
 from ._Products import _a1800_populations  # pyright: ignore[reportPrivateUsage]
@@ -17,6 +17,13 @@ class Trigger:
                 self.region = NO_REGION
                 pass
             case TriggerType.ALL:
+                assert len(args) >= 2, f"{trigger_type.name} requires at least 2 arguments"
+                for arg in args:
+                    assert isinstance(
+                        arg, Trigger), f"{trigger_type.name} requires arguments of type Trigger, got {type(arg)} instead"
+                self.triggers: list[Trigger] = list(args)
+                self.region = reduce(Region.__or__, [trigger.region for trigger in self.triggers])
+            case TriggerType.LINEAR:
                 assert len(args) >= 2, f"{trigger_type.name} requires at least 2 arguments"
                 for arg in args:
                     assert isinstance(
@@ -65,6 +72,17 @@ class Trigger:
                 self.unlock_name = args[2]
                 self.product_name = args[3]
                 self.region = args[4]
+            case TriggerType.COUNTER_GOOD_IN_REGION:
+                assert len(args) == 5, f"{trigger_type.name} requires exactly 5 arguments"
+                assert isinstance(args[0], int) and isinstance(args[1], int) and isinstance(args[2], str) \
+                    and isinstance(args[3], Region) and isinstance(args[4], Region), f"{trigger_type.name} requires "\
+                    f"arguments of types (int, int, str, Region, Region), got "\
+                    f"({type(args[0])}, {type(args[1])}, {type(args[2])}, {type(args[3])}, {type(args[4])}) instead"
+                self.guid = args[0]
+                self.amount = args[1]
+                self.product_name = args[2]
+                self.product_region = args[3]
+                self.region = args[4]
             case TriggerType.DLC:
                 assert len(args) == 1, f"{trigger_type.name} requires exactly 1 arguments"
                 assert isinstance(args[0], DLC), f"{trigger_type.name} requires an argument of type DLC, got " \
@@ -86,6 +104,10 @@ class Trigger:
                 out_name = f"({self.triggers[0].get_ap_location_name()})"
                 for trigger in self.triggers[1:]:
                     out_name += f" AND ({trigger.get_ap_location_name()})"
+            case TriggerType.LINEAR:
+                out_name = f"({self.triggers[0].get_ap_location_name()})"
+                for trigger in self.triggers[1:]:
+                    out_name += f" THEN ({trigger.get_ap_location_name()})"
             case TriggerType.ANY:
                 out_name = f"({self.triggers[0].get_ap_location_name()})"
                 for trigger in self.triggers[1:]:
@@ -103,6 +125,11 @@ class Trigger:
             case TriggerType.COUNTER:
                 out_name = f"Have at least {self.amount} "\
                     f"{f'{self.region.name}: ' if self.region and self.region != ALL_REGIONS else ''}{self.unlock_name}"
+            case TriggerType.COUNTER_GOOD_IN_REGION:
+                out_name = f"Have at least {self.amount} "\
+                    f"{f'{self.product_region.name}: ' if self.product_region and self.product_region != ALL_REGIONS else ''}"\
+                    f"{self.product_name[:-1] if self.product_name.endswith('s') else self.product_name} "\
+                    f"in {self.region.full_name}"
             case TriggerType.DLC:
                 if self.dlc in DLC.__members__.values():
                     out_name = f"DLC active: {self.dlc.name}"
@@ -128,6 +155,9 @@ class Trigger:
                 return self.trigger_type, *[key for sort_key in
                                             sorted([trigger.get_sort_key() for trigger in self.triggers])
                                             for key in sort_key]
+            case TriggerType.LINEAR:
+                return self.trigger_type, *[key for sort_key in [trigger.get_sort_key() for trigger in self.triggers]
+                                            for key in sort_key]
             case TriggerType.ANY:
                 return self.trigger_type, *[key for sort_key in
                                             sorted([trigger.get_sort_key() for trigger in self.triggers])
@@ -140,13 +170,23 @@ class Trigger:
                 return self.trigger_type, self.guid
             case TriggerType.COUNTER:
                 return self.trigger_type, self.guid, self.amount
+            case TriggerType.COUNTER_GOOD_IN_REGION:
+                return self.trigger_type, self.guid, self.region.value, self.amount
             case TriggerType.DLC:
                 return self.trigger_type, self.dlc.value
+
+    def add_rules_requirement(self, name: str, region: Region) -> Self:
+        if not self.rules_requirements:
+            self.rules_requirements: set[tuple[str, Region]] = {(name, region)}
+        else:
+            self.rules_requirements.add((name, region))
+        return self
 
 
 TRUE: Trigger = Trigger(TriggerType.TRUE)
 FALSE: Trigger = Trigger(TriggerType.FALSE)
 ALL: Callable[..., Trigger] = lambda *triggers: Trigger(TriggerType.ALL, *triggers)
+LINEAR: Callable[..., Trigger] = lambda *triggers: Trigger(TriggerType.LINEAR, *triggers)
 ANY: Callable[..., Trigger] = lambda *triggers: Trigger(TriggerType.ANY, *triggers)
 POPULATION: Callable[[Region, str, int], Trigger] = lambda region, population, amount: Trigger(
     TriggerType.POPULATION, region, population, amount)
@@ -155,3 +195,5 @@ UNLOCK: Callable[[int, str, Region], Trigger] = lambda guid, unlock_name, region
     TriggerType.UNLOCK, guid, unlock_name, region)
 COUNTER: Callable[[int, int, str, str, Region], Trigger] = lambda guid, amount, unlock_name, product_name, region: Trigger(
     TriggerType.COUNTER, guid, amount, unlock_name, product_name, region)
+COUNTER_GOOD_IN_REGION: Callable[[int, int, str, Region, Region], Trigger] = lambda guid, amount, product_name, product_region, region: Trigger(
+    TriggerType.COUNTER_GOOD_IN_REGION, guid, amount, product_name, product_region, region)

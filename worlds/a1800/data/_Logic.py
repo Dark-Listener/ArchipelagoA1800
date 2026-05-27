@@ -70,7 +70,7 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
         case TriggerType.COUNTER:
             return {A1800Requirement(trigger.product_name, trigger.region)}
         case TriggerType.UNLOCK:
-            assert False, "TriggerType UNLOCK should never be used for unlocks"
+            return {A1800Requirement(trigger.unlock_name, trigger.region, type=RequirementType.UNLOCK)}
         case TriggerType.DLC:
             assert False, "TriggerType DLC should never be used for unlocks"
 

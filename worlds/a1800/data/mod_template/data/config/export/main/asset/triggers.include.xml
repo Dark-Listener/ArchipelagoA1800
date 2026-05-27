@@ -64,20 +64,20 @@
 
   <!-- Make expedition unlocks dependent on custom unlocks -->
   <ModOp Type="replace" GUID="140885" Path="/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[0][1], "")) | indent(4) }}
+    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[0][1], "", Region(0))) | indent(4) }}
   </ModOp>
   <ModOp Type="replace" GUID="113818" Path="/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[1][1], "")) | indent(4) }}
+    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[1][1], "", Region(0))) | indent(4) }}
   </ModOp>
   <ModOp Type="remove" GUID="113818" Path="Values/Trigger/SubTriggers/Item[SubTrigger/Values/Trigger/TriggerCondition/Template='ConditionTimer']" />
   <ModOp Type="replace" GUID="114115" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger">
     <Trigger>
-      {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[2][1], "")) | indent(6) }}
+      {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[2][1], "", Region(0))) | indent(6) }}
     </Trigger>
   </ModOp>
   <ModOp Type="replace" GUID="119863" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger">
     <Trigger>
-      {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[3][1], "")) | indent(6) }}
+      {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[3][1], "", Region(0))) | indent(6) }}
     </Trigger>
   </ModOp>
 
@@ -88,7 +88,7 @@
   </ModOp>
   <ModOp Type="remove" GUID="269865" Path="Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/SubTriggers" />
   <ModOp Type="replace" GUID="269865" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, 269832, "")) | indent(4) }}
+    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, 269832, "", Region(0))) | indent(4) }}
   </ModOp>
 
   <ModOp Type="addNextSibling" GUID="130248">

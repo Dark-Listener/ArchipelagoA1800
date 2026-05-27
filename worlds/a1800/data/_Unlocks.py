@@ -1,10 +1,17 @@
 from collections.abc import Sequence
-from typing import ClassVar, Iterator, Optional
+from typing import Callable, ClassVar, Iterator, Optional
 
 from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerType, UnlockType
 from ._Products import PRODUCTS
-from ._Trigger import ANY, COUNTER, FALSE, POPULATION, SESSION_ENTER, Trigger, TRUE
+from ._Trigger import ANY, COUNTER as _COUNTER, FALSE, POPULATION, SESSION_ENTER, UNLOCK as _UNLOCK, Trigger, TRUE
+
+
+UNLOCK: Callable[[str, Region], Trigger] = lambda unlock_name, region: _UNLOCK(0, unlock_name, region)
+
+
+COUNTER: Callable[[str, str, Region, int], Trigger] = lambda unlock_name, product_name, region, amount: _COUNTER(
+    0, amount, unlock_name, product_name, region)
 
 
 def create_unlock_name(name: str, region: Region, prefix: str = "", postfix: str = "") -> str:
@@ -94,6 +101,19 @@ class A1800Unlock:
         self.ap_location_name = self.trigger.get_ap_location_name(self.ap_item_name)
 
     def post_init(self) -> None:
+        if (self.trigger.trigger_type == TriggerType.UNLOCK or self.trigger.trigger_type == TriggerType.UNLOCK) \
+                and self.trigger.guid == 0:
+            references = [unlock for unlock in UNLOCKS._a1800_unlocks  # pyright: ignore[reportPrivateUsage]
+                          if unlock.name == self.trigger.unlock_name and self.trigger.region in unlock.region]
+            assert references, f"Unlock {self}'s trigger references unkown unlock {self.trigger.unlock_name}"
+            assert len(references) == 1, \
+                f"Unlock {self}'s trigger references multiple unlocks {[reference.name for reference in references]}"
+            assert references[0].unlock_guids, \
+                f"Unlock {self}'s trigger references unlock {references[0].name}, which has no guids"
+            assert len(
+                references[0].unlock_guids) == 1, \
+                f"Unlock {self}'s trigger references unlock {references[0].name}, which has multiple guids"
+            self.trigger.guid = references[0].unlock_guids[0]
 
         if self.type == UnlockType.UNLOCK:
             if self.cost or self.maintenance or self.unlock_chain:
@@ -1617,7 +1637,7 @@ class _Unlocks:
                 return trigger
         elif trigger.trigger_type == TriggerType.POPULATION:
             return FALSE if not next(PRODUCTS.find_populations(trigger.population, trigger.region), None) else trigger
-        elif trigger.trigger_type == TriggerType.COUNTER:
+        elif trigger.trigger_type == TriggerType.UNLOCK or trigger.trigger_type == TriggerType.COUNTER:
             if trigger.trigger_type == TriggerType.COUNTER and \
                     not next(PRODUCTS.find_products(trigger.product_name, trigger.region), None):
                 return FALSE

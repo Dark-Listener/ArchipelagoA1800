@@ -2,7 +2,7 @@ from typing import Iterable, Optional, TYPE_CHECKING
 
 from rule_builder.rules import And, False_, HasAll, Or, Rule, True_
 
-from .data import A1800Requirement, ALL_REGIONS, A1800_DATA, Trigger, TriggerType
+from .data import A1800Requirement, ALL_REGIONS, A1800_DATA, RequirementType, Trigger, TriggerType
 from .Locations import LOCATIONS
 
 if TYPE_CHECKING:
@@ -27,7 +27,7 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
             case TriggerType.COUNTER:
                 return _create_rule({A1800Requirement(data.product_name, data.region)})
             case TriggerType.UNLOCK:
-                assert False, "TriggerType UNLOCK should never be used for rules"
+                return _create_rule({A1800Requirement(data.unlock_name, data.region, type=RequirementType.UNLOCK)})
             case TriggerType.DLC:
                 assert False, "TriggerType DLC should never be used for rules"
     else:

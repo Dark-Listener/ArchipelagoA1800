@@ -1,7 +1,7 @@
 from functools import reduce
 from typing import Any, Callable
 
-from ._Enums import DLC, NO_REGION, Region, Session, START_REGION, TriggerType
+from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, START_REGION, TriggerType
 from ._Products import _a1800_populations  # pyright: ignore[reportPrivateUsage]
 
 
@@ -47,12 +47,13 @@ class Trigger:
                 self.guid: int = next(population for population in _a1800_populations if population.name ==
                                       self.population and self.region in population.region).guid
             case TriggerType.UNLOCK:
-                assert len(args) == 2, f"{trigger_type.name} requires exactly 2 arguments"
-                assert isinstance(args[0], int) and isinstance(args[1], str), f"{trigger_type.name} requires "\
-                    f"arguments of types (int, str), got ({type(args[0])}, {type(args[1])}) instead"
+                assert len(args) == 3, f"{trigger_type.name} requires exactly 3 arguments"
+                assert isinstance(args[0], int) and isinstance(args[1], str) and isinstance(args[2], Region), \
+                    f"{trigger_type.name} requires arguments of types (int, str, Region), got "\
+                    f"({type(args[0])}, {type(args[1])}, {type(args[2])}) instead"
                 self.guid = args[0]
-                self.name = args[1]
-                self.region = START_REGION
+                self.unlock_name = args[1]
+                self.region = args[2]
             case TriggerType.COUNTER:
                 assert len(args) == 5, f"{trigger_type.name} requires exactly 5 arguments"
                 assert isinstance(args[0], int) and isinstance(args[1], int) and isinstance(args[2], str) \
@@ -97,9 +98,11 @@ class Trigger:
                         if population.name == self.population and self.region in population.region]) > 1:
                     out_name += f" ({self.region})"
             case TriggerType.UNLOCK:
-                out_name = f"On unlocking: {self.name}"
+                out_name = f"On unlocking: "\
+                    f"{f'{self.region.name}: ' if self.region and self.region != ALL_REGIONS else ''}{self.unlock_name}"
             case TriggerType.COUNTER:
-                out_name = f"Have at least {self.amount} {self.unlock_name}"
+                out_name = f"Have at least {self.amount} "\
+                    f"{f'{self.region.name}: ' if self.region and self.region != ALL_REGIONS else ''}{self.unlock_name}"
             case TriggerType.DLC:
                 if self.dlc in DLC.__members__.values():
                     out_name = f"DLC active: {self.dlc.name}"
@@ -148,5 +151,7 @@ ANY: Callable[..., Trigger] = lambda *triggers: Trigger(TriggerType.ANY, *trigge
 POPULATION: Callable[[Region, str, int], Trigger] = lambda region, population, amount: Trigger(
     TriggerType.POPULATION, region, population, amount)
 SESSION_ENTER: Callable[[Session], Trigger] = lambda session: Trigger(TriggerType.SESSION_ENTER, session)
+UNLOCK: Callable[[int, str, Region], Trigger] = lambda guid, unlock_name, region: Trigger(
+    TriggerType.UNLOCK, guid, unlock_name, region)
 COUNTER: Callable[[int, int, str, str, Region], Trigger] = lambda guid, amount, unlock_name, product_name, region: Trigger(
     TriggerType.COUNTER, guid, amount, unlock_name, product_name, region)

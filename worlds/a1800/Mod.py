@@ -10,7 +10,7 @@ import jinja2
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .data import A1800_DATA, DLC, Trigger, TriggerType
+from .data import A1800_DATA, DLC, Region, Trigger, TriggerType
 from .Items import A1800Item
 from .Locations import A1800Location
 
@@ -152,11 +152,12 @@ def generate_mod(world: "A1800World", output_directory: str):
     ]
 
     palace_ministry_unhide_trigger = Trigger(TriggerType.ALL, Trigger(
-        TriggerType.UNLOCK, 249947, "OW: Palace"), Trigger(TriggerType.DLC, DLC.SEAT_OF_POWER))
+        TriggerType.UNLOCK, 249947, "Palace", Region.OW), Trigger(TriggerType.DLC, DLC.SEAT_OF_POWER))
 
     template_data: dict[str, Any] = {
         "lock_guid_list": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),
         "trigger_to_location_data": trigger_to_location_data,
+        "Region": Region,
         "Trigger": Trigger,
         "TriggerType": TriggerType,
         "DLC": DLC,

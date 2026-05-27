@@ -1,4 +1,16 @@
 <ModOps>
+{% macro generate_unlockable_asset(guid, name) %}
+<Asset>
+  <Template>UnlockableAsset</Template>
+  <Values>
+    <Standard>
+      <GUID>{{ guid }}</GUID>
+      <Name>{{ name }}</Name>
+    </Standard>
+    <Locked/>
+  </Values>
+</Asset>
+{% endmacro %}
   <ModOp Type="add" GUID="1500004636" Path="Values/Trigger/ResetTrigger/Values/Trigger/TriggerActions">
     <Item>
       <TriggerAction>
@@ -21,63 +33,37 @@
   <!-- Remove palace ministry unhide at 1 investor -->
   <ModOp Type="remove" GUID="130295" Path="/Values/Trigger/TriggerActions/Item/TriggerAction/Values//ActionUnlockAsset/UnhideAssets/Item[Asset='269602']" />
 
+  <!-- Add all unlockable assets-->
   <ModOp Type="addNextSibling" GUID="105568">
-{% for name, guid in expedition_unlocks %}
-    <Asset>
-      <Template>UnlockableAsset</Template>
-      <Values>
-        <Standard>
-          <GUID>{{ guid }}</GUID>
-          <Name>{{ name }}</Name>
-        </Standard>
-        <Locked/>
-      </Values>
-    </Asset>
+{% for name, guid in expedition_unlocks.items() %}
+    {{ generate_unlockable_asset(guid, name) | indent(4) }}
 {% endfor %}
 {% for _, (_, location_data) in trigger_to_location_data.items() %}
 {% for guid, location, _, _ in location_data %}
-    <Asset>
-      <Template>UnlockableAsset</Template>
-      <Values>
-        <Standard>
-          <GUID>{{ guid }}</GUID>
-          <Name>Unlock: {{ location.name }}</Name>
-        </Standard>
-        <Locked/>
-      </Values>
-    </Asset>
+    {{ generate_unlockable_asset(guid, "Unlock: " + location.name) | indent(4) }}
 {% endfor %}
 {% endfor %}
-    <Asset>
-      <Template>UnlockableAsset</Template>
-      <Values>
-        <Standard>
-          <GUID>{{ victory_trigger_data[0][0] }}</GUID>
-          <Name>Victory Condition</Name>
-        </Standard>
-        <Locked/>
-      </Values>
-    </Asset>
+    {{ generate_unlockable_asset(victory_trigger_data[0][0], "Victory Condition") | indent(4) }}
   </ModOp>
 
 {% from 'triggers.util.xml' import generate_trigger_asset, generate_trigger_condition %}
 
   <!-- Make expedition unlocks dependent on custom unlocks -->
   <ModOp Type="replace" GUID="140885" Path="/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[0][1], "", Region(0))) | indent(4) }}
+    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks["Expedition: New World"], "", Region(0))) | indent(4) }}
   </ModOp>
   <ModOp Type="replace" GUID="113818" Path="/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[1][1], "", Region(0))) | indent(4) }}
+    {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks["Expedition: Cape Trelawney"], "", Region(0))) | indent(4) }}
   </ModOp>
   <ModOp Type="remove" GUID="113818" Path="Values/Trigger/SubTriggers/Item[SubTrigger/Values/Trigger/TriggerCondition/Template='ConditionTimer']" />
   <ModOp Type="replace" GUID="114115" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger">
     <Trigger>
-      {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[2][1], "", Region(0))) | indent(6) }}
+      {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks["Expedition: The Arctic"], "", Region(0))) | indent(6) }}
     </Trigger>
   </ModOp>
   <ModOp Type="replace" GUID="119863" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger">
     <Trigger>
-      {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks[3][1], "", Region(0))) | indent(6) }}
+      {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, expedition_unlocks["Expedition: Enbesa"], "", Region(0))) | indent(6) }}
     </Trigger>
   </ModOp>
 
@@ -91,6 +77,7 @@
     {{ generate_trigger_condition(TriggerType, Trigger(TriggerType.UNLOCK, 269832, "", Region(0))) | indent(4) }}
   </ModOp>
 
+  <!-- Add all triggers -->
   <ModOp Type="addNextSibling" GUID="130248">
     <!-- Grant start items -->
 {%  if start_trigger_data[0] != 0 %}

@@ -10,21 +10,12 @@ import jinja2
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .data import A1800_DATA, DLC, Region, Trigger, TriggerType
+from .data import A1800_DATA, DLC, Region, Session, Trigger, TriggerType
 from .Items import A1800Item
 from .Locations import A1800Location
 
 if TYPE_CHECKING:
     from . import A1800World
-
-_GUID_RANGE_START = 1701000000  # Start of Anno 1800 Archipelago Randomizer GUID range
-_g_next_guid: int = _GUID_RANGE_START + 3  # -1 GUID offset, 4 GUIDS used for expedition unlocks
-
-
-def _get_next_guid() -> int:
-    global _g_next_guid
-    _g_next_guid += 1
-    return _g_next_guid
 
 
 def _get_trigger_with_dlc(trigger: Trigger, trigger_dlc: DLC) -> Trigger:
@@ -99,7 +90,7 @@ def generate_mod(world: "A1800World", output_directory: str):
     mod_name = f"AP-{multiworld.seed_name}-P{player}-{multiworld.get_file_safe_player_name(player)}"
     versioned_mod_name = mod_name + "-" + __version__
 
-    start_trigger_guid = _get_next_guid()
+    start_trigger_guid = A1800_DATA.get_next_anno_guid()
 
     trigger_key: Callable[[A1800Location], tuple[Any, ...]] = \
         lambda location: location.data.trigger.get_sort_key() if location.data.trigger else tuple()
@@ -111,14 +102,14 @@ def generate_mod(world: "A1800World", output_directory: str):
         if location.item and isinstance(location.item, A1800Item) and location.data.trigger:
             location.data.trigger = _get_trigger_with_dlc(location.data.trigger, location.item.data.dlc)
 
-    palace_ministry_unhide_guid = _get_next_guid()
-    trigger_guid_to_locations = {_get_next_guid(): list(locations) for _, locations in groupby(
+    palace_ministry_unhide_guid = A1800_DATA.get_next_anno_guid()
+    trigger_guid_to_locations = {A1800_DATA.get_next_anno_guid(): list(locations) for _, locations in groupby(
         sorted(checkable_locations, key=trigger_key), key=trigger_key)}
-    victory_trigger_guid = _get_next_guid()
+    victory_trigger_guid = A1800_DATA.get_next_anno_guid()
 
     def location_to_data(location: A1800Location) -> tuple[int, A1800Location, list[int], list[int]]:
         return (
-            _get_next_guid(),
+            A1800_DATA.get_next_anno_guid(),
             location,
             location.item.data.unlock_guids if location.item and isinstance(location.item, A1800Item) else [],
             []
@@ -137,19 +128,19 @@ def generate_mod(world: "A1800World", output_directory: str):
         if location.item and isinstance(location.item, A1800Item) and location.item.code
     }
 
-    victory_guid = _get_next_guid()
+    victory_guid = A1800_DATA.get_next_anno_guid()
 
     start_trigger = Trigger(TriggerType.TRUE)
     start_trigger.ap_location_name = "Game Start"
     starting_guids = list(set([guid for item in multiworld.precollected_items[player] if isinstance(item, A1800Item)
                                for guid in item.data.unlock_guids]))
 
-    expedition_unlocks = [
-        ("Expedition: New World", 1701000000),
-        ("Expedition: Cape Trelawney", 1701000001),
-        ("Expedition: The Arctic", 1701000002),
-        ("Expedition: Enbesa", 1701000003),
-    ]
+    expedition_unlocks = {
+        "Expedition: New World": Session.NW.expedition_unlock_guid,
+        "Expedition: Cape Trelawney": Session.CT.expedition_unlock_guid,
+        "Expedition: The Arctic": Session.AR.expedition_unlock_guid,
+        "Expedition: Enbesa": Session.EN.expedition_unlock_guid,
+    }
 
     palace_ministry_unhide_trigger = Trigger(TriggerType.ALL, Trigger(
         TriggerType.UNLOCK, 249947, "Palace", Region.OW), Trigger(TriggerType.DLC, DLC.SEAT_OF_POWER))

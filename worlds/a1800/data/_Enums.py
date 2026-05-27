@@ -1,6 +1,8 @@
 from enum import auto, Enum, Flag, IntEnum, KEEP
 from functools import reduce
 
+from ._Guid import get_next_anno_guid
+
 
 class DLC(Flag, boundary=KEEP):
     VANILLA = auto()
@@ -125,6 +127,11 @@ class Session(IntEnum):
         return _SESSION_GUIDS[self]
 
     @property
+    def expedition_unlock_guid(self) -> int:
+        global _SESSION_EXPEDITION_UNLOCK_GUIDS
+        return _SESSION_EXPEDITION_UNLOCK_GUIDS[self]
+
+    @property
     def region(self) -> Region:
         global _SESSION_REGIONS
         return _SESSION_REGIONS[self]
@@ -144,6 +151,14 @@ _SESSION_GUIDS = {
     Session.CT: 110934,
     Session.AR: 180045,
     Session.EN: 112132,
+}
+
+_SESSION_EXPEDITION_UNLOCK_GUIDS = {
+    Session.OW: 0,
+    Session.NW: get_next_anno_guid(),
+    Session.CT: get_next_anno_guid(),
+    Session.AR: get_next_anno_guid(),
+    Session.EN: get_next_anno_guid(),
 }
 
 

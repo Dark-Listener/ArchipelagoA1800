@@ -164,7 +164,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 type=UnlockType.META | UnlockType.FACTORY),
 
     # Unlock
-    A1800Unlock("Expedition: New World", DLC.VANILLA, ALL_REGIONS, 1701000000, [],
+    A1800Unlock("Expedition: New World", DLC.VANILLA, ALL_REGIONS, Session.NW.expedition_unlock_guid, [],
                 POPULATION(Region.OW, "Artisans", 1)),
 
     # Building
@@ -928,7 +928,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     ### SUNKEN_TREASURES                                                                                         ###
     ################################################################################################################
     # Unlock
-    A1800Unlock("Expedition: Cape Trelawney", DLC.SUNKEN_TREASURES, ALL_REGIONS, 1701000001, [],
+    A1800Unlock("Expedition: Cape Trelawney", DLC.SUNKEN_TREASURES, ALL_REGIONS, Session.CT.expedition_unlock_guid, [],
                 POPULATION(Region.OW, "Artisans", 700)),
 
     ################################################################################################################
@@ -956,7 +956,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     # Unlock
-    A1800Unlock("Expedition: The Arctic", DLC.THE_PASSAGE, ALL_REGIONS, 1701000002, [],
+    A1800Unlock("Expedition: The Arctic", DLC.THE_PASSAGE, ALL_REGIONS, Session.AR.expedition_unlock_guid, [],
                 POPULATION(Region.OW, "Engineers", 1)),
 
     # Building
@@ -1220,7 +1220,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     # Unlock
-    A1800Unlock("Expedition: Enbesa", DLC.LAND_OF_LIONS, ALL_REGIONS, 1701000003, [],
+    A1800Unlock("Expedition: Enbesa", DLC.LAND_OF_LIONS, ALL_REGIONS, Session.EN.expedition_unlock_guid, [],
                 POPULATION(Region.OW, "Artisans", 100)),
 
     # Building

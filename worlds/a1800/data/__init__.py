@@ -9,6 +9,7 @@ from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, Session, START_REGION, TriggerType, UnlockType
 from ._EventItems import A1800EventItem, EVENT_ITEMS
 from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
+from ._Guid import get_next_anno_guid
 from ._Logic import LOGIC
 from ._Products import A1800Product, PRODUCTS
 from ._Regions import A1800Region, REGIONS
@@ -78,6 +79,9 @@ class _A1800Data:
 
     def get_location_requirements(self) -> Mapping[str, set[A1800Requirement]]:
         return LOGIC.get_location_requirements()
+
+    def get_next_anno_guid(self) -> int:
+        return get_next_anno_guid()
 
     def get_populations(self) -> Sequence[A1800Product]:
         return PRODUCTS.get_populations()

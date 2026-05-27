@@ -26,11 +26,11 @@ class _EventLocations:
     def init(self) -> None:
         self._a1800_event_locations = [
             A1800EventLocation(
-                unlock.name, unlock.dlc, region, unlock.ap_region, (output if isinstance(output, str) else output[0])
+                unlock.name, unlock.dlc, region, unlock.ap_region, output_name
             )
             for unlock in UNLOCKS.get_unlocks() if UnlockType.FACTORY in unlock.type
-            for output in unlock.output
-            for region in Region.__members__.values() if region in (unlock.region if isinstance(output, str) else output[1])
+            for output_name, output_region in unlock.output
+            for region in Region.__members__.values() if region in output_region
         ]
 
         self._initialized = True

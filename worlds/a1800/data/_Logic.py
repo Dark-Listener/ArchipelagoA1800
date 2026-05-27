@@ -33,7 +33,7 @@ def _get_victory_condition_info(
 
         residence = next(
             unlock for unlock in UNLOCKS.get_unlocks()
-            if UnlockType.RESIDENCE in unlock.type and population.region in unlock.region and population.name in unlock.output)
+            if UnlockType.RESIDENCE in unlock.type and population.region in unlock.region and population.name in next(zip(*unlock.output)))
 
         if supplied:
             victory_required_items |= set(A1800Requirement(consumption, population.region)
@@ -123,8 +123,7 @@ class _Logic:
                                              for name in unlock.cost | unlock.maintenance}
 
                     if UnlockType.FACTORY in unlock.type:
-                        new_requirements |= {A1800Requirement(name, unlock.region) if isinstance(
-                            name, str) else A1800Requirement(name[0], name[1]) for name in unlock.input}
+                        new_requirements |= {A1800Requirement(name, region) for name, region in unlock.input}
 
                     if UnlockType.UPGRADE in unlock.type:
                         previous_unlock = next(UNLOCKS.find_unlocks(unlock.previous_building, unlock.region))

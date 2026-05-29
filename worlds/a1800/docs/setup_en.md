@@ -120,16 +120,8 @@ be compatibility issues if other mods modify the game's unlocks. If other mods a
 be modified and work as usual.
 
 ## Running and Connecting the Game
-
-Start the Archipelago Client. It will ask for the Anno 1800 mods folder. Point it to the folder you installed the mod to
-[above](#installing-the-archipelago-mod). The order in which you start the client and Anno 1800 does not matter. On
-Windows, if Anno is located in a protected folder, it may be necessary to start the client as administrator.
-
-If you ever need to change this path, you can find it in your Archipelago folder in the `host.yaml` file under
-`a1800_options`, named `a1800_mods_folder_path`.
-
-Then start a new Anno 1800 free play game or load into your existing savegame. Singleplayer or multiplayer should both
-work the same, none of the standard singleplayer questlines will trigger. The campaign won't work.
+Start a new Anno 1800 free play game or load into your existing savegame. Singleplayer or multiplayer should both
+work the same, none of the standard singleplayer questlines will trigger. The campaign and scenarios won't work.
 
 For the starting conditions, make sure to turn on all DLCs that were selected in the player options for your world.
 Currently, the other starting conditions do not really matter, but here are a few recommendations:
@@ -146,11 +138,20 @@ Be careful not to load into vanilla savegames or those from other modding setups
 irreversible unlocks. Once loaded into the savegame, the client should print that it is connected to the game within a
 few seconds. 
 
-Note: due to the way Anno 1800 simulates game ticks, the client will lose connection to the game when the game is
-paused. This is not a problem and the client will reconnecting briefly after unpausing the game.
+Then start the Archipelago Client. If it's your first time launching, it will ask for the Anno 1800 mods folder. Point
+it to the folder you installed the mod to [above](#installing-the-archipelago-mod). On Windows, if Anno is located in
+a protected folder, it may be necessary to start the client as administrator.
 
-Now you can enter the server's ip and port and click `Connect` or type `/connect <ip>:<port>` in the client to connect
-to the Archipelago server. This can only succeed after the client connected to Anno 1800 once.
+If you ever need to change this path, you can find it in your Archipelago folder in the `host.yaml` file under
+`a1800_options`, named `a1800_mods_folder_path`.
+
+Due to the way Anno 1800 simulates game ticks, the client will only be able to connect to the game while the game is
+running and not paused (neither gamespeed pause nor menu pause). If you pause, it will disconnect. This not a problem
+and the client will reconnect briefly after unpausing the game.
+
+Once the client has successfully connected to Anno 1800, you can connect to the Archipelago Server by entering the
+server's ip and port and clicking `Connect` or typing `/connect <ip>:<port>` in the client. If you haven't connected
+the client to Anno during this session yet, you will receive an error telling you to do so first.
 
 It's also possible to play the game asynchronously without server or client. In this case, everything will be synced
 once you connect the next time. If Anno 1800 is the only slot in the multiworld, you can even forgo the client and

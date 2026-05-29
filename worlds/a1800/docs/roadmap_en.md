@@ -12,6 +12,7 @@ The following features are planned to be added at some point (in no specific ord
 * Ingame quests for the victory condition
 * More options for victory conditions
 * More options in general!
+* Option not to include recipe checks (unlock recipes with main building)
 * Option to send hints for unlocks visible in chains
   * Fix incorrect recipe description hints
 * Option to start with flagship, enabling expeditions from the get-go

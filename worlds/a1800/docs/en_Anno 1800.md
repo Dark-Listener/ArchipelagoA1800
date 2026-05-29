@@ -38,7 +38,7 @@ RNG-heavy recipe unlocks are excluded from having progression items.
 
 ## What about DLCs?
 
-The follwing DLCs are supported:
+The following DLCs are supported:
 * Sunken Treasures
 * Botanica
 * The Passage

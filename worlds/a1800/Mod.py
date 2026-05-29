@@ -18,18 +18,30 @@ if TYPE_CHECKING:
     from . import A1800World
 
 
-def _get_trigger_with_dlc(trigger: Trigger, trigger_dlc: DLC) -> Trigger:
-    if trigger_dlc == DLC.VANILLA:
+def _get_trigger_with_dlc(trigger: Trigger, trigger_dlc: set[DLC]) -> Trigger:
+    new_triggers: list[Trigger] = []
+
+    for dlc in trigger_dlc:
+        if dlc == DLC.VANILLA:
+            continue
+        elif DLC.VANILLA in dlc:
+            dlc ^= DLC.VANILLA
+
+        new_triggers.append(Trigger.ACTIVE_DLC(dlc))
+
+    if not new_triggers:
         return trigger
-    elif DLC.VANILLA in trigger_dlc:
-        trigger_dlc ^= DLC.VANILLA
 
-    new_trigger = Trigger.ACTIVE_DLC(trigger_dlc)
-
-    if trigger.trigger_type == TriggerType.ALL:
-        return Trigger.ALL(*trigger.triggers, new_trigger)
+    if len(new_triggers) == 1:
+        if trigger.trigger_type == TriggerType.ALL:
+            return Trigger.ALL(*trigger.triggers, *new_triggers)
+        else:
+            return Trigger.ALL(trigger, *new_triggers)
     else:
-        return Trigger.ALL(trigger, new_trigger)
+        if trigger.trigger_type == TriggerType.ALL:
+            return Trigger.ALL(*trigger.triggers, Trigger.ANY(*new_triggers))
+        else:
+            return Trigger.ALL(trigger, Trigger.ANY(*new_triggers))
 
 
 class A1800ModFile(APPlayerContainer):
@@ -153,8 +165,6 @@ def generate_mod(world: "A1800World", output_directory: str):
         "Region": Region,
         "Trigger": Trigger,
         "TriggerType": TriggerType,
-        "DLC": DLC,
-        "enabled_dlcs": A1800_DATA.get_enabled_dlcs(),
         "location_guid_data": location_guid_data,
         "item_id_to_guids": item_id_to_guids,
         "start_trigger_guid": start_trigger_guid,
@@ -165,7 +175,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "expedition_unlocks": expedition_unlocks,
         "recipe_unlocks": A1800_DATA.get_recipe_unlocks(),
         "victory_trigger_guid": victory_trigger_guid,
-        "victory_trigger": _get_trigger_with_dlc(A1800_DATA.get_victory_trigger(), A1800_DATA.get_victory_dlcs()),
+        "victory_trigger": _get_trigger_with_dlc(A1800_DATA.get_victory_trigger(), {A1800_DATA.get_victory_dlcs()}),
         "victory_trigger_data": [(victory_guid, None, [], [])],
         "palace_ministry_unhide_guid": palace_ministry_unhide_guid,
         "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,

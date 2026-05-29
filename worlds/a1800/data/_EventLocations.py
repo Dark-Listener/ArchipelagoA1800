@@ -9,7 +9,7 @@ from ._Unlocks import create_unlock_name, UNLOCKS
 @dataclass
 class A1800EventLocation:
     name: str
-    dlc: DLC
+    dlc: set[DLC]
     region: Region
     ap_region: Region
     output: str

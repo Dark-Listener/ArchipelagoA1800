@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 class A1800ItemData:
     name: str
     ICification: IC
-    dlc: DLC
+    dlc: set[DLC]
     unlock_guids: list[int] = field(default_factory=lambda: [])
     lock_guids: list[int] = field(default_factory=lambda: [])
     ap_code: Optional[int] = None

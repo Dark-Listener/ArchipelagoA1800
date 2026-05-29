@@ -69,9 +69,6 @@ class _A1800Data:
     def find_unlocks(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Unlock]:
         return UNLOCKS.find_unlocks(name, region)
 
-    def get_enabled_dlcs(self) -> DLC:
-        return self._enabled_dlcs
-
     def get_event_items(self) -> Sequence[A1800EventItem]:
         return EVENT_ITEMS.get_event_items()
 

@@ -18,7 +18,7 @@ def create_unlock_name(name: str, region: Region, prefix: str = "", postfix: str
 class A1800Unlock:
     __item_id: ClassVar[int] = 1
     name: str
-    dlc: DLC
+    dlc: set[DLC]
     region: Region
     guids: list[int]
     unlock_guids: list[int]
@@ -45,7 +45,7 @@ class A1800Unlock:
     def __init__(
         self,
         name: str,
-        dlc: DLC,
+        dlc: DLC | set[DLC],
         region: Region,
         guids: int | list[int] = [],
         lock_guids: int | list[int] = [],
@@ -66,7 +66,7 @@ class A1800Unlock:
         is_excluded: bool = False
     ) -> None:
         self.name = name
-        self.dlc = dlc
+        self.dlc = {dlc} if isinstance(dlc, DLC) else dlc
         self.region = region
         self.guids = list(dict.fromkeys([guids] if isinstance(guids, int) else guids))
         self.unlock_guids: list[int] = self.guids
@@ -122,7 +122,7 @@ class A1800Unlock:
                     self.unlock_guids.append(output_guid)
 
     def __str__(self) -> str:
-        return f"({self.name}, {self.region})"
+        return f"(Unlock: {self.name}, {self.region})"
 
 
 _a1800_unlocks: list[A1800Unlock] = [
@@ -2058,11 +2058,12 @@ class _Unlocks:
     def _apply_options(self, enabled_dlcs: DLC, enable_docklands_logic: bool) -> None:
         global _a1800_unlocks
 
-        self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if unlock.dlc in enabled_dlcs]
+        self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if any(dlc in enabled_dlcs for dlc in unlock.dlc)]
 
         if DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES in enabled_dlcs:
             for unlock in self._a1800_unlocks:
                 if unlock.name == "Post Office" and unlock.region == Region.AR:
+                    unlock.dlc = {DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES}
                     unlock.maintenance.add("Explorers")
                     unlock.output.add(("Local Mail", Region.AR))
                     break

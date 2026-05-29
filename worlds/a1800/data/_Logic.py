@@ -29,7 +29,9 @@ def _get_victory_condition_info(
 
         victory_required_items.add(A1800Requirement(population.name, population.region))
         victory_triggers.append(Trigger.POPULATION(population.name, population.region, amount, guid=population.guid))
-        victory_dlcs |= population.dlc
+        assert len(population.dlc) == 1, \
+            f"Victory condition requested population {population.name} which was introduced in more than one DLC"
+        victory_dlcs |= next(iter(population.dlc))
 
         residence = next(
             unlock for unlock in UNLOCKS.get_unlocks()
@@ -222,7 +224,7 @@ class _Logic:
             initial_required_items = victory_required_items.copy()
 
         victory_event_location = A1800EventLocation(
-            victory_event_location_name, DLC.VANILLA, Region.OW, NO_REGION, "Victory", is_progressive=True)
+            victory_event_location_name, {DLC.VANILLA}, Region.OW, NO_REGION, "Victory", is_progressive=True)
         EVENT_LOCATIONS._a1800_event_locations.append(victory_event_location)  # pyright: ignore[reportPrivateUsage]
 
         for event_item in EVENT_ITEMS.get_event_items():

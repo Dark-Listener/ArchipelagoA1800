@@ -1,17 +1,25 @@
 from collections.abc import Sequence
-from dataclasses import dataclass
 from typing import Iterator
 
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, ProductType, Region
 
 
-@dataclass
 class A1800Product:
     name: str
-    dlc: DLC
+    dlc: set[DLC]
     region: Region
     guid: int
     type: ProductType
+
+    def __init__(self, name: str, dlc: DLC | set[DLC], region: Region, guid: int, type: ProductType) -> None:
+        self.name = name
+        self.dlc = {dlc} if isinstance(dlc, DLC) else dlc
+        self.region = region
+        self.guid = guid
+        self.type = type
+
+    def __str__(self) -> str:
+        return f"({self.type.full_name}: {self.name}, {self.region})"
 
 
 _a1800_products: list[A1800Product] = [
@@ -326,8 +334,10 @@ class _Products:
     def init(self, enabled_dlcs: DLC) -> None:
         global _a1800_products, _a1800_populations
 
-        self._a1800_products = [product for product in _a1800_products if product.dlc in enabled_dlcs]
-        self._a1800_populations = [population for population in _a1800_populations if population.dlc in enabled_dlcs]
+        self._a1800_products = [product for product in _a1800_products if any(
+            dlc in enabled_dlcs for dlc in product.dlc)]
+        self._a1800_populations = [population for population in _a1800_populations if any(
+            dlc in enabled_dlcs for dlc in population.dlc)]
 
         self._initialized = True
 

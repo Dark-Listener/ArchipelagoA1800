@@ -1,17 +1,25 @@
 from collections.abc import Sequence
-from dataclasses import dataclass
 from typing import Iterator, Optional
 
 from ._Enums import DLC, NO_REGION, Region
 
 
-@dataclass
 class A1800Chain:
     name: str
-    dlc: DLC
+    dlc: set[DLC]
     region: Region
     guid: int
     elements: set[tuple[str, Region]]
+
+    def __init__(self, name: str, dlc: DLC | set[DLC], region: Region, guid: int, elements: set[tuple[str, Region]]) -> None:
+        self.name = name
+        self.dlc = {dlc} if isinstance(dlc, DLC) else dlc
+        self.region = region
+        self.guid = guid
+        self.elements = elements
+
+    def __str__(self) -> str:
+        return f"(Chain: {self.name}, {self.region})"
 
 
 _a1800_chains: list[A1800Chain] = [
@@ -279,7 +287,7 @@ class _Chains:
     def init(self, enabled_dlcs: DLC) -> None:
         global _a1800_chains
 
-        self._a1800_chains = [chain for chain in _a1800_chains if chain.dlc in enabled_dlcs]
+        self._a1800_chains = [chain for chain in _a1800_chains if any(dlc in enabled_dlcs for dlc in chain.dlc)]
 
         self._initialized = True
 

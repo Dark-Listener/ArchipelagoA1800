@@ -11,7 +11,7 @@ from ._Unlocks import create_unlock_name
 @dataclass
 class A1800EventItem:
     name: str
-    dlc: DLC
+    dlc: set[DLC]
     region: Region
     type: ProductType
     ap_item_name: str = ""

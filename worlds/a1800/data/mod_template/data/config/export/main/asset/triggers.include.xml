@@ -123,11 +123,9 @@
   <ModOp Type="addNextSibling" GUID="130248">
     <!-- Grant start items -->
 {{  generate_trigger_asset(TriggerType, start_trigger_guid, start_trigger, True, False, start_trigger_data) | indent(4, true) }}
-{%  if DLC.SEAT_OF_POWER in enabled_dlcs %}
 
     <!-- Unhide palace ministry with palace unlock -->
 {{  generate_trigger_asset(TriggerType, palace_ministry_unhide_guid, palace_ministry_unhide_trigger, False, True, palace_ministry_unhide_trigger_data) | indent(4, true) }}
-{%  endif %}
 
     <!-- Unlock triggers -->
 {%  for trigger_guid, (trigger_data, location_data) in trigger_to_location_data.items() %}

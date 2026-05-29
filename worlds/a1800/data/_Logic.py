@@ -80,7 +80,8 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
             population = populations[0]
             return {A1800Requirement(trigger.population_name, trigger.region)} | {A1800Requirement(name, population.region) for name in population.luxury}
         case TriggerType.COUNTER:
-            return {A1800Requirement(trigger.unlock_name, trigger.region), A1800Requirement(trigger.product_name, trigger.region)}
+            unlock = next(UNLOCKS.find_unlocks(trigger.unlock_name, trigger.region))
+            return {A1800Requirement(unlock.name, unlock.region)} | {A1800Requirement(name, unlock.region) for name in unlock.cost}
         case TriggerType.COUNTER_GOOD_IN_REGION:
             a1800_region = REGIONS.find_region(trigger.region)
             assert a1800_region, \

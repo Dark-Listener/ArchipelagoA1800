@@ -63,18 +63,18 @@ class Trigger:
                 out_name = f"Build {self.amount} "\
                     f"{f'{self.region.name}: ' if self.region and self.region != ALL_REGIONS else ''}{self.unlock_name}"
             case TriggerType.COUNTER_GOOD_IN_REGION:
+                region_prefix = f"{self.product_region.name}: " if self.product_region and self.product_region != ALL_REGIONS else ""
                 out_name = f"Have {self.amount} "\
-                    f"{f'{self.product_region.name}: ' if self.product_region and self.product_region != ALL_REGIONS else ''}"\
-                    f"{self.product_name[:-1] if self.product_name.endswith('s') and self.amount == 1 else self.product_name} "\
+                    f"{region_prefix}{self.product_name[:-1] if self.product_name.endswith('s') and self.amount == 1 else self.product_name} "\
                     f"in {self.region.full_name}"
             case TriggerType.COUNTER_EXPEDITION_SOLVED:
                 assert False, "Trigger type COUNTER_EXPEDITION_SOLVED should have set ap_location_name already"
             case TriggerType.QUEST_COMPLETE:
                 assert False, "Trigger type QUEST_COMPLETE should have set ap_location_name already"
             case TriggerType.EVENT_ACTIVE:
+                region_prefix = f"{self.region.name}: " if self.region and self.region != ALL_REGIONS else ""
                 out_name = f"Have a "\
-                    f"{f'{self.region.name}: ' if self.region and self.region != ALL_REGIONS else ''}"\
-                    f"{self.product_name[:-1] if self.product_name.endswith('s') else self.product_name} active"
+                    f"{region_prefix}{self.product_name[:-1] if self.product_name.endswith('s') else self.product_name} active"
             case TriggerType.ACTIVE_DLC:
                 if self.dlc in DLC.__members__.values():
                     out_name = f"DLC active: {self.dlc.name}"
@@ -216,10 +216,9 @@ class Trigger:
         return trigger
 
     @classmethod
-    def COUNTER(cls, unlock_name: str, product_name: str, region: Region, amount: int, guid: int = 0, *, ap_location_name: str = "") -> Self:
+    def COUNTER(cls, unlock_name: str, region: Region, amount: int, guid: int = 0, *, ap_location_name: str = "") -> Self:
         trigger = cls(TriggerType.COUNTER)
         trigger.unlock_name = unlock_name
-        trigger.product_name = product_name
         trigger.region = region
         trigger.amount = amount
         trigger.guid = guid
@@ -228,8 +227,7 @@ class Trigger:
         return trigger
 
     @classmethod
-    def COUNTER_GOOD_IN_REGION(
-            cls, product_name: str, product_region: Region, amount: int, region: Region, guid: int = 0, *, ap_location_name: str = "") -> Self:
+    def COUNTER_GOOD_IN_REGION(cls, product_name: str, product_region: Region, amount: int, region: Region, guid: int = 0, *, ap_location_name: str = "") -> Self:
         trigger = cls(TriggerType.COUNTER_GOOD_IN_REGION)
         trigger.product_name = product_name
         trigger.product_region = product_region
@@ -262,8 +260,7 @@ class Trigger:
         return trigger
 
     @classmethod
-    def EVENT_ACTIVE(
-            cls, product_name: str, region: Region, guid: int = 0, *, ap_location_name: str = "") -> Self:
+    def EVENT_ACTIVE(cls, product_name: str, region: Region, guid: int = 0, *, ap_location_name: str = "") -> Self:
         trigger = cls(TriggerType.EVENT_ACTIVE)
         trigger.product_name = product_name
         trigger.region = region

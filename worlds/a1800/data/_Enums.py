@@ -59,7 +59,7 @@ class ProductType(Enum):
 
 _PRODUCT_TYPE_NAMES = {
     ProductType.META: "Meta",
-    ProductType.STAGE: "Stage",
+    ProductType.STAGE: "Stage Complete",
     ProductType.WORKFORCE: "Workforce",
     ProductType.GOOD: "Good",
     ProductType.SERVICE: "Service",

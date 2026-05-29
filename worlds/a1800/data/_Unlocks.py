@@ -1573,7 +1573,37 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building, Factory
     A1800Unlock("Docklands Main Wharf", DLC.DOCKLANDS, Region.OW, 601470, 601470,
                 Trigger.POPULATION("Artisans", Region.OW, 250),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, output="Docklands"),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, output=set[str | tuple[str, Region]]({"Docklands"}) | {
+                    # Tattershire Farms
+                    "Potatoes", "Pigs", "Grain", "Wood", "Beeswax", "Corn", "Red Peppers", "Sanga Cow", "Beef",
+                    "Caribou Meat", "Hops", "Malt", "Goose Feather", "Spices"
+                } | {
+                    # FEEDL
+                    "Fish", "Schnapps", "Sausages", "Bread", "Goulash", "Beer", "Seafood Stew", "Canned Food", "Rum",
+                    "Champagne"
+                } | {
+                    # Chanteuse
+                    "Work Clothes", "Soap", "Fur Coats", "Tailored Suits", "Glasses", "Leather Boots", "Bombins",
+                    "Jewellery"
+                } | {
+                    # Qinsa Mining
+                    "Coal", "Iron", "Clay", "Quartz Sand", "Cement", "Zinc", "Copper", "Gold Ore", "Steel", "Brass",
+                    "Pearls", "Gold"
+                } | {
+                    # Old Levant & Co.
+                    "Tortillas", "Plantains", "Fried Plantains", "Chocolate", "Hibiscus Tea", "Tobacco", "Coffee",
+                    "Clay Pipes", "Cigars"
+                } | {
+                    # KITEA
+                    "Glass", "Wool", "Timber", "Linen", "Felt", "Furs", "Tapestries", "Cotton Fabric", "Wood Veneers",
+                    "Sewing Machines"
+                } | {
+                    # The Promise Trust
+                    "Saltpetre", "Dynamite", "Tallow", "Filaments", "Caoutchouc", "Light Bulbs"
+                } | {
+                    # Ganymedia
+                    "Penny Farthings", "Pocket Watches", "Gramophones", "Telephones", "Steam Carriages"
+                }),
 
 
     ################################################################################################################
@@ -1591,19 +1621,19 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Restaurant: Archduke's Schnitzel", DLC.TOURIST_SEASON, Region.OW,
                 [132747, RECIPE_GUIDS["Recipe: Archduke's Schnitzel"][0]], [132747],
                 Trigger.UNLOCK("Restaurant", Region.OW),
-                set(), {"Tourists, Restaurant (Blank)"}, {"Pigs", "Potatoes", "Tallow"}, "Restaurant"),
+                set(), {"Tourists", "Restaurant (Blank)"}, {"Pigs", "Potatoes", "Tallow"}, "Restaurant"),
 
     A1800Unlock("Restaurant: Stroggof Goulash", DLC.TOURIST_SEASON, Region.OW,
                 [132750, RECIPE_GUIDS["Recipe: Stroggof Goulash"][0]], [132750],
                 Trigger.LINEAR(Trigger.COUNTER("Restaurant", "Restaurant (Blank)", Region.OW, 1, 135069),
                                Trigger.COUNTER_GOOD_IN_REGION("Corn", ALL_REGIONS, 1, Region.OW)),
-                set(), {"Tourists, Restaurant (Blank)"}, {"Beef", "Red Peppers", "Corn"}, "Restaurant"),
+                set(), {"Tourists", "Restaurant (Blank)"}, {"Beef", "Red Peppers", "Corn"}, "Restaurant"),
 
     A1800Unlock("Restaurant: Fish and Frites", DLC.TOURIST_SEASON, Region.OW,
                 [133339, RECIPE_GUIDS["Recipe: Fish and Frites"][0]], [133339],
                 Trigger.LINEAR(Trigger.COUNTER("Restaurant", "Restaurant (Blank)", Region.OW, 1, 135069),
                                Trigger.COUNTER("Orchard: Citrus", "Citrus", Region.NW, 1)),
-                set(), {"Tourists, Restaurant (Blank)"}, {"Fish", "Potatoes", "Citrus"}, "Restaurant"),
+                set(), {"Tourists", "Restaurant (Blank)"}, {"Fish", "Potatoes", "Citrus"}, "Restaurant"),
 
     A1800Unlock("Orchard: Jam", DLC.TOURIST_SEASON, Region.OW, [133496, 133498, 132933], [133496, 134706, 132933],
                 Trigger.POPULATION("Tourists", Region.OW, 300),
@@ -1616,7 +1646,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Cafe: Donut Fourre", DLC.TOURIST_SEASON, Region.OW,
                 [132753, RECIPE_GUIDS["Recipe: Donut Fourre"][0]], [132753],
                 Trigger.UNLOCK("Cafe", Region.OW),
-                set(), {"Tourists, Cafe (Blank)"}, {"Flour", "Tallow", "Jam"}, "Cafe"),
+                set(), {"Tourists", "Cafe (Blank)"}, {"Flour", "Tallow", "Jam"}, "Cafe"),
 
     A1800Unlock("Cafe: Eclair", DLC.TOURIST_SEASON, Region.OW,
                 [133347, RECIPE_GUIDS["Recipe: Eclair"][0]], [133347],
@@ -1628,7 +1658,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         {("Tourists", Region.OW), ("Cafe", Region.OW)}
                     )
                 ),
-                set(), {"Tourists, Cafe (Blank)"}, {"Flour", "Sugar", "Chocolate"}, "Cafe"),
+                set(), {"Tourists", "Cafe (Blank)"}, {"Flour", "Sugar", "Chocolate"}, "Cafe"),
 
     A1800Unlock("Cafe: Palmier Biscuit", DLC.TOURIST_SEASON, Region.OW,
                 [133348, RECIPE_GUIDS["Recipe: Palmier Biscuit"][0]], [133348],
@@ -1640,7 +1670,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         ap_location_name="Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)"
                     )
                 ),
-                set(), {"Tourists, Cafe (Blank)"}, {"Flour", "Tallow", "Cinnamon"}, "Cafe", is_excluded=True),
+                set(), {"Tourists", "Cafe (Blank)"}, {"Flour", "Tallow", "Cinnamon"}, "Cafe", is_excluded=True),
 
     A1800Unlock("Orchard: Coconut Oil", DLC.TOURIST_SEASON, Region.NW,
                 [133004, 133005, 133010], [133004, 134710, 133010],
@@ -1679,19 +1709,19 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Bar: Daiquiri Tropic", DLC.TOURIST_SEASON, Region.OW,
                 [132752, RECIPE_GUIDS["Recipe: Daiquiri Tropic"][0]], [132752],
                 Trigger.UNLOCK("Bar", Region.OW),
-                set(), {"Tourists, Bar (Blank)"}, {"Sugar Cane", "Rum", "Plantains"}, "Bar"),
+                set(), {"Tourists", "Bar (Blank)"}, {"Sugar Cane", "Rum", "Plantains"}, "Bar"),
 
     A1800Unlock("Bar: Black Muscovy", DLC.TOURIST_SEASON, Region.OW,
                 [133342, RECIPE_GUIDS["Recipe: Black Muscovy"][0]], [133342],
                 Trigger.LINEAR(Trigger.COUNTER("Bar", "Bar (Blank)", Region.OW, 1, 133472),
                                Trigger.COUNTER("Members Club", "Members Club", Region.OW, 1)),
-                set(), {"Tourists, Bar (Blank)"}, {"Coffee", "Rum", "Schnapps"}, "Bar"),
+                set(), {"Tourists", "Bar (Blank)"}, {"Coffee", "Rum", "Schnapps"}, "Bar"),
 
     A1800Unlock("Bar: Montmartre '75'", DLC.TOURIST_SEASON, Region.OW,
                 [133343, RECIPE_GUIDS["Recipe: Montmartre '75'"][0]], [133343],
                 Trigger.LINEAR(Trigger.COUNTER("Bar", "Bar (Blank)", Region.OW, 1, 133472),
                                Trigger.EVENT_ACTIVE("World's Fair: Exhibitions", Region.OW)),
-                set(), {"Tourists, Bar (Blank)"}, {"Sugar", "Champagne", "Citrus"}, "Bar"),
+                set(), {"Tourists", "Bar (Blank)"}, {"Sugar", "Champagne", "Citrus"}, "Bar"),
 
     A1800Unlock("The Iron Tower: Superstructure", DLC.TOURIST_SEASON, Region.OW, 132766, 132766,
                 Trigger.POPULATION("Tourists", Region.OW, 1500),

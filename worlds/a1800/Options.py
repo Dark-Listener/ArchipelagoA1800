@@ -5,8 +5,10 @@ from .data._Products import _a1800_populations  # pyright: ignore[reportPrivateU
 from .data import DLC
 
 
+_valid_dlcs = [dlc.name for dlc in sorted(
+    (dlc for dlc in DLC.__members__.values() if not dlc in DLC.VANILLA | DLC.THE_HIGH_LIFE | DLC.EMPIRE_OF_THE_SKIES), key=lambda dlc: dlc.value)]
 _default_enabled_dlcs = [dlc.name for dlc in sorted(
-    (dlc for dlc in DLC.__members__.values() if not dlc in DLC.VANILLA | DLC.DOCKLANDS | DLC.THE_HIGH_LIFE | DLC.EMPIRE_OF_THE_SKIES), key=lambda dlc: dlc.value)]
+    (dlc for dlc in DLC.__members__.values() if not dlc in DLC.DOCKLANDS and dlc.name in _valid_dlcs), key=lambda dlc: dlc.value)]
 
 
 class EnabledDLCsOption(OptionSet):
@@ -19,7 +21,7 @@ class EnabledDLCsOption(OptionSet):
     Enabling docklands is strongly discouraged unless you want the option to skip most of the randomizer.
     """
     display_name = "Enabled DLCs"
-    valid_keys = _default_enabled_dlcs
+    valid_keys = _valid_dlcs
     default = _default_enabled_dlcs
 
 

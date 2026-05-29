@@ -9,7 +9,7 @@ from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, Session, START_REGION, TriggerType, UnlockType
 from ._EventItems import A1800EventItem, EVENT_ITEMS
 from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
-from ._Guid import get_next_anno_guid
+from ._Guid import get_next_anno_guid, RECIPE_GUIDS
 from ._Logic import LOGIC
 from ._Products import A1800Product, PRODUCTS
 from ._Regions import A1800Region, REGIONS
@@ -76,6 +76,9 @@ class _A1800Data:
 
     def get_event_locations(self) -> Sequence[A1800EventLocation]:
         return EVENT_LOCATIONS.get_event_locations()
+
+    def get_recipe_unlocks(self) -> dict[str, tuple[int, int, int, int]]:
+        return RECIPE_GUIDS
 
     def get_item_name_to_ap_code(self) -> dict[str, int]:
         return self._item_name_to_ap_code

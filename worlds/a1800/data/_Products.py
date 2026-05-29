@@ -31,7 +31,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Railway", DLC.VANILLA, Region.OW | Region.NW, 0, ProductType.META),
     A1800Product("Oil Harbour", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Oil Field", DLC.VANILLA, Region.OW, 0, ProductType.META),
-    A1800Product("World's Fair: Exhibitions", DLC.VANILLA, Region.OW, 0, ProductType.META),
+    A1800Product("World's Fair: Exhibitions", DLC.VANILLA, Region.OW, 135020, ProductType.META),
     A1800Product("Fire Protection", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Riot Control", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Healthcare", DLC.VANILLA, Region.NW, 0, ProductType.META),
@@ -266,14 +266,49 @@ _a1800_products: list[A1800Product] = [
     ################################################################################################################
     ### TOURIST_SEASON                                                                                           ###
     ################################################################################################################
+    A1800Product("Public Transport", DLC.TOURIST_SEASON, Region.OW, 0, ProductType.META),
+    A1800Product("Restaurant (Blank)", DLC.TOURIST_SEASON, Region.OW, 0, ProductType.META),
+    A1800Product("Cafe (Blank)", DLC.TOURIST_SEASON, Region.OW, 0, ProductType.META),
+    A1800Product("Bar (Blank)", DLC.TOURIST_SEASON, Region.OW, 0, ProductType.META),
+    A1800Product("The Iron Tower (Blank)", DLC.TOURIST_SEASON, Region.OW, 0, ProductType.META),
+
+    A1800Product("The Iron Tower: Foundations", DLC.TOURIST_SEASON, Region.OW, 0, ProductType.STAGE),
+    A1800Product("The Iron Tower: Superstructure", DLC.TOURIST_SEASON, Region.OW, 0, ProductType.STAGE),
+
+    A1800Product("Tourists", DLC.TOURIST_SEASON, Region.OW, 601379, ProductType.WORKFORCE),
+
+    A1800Product("Jam", DLC.TOURIST_SEASON, ALL_REGIONS, 133183, ProductType.GOOD),
+    A1800Product("Coconut Oil", DLC.TOURIST_SEASON, ALL_REGIONS, 133095, ProductType.GOOD),
+    A1800Product("Cinnamon", DLC.TOURIST_SEASON, ALL_REGIONS, 133093, ProductType.GOOD),
+    A1800Product("Shampoo", DLC.TOURIST_SEASON, ALL_REGIONS, 133181, ProductType.GOOD),
+    A1800Product("Citrus", DLC.TOURIST_SEASON, ALL_REGIONS, 133097, ProductType.GOOD),
+    A1800Product("Lemonade", DLC.TOURIST_SEASON, ALL_REGIONS, 133185, ProductType.GOOD),
+    A1800Product("Camphor Wax", DLC.TOURIST_SEASON, ALL_REGIONS, 134616, ProductType.GOOD),
+    A1800Product("Souvenirs", DLC.TOURIST_SEASON, ALL_REGIONS, 133532, ProductType.GOOD),
+
+    A1800Product("Tourist Mooring", DLC.TOURIST_SEASON, Region.OW, 133891, ProductType.SERVICE),
     A1800Product("Zoo", DLC.TOURIST_SEASON, Region.OW, 601485, ProductType.SERVICE),
     A1800Product("Museum", DLC.TOURIST_SEASON, Region.OW, 133535, ProductType.SERVICE),
+    A1800Product("Restaurant", DLC.TOURIST_SEASON, Region.OW, 132751, ProductType.SERVICE),
+    A1800Product("Cafe", DLC.TOURIST_SEASON, Region.OW, 132755, ProductType.SERVICE),
+    A1800Product("Bar", DLC.TOURIST_SEASON, Region.OW, 132754, ProductType.SERVICE),
+    A1800Product("The Iron Tower", DLC.TOURIST_SEASON, Region.OW, 132761, ProductType.SERVICE),
 
     ### Needs Botanica ###
     A1800Product("Botanical Garden", DLC.BOTANICA | DLC.TOURIST_SEASON, Region.OW, 355, ProductType.SERVICE),
 
     ### Needs Seat of Power ###
     A1800Product("Palace", DLC.SEAT_OF_POWER | DLC.TOURIST_SEASON, Region.OW, 134257, ProductType.SERVICE),
+
+    ### Needs Docklands ###
+    A1800Product("Docklands", DLC.DOCKLANDS | DLC.TOURIST_SEASON, Region.OW, 134781, ProductType.SERVICE),
+
+    ################################################################################################################
+    ### THE_HIGH_LIFE                                                                                            ###
+    ################################################################################################################
+
+    ### Needs Tourist Season ###
+    A1800Product("Skyline Tower", DLC.TOURIST_SEASON | DLC.THE_HIGH_LIFE, Region.OW, 137757, ProductType.SERVICE),
 ]
 
 _a1800_populations = [product for product in _a1800_products if product.type == ProductType.WORKFORCE]

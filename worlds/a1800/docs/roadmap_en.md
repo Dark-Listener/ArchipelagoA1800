@@ -5,13 +5,15 @@
 The following features are planned to be added at some point (in no specific order):
 
 * MORE DLCs!!! (Not Docklands though, defeats the purpose)
-* Include ship unlocks in the item pool
+* Include ship unlocks in the item pool (fix restaurant unlock triggering on Boreas)
+  * Double-check expedition conditions (clipper needed for arctic? schooner actually enough for enbesa?)
 * Create some filler items
 * Ingame notifications for sending&receiving unlocks
 * Ingame quests for the victory condition
 * More options for victory conditions
 * More options in general!
 * Option to send hints for unlocks visible in chains
+  * Fix incorrect recipe description hints
 * Option to start with flagship, enabling expeditions from the get-go
 * Figure out how to handle free session starting items in logic (ships and goods)
 * Introduce progressive items for trading posts, warehouses, monument stages...

@@ -3,6 +3,7 @@ from typing import ClassVar, Iterator, Optional
 
 from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerType, UnlockType
+from ._Guid import RECIPE_GUIDS
 from ._Products import PRODUCTS
 from ._Trigger import Trigger
 
@@ -39,6 +40,7 @@ class A1800Unlock:
     ap_item_name: str = ""
     ap_location_name: str = ""
     is_progressive: bool = False
+    is_excluded: bool = False
 
     def __init__(
         self,
@@ -60,7 +62,8 @@ class A1800Unlock:
         *,
         type: UnlockType = UnlockType.UNLOCK,
         ap_region: Region = NO_REGION,
-        is_early: bool = False
+        is_early: bool = False,
+        is_excluded: bool = False,
     ) -> None:
         self.name = name
         self.dlc = dlc
@@ -85,6 +88,7 @@ class A1800Unlock:
         self.type = type
         self.ap_region = ap_region
         self.is_early = is_early
+        self.is_excluded = is_excluded
 
         self.ap_code = A1800Unlock.__item_id
         A1800Unlock.__item_id += 1
@@ -1564,10 +1568,286 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Wanza Timber", "Mud Bricks"}, set(), set(), "Oil Harbour", previous_building="Large Oil Harbour"),
 
     ################################################################################################################
+    ### TOURIST_SEASON                                                                                           ###
+    ################################################################################################################
+    # Building, Factory
+    A1800Unlock("Bus Stop", DLC.TOURIST_SEASON, Region.OW, 601326, 601326,
+                Trigger.COUNTER("Tourist Mooring", "Tourist Mooring", Region.OW, 1),
+                "Steel Beams", set(), set(), "Public Transport"),
+
+    A1800Unlock("Restaurant", DLC.TOURIST_SEASON, Region.OW, 132780, 132780,
+                Trigger.POPULATION("Tourists", Region.OW, 250),
+                {"Timber", "Bricks"}, set(), set(), {"Restaurant (Blank)"}),
+
+    A1800Unlock("Restaurant: Archduke's Schnitzel", DLC.TOURIST_SEASON, Region.OW,
+                [132747, RECIPE_GUIDS["Recipe: Archduke's Schnitzel"][0]], [132747],
+                Trigger.UNLOCK("Restaurant", Region.OW),
+                set(), {"Tourists, Restaurant (Blank)"}, {"Pigs", "Potatoes", "Tallow"}, "Restaurant"),
+
+    A1800Unlock("Restaurant: Stroggof Goulash", DLC.TOURIST_SEASON, Region.OW,
+                [132750, RECIPE_GUIDS["Recipe: Stroggof Goulash"][0]], [132750],
+                Trigger.LINEAR(Trigger.COUNTER("Restaurant", "Restaurant (Blank)", Region.OW, 1, 135069),
+                               Trigger.COUNTER_GOOD_IN_REGION("Corn", ALL_REGIONS, 1, Region.OW)),
+                set(), {"Tourists, Restaurant (Blank)"}, {"Beef", "Red Peppers", "Corn"}, "Restaurant"),
+
+    A1800Unlock("Restaurant: Fish and Frites", DLC.TOURIST_SEASON, Region.OW,
+                [133339, RECIPE_GUIDS["Recipe: Fish and Frites"][0]], [133339],
+                Trigger.LINEAR(Trigger.COUNTER("Restaurant", "Restaurant (Blank)", Region.OW, 1, 135069),
+                               Trigger.COUNTER("Orchard: Citrus", "Citrus", Region.NW, 1)),
+                set(), {"Tourists, Restaurant (Blank)"}, {"Fish", "Potatoes", "Citrus"}, "Restaurant"),
+
+    A1800Unlock("Orchard: Jam", DLC.TOURIST_SEASON, Region.OW, [133496, 133498, 132933], [133496, 134706, 132933],
+                Trigger.POPULATION("Tourists", Region.OW, 300),
+                {"Timber", "Bricks"}, "Farmers", set(), "Jam"),
+
+    A1800Unlock("Cafe", DLC.TOURIST_SEASON, Region.OW, 132782, 132782,
+                Trigger.POPULATION("Tourists", Region.OW, 550),
+                {"Timber", "Bricks"}, set(), set(), {"Cafe (Blank)"}),
+
+    A1800Unlock("Cafe: Donut Fourre", DLC.TOURIST_SEASON, Region.OW,
+                [132753, RECIPE_GUIDS["Recipe: Donut Fourre"][0]], [132753],
+                Trigger.UNLOCK("Cafe", Region.OW),
+                set(), {"Tourists, Cafe (Blank)"}, {"Flour", "Tallow", "Jam"}, "Cafe"),
+
+    A1800Unlock("Cafe: Eclair", DLC.TOURIST_SEASON, Region.OW,
+                [133347, RECIPE_GUIDS["Recipe: Eclair"][0]], [133347],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Cafe", "Cafe (Blank)", Region.OW, 1, 133510),
+                    Trigger.QUEST_COMPLETE(
+                        "Hidden quest: supply Tourists with any Cafe (5 min)",
+                        134387,
+                        {("Tourists", Region.OW), ("Cafe", Region.OW)}
+                    )
+                ),
+                set(), {"Tourists, Cafe (Blank)"}, {"Flour", "Sugar", "Chocolate"}, "Cafe"),
+
+    A1800Unlock("Cafe: Palmier Biscuit", DLC.TOURIST_SEASON, Region.OW,
+                [133348, RECIPE_GUIDS["Recipe: Palmier Biscuit"][0]], [133348],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Cafe", "Cafe (Blank)", Region.OW, 1, 133510),
+                    Trigger.ANY(
+                        Trigger.COUNTER("Zoo", "Zoo", Region.OW, 1, 101816),
+                        Trigger.COUNTER("Zoo", "Zoo", Region.OW, 1, 124109),
+                        ap_location_name="Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)"
+                    )
+                ),
+                set(), {"Tourists, Cafe (Blank)"}, {"Flour", "Tallow", "Cinnamon"}, "Cafe", is_excluded=True),
+
+    A1800Unlock("Orchard: Coconut Oil", DLC.TOURIST_SEASON, Region.NW,
+                [133004, 133005, 133010], [133004, 134710, 133010],
+                Trigger.POPULATION("Tourists", Region.OW, 850),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Coconut Oil"),
+
+    A1800Unlock("Orchard: Cinnamon", DLC.TOURIST_SEASON, Region.NW, [133030, 133028, 133010], [133030, 134708, 133010],
+                Trigger.POPULATION("Tourists", Region.OW, 850),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Cinnamon"),
+
+    A1800Unlock("Chemical Plant: Shampoo", DLC.TOURIST_SEASON, Region.OW,
+                [132786, 132788, 132771], [134716, 132771, 137608],
+                Trigger.POPULATION("Tourists", Region.OW, 850),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Engineers",
+                {"Soap", "Coconut Oil", "Cinnamon"}, "Shampoo", "Shampoo"),
+
+    A1800Unlock("The Iron Tower: Foundations", DLC.TOURIST_SEASON, Region.OW, 132765, 132765,
+                Trigger.POPULATION("Tourists", Region.OW, 850),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, "Workers",
+                {"Timber", "Cement"}, {"The Iron Tower: Foundations"}),
+
+    A1800Unlock("Orchard: Citrus", DLC.TOURIST_SEASON, Region.NW, [133031, 133029, 133010], [133031, 134707, 133010],
+                Trigger.POPULATION("Tourists", Region.OW, 1250),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Citrus"),
+
+    A1800Unlock("Chemical Plant: Lemonade", DLC.TOURIST_SEASON, Region.OW,
+                [132777, 132778, 132771], [134712, 132771, 137607],
+                Trigger.POPULATION("Tourists", Region.OW, 1250),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Engineers",
+                {"Saltpetre", "Sugar", "Citrus"}, "Lemonade", "Lemonade"),
+
+    A1800Unlock("Bar", DLC.TOURIST_SEASON, Region.OW, 132781, 132781,
+                Trigger.POPULATION("Tourists", Region.OW, 1500),
+                {"Timber", "Bricks"}, set(), set(), {"Bar (Blank)"}),
+
+    A1800Unlock("Bar: Daiquiri Tropic", DLC.TOURIST_SEASON, Region.OW,
+                [132752, RECIPE_GUIDS["Recipe: Daiquiri Tropic"][0]], [132752],
+                Trigger.UNLOCK("Bar", Region.OW),
+                set(), {"Tourists, Bar (Blank)"}, {"Sugar Cane", "Rum", "Plantains"}, "Bar"),
+
+    A1800Unlock("Bar: Black Muscovy", DLC.TOURIST_SEASON, Region.OW,
+                [133342, RECIPE_GUIDS["Recipe: Black Muscovy"][0]], [133342],
+                Trigger.LINEAR(Trigger.COUNTER("Bar", "Bar (Blank)", Region.OW, 1, 133472),
+                               Trigger.COUNTER("Members Club", "Members Club", Region.OW, 1)),
+                set(), {"Tourists, Bar (Blank)"}, {"Coffee", "Rum", "Schnapps"}, "Bar"),
+
+    A1800Unlock("Bar: Montmartre '75'", DLC.TOURIST_SEASON, Region.OW,
+                [133343, RECIPE_GUIDS["Recipe: Montmartre '75'"][0]], [133343],
+                Trigger.LINEAR(Trigger.COUNTER("Bar", "Bar (Blank)", Region.OW, 1, 133472),
+                               Trigger.EVENT_ACTIVE("World's Fair: Exhibitions", Region.OW)),
+                set(), {"Tourists, Bar (Blank)"}, {"Sugar", "Champagne", "Citrus"}, "Bar"),
+
+    A1800Unlock("The Iron Tower: Superstructure", DLC.TOURIST_SEASON, Region.OW, 132766, 132766,
+                Trigger.POPULATION("Tourists", Region.OW, 1500),
+                {"The Iron Tower: Foundations"}, "Artisans",
+                {"Steel Beams", "Reinforced Concrete"}, {"The Iron Tower: Superstructure"}),
+
+    A1800Unlock("Orchard: Camphor Wax", DLC.TOURIST_SEASON, Region.NW,
+                [134614, 134615, 133010], [134614, 134709, 133010],
+                Trigger.POPULATION("Tourists", Region.OW, 2000),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Camphor Wax"),
+
+    A1800Unlock("Chemical Plant: Souvenirs", DLC.TOURIST_SEASON, Region.OW,
+                [133533, 133534, 132771], [134717, 132771, 137609],
+                Trigger.POPULATION("Tourists", Region.OW, 2000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Engineers",
+                {"Glass", "Cotton", "Camphor Wax"}, "Souvenirs", "Souvenirs"),
+
+    A1800Unlock("The Iron Tower", DLC.TOURIST_SEASON, Region.OW, 132770, 132770,
+                Trigger.POPULATION("Tourists", Region.OW, 4000),
+                {"The Iron Tower: Superstructure"}, set(), set(), {"The Iron Tower (Blank)"}),
+
+    A1800Unlock("The Iron Tower: Brioche Royale", DLC.TOURIST_SEASON, Region.OW,
+                [133928, RECIPE_GUIDS["Recipe: Brioche Royale"][0]], [133928],
+                Trigger.COUNTER("The Iron Tower", "The Iron Tower (Blank)", Region.OW, 1, 134450),
+                set(), {"Tourists", "Electricity", "The Iron Tower (Blank)"},
+                {"Sausages", "Bread", "Beef", "Gold"}, "The Iron Tower"),
+
+    A1800Unlock("The Iron Tower: Trifle Tower", DLC.TOURIST_SEASON, Region.OW,
+                [133930, RECIPE_GUIDS["Recipe: Trifle Tower"][0]], [133930],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("The Iron Tower", "The Iron Tower (Blank)", Region.OW, 1, 134450),
+                    Trigger.QUEST_COMPLETE(
+                        "Hidden quest: Supply Tourists with The Iron Tower (5 min)",
+                        134314,
+                        {("Tourists", Region.OW), ("The Iron Tower", Region.OW)}
+                    )
+                ),
+                set(), {"Tourists", "Electricity", "The Iron Tower (Blank)"},
+                {"Rum", "Bread", "Grapes", "Sugar"}, "The Iron Tower"),
+
+    A1800Unlock("The Iron Tower: Lady Marmelade", DLC.TOURIST_SEASON, Region.OW,
+                [133931, RECIPE_GUIDS["Recipe: Lady Marmelade"][0]], [133931],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("The Iron Tower", "The Iron Tower (Blank)", Region.OW, 1, 134450),
+                    Trigger.ALL(
+                        Trigger.COUNTER("Variety Theatre", "Variety Theatre", Region.OW, 3),
+                        Trigger.COUNTER("Chemical Plant: Lemonade", "Lemonade", Region.OW, 1)
+                    )
+                ),
+                set(), {"Tourists", "Electricity", "The Iron Tower (Blank)"},
+                {"Rum", "Champagne", "Citrus", "Jam"}, "The Iron Tower"),
+
+    # Building, Factory, Upgrade
+    A1800Unlock("Tourist Mooring", DLC.TOURIST_SEASON, Region.OW, 133890, 133890,
+                Trigger.POPULATION("Engineers", Region.OW, 500),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), "Tourist Mooring",
+                previous_building="Public Mooring"),
+
+    # Building, Factory, Residence
+    A1800Unlock("Hotel", DLC.TOURIST_SEASON, Region.OW, 601445, 601445,
+                Trigger.COUNTER("Tourist Mooring", "Tourist Mooring", Region.OW, 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(),
+                {"Tourist Mooring", "Public Transport"}, "Tourists",
+                consumption={"Tourist Mooring", "Bread", "Variety Theatre", "Restaurant", "Jam",
+                             "Cafe", "Shampoo", "Bar", "The Iron Tower", "Fire Protection", "Healthcare"},
+                luxury={"Fur Coats", "Zoo", "Jewellery", "Lemonade", "Docklands", "Museum",
+                        "Botanical Garden", "Palace", "World's Fair", "Souvenirs", "Skyline Tower"},
+                lifestyle={"Gramophones", "Bombins", "Leather Boots", "Mezcal", "Ice Cream", "Perfumes"}),
+
+    ### Needs The Passage ###
+    # Building, Factory
+    A1800Unlock("Restaurant: Venison en Croute", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
+                [133340, RECIPE_GUIDS["Recipe: Venison en Croute"][0]], [133340],
+                Trigger.LINEAR(Trigger.COUNTER("Restaurant", "Restaurant (Blank)", Region.OW, 1, 135069),
+                               Trigger.COUNTER("Arctic Airship Hangar", "Air Travel", Region.AR, 1, 114166,
+                                               ap_location_name="(Build 1 OW: Restaurant) THEN (Build 1 Boreas)")),
+                set(), {"Tourists", "Restaurant (Blank)"}, {"Flour", "Potatoes", "Caribou Meat"}, "Restaurant"),
+
+    A1800Unlock("Cafe: Venison Tartare", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
+                [133349, RECIPE_GUIDS["Recipe: Venison Tartare"][0]], [133349],
+                Trigger.LINEAR(Trigger.COUNTER("Cafe", "Cafe (Blank)", Region.OW, 1, 133510),
+                               Trigger.COUNTER("Post Office", "Post Office", Region.AR, 1)),
+                set(), {"Tourists", "Cafe (Blank)"}, {"Grapes", "Caribou Meat", "Citrus"}, "Cafe"),
+
+    A1800Unlock("Bar: Glogg", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
+                [133345, RECIPE_GUIDS["Recipe: Glogg"][0]], [133345],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Bar", "Bar (Blank)", Region.OW, 1, 133472),
+                    Trigger.COUNTER_EXPEDITION_SOLVED(
+                        "Complete 1 expedition in the Arctic",
+                        1,
+                        134300,
+                        {("Expedition: The Arctic", ALL_REGIONS), ("Sea Travel", ALL_REGIONS), ("Artisans", Region.OW)})
+                ),
+                set(), {"Tourists", "Bar (Blank)"}, {"Whale Oil", "Grapes", "Cinnamon"}, "Bar"),
+
+    A1800Unlock("The Iron Tower: Age of Exploration", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
+                [133932, RECIPE_GUIDS["Recipe: Age of Exploration"][0]], [133932],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("The Iron Tower", "The Iron Tower (Blank)", Region.OW, 1, 134450),
+                    Trigger.QUEST_COMPLETE(
+                        "Hidden quest: Complete the set Polar Circle in a Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)",
+                        134983,
+                        {("Zoo", Region.OW)}
+                    )
+                ),
+                set(), {"Tourists", "Electricity", "The Iron Tower (Blank)"},
+                {"Arctic Gas", "Potatoes", "Red Peppers", "Beef"}, "The Iron Tower", is_excluded=True),
+
+    ### Needs Land of Lions ###
+    # Building, Factory
+    A1800Unlock("Restaurant: Lobster Cheminee", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
+                [133341, RECIPE_GUIDS["Recipe: Lobster Cheminee"][0]], [133341],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Restaurant", "Restaurant (Blank)", Region.OW, 1, 135069),
+                    Trigger.QUEST_COMPLETE(
+                        "Hidden quest: Supply Scholars with Clay Pipes (5 min)",
+                        133994,
+                        {("Scholars", Region.OW), ("Clay Pipes", Region.OW)}
+                    )
+                ),
+                set(), {"Tourists", "Restaurant (Blank)"}, {"Lobster", "Citrus", "Tobacco"}, "Restaurant"),
+
+    A1800Unlock("Cafe: Banana Surprise", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
+                [133350, RECIPE_GUIDS["Recipe: Banana Surprise"][0]], [133350],
+                Trigger.LINEAR(Trigger.COUNTER("Cafe", "Cafe (Blank)", Region.OW, 1, 133510),
+                               Trigger.COUNTER_GOOD_IN_REGION("Plantains", ALL_REGIONS, 1, Region.EN)),
+                set(), {"Tourists", "Cafe (Blank)"}, {"Goat Milk", "Plantains", "Cinnamon"}, "Cafe"),
+
+    A1800Unlock("Bar: Enbesa Sunrise", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
+                [133346, RECIPE_GUIDS["Recipe: Enbesa Sunrise"][0]], [133346],
+                Trigger.LINEAR(Trigger.COUNTER("Bar", "Bar (Blank)", Region.OW, 1, 133472),
+                               Trigger.POPULATION_HAPPINESS("Elders", Session.EN, 30, "Elder Residence")),
+                set(), {"Tourists", "Bar (Blank)"}, {"Hibiscus Petals", "Rum", "Spices"}, "Bar"),
+
+    A1800Unlock("The Iron Tower: Homard Lit de Terroir", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
+                [133933, RECIPE_GUIDS["Recipe: Homard Lit de Terroir"][0]], [133933],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("The Iron Tower", "The Iron Tower (Blank)", Region.OW, 1, 134450),
+                    Trigger.QUEST_COMPLETE(
+                        "Hidden quest: Socket a Lobsterman in a Harbourmaster's Office in Enbesa",
+                        134984,
+                        {("Artisans", Region.OW), ("Elders", Region.EN), ("Harbourmaster's Office", Region.EN)}
+                    )
+                ),
+                set(), {"Tourists", "Electricity", "The Iron Tower (Blank)"},
+                {"Lobster", "Sanga Cow", "Potatoes", "Spices"}, "The Iron Tower", is_excluded=True),
+
+    ################################################################################################################
+    ### THE_HIGH_LIFE                                                                                            ###
+    ################################################################################################################
+
+    # TODO: Meta Rule for bus need Skyline Tower
+
+    ################################################################################################################
     ### EMPIRE_OF_THE_SKIES                                                                                      ###
     ################################################################################################################
 
     # TODO: Meta Upgrades for Alpaca and Cattle Farms with Electricity
+
+    ################################################################################################################
+    ### NEW_WORLD_RISING                                                                                         ###
+    ################################################################################################################
+
+    # TODO: New restaurant, cafe, bar
 ]
 
 
@@ -1704,6 +1984,14 @@ class _Unlocks:
                     missing_chains.add(chain)
             if missing_chains:
                 unlock.unlock_chain -= missing_chains
+
+            if unlock.name == "Hotel":  # Turning off DLC can remove tourist luxury needs
+                missing_luxuries: set[str] = set()
+                for luxury in unlock.luxury:
+                    if not next(PRODUCTS.find_products(luxury, unlock.region), None):
+                        missing_luxuries.add(luxury)
+                if missing_luxuries:
+                    unlock.luxury -= missing_luxuries
 
             missing_lifestyles: set[str] = set()
             for lifestyle in unlock.lifestyle:

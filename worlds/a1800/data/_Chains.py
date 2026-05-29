@@ -250,6 +250,20 @@ _a1800_chains: list[A1800Chain] = [
     A1800Chain("Fuel", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, 119030,
                {("Oil Refinery", Region.OW), ("Rails", Region.EN), ("Small Oil Harbour", Region.EN),
                 ("Oil Store", Region.EN), ("Fuel Station", Region.EN)}),
+
+    ################################################################################################################
+    ### TOURIST_SEASON                                                                                           ###
+    ################################################################################################################
+    A1800Chain("Shampoo", DLC.TOURIST_SEASON, Region.OW, 137608,
+               {("Pig Farm", Region.OW), ("Rendering Works", Region.OW), ("Soap Factory", Region.OW),
+                ("Orchard: Cinnamon", Region.NW), ("Orchard: Coconut Oil", Region.NW),
+                ("Chemical Plant: Shampoo", Region.OW)}),
+    A1800Chain("Lemonade", DLC.TOURIST_SEASON, Region.OW, 137607,
+               {("Orchard: Citrus", Region.NW), ("Sugar Cane Plantation", Region.NW), ("Sugar Refinery", Region.NW),
+                ("Saltpetre Works", Region.OW), ("Chemical Plant: Lemonade", Region.OW)}),
+    A1800Chain("Souvenirs", DLC.TOURIST_SEASON, Region.OW, 137609,
+               {("Orchard: Camphor Wax", Region.NW), ("Cotton Plantation", Region.NW), ("Sand Mine", Region.OW),
+                ("Glassmakers", Region.OW), ("Chemical Plant: Souvenirs", Region.OW)}),
 ]
 
 

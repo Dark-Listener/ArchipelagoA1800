@@ -163,6 +163,7 @@ def generate_mod(world: "A1800World", output_directory: str):
             starting_guids[0] if starting_guids else 0, None, starting_guids[1:] if len(starting_guids) > 1 else [], []
         )],
         "expedition_unlocks": expedition_unlocks,
+        "recipe_unlocks": A1800_DATA.get_recipe_unlocks(),
         "victory_trigger_guid": victory_trigger_guid,
         "victory_trigger": _get_trigger_with_dlc(A1800_DATA.get_victory_trigger(), A1800_DATA.get_victory_dlcs()),
         "victory_trigger_data": [(victory_guid, None, [], [])],

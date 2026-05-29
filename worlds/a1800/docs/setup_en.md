@@ -49,6 +49,7 @@ all of the supported DLCs as you desire:
 * Seat of Power
 * Bright Harvest
 * Land of Lions
+* Tourist Season
 
 Additional purchased DLCs are not an issue, but will not be taken into account in the randomizer.
 

@@ -7,3 +7,27 @@ def get_next_anno_guid() -> int:
     global _g_next_anno_guid
     _g_next_anno_guid += 1
     return _g_next_anno_guid
+
+
+RECIPE_GUIDS = {
+    "Recipe: Archduke's Schnitzel": (get_next_anno_guid(), 133864, 0, 0),
+    "Recipe: Stroggof Goulash": (get_next_anno_guid(), 133867, 0, 0),
+    "Recipe: Fish and Frites": (get_next_anno_guid(), 133868, 0, 0),
+    "Recipe: Venison en Croute": (get_next_anno_guid(), 133869, 0, 0),
+    "Recipe: Lobster Cheminee": (get_next_anno_guid(), 133870, 0, 0),
+    "Recipe: Donut Fourre": (get_next_anno_guid(), 133865, 0, 0),
+    "Recipe: Eclair": (get_next_anno_guid(), 134241, 0, 0),
+    "Recipe: Palmier Biscuit": (get_next_anno_guid(), 134240, 0, 0),
+    "Recipe: Venison Tartare": (get_next_anno_guid(), 133872, 0, 0),
+    "Recipe: Banana Surprise": (get_next_anno_guid(), 133873, 0, 0),
+    "Recipe: Daiquiri Tropic": (get_next_anno_guid(), 133866, 0, 0),
+    "Recipe: Black Muscovy": (get_next_anno_guid(), 133874, 133369, 135036),
+    "Recipe: Montmartre '75'": (get_next_anno_guid(), 133875, 0, 0),
+    "Recipe: Glogg": (get_next_anno_guid(), 133876, 133371, 135038),
+    "Recipe: Enbesa Sunrise": (get_next_anno_guid(), 133877, 0, 0),
+    "Recipe: Brioche Royale": (get_next_anno_guid(), 134908, 133377, 135045),
+    "Recipe: Trifle Tower": (get_next_anno_guid(), 134243, 0, 0),
+    "Recipe: Lady Marmelade": (get_next_anno_guid(), 134244, 133379, 135043),
+    "Recipe: Age of Exploration": (get_next_anno_guid(), 134981, 133380, 135046),
+    "Recipe: Homard Lit de Terroir": (get_next_anno_guid(), 134985, 133381, 135047),
+}

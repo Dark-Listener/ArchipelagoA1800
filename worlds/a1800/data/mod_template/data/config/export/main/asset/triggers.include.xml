@@ -35,6 +35,9 @@
 
   <!-- Add all unlockable assets-->
   <ModOp Type="addNextSibling" GUID="105568">
+{% for name, (guid, _, _, _) in recipe_unlocks.items() %}
+{{  generate_unlockable_asset(guid, name) | indent(4, true) }}
+{% endfor %}
 {% for name, guid in expedition_unlocks.items() %}
 {{  generate_unlockable_asset(guid, name) | indent(4, true) }}
 {% endfor %}
@@ -74,7 +77,47 @@
   <ModOp Type="remove" GUID="269865" Path="Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/SubTriggers" />
   <ModOp Type="replace" GUID="269865" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/TriggerCondition">
 {{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), 269832)) | indent(4, true)).rstrip() }}
-      </ModOp>
+  </ModOp>
+  
+  <!-- Make recipe unlocks dependent on custom unlocks and remove unlock delays if necessary -->
+{% for recipe_guid, feature_guid, unlock_guid, quest_guid in recipe_unlocks.values() %}
+  <ModOp Type="replace" GUID="{{ feature_guid }}" Path="/Values/Trigger/TriggerCondition">
+{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), recipe_guid)) | indent(4, true)).rstrip() }}
+  </ModOp>
+{% if (unlock_guid != 0) and (quest_guid != 0) %}
+  <ModOp Type="replace" GUID="{{ feature_guid }}" Path="/Values/Trigger/TriggerActions">
+    <TriggerActions>
+      <Item>
+        <TriggerAction>
+          <Template>ActionUnlockAsset</Template>
+          <Values>
+            <Action/>
+            <ActionUnlockAsset>
+              <UnlockAssets>
+                <Item>
+                  <Asset>{{ unlock_guid }}</Asset>
+                </Item>
+              </UnlockAssets>
+            </ActionUnlockAsset>
+          </Values>
+        </TriggerAction>
+      </Item>
+      <Item>
+        <TriggerAction>
+          <Template>ActionStartQuest</Template>
+          <Values>
+            <Action/>
+            <ActionStartQuest>
+              <Quest>{{ quest_guid }}</Quest>
+              <QuestSession>5000000</QuestSession>
+            </ActionStartQuest>
+          </Values>
+        </TriggerAction>
+      </Item>
+    </TriggerActions>
+  </ModOp>
+{% endif %}
+{% endfor %}
 
   <!-- Add all triggers -->
   <ModOp Type="addNextSibling" GUID="130248">

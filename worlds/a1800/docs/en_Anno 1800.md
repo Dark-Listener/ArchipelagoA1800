@@ -12,16 +12,16 @@ file in the download. See the setup page for details.
 
 ## What does randomization do to this game?
 
-In Anno 1800, the building and expedition unlocks are shuffled, causing buildings to be unlocked in a non-standard
-order. Frequently, luxury goods will be available later than usual. You might even have to import goods from other
-sessions that you'd usually have available on location!
+In Anno 1800, the building, expedition and certain recipe unlocks are shuffled, causing them to be unlocked in a
+non-standard order. Frequently, luxury goods will be available later than usual. You might even have to import goods
+from other sessions that you'd usually have available on location!
 
 Note: Ornaments are currently excluded.
 
 ## What's the goal?
 
-Your goal is to reach 5000 investors, 1500 obreros, 750 technicians and 7000 scholars at this stage of the Archipelago
-world. This is, of course, configurable.
+Your goal is to reach 5000 investors, 1500 obreros, 750 technicians, 7000 scholars and 4000 tourists at this stage of
+the Archipelago world. This is, of course, configurable.
 
 ## What are locations?
 
@@ -32,6 +32,10 @@ Additionally, each expedition that unlocks a new session is also a location chec
 randomizer will expect you to have at least Artisans before you must make your trip to "The Arctic" due to the
 difficulty of the expedition (Artisans unlock the Clipper).
 
+Certain recipe buildings also have location checks for their recipe unlocks (specifically Restaurant, Cafe, Bar and
+The Iron Tower). These have various interesting requirements and become available with the Tourist Season DLC.
+RNG-heavy recipe unlocks are excluded from having progression items.
+
 ## What about DLCs?
 
 The follwing DLCs are supported:
@@ -41,6 +45,7 @@ The follwing DLCs are supported:
 * Seat of Power
 * Bright Harvest
 * Land of Lions
+* Tourist Season
 
 Docklands will not be supported as it would render the randomizer pointless.
 
@@ -51,23 +56,26 @@ the docklands complex will unlock at 250 artisans with Docklands enabled.
 
 Currently, availability of institutions is guaranteed by the end of the population that usually unlocks the incidents.
 For example, a fire station is guaranteed before you need to reach workers as fires usually unlock at 150 farmers.
-Additionally, incidents can only occur once you unlocked the respective institution.
+Additionally, incidents can only occur once you unlocked the respective institution - which does not necessarily mean
+you have the materials to build said institution.
 
 ## What about NPCs?
 
 Currently, NPCs are not supported and ignored. This means you can get steel beams or other goods before the randomizer
 expects you to.
 
-## What about town hall items?
+## What about socketed items?
 
-Currently, townhall items are not supported and ignored. This means you can use alternate prouciton items to acquire
+Currently, socketed items are not supported and ignored. This means you can use alternate production items to acquire
 goods before the randomizer expects you to.
+
+There are exeptions for some specific recipe unlocks where the vanilla requirements for the items are assumed.
 
 ## The game shows (strange) unlock requirements. Why and what do they mean?
 
- Anno 1800 automatically shows the player how to unlock revealed but locked buildings. This is not preventable unless
- without breaking local (=serverless) play. It is planned to show these revealed buildings as proper hints to
- Archipelago at some point. Starnge requirements, like empty strings, "continue your journey", or populations from
- disabled DLCs occur when the building unlock is not located locally or at a non-standard locations.
+Anno 1800 automatically shows the player how to unlock revealed but locked buildings. This is not preventable without
+breaking local (=serverless) play. It is planned to show these revealed buildings as proper hints to Archipelago at
+some point. Strange requirements, like empty strings, "continue your journey", or populations from disabled DLCs occur
+when the building unlock is not located locally or at a non-standard locations.
 
- Similarly, some location names in Archipelago may still include names from disabled DLCs.
+Similarly, some location names in Archipelago may still include names from disabled DLCs.

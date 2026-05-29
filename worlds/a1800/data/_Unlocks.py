@@ -1624,13 +1624,13 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Restaurant: Stroggof Goulash", DLC.TOURIST_SEASON, Region.OW,
                 [132750, RECIPE_GUIDS["Recipe: Stroggof Goulash"][0]], [132750],
-                Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, 135069),
+                Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
                                Trigger.COUNTER_GOOD_IN_REGION("Corn", ALL_REGIONS, 1, Region.OW)),
                 set(), {"Tourists", "Restaurant (Blank)"}, {"Beef", "Red Peppers", "Corn"}, "Restaurant"),
 
     A1800Unlock("Restaurant: Fish and Frites", DLC.TOURIST_SEASON, Region.OW,
                 [133339, RECIPE_GUIDS["Recipe: Fish and Frites"][0]], [133339],
-                Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, 135069),
+                Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
                                Trigger.COUNTER("Orchard: Citrus", Region.NW, 1)),
                 set(), {"Tourists", "Restaurant (Blank)"}, {"Fish", "Potatoes", "Citrus"}, "Restaurant"),
 
@@ -1650,7 +1650,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Cafe: Eclair", DLC.TOURIST_SEASON, Region.OW,
                 [133347, RECIPE_GUIDS["Recipe: Eclair"][0]], [133347],
                 Trigger.LINEAR(
-                    Trigger.COUNTER("Cafe", Region.OW, 1, 133510),
+                    Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                     Trigger.QUEST_COMPLETE(
                         "Hidden quest: supply Tourists with any Cafe (5 min)",
                         134387,
@@ -1662,10 +1662,10 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Cafe: Palmier Biscuit", DLC.TOURIST_SEASON, Region.OW,
                 [133348, RECIPE_GUIDS["Recipe: Palmier Biscuit"][0]], [133348],
                 Trigger.LINEAR(
-                    Trigger.COUNTER("Cafe", Region.OW, 1, 133510),
+                    Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                     Trigger.ANY(
-                        Trigger.COUNTER("Zoo", Region.OW, 1, 101816),
-                        Trigger.COUNTER("Zoo", Region.OW, 1, 124109),
+                        Trigger.COUNTER("Zoo", Region.OW, 1, guid=101816),
+                        Trigger.COUNTER("Zoo", Region.OW, 1, guid=124109),
                         ap_location_name="Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)"
                     )
                 ),
@@ -1712,13 +1712,13 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Bar: Black Muscovy", DLC.TOURIST_SEASON, Region.OW,
                 [133342, RECIPE_GUIDS["Recipe: Black Muscovy"][0]], [133342],
-                Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, 133472),
+                Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, guid=133472),
                                Trigger.COUNTER("Members Club", Region.OW, 1)),
                 set(), {"Tourists", "Bar (Blank)"}, {"Coffee", "Rum", "Schnapps"}, "Bar"),
 
     A1800Unlock("Bar: Montmartre '75'", DLC.TOURIST_SEASON, Region.OW,
                 [133343, RECIPE_GUIDS["Recipe: Montmartre '75'"][0]], [133343],
-                Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, 133472),
+                Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, guid=133472),
                                Trigger.EVENT_ACTIVE("World's Fair: Exhibitions", Region.OW)),
                 set(), {"Tourists", "Bar (Blank)"}, {"Sugar", "Champagne", "Citrus"}, "Bar"),
 
@@ -1744,14 +1744,14 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("The Iron Tower: Brioche Royale", DLC.TOURIST_SEASON, Region.OW,
                 [133928, RECIPE_GUIDS["Recipe: Brioche Royale"][0]], [133928],
-                Trigger.COUNTER("The Iron Tower", Region.OW, 1, 134450),
+                Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                 set(), {"Tourists", "Electricity", "The Iron Tower (Blank)"},
                 {"Sausages", "Bread", "Beef", "Gold"}, "The Iron Tower"),
 
     A1800Unlock("The Iron Tower: Trifle Tower", DLC.TOURIST_SEASON, Region.OW,
                 [133930, RECIPE_GUIDS["Recipe: Trifle Tower"][0]], [133930],
                 Trigger.LINEAR(
-                    Trigger.COUNTER("The Iron Tower", Region.OW, 1, 134450),
+                    Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                     Trigger.QUEST_COMPLETE(
                         "Hidden quest: Supply Tourists with The Iron Tower (5 min)",
                         134314,
@@ -1764,7 +1764,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("The Iron Tower: Lady Marmelade", DLC.TOURIST_SEASON, Region.OW,
                 [133931, RECIPE_GUIDS["Recipe: Lady Marmelade"][0]], [133931],
                 Trigger.LINEAR(
-                    Trigger.COUNTER("The Iron Tower", Region.OW, 1, 134450),
+                    Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                     Trigger.ALL(
                         Trigger.COUNTER("Variety Theatre", Region.OW, 3),
                         Trigger.COUNTER("Chemical Plant: Lemonade", Region.OW, 1)
@@ -1794,21 +1794,21 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building, Factory
     A1800Unlock("Restaurant: Venison en Croute", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
                 [133340, RECIPE_GUIDS["Recipe: Venison en Croute"][0]], [133340],
-                Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, 135069),
-                               Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1, 114166,
+                Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
+                               Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1, guid=114166,
                                                ap_location_name="(Build 1 OW: Restaurant) THEN (Build 1 Boreas)")),
                 set(), {"Tourists", "Restaurant (Blank)"}, {"Flour", "Potatoes", "Caribou Meat"}, "Restaurant"),
 
     A1800Unlock("Cafe: Venison Tartare", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
                 [133349, RECIPE_GUIDS["Recipe: Venison Tartare"][0]], [133349],
-                Trigger.LINEAR(Trigger.COUNTER("Cafe", Region.OW, 1, 133510),
+                Trigger.LINEAR(Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                                Trigger.COUNTER("Post Office", Region.AR, 1)),
                 set(), {"Tourists", "Cafe (Blank)"}, {"Grapes", "Caribou Meat", "Citrus"}, "Cafe"),
 
     A1800Unlock("Bar: Glogg", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
                 [133345, RECIPE_GUIDS["Recipe: Glogg"][0]], [133345],
                 Trigger.LINEAR(
-                    Trigger.COUNTER("Bar", Region.OW, 1, 133472),
+                    Trigger.COUNTER("Bar", Region.OW, 1, guid=133472),
                     Trigger.COUNTER_EXPEDITION_SOLVED(
                         "Complete 1 expedition in the Arctic",
                         1,
@@ -1820,7 +1820,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("The Iron Tower: Age of Exploration", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
                 [133932, RECIPE_GUIDS["Recipe: Age of Exploration"][0]], [133932],
                 Trigger.LINEAR(
-                    Trigger.COUNTER("The Iron Tower", Region.OW, 1, 134450),
+                    Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                     Trigger.QUEST_COMPLETE(
                         "Hidden quest: Complete the set Polar Circle in a Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)",
                         134983,
@@ -1835,7 +1835,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Restaurant: Lobster Cheminee", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
                 [133341, RECIPE_GUIDS["Recipe: Lobster Cheminee"][0]], [133341],
                 Trigger.LINEAR(
-                    Trigger.COUNTER("Restaurant", Region.OW, 1, 135069),
+                    Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
                     Trigger.QUEST_COMPLETE(
                         "Hidden quest: Supply Scholars with Clay Pipes (5 min)",
                         133994,
@@ -1846,20 +1846,20 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Cafe: Banana Surprise", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
                 [133350, RECIPE_GUIDS["Recipe: Banana Surprise"][0]], [133350],
-                Trigger.LINEAR(Trigger.COUNTER("Cafe", Region.OW, 1, 133510),
+                Trigger.LINEAR(Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                                Trigger.COUNTER_GOOD_IN_REGION("Plantains", ALL_REGIONS, 1, Region.EN)),
                 set(), {"Tourists", "Cafe (Blank)"}, {"Goat Milk", "Plantains", "Cinnamon"}, "Cafe"),
 
     A1800Unlock("Bar: Enbesa Sunrise", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
                 [133346, RECIPE_GUIDS["Recipe: Enbesa Sunrise"][0]], [133346],
-                Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, 133472),
+                Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, guid=133472),
                                Trigger.POPULATION_HAPPINESS("Elders", Session.EN, 30, "Elder Residence")),
                 set(), {"Tourists", "Bar (Blank)"}, {"Hibiscus Petals", "Rum", "Spices"}, "Bar"),
 
     A1800Unlock("The Iron Tower: Homard Lit de Terroir", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
                 [133933, RECIPE_GUIDS["Recipe: Homard Lit de Terroir"][0]], [133933],
                 Trigger.LINEAR(
-                    Trigger.COUNTER("The Iron Tower", Region.OW, 1, 134450),
+                    Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                     Trigger.QUEST_COMPLETE(
                         "Hidden quest: Socket a Lobsterman in a Harbourmaster's Office in Enbesa",
                         134984,

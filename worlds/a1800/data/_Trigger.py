@@ -193,7 +193,7 @@ class Trigger:
         return trigger
 
     @classmethod
-    def POPULATION(cls, population_name: str, region: Region, amount: int, guid: int = 0) -> Self:
+    def POPULATION(cls, population_name: str, region: Region, amount: int, *, guid: int = 0) -> Self:
         trigger = cls(TriggerType.POPULATION)
         trigger.population_name = population_name
         trigger.region = region
@@ -203,7 +203,7 @@ class Trigger:
         return trigger
 
     @classmethod
-    def POPULATION_HAPPINESS(cls, population_name: str, session: Session, amount: int, unlock_name: str, guid: int = 0) -> Self:
+    def POPULATION_HAPPINESS(cls, population_name: str, session: Session, amount: int, unlock_name: str, *, guid: int = 0) -> Self:
         trigger = cls(TriggerType.POPULATION_HAPPINESS)
         trigger.population_name = population_name
         trigger.session = session
@@ -215,7 +215,7 @@ class Trigger:
         return trigger
 
     @classmethod
-    def UNLOCK(cls, unlock_name: str, region: Region, guid: int = 0) -> Self:
+    def UNLOCK(cls, unlock_name: str, region: Region, *, guid: int = 0) -> Self:
         trigger = cls(TriggerType.UNLOCK)
         trigger.unlock_name = unlock_name
         trigger.region = region
@@ -224,7 +224,7 @@ class Trigger:
         return trigger
 
     @classmethod
-    def COUNTER(cls, unlock_name: str, region: Region, amount: int, guid: int = 0, *, ap_location_name: str = "") -> Self:
+    def COUNTER(cls, unlock_name: str, region: Region, amount: int, *, guid: int = 0, ap_location_name: str = "") -> Self:
         trigger = cls(TriggerType.COUNTER)
         trigger.unlock_name = unlock_name
         trigger.region = region
@@ -235,7 +235,7 @@ class Trigger:
         return trigger
 
     @classmethod
-    def COUNTER_GOOD_IN_REGION(cls, product_name: str, product_region: Region, amount: int, region: Region, guid: int = 0, *, ap_location_name: str = "") -> Self:
+    def COUNTER_GOOD_IN_REGION(cls, product_name: str, product_region: Region, amount: int, region: Region, *, guid: int = 0, ap_location_name: str = "") -> Self:
         trigger = cls(TriggerType.COUNTER_GOOD_IN_REGION)
         trigger.product_name = product_name
         trigger.product_region = product_region
@@ -268,7 +268,7 @@ class Trigger:
         return trigger
 
     @classmethod
-    def EVENT_ACTIVE(cls, product_name: str, region: Region, guid: int = 0, *, ap_location_name: str = "") -> Self:
+    def EVENT_ACTIVE(cls, product_name: str, region: Region, *, guid: int = 0, ap_location_name: str = "") -> Self:
         trigger = cls(TriggerType.EVENT_ACTIVE)
         trigger.product_name = product_name
         trigger.region = region
@@ -278,7 +278,7 @@ class Trigger:
         return trigger
 
     @classmethod
-    def OBJECT_POSITION(cls, unlock_name: str, region: Region, distance: int, target_name: str, guid: int = 0, target_guid: int = 0, *, ap_location_name: str = "") -> Self:
+    def OBJECT_POSITION(cls, unlock_name: str, region: Region, distance: int, target_name: str, *, guid: int = 0, target_guid: int = 0, ap_location_name: str = "") -> Self:
         trigger = cls(TriggerType.EVENT_ACTIVE)
         trigger.unlock_name = unlock_name
         trigger.region = region

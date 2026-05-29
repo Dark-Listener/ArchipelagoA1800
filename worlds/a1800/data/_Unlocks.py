@@ -1137,10 +1137,10 @@ _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     ### SEAT_OF_POWER                                                                                            ###
     ################################################################################################################
-    # Building
+    # Building, Factory
     A1800Unlock("Palace", DLC.SEAT_OF_POWER, Region.OW, 249947, 249947,
                 Trigger.POPULATION("Investors", Region.OW, 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, output="Palace"),
 
     ################################################################################################################
     ### BRIGHT_HARVEST                                                                                           ###
@@ -1893,8 +1893,8 @@ _a1800_unlocks: list[A1800Unlock] = [
 class _Unlocks:
     _initialized: bool = False
 
-    def init(self, enabled_dlcs: DLC) -> None:
-        self._apply_options(enabled_dlcs)
+    def init(self, enabled_dlcs: DLC, enable_docklands_logic: bool) -> None:
+        self._apply_options(enabled_dlcs, enable_docklands_logic)
 
         for a1800_unlock in self._a1800_unlocks:
             a1800_unlock.post_init()
@@ -2039,7 +2039,7 @@ class _Unlocks:
             if missing_lifestyles:
                 unlock.lifestyle -= missing_lifestyles
 
-    def _apply_options(self, enabled_dlcs: DLC) -> None:
+    def _apply_options(self, enabled_dlcs: DLC, enable_docklands_logic: bool) -> None:
         global _a1800_unlocks
 
         self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if unlock.dlc in enabled_dlcs]
@@ -2050,6 +2050,11 @@ class _Unlocks:
                     unlock.maintenance.add("Explorers")
                     unlock.output.add(("Local Mail", Region.AR))
                     break
+
+        if DLC.DOCKLANDS in enabled_dlcs and not enable_docklands_logic:
+            for unlock in self._a1800_unlocks:
+                if unlock.name == "Docklands Main Wharf" and unlock.region == Region.OW:
+                    unlock.output = {("Docklands", Region.OW)}
 
         self._clean_dlc_references(enabled_dlcs)
 

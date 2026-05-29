@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from itertools import groupby
-from Options import OptionCounter, OptionGroup, OptionSet, PerGameCommonOptions
+from Options import OptionCounter, OptionGroup, OptionSet, PerGameCommonOptions, Toggle
 from .data._Products import _a1800_populations  # pyright: ignore[reportPrivateUsage]
 from .data import DLC
 
@@ -38,6 +38,16 @@ _default_required_population_amount = {
 }
 
 
+class EnableDocklandsLogicOption(Toggle):
+    """
+    Per default, docklands outputs will not be included in the randomizer logic. Turn this on to include them.
+    Leads to short and simple randomizers since docklands can supply pretty much everything before skyscrapers and
+    artistas.
+    Has no effect unless the Docklands DLC is enabled.
+    """
+    display_name = "Enable Docklands Logic"
+
+
 class RequiredPopulationAmountsOption(OptionCounter):
     """
     This many citizens of each population are required to win the randomizer.
@@ -55,6 +65,7 @@ class RequiredPopulationAmountsOption(OptionCounter):
 class A1800Options(PerGameCommonOptions):
     # Game Options (=> ungrouped)
     enabled_dlcs: EnabledDLCsOption
+    enable_docklands_logic: EnableDocklandsLogicOption
 
     # Victory Conditions
     required_population_amounts: RequiredPopulationAmountsOption

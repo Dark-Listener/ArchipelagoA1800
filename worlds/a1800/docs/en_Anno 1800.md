@@ -48,7 +48,9 @@ The follwing DLCs are supported:
 * Docklands
 * Tourist Season
 
-Docklands is strongly discouraged as it would render the randomizer pointless.
+Docklands is strongly discouraged as it would render the randomizer pointless. There is an option to toggle its logic
+(default: no Docklands logic), that allows you to add it to your game without the randomizer intending you to get half
+of your goods via Docklands.
 
 If you enable unsupported DLCs in your savegame, the buildings will unlock as they would in without mods. For example,
 the docklands complex will unlock at 250 artisans with Docklands enabled.

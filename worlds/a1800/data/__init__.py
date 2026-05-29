@@ -36,7 +36,8 @@ class _A1800Data:
 
         CHAINS.init(self._enabled_dlcs)
         PRODUCTS.init(self._enabled_dlcs)
-        UNLOCKS.init(self._enabled_dlcs)  # Chains, products must init before unlocks
+        # Chains, products must init before unlocks
+        UNLOCKS.init(self._enabled_dlcs, bool(options.enable_docklands_logic))
         EVENT_LOCATIONS.init()  # Unlocks must init before event locations
         EVENT_ITEMS.init()  # Products, event locations must init before event items
         REGIONS.init(self._enabled_dlcs)  # Event items, products, unlocks must init before regions

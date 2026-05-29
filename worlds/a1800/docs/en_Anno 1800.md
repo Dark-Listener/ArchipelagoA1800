@@ -45,9 +45,10 @@ The follwing DLCs are supported:
 * Seat of Power
 * Bright Harvest
 * Land of Lions
+* Docklands
 * Tourist Season
 
-Docklands will not be supported as it would render the randomizer pointless.
+Docklands is strongly discouraged as it would render the randomizer pointless.
 
 If you enable unsupported DLCs in your savegame, the buildings will unlock as they would in without mods. For example,
 the docklands complex will unlock at 250 artisans with Docklands enabled.

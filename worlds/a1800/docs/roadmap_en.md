@@ -32,4 +32,4 @@ obreros if 1 was chosen as victory condition
 * Add traps (e.g. cause incidents)
 * Require Elders to be fully supplied before unlocking Scholars? Otherwise most of Enbesa can be skipped - see 128474
 * Instead of grouped triggers and unlockable assets, use feature unlocks?
-* Docklands DLC? Somehow all the unlocks would have to be redone
+* Find a way to make Docklands DLC work meaningfully? Somehow all the unlocks would have to be redone

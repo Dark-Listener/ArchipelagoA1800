@@ -14,6 +14,9 @@ class EnabledDLCsOption(OptionSet):
     List of enabled DLCs. Per default, all implemented DLCs are enabled.
     It's recommended to match this list when creating the game.
     Duplicates will be ignored.
+    Valid keys: SUNKEN_TREASURES, BOTANICA, THE_PASSAGE, SEAT_OF_POWER, BRIGHT_HARVEST, LAND_OF_LIONS,
+    DOCKLANDS, TOURIST_SEASON
+    Enabling docklands is strongly discouraged unless you want the option to skip most of the randomizer.
     """
     display_name = "Enabled DLCs"
     valid_keys = _default_enabled_dlcs

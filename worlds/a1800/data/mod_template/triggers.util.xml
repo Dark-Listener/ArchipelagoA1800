@@ -192,6 +192,29 @@
     </ConditionMonumentEventsActive>
   </Values>
 </TriggerCondition>
+{% elif trigger_data.trigger_type == TriggerType.OBJECT_POSITION %}
+<TriggerCondition>
+  <Template>ConditionObjectPosition</Template>
+  <Values>
+    <Condition/>
+    <ConditionPropsSessionSettings/>
+    <ConditionObjectPosition>
+      <Radius>{{ trigger_data.distance }}</Radius>
+      <ExpectObjectExists>0</ExpectObjectExists>
+      <ExpectTargetExists>0</ExpectTargetExists>
+    </ConditionObjectPosition>
+    <ObjectFilter>
+      <ObjectGUID>{{ trigger_data.guid }}</ObjectGUID>
+      <CheckParticipantID>1</CheckParticipantID>
+      <CheckProcessingParticipantID>1</CheckProcessingParticipantID>
+    </ObjectFilter>
+    <ObjectTargetFilter>
+      <TargetGUID>{{ trigger_data.target_guid }}</TargetGUID>
+      <TargetCheckProcessingParticipantID>1</TargetCheckProcessingParticipantID>
+    </ObjectTargetFilter>
+    <ConditionPropsNegatable/>
+  </Values>
+</TriggerCondition>
 {% elif trigger_data.trigger_type == TriggerType.ACTIVE_DLC %}
 <TriggerCondition>
   <Template>ConditionIsDLCActive</Template>

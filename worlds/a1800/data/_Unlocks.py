@@ -1955,6 +1955,23 @@ class _Unlocks:
             assert len(references) == 1, \
                 f"Trigger references multiple populations {[reference.name for reference in references]}"
             trigger.guid = references[0].guid
+        elif (trigger.trigger_type == TriggerType.OBJECT_POSITION) and trigger.guid == 0:
+            references = [unlock for unlock in self._a1800_unlocks
+                          if unlock.name == trigger.unlock_name and trigger.region in unlock.region]
+            assert references, f"Trigger references unknown unlock {trigger.unlock_name}"
+            assert len(references) == 1, \
+                f"Trigger references multiple unlocks {[reference.name for reference in references]}"
+            assert references[0].unlock_guids, \
+                f"Trigger references unlock {references[0].name}, which has no guids"
+            trigger.guid = references[0].unlock_guids[0]
+            target_references = [unlock for unlock in self._a1800_unlocks
+                                 if unlock.name == trigger.target_name and trigger.region in unlock.region]
+            assert target_references, f"Trigger references unknown target {trigger.target_name}"
+            assert len(target_references) == 1, \
+                f"Trigger references multiple targets {[target_reference.name for target_reference in target_references]}"
+            assert target_references[0].unlock_guids, \
+                f"Trigger references target {target_references[0].name}, which has no guids"
+            trigger.target_guid = target_references[0].unlock_guids[0]
 
     def _clean_dlc_trigger(self, enabled_dlcs: DLC, trigger: Trigger) -> Trigger:
         if trigger.trigger_type in [TriggerType.ALL, TriggerType.LINEAR]:
@@ -1998,6 +2015,10 @@ class _Unlocks:
                  (len([unlock for unlock in self._a1800_unlocks if unlock.name == name and region in unlock.region]) == 0)
                     for name, region in trigger.requirements]
             ) else trigger
+        elif trigger.trigger_type == TriggerType.OBJECT_POSITION:
+            return Trigger.FALSE() if not len([unlock for unlock in self._a1800_unlocks if unlock.name == trigger.unlock_name
+                                               and trigger.region in unlock.region]) or not len([unlock for unlock in self._a1800_unlocks if unlock.name == trigger.target_name
+                                                                                                 and trigger.region in unlock.region]) else trigger
         else:
             return trigger
 

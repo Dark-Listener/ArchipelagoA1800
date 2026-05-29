@@ -194,6 +194,7 @@ class TriggerType(IntEnum):
     UNLOCK = auto()
     QUEST_COMPLETE = auto()
     EVENT_ACTIVE = auto()
+    OBJECT_POSITION = auto()
     ACTIVE_DLC = auto()
     ANY = auto()
     ALL = auto()

@@ -11,12 +11,15 @@ class Trigger:
     triggers: list[Self]
     session: Session
     guid: int
+    target_guid: int
     guids: set[int]
     population_name: str
     product_name: str
     product_region: Region
     unlock_name: str
+    target_name: str
     amount: int
+    distance: int
     requirements: set[tuple[str, Region]]
     dlc: DLC
 
@@ -75,6 +78,9 @@ class Trigger:
                 region_prefix = f"{self.region.name}: " if self.region and self.region != ALL_REGIONS else ""
                 out_name = f"Have a "\
                     f"{region_prefix}{self.product_name[:-1] if self.product_name.endswith('s') else self.product_name} active"
+            case TriggerType.OBJECT_POSITION:
+                region_prefix = f"{self.region.name}: " if self.region and self.region != ALL_REGIONS else ""
+                out_name = f"Build a {region_prefix}{self.target_name} within {self.distance} squares of a {region_prefix}{self.unlock_name}"
             case TriggerType.ACTIVE_DLC:
                 if self.dlc in DLC.__members__.values():
                     out_name = f"DLC active: {self.dlc.name}"
@@ -125,6 +131,8 @@ class Trigger:
                 return self.trigger_type, self.guid
             case TriggerType.EVENT_ACTIVE:
                 return self.trigger_type, self.guid
+            case TriggerType.OBJECT_POSITION:
+                return self.trigger_type, self.guid, self.target_guid, self.distance
             case TriggerType.ACTIVE_DLC:
                 return self.trigger_type, self.dlc.value
 
@@ -265,6 +273,19 @@ class Trigger:
         trigger.product_name = product_name
         trigger.region = region
         trigger.guid = guid
+        trigger.ap_location_name = ap_location_name
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def OBJECT_POSITION(cls, unlock_name: str, region: Region, distance: int, target_name: str, guid: int = 0, target_guid: int = 0, *, ap_location_name: str = "") -> Self:
+        trigger = cls(TriggerType.EVENT_ACTIVE)
+        trigger.unlock_name = unlock_name
+        trigger.region = region
+        trigger.distance = distance
+        trigger.target_name = target_name
+        trigger.guid = guid
+        trigger.target_guid = target_guid
         trigger.ap_location_name = ap_location_name
         trigger.post_init()
         return trigger

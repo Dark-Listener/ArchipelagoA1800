@@ -51,6 +51,13 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
                 return _create_rule({A1800Requirement(name, region) for name, region in data.requirements})
             case TriggerType.EVENT_ACTIVE:
                 return _create_rule({A1800Requirement(data.product_name, data.region)})
+            case TriggerType.OBJECT_POSITION:
+                unlock = next(A1800_DATA.find_unlocks(data.unlock_name, data.region))
+                target = next(A1800_DATA.find_unlocks(data.target_name, data.region))
+                return _create_rule(
+                    {A1800Requirement(unlock.name, unlock.region), A1800Requirement(target.name, unlock.region)}
+                    | {A1800Requirement(name, unlock.region) for name in unlock.cost | target.cost}
+                )
             case TriggerType.ACTIVE_DLC:
                 assert False, "TriggerType ACTIVE_DLC should never be used for rules"
     else:

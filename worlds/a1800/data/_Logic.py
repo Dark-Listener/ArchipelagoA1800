@@ -96,6 +96,11 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
             return {A1800Requirement(name, region) for name, region in trigger.requirements}
         case TriggerType.EVENT_ACTIVE:
             return {A1800Requirement(trigger.product_name, trigger.region)}
+        case TriggerType.OBJECT_POSITION:
+            unlock = next(UNLOCKS.find_unlocks(trigger.unlock_name, trigger.region))
+            target = next(UNLOCKS.find_unlocks(trigger.target_name, trigger.region))
+            return {A1800Requirement(unlock.name, unlock.region), A1800Requirement(target.name, unlock.region)} \
+                | {A1800Requirement(name, unlock.region) for name in unlock.cost | target.cost}
         case TriggerType.ACTIVE_DLC:
             assert False, "TriggerType ACTIVE_DLC should never be used for unlocks"
 

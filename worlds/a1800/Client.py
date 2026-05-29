@@ -40,7 +40,7 @@ class A1800Context(CommonContext):
 
         if not self.auth:
             unkown_identity_exception = Exception("Cannot connect to a server with unknown own identity, "
-                                                  "please connect to Anno 1800 t least once first.")
+                                                  "please connect to Anno 1800 before connecting to the server.")
             if self.rcon_mmap_client and self.rcon_mmap_client.connected:
                 try:
                     await get_info(self)  # retrieve current auth code
@@ -118,7 +118,8 @@ async def a1800_game_watcher(ctx: A1800Context):
                     await get_info(ctx)
                 if not ctx.rcon_mmap_client.connected or not ctx.auth:
                     ctx.rcon_mmap_client.connected = False
-                    logger.info("Couldn't connect to Anno 1800. Please unpause and/or load into an Anno 1800 game to reconnect.")
+                    logger.info(
+                        "Couldn't connect to Anno 1800. Please unpause and/or load into an Anno 1800 savegame to reconnect.")
                     logger.info("Retrying in 5s...")
                     next_connect = time.perf_counter() + 5
                 else:
@@ -180,7 +181,7 @@ async def a1800_spinup(ctx: A1800Context) -> bool:
                     ctx.rcon_mmap_client = RCONMMapClient(ctx.mmap_file_path)
                 except FileNotFoundError:
                     logger.info(f"FileNotFound: {ctx.mmap_file_path}")
-                    logger.info("Couldn't connect to Anno 1800. Please load into an Anno 1800 game and unpause to connect.")
+                    logger.info("Couldn't connect to Anno 1800. Please load into an Anno 1800 savegame and unpause to connect.")
                     logger.info("Retrying in 5s...")
                     next_connect = time.perf_counter() + 5
                     pass
@@ -192,7 +193,7 @@ async def a1800_spinup(ctx: A1800Context) -> bool:
                 if not ctx.rcon_mmap_client.connected or not ctx.auth:
                     ctx.rcon_mmap_client.connected = False
                     ctx.auth = None
-                    logger.info("Couldn't connect to Anno 1800. Please load into an Anno 1800 game and unpause to connect.")
+                    logger.info("Couldn't connect to Anno 1800. Please load into an Anno 1800 savegame and unpause to connect.")
                     logger.info("Retrying in 5s...")
                     next_connect = time.perf_counter() + 5
                 else:

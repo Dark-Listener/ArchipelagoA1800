@@ -28,7 +28,7 @@ def _get_victory_condition_info(
         # f"Lifestyle: {'Yes' if lifestyle else 'No'})"
 
         victory_required_items.add(A1800Requirement(population.name, population.region))
-        victory_triggers.append(Trigger.POPULATION(population.name, population.region, amount))
+        victory_triggers.append(Trigger.POPULATION(population.name, population.region, amount, guid=population.guid))
         victory_dlcs |= population.dlc
 
         residence = next(
@@ -50,13 +50,16 @@ def _get_victory_condition_info(
     else:
         victory_trigger = Trigger.ALL(*victory_triggers)
 
+    if victory_dlcs != DLC.VANILLA and DLC.VANILLA in victory_dlcs:
+        victory_dlcs ^= DLC.VANILLA
+
     return victory_event_location_name, victory_required_items, victory_trigger, victory_dlcs
 
 
 def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requirement]]:
     match(trigger.trigger_type):
         case TriggerType.TRUE:
-            return set[A1800Requirement]()
+            return set()
         case TriggerType.FALSE:
             assert False, "TriggerType False should never be used for unlocks"
         case TriggerType.ALL:
@@ -69,16 +72,29 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
             return SESSIONS.find_session(trigger.session).requirements
         case TriggerType.POPULATION:
             return {A1800Requirement(trigger.population_name, trigger.region)}
+        case TriggerType.POPULATION_HAPPINESS:
+            populations = list(UNLOCKS.find_unlocks(trigger.unlock_name, trigger.region))
+            assert len(populations) == 1, \
+                f"Trigger {trigger.trigger_type.name} {trigger.amount} {trigger.product_name} has 0 or multiple "\
+                "population residences"
+            population = populations[0]
+            return {A1800Requirement(trigger.population_name, trigger.region)} | {A1800Requirement(name, population.region) for name in population.luxury}
         case TriggerType.COUNTER:
-            return {A1800Requirement(trigger.product_name, trigger.region)}
+            return {A1800Requirement(trigger.unlock_name, trigger.region), A1800Requirement(trigger.product_name, trigger.region)}
         case TriggerType.COUNTER_GOOD_IN_REGION:
             a1800_region = REGIONS.find_region(trigger.region)
             assert a1800_region, \
                 f"Trigger {trigger.trigger_type.name} {trigger.amount} {trigger.product_name} in {trigger.region.name} "\
                 f"has 0 or multiple regions"
             return {A1800Requirement(trigger.product_name, trigger.product_region)} | a1800_region.requirements
+        case TriggerType.COUNTER_EXPEDITION_SOLVED:
+            return {A1800Requirement(name, region) for name, region in trigger.requirements}
         case TriggerType.UNLOCK:
             return {A1800Requirement(trigger.unlock_name, trigger.region, type=RequirementType.UNLOCK)}
+        case TriggerType.QUEST_COMPLETE:
+            return {A1800Requirement(name, region) for name, region in trigger.requirements}
+        case TriggerType.EVENT_ACTIVE:
+            return {A1800Requirement(trigger.product_name, trigger.region)}
         case TriggerType.ACTIVE_DLC:
             assert False, "TriggerType ACTIVE_DLC should never be used for unlocks"
 

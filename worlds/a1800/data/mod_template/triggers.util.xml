@@ -103,6 +103,21 @@
     </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>
+{% elif trigger_data.trigger_type == TriggerType.POPULATION_HAPPINESS %}
+<TriggerCondition>
+  <Template>ConditionPlayerCounter</Template>
+  <Values>
+    <Condition />
+      <ConditionPlayerCounter>
+        <PlayerCounter>PopulationHappinessByLevel</PlayerCounter>
+        <Context>{{ trigger_data.guid }}</Context>
+        <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+        <CounterScope>Session</CounterScope>
+        <CounterScopeUseCurrentContext>0</CounterScopeUseCurrentContext>
+        <CounterScopeContext>{{ trigger_data.session.guid }}</CounterScopeContext>
+      </ConditionPlayerCounter>
+  </Values>
+</TriggerCondition>
 {% elif trigger_data.trigger_type == TriggerType.UNLOCK %}
 <TriggerCondition>
   <Template>ConditionUnlocked</Template>
@@ -140,7 +155,44 @@
     </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.DLC %}
+{% elif trigger_data.trigger_type == TriggerType.COUNTER_EXPEDITION_SOLVED %}
+<TriggerCondition>
+  <Template>ConditionPlayerCounter</Template>
+  <Values>
+    <Condition/>
+    <ConditionPlayerCounter>
+      <PlayerCounter>ExpeditionSolved</PlayerCounter>
+      <Context>{{ trigger_data.guid }}</Context>
+      <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+    </ConditionPlayerCounter>
+  </Values>
+</TriggerCondition>
+{% elif trigger_data.trigger_type == TriggerType.QUEST_COMPLETE %}
+<TriggerCondition>
+  <Template>ConditionQuestState</Template>
+  <Values>
+    <Condition/>
+    <ConditionQuestState>
+      <ConditionQuestStateStates>Reached</ConditionQuestStateStates>
+      <ConditionQuestStateQuestGUID>{{ trigger_data.guid }}</ConditionQuestStateQuestGUID>
+    </ConditionQuestState>
+  </Values>
+</TriggerCondition>
+{% elif trigger_data.trigger_type == TriggerType.EVENT_ACTIVE %}
+<TriggerCondition>
+  <Template>ConditionMonumentEventActive</Template>
+  <Values>
+    <Condition/>
+    <ConditionMonumentEventsActive>
+      <MonumentEventsActive>
+        <Item>
+          <MonumentEventGUID>{{ trigger_data.guid }}</MonumentEventGUID>
+        </Item>
+      </MonumentEventsActive>
+    </ConditionMonumentEventsActive>
+  </Values>
+</TriggerCondition>
+{% elif trigger_data.trigger_type == TriggerType.ACTIVE_DLC %}
 <TriggerCondition>
   <Template>ConditionIsDLCActive</Template>
   <Values>
@@ -161,7 +213,7 @@
 {% endmacro %}
 
 {% macro generate_sub_triggers(TriggerType, trigger_data) %}
-{% if trigger_data.trigger_type == TriggerType.ALL or trigger_data.trigger_type == TriggerType.ANY or trigger_data.trigger_type == TriggerType.LINEAR %}
+{% if trigger_data.triggers|length > 0 and trigger_data.trigger_type == TriggerType.ALL or trigger_data.trigger_type == TriggerType.ANY or trigger_data.trigger_type == TriggerType.LINEAR %}
 <SubTriggers>
 {% for trigger in trigger_data.triggers %}
   <Item>
@@ -169,9 +221,9 @@
       <Template>AutoCreateTrigger</Template>
       <Values>
         <Trigger>
-          {{ generate_trigger_condition(TriggerType, trigger) | indent(10) }}
-          {{ generate_sub_triggers(TriggerType, trigger) | indent(10) }}
-        </Trigger>
+{{(       generate_trigger_condition(TriggerType, trigger) | indent(10, true)).rstrip(" ") -}}
+{{(       generate_sub_triggers(TriggerType, trigger)      | indent(10, true)).rstrip(" ") -}}
+{{     "</Trigger>"                                        | indent(8, true)                }}
       </Values>
     </SubTrigger>
   </Item>
@@ -189,10 +241,10 @@
       <Name>{{ trigger_data.ap_location_name }}</Name>
     </Standard>
     <Trigger>
-      {{ generate_trigger_condition(TriggerType, trigger_data) | indent(6) }}
-      {{ generate_trigger_actions(has_unlocks, has_unhides, location_data) | indent(6) }}
-      {{ generate_sub_triggers(TriggerType, trigger_data) | indent(6) }}
-      <ResetTrigger>
+{{(   generate_trigger_condition(TriggerType, trigger_data)             | indent(6, true)).rstrip(" ") -}}
+{{(   generate_trigger_actions(has_unlocks, has_unhides, location_data) | indent(6, true)).rstrip(" ") -}}
+{{(   generate_sub_triggers(TriggerType, trigger_data)                  | indent(6, true)).rstrip(" ") -}}
+{{   "<ResetTrigger>"                                                   | indent(6, true)               }}
         <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
         <Values>
           <EmptyAutoCreateValue/>
@@ -203,5 +255,4 @@
       <UsedBySecondParties>0</UsedBySecondParties>
     </TriggerSetup>
   </Values>
-</Asset>
-{% endmacro %}
+</Asset>{% endmacro %}

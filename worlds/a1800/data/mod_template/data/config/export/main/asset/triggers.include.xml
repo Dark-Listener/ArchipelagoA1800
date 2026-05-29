@@ -9,8 +9,7 @@
     </Standard>
     <Locked/>
   </Values>
-</Asset>
-{% endmacro %}
+</Asset>{% endmacro %}
   <ModOp Type="add" GUID="1500004636" Path="Values/Trigger/ResetTrigger/Values/Trigger/TriggerActions">
     <Item>
       <TriggerAction>
@@ -27,74 +26,72 @@
 
   <!-- Removals don't have to care about DLCs, just remove everything -->
 {% for guid in lock_guid_list %}
-  <ModOp Type="remove" Path="//ActionUnlockAsset/UnlockAssets/Item[Asset='{{ guid }}']" />
+  <ModOp Type="remove" Path="//ActionUnlockAsset/UnlockAssets/Item[Asset='{{ guid }}']" Condition="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" />
   <ModOp Type="remove" Path="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" Condition="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" />
 {% endfor %}
+
   <!-- Remove palace ministry unhide at 1 investor -->
   <ModOp Type="remove" GUID="130295" Path="/Values/Trigger/TriggerActions/Item/TriggerAction/Values//ActionUnlockAsset/UnhideAssets/Item[Asset='269602']" />
 
   <!-- Add all unlockable assets-->
   <ModOp Type="addNextSibling" GUID="105568">
 {% for name, guid in expedition_unlocks.items() %}
-    {{ generate_unlockable_asset(guid, name) | indent(4) }}
+{{  generate_unlockable_asset(guid, name) | indent(4, true) }}
 {% endfor %}
 {% for _, (_, location_data) in trigger_to_location_data.items() %}
 {% for guid, location, _, _ in location_data %}
-    {{ generate_unlockable_asset(guid, "Unlock: " + location.name) | indent(4) }}
+{{  generate_unlockable_asset(guid, "Unlock: " + location.name) | indent(4, true) }}
 {% endfor %}
 {% endfor %}
-    {{ generate_unlockable_asset(victory_trigger_data[0][0], "Victory Condition") | indent(4) }}
+{{  generate_unlockable_asset(victory_trigger_data[0][0], "Victory Condition") | indent(4, true) }}
   </ModOp>
 
 {% from 'triggers.util.xml' import generate_trigger_asset, generate_trigger_condition %}
-
   <!-- Make expedition unlocks dependent on custom unlocks -->
   <ModOp Type="replace" GUID="140885" Path="/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: New World"])) | indent(4) }}
+{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: New World"])) | indent(4, true)).rstrip() }}
   </ModOp>
   <ModOp Type="replace" GUID="113818" Path="/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: Cape Trelawney"])) | indent(4) }}
+{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: Cape Trelawney"])) | indent(4, true)).rstrip() }}
   </ModOp>
   <ModOp Type="remove" GUID="113818" Path="Values/Trigger/SubTriggers/Item[SubTrigger/Values/Trigger/TriggerCondition/Template='ConditionTimer']" />
   <ModOp Type="replace" GUID="114115" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger">
     <Trigger>
-      {{ generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: The Arctic"])) | indent(6) }}
+{{(   generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: The Arctic"])) | indent(6, true)).rstrip() }}
     </Trigger>
   </ModOp>
   <ModOp Type="replace" GUID="119863" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger">
     <Trigger>
-      {{ generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: Enbesa"])) | indent(6) }}
+{{(   generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: Enbesa"])) | indent(6, true)).rstrip() }}
     </Trigger>
   </ModOp>
 
   <!-- Remove timers from silo and tractor newspapers and make tractor newspaper independent from silos -->
   <ModOp Type="remove" GUID="270008" Path="Values/Trigger/SubTriggers" />
   <ModOp Type="replace" GUID="269865" Path="/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger.TRUE()) | indent(4) }}
+{{( generate_trigger_condition(TriggerType, Trigger.TRUE()) | indent(4, true)).rstrip() }}
   </ModOp>
   <ModOp Type="remove" GUID="269865" Path="Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/SubTriggers" />
   <ModOp Type="replace" GUID="269865" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/TriggerCondition">
-    {{ generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), 269832)) | indent(4) }}
+{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), 269832)) | indent(4, true)).rstrip() }}
       </ModOp>
 
   <!-- Add all triggers -->
   <ModOp Type="addNextSibling" GUID="130248">
     <!-- Grant start items -->
-{%  if start_trigger_data[0] != 0 %}
-    {{ generate_trigger_asset(TriggerType, start_trigger_guid, start_trigger, True, False, start_trigger_data) | indent(4) }}
-{%  endif %}
-
+{{  generate_trigger_asset(TriggerType, start_trigger_guid, start_trigger, True, False, start_trigger_data) | indent(4, true) }}
 {%  if DLC.SEAT_OF_POWER in enabled_dlcs %}
+
     <!-- Unhide palace ministry with palace unlock -->
-    {{ generate_trigger_asset(TriggerType, palace_ministry_unhide_guid, palace_ministry_unhide_trigger, False, True, palace_ministry_unhide_trigger_data) | indent(4) }}
+{{  generate_trigger_asset(TriggerType, palace_ministry_unhide_guid, palace_ministry_unhide_trigger, False, True, palace_ministry_unhide_trigger_data) | indent(4, true) }}
 {%  endif %}
 
     <!-- Unlock triggers -->
 {%  for trigger_guid, (trigger_data, location_data) in trigger_to_location_data.items() %}
-    {{ generate_trigger_asset(TriggerType, trigger_guid, trigger_data, True, False, location_data) | indent(4) }}
+{{  generate_trigger_asset(TriggerType, trigger_guid, trigger_data, True, False, location_data) | indent(4, true) }}
 {%  endfor %}
 
     <!-- Victory condition trigger -->
-    {{ generate_trigger_asset(TriggerType, victory_trigger_guid, victory_trigger, True, False, victory_trigger_data) | indent(4) }}
+{{  generate_trigger_asset(TriggerType, victory_trigger_guid, victory_trigger, True, False, victory_trigger_data) | indent(4, true) }}
   </ModOp>
 </ModOps>

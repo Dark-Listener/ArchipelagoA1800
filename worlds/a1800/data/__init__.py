@@ -59,8 +59,14 @@ class _A1800Data:
     def find_populations(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Product]:
         return PRODUCTS.find_populations(name, region)
 
+    def find_region(self, region: Region) -> Optional[A1800Region]:
+        return REGIONS.find_region(region)
+
     def find_session(self, session: Session) -> A1800Session:
         return SESSIONS.find_session(session)
+
+    def find_unlocks(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Unlock]:
+        return UNLOCKS.find_unlocks(name, region)
 
     def get_enabled_dlcs(self) -> DLC:
         return self._enabled_dlcs

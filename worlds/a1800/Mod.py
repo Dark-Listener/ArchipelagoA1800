@@ -21,6 +21,8 @@ if TYPE_CHECKING:
 def _get_trigger_with_dlc(trigger: Trigger, trigger_dlc: DLC) -> Trigger:
     if trigger_dlc == DLC.VANILLA:
         return trigger
+    elif DLC.VANILLA in trigger_dlc:
+        trigger_dlc ^= DLC.VANILLA
 
     new_trigger = Trigger.ACTIVE_DLC(trigger_dlc)
 

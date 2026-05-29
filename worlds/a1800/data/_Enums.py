@@ -187,9 +187,13 @@ _SESSION_REGIONS = {
 class TriggerType(IntEnum):
     SESSION_ENTER = auto()
     POPULATION = auto()
+    POPULATION_HAPPINESS = auto()
     COUNTER = auto()
     COUNTER_GOOD_IN_REGION = auto()
+    COUNTER_EXPEDITION_SOLVED = auto()
     UNLOCK = auto()
+    QUEST_COMPLETE = auto()
+    EVENT_ACTIVE = auto()
     ACTIVE_DLC = auto()
     ANY = auto()
     ALL = auto()

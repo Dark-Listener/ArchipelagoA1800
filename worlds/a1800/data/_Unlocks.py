@@ -1620,12 +1620,18 @@ class _Unlocks:
                 f"Trigger references unlock {references[0].name}, which has no guids"
             trigger.guid = references[0].unlock_guids[0]
         elif (trigger.trigger_type == TriggerType.COUNTER_GOOD_IN_REGION) and trigger.guid == 0:
-            references = list(PRODUCTS.find_products(trigger.product_name))
+            references = list(PRODUCTS.find_products(trigger.product_name, trigger.product_region))
             assert references, f"Trigger references unknown product {trigger.product_name}"
             assert len(references) == 1, \
                 f"Trigger references multiple products {[reference.name for reference in references]}"
             trigger.guid = references[0].guid
-        elif (trigger.trigger_type == TriggerType.POPULATION) and trigger.guid == 0:
+        elif (trigger.trigger_type == TriggerType.EVENT_ACTIVE) and trigger.guid == 0:
+            references = list(PRODUCTS.find_products(trigger.product_name, trigger.region))
+            assert references, f"Trigger references unknown product {trigger.product_name}"
+            assert len(references) == 1, \
+                f"Trigger references multiple products {[reference.name for reference in references]}"
+            trigger.guid = references[0].guid
+        elif (trigger.trigger_type in [TriggerType.POPULATION, TriggerType.POPULATION_HAPPINESS]) and trigger.guid == 0:
             references = list(PRODUCTS.find_products(trigger.population_name, trigger.region))
             assert references, f"Trigger references unknown population {trigger.population_name}"
             assert len(references) == 1, \
@@ -1657,7 +1663,7 @@ class _Unlocks:
                 return Trigger.TRUE()
             else:
                 return trigger
-        elif trigger.trigger_type == TriggerType.POPULATION:
+        elif trigger.trigger_type in [TriggerType.POPULATION, TriggerType.POPULATION_HAPPINESS]:
             return Trigger.FALSE() if not next(PRODUCTS.find_populations(trigger.population_name, trigger.region), None) else trigger
         elif trigger.trigger_type == TriggerType.UNLOCK:
             return Trigger.FALSE() if not len([unlock for unlock in self._a1800_unlocks if unlock.name == trigger.unlock_name
@@ -1669,6 +1675,15 @@ class _Unlocks:
         elif trigger.trigger_type == TriggerType.COUNTER_GOOD_IN_REGION:
             return Trigger.FALSE() if not next(
                 PRODUCTS.find_products(trigger.product_name, trigger.product_region), None) else trigger
+        elif trigger.trigger_type == TriggerType.EVENT_ACTIVE:
+            return Trigger.FALSE() if not next(
+                PRODUCTS.find_products(trigger.product_name, trigger.region), None) else trigger
+        elif trigger.trigger_type in [TriggerType.COUNTER_EXPEDITION_SOLVED, TriggerType.QUEST_COMPLETE]:
+            return Trigger.FALSE() if any(
+                [not next(PRODUCTS.find_products(name, region), None) and
+                 (len([unlock for unlock in self._a1800_unlocks if unlock.name == name and region in unlock.region]) == 0)
+                    for name, region in trigger.requirements]
+            ) else trigger
         else:
             return trigger
 

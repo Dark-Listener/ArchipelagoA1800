@@ -83,7 +83,7 @@ class _Sessions:
                 return Trigger.TRUE()
             else:
                 return trigger
-        elif trigger.trigger_type == TriggerType.SESSION_ENTER:
+        elif trigger.trigger_type in [TriggerType.SESSION_ENTER, TriggerType.POPULATION_HAPPINESS]:
             return Trigger.FALSE() if not trigger.session in self._a1800_sessions else trigger
         else:
             return trigger

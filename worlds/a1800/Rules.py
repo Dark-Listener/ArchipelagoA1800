@@ -26,8 +26,16 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
                 return _create_rule(A1800_DATA.find_session(data.session).requirements)
             case TriggerType.POPULATION:
                 return _create_rule({A1800Requirement(data.population_name, data.region)})
+            case TriggerType.POPULATION_HAPPINESS:
+                populations = list(A1800_DATA.find_unlocks(data.unlock_name, data.region))
+                assert len(populations) == 1, \
+                    f"Trigger {data.trigger_type.name} {data.amount} {data.product_name} has 0 or multiple "\
+                    "population residences"
+                population = populations[0]
+                return _create_rule({A1800Requirement(data.population_name, data.region)} | {A1800Requirement(name, population.region) for name in population.luxury})
             case TriggerType.COUNTER:
-                return _create_rule({A1800Requirement(data.product_name, data.region)})
+                return _create_rule(
+                    {A1800Requirement(data.unlock_name, data.region), A1800Requirement(data.product_name, data.region)})
             case TriggerType.COUNTER_GOOD_IN_REGION:
                 a1800_region = A1800_DATA.find_region(data.region)
                 assert a1800_region, \
@@ -35,8 +43,14 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
                     f"has 0 or multiple regions"
                 return _create_rule(
                     {A1800Requirement(data.product_name, data.product_region)} | a1800_region.requirements)
+            case TriggerType.COUNTER_EXPEDITION_SOLVED:
+                return _create_rule({A1800Requirement(name, region) for name, region in data.requirements})
             case TriggerType.UNLOCK:
                 return _create_rule({A1800Requirement(data.unlock_name, data.region, type=RequirementType.UNLOCK)})
+            case TriggerType.QUEST_COMPLETE:
+                return _create_rule({A1800Requirement(name, region) for name, region in data.requirements})
+            case TriggerType.EVENT_ACTIVE:
+                return _create_rule({A1800Requirement(data.product_name, data.region)})
             case TriggerType.ACTIVE_DLC:
                 assert False, "TriggerType ACTIVE_DLC should never be used for rules"
     else:

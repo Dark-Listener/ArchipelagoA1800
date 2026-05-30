@@ -52,20 +52,20 @@
 {% from 'triggers.util.xml' import generate_trigger_asset, generate_trigger_condition %}
   <!-- Make expedition unlocks dependent on custom unlocks -->
   <ModOp Type="replace" GUID="140885" Path="/Values/Trigger/TriggerCondition">
-{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: New World"])) | indent(4, true)).rstrip() }}
+{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), guid=expedition_unlocks["Expedition: New World"])) | indent(4, true)).rstrip() }}
   </ModOp>
   <ModOp Type="replace" GUID="113818" Path="/Values/Trigger/TriggerCondition">
-{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: Cape Trelawney"])) | indent(4, true)).rstrip() }}
+{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), guid=expedition_unlocks["Expedition: Cape Trelawney"])) | indent(4, true)).rstrip() }}
   </ModOp>
   <ModOp Type="remove" GUID="113818" Path="Values/Trigger/SubTriggers/Item[SubTrigger/Values/Trigger/TriggerCondition/Template='ConditionTimer']" />
   <ModOp Type="replace" GUID="114115" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger">
     <Trigger>
-{{(   generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: The Arctic"])) | indent(6, true)).rstrip() }}
+{{(   generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), guid=expedition_unlocks["Expedition: The Arctic"])) | indent(6, true)).rstrip() }}
     </Trigger>
   </ModOp>
   <ModOp Type="replace" GUID="119863" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger">
     <Trigger>
-{{(   generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), expedition_unlocks["Expedition: Enbesa"])) | indent(6, true)).rstrip() }}
+{{(   generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), guid=expedition_unlocks["Expedition: Enbesa"])) | indent(6, true)).rstrip() }}
     </Trigger>
   </ModOp>
 
@@ -76,13 +76,13 @@
   </ModOp>
   <ModOp Type="remove" GUID="269865" Path="Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/SubTriggers" />
   <ModOp Type="replace" GUID="269865" Path="/Values/Trigger/SubTriggers/Item/SubTrigger/Values/Trigger/TriggerCondition">
-{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), 269832)) | indent(4, true)).rstrip() }}
+{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), guid=269832)) | indent(4, true)).rstrip() }}
   </ModOp>
   
   <!-- Make recipe unlocks dependent on custom unlocks and remove unlock delays if necessary -->
 {% for recipe_guid, feature_guid, unlock_guid, quest_guid in recipe_unlocks.values() %}
   <ModOp Type="replace" GUID="{{ feature_guid }}" Path="/Values/Trigger/TriggerCondition">
-{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), recipe_guid)) | indent(4, true)).rstrip() }}
+{{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), guid=recipe_guid)) | indent(4, true)).rstrip() }}
   </ModOp>
 {% if (unlock_guid != 0) and (quest_guid != 0) %}
   <ModOp Type="replace" GUID="{{ feature_guid }}" Path="/Values/Trigger/TriggerActions">

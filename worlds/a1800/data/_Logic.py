@@ -1,4 +1,4 @@
-from typing import Optional, cast
+from typing import Optional
 
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, START_REGION, TriggerType, UnlockType
 from ._EventItems import A1800EventItem, EVENT_ITEMS
@@ -110,7 +110,7 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
             return {A1800Requirement(unlock.name, unlock.region)} | {A1800Requirement(name, unlock.region) for name in unlock.cost} | {A1800Requirement(name, region) for name, region in trigger.requirements}
         case TriggerType.FACTORY_PRODUCTIVITY:
             unlock = next(UNLOCKS.find_unlocks(trigger.unlock_name, trigger.region))
-            return {A1800Requirement(unlock.name, unlock.region)} | {A1800Requirement(name, unlock.region) for name in unlock.cost | unlock.maintenance | cast(set[str], next(zip(*unlock.input)))}
+            return {A1800Requirement(unlock.name, unlock.region)} | {A1800Requirement(name, unlock.region) for name in unlock.cost | unlock.maintenance | {name for name, _ in unlock.input}}
         case TriggerType.ACTIVE_DLC:
             assert False, "TriggerType ACTIVE_DLC should never be used for unlocks"
 

@@ -1656,7 +1656,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.LINEAR(
                     Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                     Trigger.QUEST_COMPLETE(
-                        "Hidden quest: supply Tourists with any Cafe (5 min)",
+                        "Hidden quest: Supply Tourists with any Cafe (5 min)",
                         134387,
                         {("Tourists", Region.OW), ("Cafe", Region.OW)}
                     )
@@ -1838,7 +1838,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.LINEAR(
                     Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                     Trigger.QUEST_COMPLETE(
-                        "Hidden quest: Complete the set Polar Circle in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)",
+                        "Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)",
                         134983,
                         {("Zoo", Region.OW), ("Engineers", Region.OW)}
                     )
@@ -1985,7 +1985,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.COUNTER("Furniture Store", Region.OW, 1, guid=135730),
                     Trigger.ITEM_SET_ACTIVE(
                         "Zoo", Region.OW,
-                        "Complete the set Eastern Jungle in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)",
+                        "Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)",
                         191120, {("Engineers", Region.OW)}),
                 ),
                 "Furniture Store (Blank)", "Artisans",
@@ -2017,6 +2017,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artisans",
                 {"Steel", "Cherry Wood", "Lacquer"}, "Violins", "Violins"),
+
+    # Orchard: Coconut Oil -> Tourist Season
 
     A1800Unlock("Drug Store", DLC.THE_HIGH_LIFE, Region.OW, 134629, 137179,
                 Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 10),
@@ -2129,7 +2131,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.LINEAR(
                     Trigger.COUNTER("Department Store", Region.OW, 1, guid=135729),
                     Trigger.QUEST_COMPLETE(
-                        "Hidden quest: Socket 'The \"Magnificone\" Ice Cream Maker' in a Town Hall in the Old World (see Arctic Nate)",
+                        "Hidden quest: Socket 'The \"Magnificone\" Ice Cream Maker' in n OW: Town Hall (see Arctic Nate)",
                         135736,
                         {("Expedition: The Arctic", ALL_REGIONS), ("Sea Travel", ALL_REGIONS),
                          ("Lost Expedition Scrap", ALL_REGIONS), ("Grapes", ALL_REGIONS), ("Plantains", ALL_REGIONS),
@@ -2155,7 +2157,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.COUNTER("Drug Store", Region.OW, 1, guid=135731),
                     Trigger.ITEM_SET_ACTIVE(
                         "Museum", Region.OW,
-                        "Complete the set Icebound in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)",
+                        "Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)",
                         193776, {("Engineers", Region.OW)}),
                 ),
                 "Drug Store (Blank)", "Artisans",

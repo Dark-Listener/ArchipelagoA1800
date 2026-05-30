@@ -314,6 +314,10 @@ _a1800_products: list[A1800Product] = [
     ################################################################################################################
     ### THE_HIGH_LIFE                                                                                            ###
     ################################################################################################################
+    A1800Product("Department Store (Blank)", DLC.THE_HIGH_LIFE, Region.OW, 0, ProductType.META),
+    A1800Product("Furniture Store (Blank)", DLC.THE_HIGH_LIFE, Region.OW, 0, ProductType.META),
+    A1800Product("Drug Store (Blank)", DLC.THE_HIGH_LIFE, Region.OW, 0, ProductType.META),
+
     A1800Product("Skyline Tower: Foundations", DLC.THE_HIGH_LIFE, Region.OW, 0, ProductType.STAGE),
     A1800Product("Skyline Tower: Superstructure", DLC.THE_HIGH_LIFE, Region.OW, 0, ProductType.STAGE),
     A1800Product("Skyline Tower: Glazing", DLC.THE_HIGH_LIFE, Region.OW, 0, ProductType.STAGE),

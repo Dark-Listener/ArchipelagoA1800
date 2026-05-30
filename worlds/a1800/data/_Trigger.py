@@ -68,9 +68,8 @@ class Trigger:
                     f"{f'{self.region.name}: ' if self.region and self.region != ALL_REGIONS else ''}{self.unlock_name}"
             case TriggerType.COUNTER_GOOD_IN_REGION:
                 region_prefix = f"{self.product_region.name}: " if self.product_region and self.product_region != ALL_REGIONS else ""
-                out_name = f"Have {self.amount} "\
-                    f"{region_prefix}{self.product_name[:-1] if self.product_name.endswith('s') and self.amount == 1 else self.product_name} "\
-                    f"in {self.region.full_name}"
+                out_name = f"Have {self.amount} {'tons' if self.amount > 1 else 'ton'} of "\
+                    f"{region_prefix}{self.product_name}  in {self.region.full_name} trading posts"
             case TriggerType.COUNTER_EXPEDITION_SOLVED:
                 assert False, "Trigger type COUNTER_EXPEDITION_SOLVED should have set ap_location_name already"
             case TriggerType.QUEST_COMPLETE:
@@ -93,7 +92,7 @@ class Trigger:
                         out_name += name
                     out_name = "DLCs active: " + out_name
             case TriggerType.FACTORY_PRODUCTIVITY:
-                out_name = f"Reach {self.amount}% productivity in "\
+                out_name = f"Reach {self.amount}% productivity in a "\
                     f"{f'{self.region.name}: ' if self.region and self.region != ALL_REGIONS else ''}{self.unlock_name}"
             case TriggerType.ITEM_SET_ACTIVE:
                 assert False, "Trigger type ITEM_SET_ACTIVE should have set ap_location_name already"
@@ -289,7 +288,7 @@ class Trigger:
 
     @classmethod
     def OBJECT_POSITION(cls, unlock_name: str, region: Region, distance: int, target_name: str, *, guid: int = 0, target_guid: int = 0, ap_location_name: str = "") -> Self:
-        trigger = cls(TriggerType.EVENT_ACTIVE)
+        trigger = cls(TriggerType.OBJECT_POSITION)
         trigger.unlock_name = unlock_name
         trigger.region = region
         trigger.distance = distance

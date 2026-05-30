@@ -1,4 +1,4 @@
-from typing import Iterable, Optional, TYPE_CHECKING, cast
+from typing import Iterable, Optional, TYPE_CHECKING
 
 from rule_builder.rules import And, False_, HasAll, Or, Rule, True_
 
@@ -63,7 +63,7 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
                 return _create_rule({A1800Requirement(unlock.name, unlock.region)} | {A1800Requirement(name, unlock.region) for name in unlock.cost} | {A1800Requirement(name, region) for name, region in data.requirements})
             case TriggerType.FACTORY_PRODUCTIVITY:
                 unlock = next(A1800_DATA.find_unlocks(data.unlock_name, data.region))
-                return _create_rule({A1800Requirement(unlock.name, unlock.region)} | {A1800Requirement(name, unlock.region) for name in unlock.cost | unlock.maintenance | cast(set[str], next(zip(*unlock.input)))})
+                return _create_rule({A1800Requirement(unlock.name, unlock.region)} | {A1800Requirement(name, unlock.region) for name in unlock.cost | unlock.maintenance | {name for name, _ in unlock.input}})
             case TriggerType.ACTIVE_DLC:
                 assert False, "TriggerType ACTIVE_DLC should never be used for rules"
     else:

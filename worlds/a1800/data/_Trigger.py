@@ -17,6 +17,7 @@ class Trigger:
     product_name: str
     product_region: Region
     unlock_name: str
+    unlock_region: Region
     target_name: str
     amount: int
     distance: int
@@ -91,6 +92,11 @@ class Trigger:
                             out_name += ", "
                         out_name += name
                     out_name = "DLCs active: " + out_name
+            case TriggerType.FACTORY_PRODUCTIVITY:
+                out_name = f"Reach {self.amount}% productivity in "\
+                    f"{f'{self.region.name}: ' if self.region and self.region != ALL_REGIONS else ''}{self.unlock_name}"
+            case TriggerType.ITEM_SET_ACTIVE:
+                assert False, "Trigger type ITEM_SET_ACTIVE should have set ap_location_name already"
         return out_name
 
     def get_ap_location_name(self, name: str = "") -> str:
@@ -133,6 +139,10 @@ class Trigger:
                 return self.trigger_type, self.guid
             case TriggerType.OBJECT_POSITION:
                 return self.trigger_type, self.guid, self.target_guid, self.distance
+            case TriggerType.ITEM_SET_ACTIVE:
+                return self.trigger_type, self.guid, self.unlock_region.value
+            case TriggerType.FACTORY_PRODUCTIVITY:
+                return self.trigger_type, self.guid, self.amount
             case TriggerType.ACTIVE_DLC:
                 return self.trigger_type, self.dlc.value
 
@@ -286,6 +296,29 @@ class Trigger:
         trigger.target_name = target_name
         trigger.guid = guid
         trigger.target_guid = target_guid
+        trigger.ap_location_name = ap_location_name
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def ITEM_SET_ACTIVE(cls, unlock_name: str, unlock_region: Region, ap_location_name: str, guid: int, requirements: set[tuple[str, Region]]) -> Self:
+        trigger = cls(TriggerType.ITEM_SET_ACTIVE)
+        trigger.unlock_name = unlock_name
+        trigger.unlock_region = unlock_region
+        trigger.ap_location_name = ap_location_name
+        trigger.guid = guid
+        trigger.requirements = requirements
+        trigger.region = unlock_region | reduce(Region.__or__, [region for _, region in requirements])
+        trigger.post_init()
+        return trigger
+
+    @classmethod
+    def FACTORY_PRODUCTIVITY(cls, unlock_name: str, region: Region, amount: int, *, guid: int = 0, ap_location_name: str = "") -> Self:
+        trigger = cls(TriggerType.FACTORY_PRODUCTIVITY)
+        trigger.unlock_name = unlock_name
+        trigger.region = region
+        trigger.amount = amount
+        trigger.guid = guid
         trigger.ap_location_name = ap_location_name
         trigger.post_init()
         return trigger

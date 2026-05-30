@@ -215,6 +215,36 @@
     <ConditionPropsNegatable/>
   </Values>
 </TriggerCondition>
+{% elif trigger_data.trigger_type == TriggerType.ITEM_SET_ACTIVE %}
+<TriggerCondition>
+  <Template>ConditionPlayerCounter</Template>
+  <Values>
+    <Condition/>
+    <ConditionPlayerCounter>
+      <PlayerCounter>ItemSetsActive</PlayerCounter>
+      <Context>{{ trigger_data.guid }}</Context>
+      <CounterAmount>1</CounterAmount>
+      <CounterScope>Region</CounterScope>
+      <CounterScopeUseCurrentContext>0</CounterScopeUseCurrentContext>
+      <CounterScopeContext>{{ trigger_data.unlock_region.guids[0] }}</CounterScopeContext>
+    </ConditionPlayerCounter>
+  </Values>
+</TriggerCondition>
+{% elif trigger_data.trigger_type == TriggerType.FACTORY_PRODUCTIVITY %}
+<TriggerCondition>
+  <Template>ConditionFactoryProductivity</Template>
+  <Values>
+    <Condition/>
+    <ConditionFactoryProductivity>
+      <ProductivityThreshold>{{ trigger_data.amount }}</ProductivityThreshold>
+    </ConditionFactoryProductivity>
+    <ObjectFilter>
+      <ObjectGUID>{{ trigger_data.guid }}</ObjectGUID>
+      <CheckParticipantID>1</CheckParticipantID>
+      <CheckProcessingParticipantID>1</CheckProcessingParticipantID>
+    </ObjectFilter>
+  </Values>
+</TriggerCondition>
 {% elif trigger_data.trigger_type == TriggerType.ACTIVE_DLC %}
 <TriggerCondition>
   <Template>ConditionIsDLCActive</Template>

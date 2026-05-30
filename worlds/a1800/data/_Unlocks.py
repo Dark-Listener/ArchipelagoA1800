@@ -1900,6 +1900,7 @@ class _Unlocks:
         self._apply_options(enabled_dlcs, enable_docklands_logic)
 
         for a1800_unlock in self._a1800_unlocks:
+            a1800_unlock.trigger = self._flatten_trigger(a1800_unlock.trigger)
             a1800_unlock.post_init()
             self._add_guids_to_trigger(a1800_unlock.trigger)
 
@@ -1931,7 +1932,7 @@ class _Unlocks:
         if trigger.trigger_type in [TriggerType.ALL, TriggerType.LINEAR, TriggerType.ANY]:
             for subtrigger in trigger.triggers:
                 self._add_guids_to_trigger(subtrigger)
-        elif (trigger.trigger_type == TriggerType.UNLOCK or trigger.trigger_type == TriggerType.COUNTER) \
+        elif (trigger.trigger_type in [TriggerType.UNLOCK, TriggerType.COUNTER, TriggerType.ITEM_SET_ACTIVE, TriggerType.FACTORY_PRODUCTIVITY]) \
                 and trigger.guid == 0:
             references = [unlock for unlock in self._a1800_unlocks
                           if unlock.name == trigger.unlock_name and trigger.region in unlock.region]
@@ -1977,6 +1978,14 @@ class _Unlocks:
                 f"Trigger references target {target_references[0].name}, which has no guids"
             trigger.target_guid = target_references[0].unlock_guids[0]
 
+    def _flatten_trigger(self, trigger: Trigger) -> Trigger:
+        if trigger.trigger_type in [TriggerType.ALL, TriggerType.LINEAR, TriggerType.ANY]:
+            trigger.triggers = [self._flatten_trigger(subtrigger) for subtrigger in trigger.triggers]
+            trigger.triggers = [flat_trigger for subtrigger in trigger.triggers for flat_trigger in (
+                subtrigger.triggers if subtrigger.trigger_type == trigger.trigger_type else [subtrigger])]
+
+        return trigger
+
     def _clean_dlc_trigger(self, enabled_dlcs: DLC, trigger: Trigger) -> Trigger:
         if trigger.trigger_type in [TriggerType.ALL, TriggerType.LINEAR]:
             trigger.triggers = [clean_trigger for subtrigger in trigger.triggers for clean_trigger in [
@@ -2004,7 +2013,7 @@ class _Unlocks:
                 return trigger
         elif trigger.trigger_type in [TriggerType.POPULATION, TriggerType.POPULATION_HAPPINESS]:
             return Trigger.FALSE() if not next(PRODUCTS.find_populations(trigger.population_name, trigger.region), None) else trigger
-        elif trigger.trigger_type in [TriggerType.UNLOCK, TriggerType.COUNTER]:
+        elif trigger.trigger_type in [TriggerType.UNLOCK, TriggerType.COUNTER, TriggerType.ITEM_SET_ACTIVE, TriggerType.FACTORY_PRODUCTIVITY]:
             return Trigger.FALSE() if not len([unlock for unlock in self._a1800_unlocks if unlock.name == trigger.unlock_name
                                                and trigger.region in unlock.region]) else trigger
         elif trigger.trigger_type == TriggerType.COUNTER_GOOD_IN_REGION:

@@ -195,6 +195,8 @@ class TriggerType(IntEnum):
     QUEST_COMPLETE = auto()
     EVENT_ACTIVE = auto()
     OBJECT_POSITION = auto()
+    ITEM_SET_ACTIVE = auto()
+    FACTORY_PRODUCTIVITY = auto()
     ACTIVE_DLC = auto()
     ANY = auto()
     ALL = auto()

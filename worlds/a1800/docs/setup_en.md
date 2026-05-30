@@ -1,5 +1,12 @@
 # Anno 1800 Randomizer Setup Guide
 
+[Game Page] | Setup | [Items] | [Locations] | [Roadmap]
+
+[Game Page]: (en_Anno%201800.md)<!--(/tutorial/Anno%201800/info/en)-->
+[Items]: (items_en.md)<!--(/tutorial/Anno%201800/items/en)-->
+[Locations]: (locations_en.md)<!--(/tutorial/Anno%201800/locations/en)-->
+[Roadmap]: (roadmap_en.md)<!--(/tutorial/Anno%201800/roadmap/en)-->
+
 ## Required Software
 
 * Anno 1800, any one of

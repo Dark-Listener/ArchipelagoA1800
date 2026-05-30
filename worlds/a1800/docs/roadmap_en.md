@@ -1,5 +1,12 @@
 # Roadmap | Future Plans
 
+[Game Page] | [Setup] | [Items] | [Locations] | Roadmap
+
+[Game Page]: (en_Anno%201800.md)<!--(/tutorial/Anno%201800/info/en)-->
+[Setup]: (setup_en.md)<!--(/tutorial/Anno%201800/setup/en)-->
+[Items]: (items_en.md)<!--(/tutorial/Anno%201800/items/en)-->
+[Locations]: (locations_en.md)<!--(/tutorial/Anno%201800/locations/en)-->
+
 ## Planned Features
 
 The following features are planned to be added at some point (in no specific order):

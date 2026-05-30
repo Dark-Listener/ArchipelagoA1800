@@ -597,7 +597,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("World's Fair: Foundations", DLC.VANILLA, Region.OW, 1010489, 1010489,
                 Trigger.POPULATION("Investors", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Farmers",
-                {"Timber", "Cement"}, {"World's Fair: Foundations"}),
+                {"Timber", "Cement"}, "World's Fair: Foundations"),
 
     A1800Unlock("Marquetry Workshop", DLC.VANILLA, Region.OW, 1010320, 130116,
                 Trigger.POPULATION("Investors", Region.OW, 750),
@@ -919,7 +919,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Market", "Fried Plantains", "Ponchos", "Tortillas", "Coffee", "Bombins",
                     "Sewing Machines", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Rum", "Chapel", "Boxing Arena", "Beer", "Cigars"},
-                {"Spectacles", "Typewriter", "Illuminated Script", "Local Mail",
+                {"Spectacles", "Typewriters", "Illuminated Script", "Local Mail",
                     "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooter"}),
 
     ################################################################################################################
@@ -1675,14 +1675,21 @@ _a1800_unlocks: list[A1800Unlock] = [
                 ),
                 "Cafe (Blank)", "Tourists", {"Flour", "Tallow", "Cinnamon"}, "Cafe", is_excluded=True),
 
-    A1800Unlock("Orchard: Coconut Oil", DLC.TOURIST_SEASON, Region.NW,
-                [133004, 133005, 133010], [133004, 134710, 133010],
-                Trigger.POPULATION("Tourists", Region.OW, 850),
-                {"Timber", "Bricks"}, "Jornaleros", set(), "Coconut Oil"),
+    A1800Unlock("Orchard: Coconut Oil", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, Region.NW,
+                [133004, 133005, 133010], [133004, 134710, 137179, 137608, 133010],
+                Trigger.ANY(
+                    Trigger.POPULATION("Tourists", Region.OW, 850),
+                    Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 10)),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Coconut Oil", "Shampoo"),
 
-    A1800Unlock("Orchard: Cinnamon", DLC.TOURIST_SEASON, Region.NW, [133030, 133028, 133010], [133030, 134708, 133010],
-                Trigger.POPULATION("Tourists", Region.OW, 850),
-                {"Timber", "Bricks"}, "Jornaleros", set(), "Cinnamon"),
+    A1800Unlock("Orchard: Cinnamon", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, Region.NW,
+                [133030, 133028, 133010], [133030, 134708, 136065, 137608, 133010],
+                Trigger.ANY(
+                    Trigger.POPULATION("Tourists", Region.OW, 850),
+                    Trigger.ANY(
+                        Trigger.COUNTER("Engineer Skyscraper: Level 2", Region.OW, 1),
+                        Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 1))),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Cinnamon", {"Shampoo", "Chewing Gum"}),
 
     A1800Unlock("Chemical Plant: Shampoo", DLC.TOURIST_SEASON, Region.OW,
                 [132786, 132788, 132771], [134716, 132771, 137608],
@@ -1693,11 +1700,14 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("The Iron Tower: Foundations", DLC.TOURIST_SEASON, Region.OW, 132765, 132765,
                 Trigger.POPULATION("Tourists", Region.OW, 850),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, "Workers",
-                {"Timber", "Cement"}, {"The Iron Tower: Foundations"}),
+                {"Timber", "Cement"}, "The Iron Tower: Foundations"),
 
-    A1800Unlock("Orchard: Citrus", DLC.TOURIST_SEASON, Region.NW, [133031, 133029, 133010], [133031, 134707, 133010],
-                Trigger.POPULATION("Tourists", Region.OW, 1250),
-                {"Timber", "Bricks"}, "Jornaleros", set(), "Citrus"),
+    A1800Unlock("Orchard: Citrus", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, Region.NW,
+                [133031, 133029, 133010], [133031, 134707, 136066, 137607, 133010],
+                Trigger.ANY(
+                    Trigger.POPULATION("Tourists", Region.OW, 1250),
+                    Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15)),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Citrus", {"Lemonade", "Biscuits"}),
 
     A1800Unlock("Chemical Plant: Lemonade", DLC.TOURIST_SEASON, Region.OW,
                 [132777, 132778, 132771], [134712, 132771, 137607],
@@ -1732,9 +1742,11 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Steel Beams", "Reinforced Concrete"}, "The Iron Tower: Superstructure"),
 
     A1800Unlock("Orchard: Camphor Wax", DLC.TOURIST_SEASON, Region.NW,
-                [134614, 134615, 133010], [134614, 134709, 133010],
-                Trigger.POPULATION("Tourists", Region.OW, 2000),
-                {"Timber", "Bricks"}, "Jornaleros", set(), "Camphor Wax"),
+                [134614, 134615, 133010], [134614, 134709, 137840, 137609, 133010],
+                Trigger.ANY(
+                    Trigger.POPULATION("Tourists", Region.OW, 2000),
+                    Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15)),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Camphor Wax", {"Souvenirs", "Celluloid"}),
 
     A1800Unlock("Chemical Plant: Souvenirs", DLC.TOURIST_SEASON, Region.OW,
                 [133533, 133534, 132771], [134717, 132771, 137609],
@@ -1876,8 +1888,304 @@ _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     ### THE_HIGH_LIFE                                                                                            ###
     ################################################################################################################
+    # Building, Factory
+    A1800Unlock("Assembly Line: Elevators", DLC.THE_HIGH_LIFE, Region.OW,
+                [134622, 134621, 134619], [136054],
+                Trigger.POPULATION("Investors", Region.OW, 5000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Workers",
+                {"Steel", "Wood Veneers", "Steam Motors"}, "Elevators", "Elevators"),
 
-    # TODO: Bus need Skyline Tower
+    A1800Unlock("Department Store", DLC.THE_HIGH_LIFE, Region.OW, 135100, 136063,
+                Trigger.ANY(Trigger.COUNTER("Engineer Skyscraper: Level 1", Region.OW, 1),
+                            Trigger.COUNTER("Investor Skyscraper: Level 1", Region.OW, 1)),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
+                set(), "Department Store (Blank)"),
+
+    A1800Unlock("Department Store: Toasters", DLC.THE_HIGH_LIFE, Region.OW,
+                [135103, RECIPE_GUIDS["Recipe: Toasters"][0]], [136063],
+                Trigger.UNLOCK("Department Store", Region.OW),
+                "Department Store (Blank)", "Artisans", {"Filaments", "Steel", "Zinc"}, "Department Store"),
+
+    A1800Unlock("Department Store: Vacuum Cleaners", DLC.THE_HIGH_LIFE, Region.OW,
+                [135188, RECIPE_GUIDS["Recipe: Vacuum Cleaners"][0]], [135188, 137606],
+                Trigger.LINEAR(Trigger.COUNTER("Department Store", Region.OW, 1, guid=135729),
+                               Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 5)),
+                "Department Store (Blank)", "Artisans", {"Wool", "Celluloid", "Steel"}, "Department Store"),
+
+    A1800Unlock("Department Store: Crockery", DLC.THE_HIGH_LIFE, Region.OW,
+                [135187, RECIPE_GUIDS["Recipe: Crockery"][0]], [135187, 137603],
+                Trigger.LINEAR(Trigger.COUNTER("Department Store", Region.OW, 1, guid=135729),
+                               Trigger.OBJECT_POSITION("Members Club", Region.OW, 10, "Pub")),
+                "Department Store (Blank)", "Artisans", {"Clay", "Quartz Sand", "Lacquer"}, "Department Store"),
+
+    # Orchard: Cinnamon -> Tourist Season
+
+    A1800Unlock("Chemical Plant: Chewing Gum", DLC.THE_HIGH_LIFE, Region.NW,
+                [135185, 135223, 135221], [136065],
+                Trigger.ANY(Trigger.COUNTER("Engineer Skyscraper: Level 2", Region.OW, 1),
+                            Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 1)),
+                {"Timber", "Bricks"}, "Obreros",
+                {"Caoutchouc", "Sugar", "Cinnamon"}, "Chewing Gum", "Chewing Gum"),
+
+    # Orchard: Citrus -> Tourist Season
+
+    A1800Unlock("Assembly Line: Biscuits", DLC.THE_HIGH_LIFE, Region.OW,
+                [135361, 135398, 134619], [136054],
+                Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Workers",
+                {"Tallow", "Flour", "Citrus"}, "Biscuits", "Biscuits"),
+
+    # Orchard: Camphor Wax -> Tourist Season
+
+    A1800Unlock("Chemical Plant: Ethanol", DLC.THE_HIGH_LIFE, Region.NW,
+                [135134, 135147, 135221], [137841],
+                Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
+                {"Timber", "Bricks"}, "Obreros",
+                {"Wood", "Corn"}, "Ethanol", "Ethanol"),
+
+    A1800Unlock("Chemical Plant: Celluloid", DLC.THE_HIGH_LIFE, Region.NW,
+                [135224, 135222, 135221], [137840],
+                Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
+                {"Timber", "Bricks"}, "Obreros",
+                {"Cotton", "Camphor Wax", "Ethanol"}, "Celluloid", "Celluloid"),
+
+    A1800Unlock("Orchard: Cherry Wood", DLC.THE_HIGH_LIFE, Region.OW, [135088, 135090, 132933], [136067],
+                Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 1),
+                {"Timber", "Bricks"}, "Farmers", set(), "Cherry Wood", "Cognac"),
+
+    A1800Unlock("Artisan's Workshop: Cognac", DLC.THE_HIGH_LIFE, Region.OW,
+                [135418, 135419, 135295], [136067],
+                Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artisans",
+                {"Grapes", "Cherry Wood", "Sugar"}, "Cognac", "Cognac"),
+
+    A1800Unlock("Orchard: Resin", DLC.THE_HIGH_LIFE, Region.OW, [135085, 135089, 132933], [137839],
+                Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 15),
+                {"Timber", "Bricks"}, "Farmers", set(), "Resin", "Lacquer"),
+
+    A1800Unlock("Artisan's Workshop: Lacquer", DLC.THE_HIGH_LIFE, Region.OW,
+                [135133, 135146, 135295], [137839],
+                Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 15),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artisans",
+                {"Quartz Sand", "Resin", "Ethanol"}, "Lacquer", "Lacquer"),
+
+    A1800Unlock("Furniture Store", DLC.THE_HIGH_LIFE, Region.OW, 135099, 136070,
+                Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 15),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
+                set(), "Furniture Store (Blank)"),
+
+    A1800Unlock("Furniture Store: Banker's Lamps", DLC.THE_HIGH_LIFE, Region.OW,
+                [135105, RECIPE_GUIDS["Recipe: Banker's Lamps"][0]], [136070],
+                Trigger.UNLOCK("Furniture Store", Region.OW),
+                "Furniture Store (Blank)", "Artisans", {"Light Bulbs", "Brass", "Glass"}, "Furniture Store"),
+
+    A1800Unlock("Furniture Store: Vanity Screens", DLC.THE_HIGH_LIFE, Region.OW,
+                [135121, RECIPE_GUIDS["Recipe: Vanity Screens"][0]], [135121, 137603],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Furniture Store", Region.OW, 1, guid=135730),
+                    Trigger.ITEM_SET_ACTIVE(
+                        "Zoo", Region.OW,
+                        "Complete the set Eastern Jungle in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)",
+                        191120, {("Engineers", Region.OW)}),
+                ),
+                "Furniture Store (Blank)", "Artisans",
+                {"Cotton Fabric", "Cherry Wood", "Lacquer"}, "Furniture Store", is_excluded=True),
+
+    A1800Unlock("Furniture Store: Writing Desks", DLC.THE_HIGH_LIFE, Region.OW,
+                [135120, RECIPE_GUIDS["Recipe: Writing Desks"][0]], [135120, 137603],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Furniture Store", Region.OW, 1, guid=135730),
+                    Trigger.FACTORY_PRODUCTIVITY("Furniture Store: Banker's Lamps", Region.OW, 100),
+                ),
+                "Furniture Store (Blank)", "Artisans", {"Wood Veneers", "Lacquer", "Brass"}, "Furniture Store"),
+
+    A1800Unlock("Assembly Line: Typewriters", DLC.THE_HIGH_LIFE, Region.OW,
+                [135148, 135149, 134619], [136072],
+                Trigger.ANY(Trigger.COUNTER("Engineer Skyscraper: Level 3", Region.OW, 1),
+                            Trigger.COUNTER("Investor Skyscraper: Level 4", Region.OW, 1)),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Workers",
+                {"Steel", "Brass", "Lacquer"}, "Typewriters", "Typewriters"),
+
+    A1800Unlock("Artisan's Workshop: Billiard Tables", DLC.THE_HIGH_LIFE, Region.OW,
+                [135407, 135416, 135295], [136073],
+                Trigger.COUNTER("Investor Skyscraper: Level 4", Region.OW, 15),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artisans",
+                {"Cherry Wood", "Felt", "Celluloid"}, "Billiard Tables", "Billiard Tables"),
+
+    A1800Unlock("Artisan's Workshop: Violins", DLC.THE_HIGH_LIFE, Region.OW,
+                [135397, 135417, 135295], [137194],
+                Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artisans",
+                {"Steel", "Cherry Wood", "Lacquer"}, "Violins", "Violins"),
+
+    A1800Unlock("Drug Store", DLC.THE_HIGH_LIFE, Region.OW, 134629, 137179,
+                Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 10),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
+                set(), "Drug Store (Blank)"),
+
+    A1800Unlock("Drug Store: Toothpaste", DLC.THE_HIGH_LIFE, Region.OW,
+                [134631, RECIPE_GUIDS["Recipe: Toothpaste"][0]], [137179],
+                Trigger.UNLOCK("Drug Store", Region.OW),
+                "Drug Store (Blank)", "Artisans", {"Coal", "Soap", "Sugar"}, "Drug Store"),
+
+    A1800Unlock("Drug Store: Detergent", DLC.THE_HIGH_LIFE, Region.OW,
+                [135191, RECIPE_GUIDS["Recipe: Detergent"][0]], [135191],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Drug Store", Region.OW, 1, guid=135731),
+                    Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 40)
+                ),
+                "Drug Store (Blank)", "Artisans", {"Citrus", "Ethanol", "Saltpetre"}, "Drug Store"),
+
+    A1800Unlock("Drug Store: Lipstick", DLC.THE_HIGH_LIFE, Region.OW,
+                [135192, RECIPE_GUIDS["Recipe: Lipstick"][0]], [135192, 137603],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Drug Store", Region.OW, 1, guid=135731),
+                    Trigger.OBJECT_POSITION("Investor Skyscraper: Level 5", Region.OW, 8, "Variety Theatre")
+                ),
+                "Drug Store (Blank)", "Artisans", {"Coconut Oil", "Fish Oil", "Lacquer"}, "Drug Store"),
+
+    A1800Unlock("Artisan's Workshop: Toys", DLC.THE_HIGH_LIFE, Region.OW,
+                [135669, 135670, 135295], [137195],
+                Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 15),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artisans",
+                {"Felt", "Celluloid", "Lacquer"}, "Toys", "Toys"),
+
+    A1800Unlock("Skyline Tower: Foundations", DLC.THE_HIGH_LIFE, Region.OW, 403, 403,
+                Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 25),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, "Workers",
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"},
+                "Skyline Tower: Foundations"),
+
+    A1800Unlock("Skyline Tower: Superstructure", DLC.THE_HIGH_LIFE, Region.OW, 404, 404,
+                Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 40),
+                "Skyline Tower: Foundations", "Workers",
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"},
+                "Skyline Tower: Superstructure"),
+
+    A1800Unlock("Skyline Tower: Glazing", DLC.THE_HIGH_LIFE, Region.OW, 135709, 135709,
+                Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 55),
+                "Skyline Tower: Superstructure", "Workers",
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"},
+                "Skyline Tower: Glazing"),
+
+    # Building, Factory, Residence
+    A1800Unlock("Skyline Tower", DLC.THE_HIGH_LIFE, Region.OW, 406, 406,
+                Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 75),
+                "Skyline Tower: Glazing", set(), set(), {"Investors", "Skyline Tower"},
+                consumption={"Spectacles", "Coffee", "Electricity", "Light Bulbs", "Champagne", "Cigars", "Chocolate",
+                             "Steam Carriages", "Fire Protection", "Riot Control", "Healthcare"},
+                luxury={"Penny Farthings", "Pocket Watches", "Bank", "Members Club", "Jewellery", "Gramophones"},
+                lifestyle={"Toasters", "Vacuum Cleaners", "Crockery", "Refrigerators", "Briefcases", "Banker's Lamps",
+                           "Vanity Screens", "Writing Desks", "Four-Poster Beds", "Lounge Seating", "Toothpaste",
+                           "Detergent", "Lipstick", "Face Cream", "Pomade"}),
+
+    # Building, Factory, Upgrade, Residence
+    A1800Unlock("Engineer Skyscraper: Level 1", DLC.THE_HIGH_LIFE, Region.OW, 601888, 601888,
+                Trigger.POPULATION("Investors", Region.OW, 5000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
+                set(), "Engineers", "", "Engineer Residence", {"Department Store"}),
+
+    A1800Unlock("Engineer Skyscraper: Level 2", DLC.THE_HIGH_LIFE, Region.OW, 601889, 601889,
+                Trigger.ANY(Trigger.COUNTER("Engineer Skyscraper: Level 1", Region.OW, 1),
+                            Trigger.COUNTER("Investor Skyscraper: Level 1", Region.OW, 1)),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
+                set(), "Engineers", "", "Engineer Skyscraper: Level 1", {"Chewing Gum", "Furniture Store"}),
+
+    A1800Unlock("Engineer Skyscraper: Level 3", DLC.THE_HIGH_LIFE, Region.OW, 601890, 601890,
+                Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 15),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
+                set(), "Engineers", "", "Engineer Skyscraper: Level 2", {"Typewriters", "Drug Store", "Violins"}),
+
+    A1800Unlock("Investor Skyscraper: Level 1", DLC.THE_HIGH_LIFE, Region.OW, 601882, 601882,
+                Trigger.POPULATION("Investors", Region.OW, 5000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
+                set(), "Investors", "", "Investor Residence", {"Department Store"}),
+
+    A1800Unlock("Investor Skyscraper: Level 2", DLC.THE_HIGH_LIFE, Region.OW, 601883, 601883,
+                Trigger.ANY(Trigger.COUNTER("Engineer Skyscraper: Level 1", Region.OW, 1),
+                            Trigger.COUNTER("Investor Skyscraper: Level 1", Region.OW, 1)),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
+                set(), "Investors", "", "Investor Skyscraper: Level 1", {"Chewing Gum", "Biscuits"}),
+
+    A1800Unlock("Investor Skyscraper: Level 3", DLC.THE_HIGH_LIFE, Region.OW, 601884, 601884,
+                Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
+                set(), "Investors", "", "Investor Skyscraper: Level 2", {"Cognac", "Furniture Store"}),
+
+    A1800Unlock("Investor Skyscraper: Level 4", DLC.THE_HIGH_LIFE, Region.OW, 601886, 601886,
+                Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 15),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
+                set(), "Investors", "", "Investor Skyscraper: Level 3", {"Typewriters", "Billiard Tables"}),
+
+    A1800Unlock("Investor Skyscraper: Level 5", DLC.THE_HIGH_LIFE, Region.OW, 601891, 601891,
+                Trigger.COUNTER("Investor Skyscraper: Level 4", Region.OW, 15),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
+                set(), "Investors", "", "Investor Skyscraper: Level 4", {"Violins", "Drug Store", "Toys"}),
+
+    ### Needs The Passage ###
+    # Building, Factory
+    A1800Unlock("Department Store: Refrigerators", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW,
+                [135189, RECIPE_GUIDS["Recipe: Refrigerators"][0]], [135189],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Department Store", Region.OW, 1, guid=135729),
+                    Trigger.QUEST_COMPLETE(
+                        "Hidden quest: Socket 'The \"Magnificone\" Ice Cream Maker' in a Town Hall in the Old World (see Arctic Nate)",
+                        135736,
+                        {("Expedition: The Arctic", ALL_REGIONS), ("Sea Travel", ALL_REGIONS),
+                         ("Lost Expedition Scrap", ALL_REGIONS), ("Grapes", ALL_REGIONS), ("Plantains", ALL_REGIONS),
+                         ("Chocolate", ALL_REGIONS), ("Investors", Region.OW), ("Town Hall", Region.OW)}
+                    )
+                ),
+                "Department Store (Blank)", "Artisans", {"Arctic Gas", "Steel", "Caoutchouc"}, "Department Store"),
+
+    A1800Unlock("Furniture Store: Four-Poster Beds", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW,
+                [135122, RECIPE_GUIDS["Recipe: Four-Poster Beds"][0]], [135122],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Furniture Store", Region.OW, 1, guid=135730),
+                    Trigger.ALL(
+                        Trigger.COUNTER_GOOD_IN_REGION("Bear Fur", ALL_REGIONS, 1, Region.OW),
+                        Trigger.COUNTER_GOOD_IN_REGION("Goose Feathers", ALL_REGIONS, 1, Region.OW))
+                ),
+                "Furniture Store (Blank)", "Artisans",
+                {"Cherry Wood", "Bear Fur", "Goose Feathers"}, "Furniture Store"),
+
+    A1800Unlock("Drug Store: Face Cream", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW,
+                [135193, RECIPE_GUIDS["Recipe: Face Cream"][0]], [135193, 137603],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Drug Store", Region.OW, 1, guid=135731),
+                    Trigger.ITEM_SET_ACTIVE(
+                        "Museum", Region.OW,
+                        "Complete the set Icebound in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)",
+                        193776, {("Engineers", Region.OW)}),
+                ),
+                "Drug Store (Blank)", "Artisans",
+                {"Whale Oil", "Coconut Oil", "Citrus"}, "Drug Store", is_excluded=True),
+
+    ### Needs Land of Lions ###
+    # Building, Factory
+    A1800Unlock("Department Store: Briefcases", DLC.LAND_OF_LIONS | DLC.THE_HIGH_LIFE, Region.OW,
+                [135190, RECIPE_GUIDS["Recipe: Briefcases"][0]], [135190, 137606],
+                Trigger.LINEAR(Trigger.COUNTER("Department Store", Region.OW, 1, guid=135729),
+                               Trigger.OBJECT_POSITION("Scholar Residence", Region.OW, 8, "Department Store")),
+                "Department Store (Blank)", "Artisans", {"Sanga Cow", "Brass", "Celluloid"}, "Department Store"),
+
+    A1800Unlock("Furniture Store: Lounge Seating", DLC.LAND_OF_LIONS | DLC.THE_HIGH_LIFE, Region.OW,
+                [135123, RECIPE_GUIDS["Recipe: Lounge Seating"][0]], [135123],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Furniture Store", Region.OW, 1, guid=135730),
+                    Trigger.COUNTER("Radio Tower", Region.OW, 2)
+                ),
+                "Furniture Store (Blank)", "Artisans",
+                {"Wool", "Sanga Cow", "Wanza Timber"}, "Furniture Store"),
+
+    A1800Unlock("Drug Store: Pomade", DLC.LAND_OF_LIONS | DLC.THE_HIGH_LIFE, Region.OW,
+                [135194, RECIPE_GUIDS["Recipe: Face Cream"][0]], [135194],
+                Trigger.LINEAR(
+                    Trigger.COUNTER("Drug Store", Region.OW, 1, guid=135731),
+                    Trigger.OBJECT_POSITION("Apiary", Region.EN, 8, "Hibiscus Farm")
+                ),
+                "Drug Store (Blank)", "Artisans",
+                {"Beeswax", "Camphor Wax", "Hibiscus Petals"}, "Drug Store"),
 
     ################################################################################################################
     ### EMPIRE_OF_THE_SKIES                                                                                      ###

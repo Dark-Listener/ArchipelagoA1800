@@ -50,6 +50,7 @@ class ProductType(Enum):
     WORKFORCE = auto()
     GOOD = auto()
     SERVICE = auto()
+    STORE = auto()
 
     @property
     def full_name(self) -> str:
@@ -63,6 +64,7 @@ _PRODUCT_TYPE_NAMES = {
     ProductType.WORKFORCE: "Workforce",
     ProductType.GOOD: "Good",
     ProductType.SERVICE: "Service",
+    ProductType.STORE: "Store",
 }
 
 

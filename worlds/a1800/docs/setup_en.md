@@ -51,6 +51,7 @@ all of the supported DLCs as you desire:
 * Land of Lions
 * Docklands
 * Tourist Season
+* The High Life
 
 Additional purchased DLCs are not an issue, but will not be taken into account in the randomizer.
 

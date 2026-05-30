@@ -47,6 +47,7 @@ The following DLCs are supported:
 * Land of Lions
 * Docklands
 * Tourist Season
+* The High Life
 
 Docklands is strongly discouraged as it would render the randomizer pointless. There is an option to toggle its logic
 (default: no Docklands logic), that allows you to add it to your game without the randomizer intending you to get half

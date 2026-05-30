@@ -6,7 +6,7 @@ from .data import DLC
 
 
 _valid_dlcs = [dlc.name for dlc in sorted(
-    (dlc for dlc in DLC.__members__.values() if not dlc in DLC.VANILLA | DLC.THE_HIGH_LIFE | DLC.EMPIRE_OF_THE_SKIES), key=lambda dlc: dlc.value)]
+    (dlc for dlc in DLC.__members__.values() if not dlc in DLC.VANILLA | DLC.EMPIRE_OF_THE_SKIES), key=lambda dlc: dlc.value)]
 _default_enabled_dlcs = [dlc.name for dlc in sorted(
     (dlc for dlc in DLC.__members__.values() if not dlc in DLC.DOCKLANDS and dlc.name in _valid_dlcs), key=lambda dlc: dlc.value)]
 
@@ -17,7 +17,7 @@ class EnabledDLCsOption(OptionSet):
     It's recommended to match this list when creating the game.
     Duplicates will be ignored.
     Valid keys: SUNKEN_TREASURES, BOTANICA, THE_PASSAGE, SEAT_OF_POWER, BRIGHT_HARVEST, LAND_OF_LIONS,
-    DOCKLANDS, TOURIST_SEASON
+    DOCKLANDS, TOURIST_SEASON, THE_HIGH_LIFE
     Enabling docklands is strongly discouraged unless you want the option to skip most of the randomizer.
     """
     display_name = "Enabled DLCs"

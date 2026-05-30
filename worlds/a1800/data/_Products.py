@@ -286,12 +286,12 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Tourists", DLC.TOURIST_SEASON, Region.OW, 601379, ProductType.WORKFORCE),
 
     A1800Product("Jam", DLC.TOURIST_SEASON, ALL_REGIONS, 133183, ProductType.GOOD),
-    A1800Product("Coconut Oil", DLC.TOURIST_SEASON, ALL_REGIONS, 133095, ProductType.GOOD),
-    A1800Product("Cinnamon", DLC.TOURIST_SEASON, ALL_REGIONS, 133093, ProductType.GOOD),
+    A1800Product("Coconut Oil", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, ALL_REGIONS, 133095, ProductType.GOOD),
+    A1800Product("Cinnamon", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, ALL_REGIONS, 133093, ProductType.GOOD),
     A1800Product("Shampoo", DLC.TOURIST_SEASON, ALL_REGIONS, 133181, ProductType.GOOD),
-    A1800Product("Citrus", DLC.TOURIST_SEASON, ALL_REGIONS, 133097, ProductType.GOOD),
+    A1800Product("Citrus", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, ALL_REGIONS, 133097, ProductType.GOOD),
     A1800Product("Lemonade", DLC.TOURIST_SEASON, ALL_REGIONS, 133185, ProductType.GOOD),
-    A1800Product("Camphor Wax", DLC.TOURIST_SEASON, ALL_REGIONS, 134616, ProductType.GOOD),
+    A1800Product("Camphor Wax", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, ALL_REGIONS, 134616, ProductType.GOOD),
     A1800Product("Souvenirs", DLC.TOURIST_SEASON, ALL_REGIONS, 133532, ProductType.GOOD),
 
     A1800Product("Tourist Mooring", DLC.TOURIST_SEASON, Region.OW, 133891, ProductType.SERVICE),
@@ -314,6 +314,51 @@ _a1800_products: list[A1800Product] = [
     ################################################################################################################
     ### THE_HIGH_LIFE                                                                                            ###
     ################################################################################################################
+    A1800Product("Skyline Tower: Foundations", DLC.THE_HIGH_LIFE, Region.OW, 0, ProductType.STAGE),
+    A1800Product("Skyline Tower: Superstructure", DLC.THE_HIGH_LIFE, Region.OW, 0, ProductType.STAGE),
+    A1800Product("Skyline Tower: Glazing", DLC.THE_HIGH_LIFE, Region.OW, 0, ProductType.STAGE),
+
+    A1800Product("Elevators", DLC.THE_HIGH_LIFE, ALL_REGIONS, 134623, ProductType.GOOD),
+    # Cinnamon -> Tourist Season
+    A1800Product("Chewing Gum", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135186, ProductType.GOOD),
+    # Citrus -> Tourist Season
+    A1800Product("Biscuits", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135229, ProductType.GOOD),
+    # Camphor Wax -> Tourist Season
+    A1800Product("Ethanol", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135130, ProductType.GOOD),
+    A1800Product("Celluloid", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135150, ProductType.GOOD),
+    A1800Product("Cherry Wood", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135087, ProductType.GOOD),
+    A1800Product("Cognac", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135234, ProductType.GOOD),
+    A1800Product("Resin", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135086, ProductType.GOOD),
+    A1800Product("Lacquer", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135129, ProductType.GOOD),
+    A1800Product("Typewriters", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135230, ProductType.GOOD),
+    A1800Product("Billiard Tables", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135232, ProductType.GOOD),
+    A1800Product("Violins", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135233, ProductType.GOOD),
+    # Coconut Oil -> Tourist Season
+    A1800Product("Toys", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135231, ProductType.GOOD),
+
+    A1800Product("Department Store", DLC.THE_HIGH_LIFE, Region.OW, 135108, ProductType.SERVICE),
+    A1800Product("Furniture Store", DLC.THE_HIGH_LIFE, Region.OW, 135107, ProductType.SERVICE),
+    A1800Product("Drug Store", DLC.THE_HIGH_LIFE, Region.OW, 135109, ProductType.SERVICE),
+
+    A1800Product("Toasters", DLC.THE_HIGH_LIFE, Region.OW, 135816, ProductType.STORE),
+    A1800Product("Vacuum Cleaners", DLC.THE_HIGH_LIFE, Region.OW, 135877, ProductType.STORE),
+    A1800Product("Crockery", DLC.THE_HIGH_LIFE, Region.OW, 135876, ProductType.STORE),
+    A1800Product("Banker's Lamps", DLC.THE_HIGH_LIFE, Region.OW, 135880, ProductType.STORE),
+    A1800Product("Vanity Screens", DLC.THE_HIGH_LIFE, Region.OW, 135881, ProductType.STORE),
+    A1800Product("Writing Desks", DLC.THE_HIGH_LIFE, Region.OW, 135882, ProductType.STORE),
+    A1800Product("Toothpaste", DLC.THE_HIGH_LIFE, Region.OW, 135885, ProductType.STORE),
+    A1800Product("Detergent", DLC.THE_HIGH_LIFE, Region.OW, 135886, ProductType.STORE),
+    A1800Product("Lipstick", DLC.THE_HIGH_LIFE, Region.OW, 135887, ProductType.STORE),
+
+    ### Needs The Passage ###
+    A1800Product("Refrigerators", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW, 135878, ProductType.STORE),
+    A1800Product("Four-Poster Beds", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW, 135883, ProductType.STORE),
+    A1800Product("Face Cream", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW, 135231, ProductType.STORE),
+
+    ### Needs Land of Lions ###
+    A1800Product("Briefcases", DLC.LAND_OF_LIONS | DLC.THE_HIGH_LIFE, Region.OW, 135879, ProductType.STORE),
+    A1800Product("Lounge Seating", DLC.LAND_OF_LIONS | DLC.THE_HIGH_LIFE, Region.OW, 135884, ProductType.STORE),
+    A1800Product("Pomade", DLC.LAND_OF_LIONS | DLC.THE_HIGH_LIFE, Region.OW, 135889, ProductType.STORE),
 
     ### Needs Tourist Season ###
     A1800Product("Skyline Tower", DLC.TOURIST_SEASON | DLC.THE_HIGH_LIFE, Region.OW, 137757, ProductType.SERVICE),

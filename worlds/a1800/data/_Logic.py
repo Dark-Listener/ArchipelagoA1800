@@ -33,9 +33,11 @@ def _get_victory_condition_info(
             f"Victory condition requested population {population.name} which was introduced in more than one DLC"
         victory_dlcs |= next(iter(population.dlc))
 
+        # Pick residence, but avoid tiered buildings and the Skyline Tower
         residence = next(
             unlock for unlock in UNLOCKS.get_unlocks()
-            if UnlockType.RESIDENCE in unlock.type and population.region in unlock.region and population.name in next(zip(*unlock.output)))
+            if UnlockType.RESIDENCE in unlock.type and not "Level" in unlock.name and not "Tower" in unlock.name
+            and population.region in unlock.region and population.name in next(zip(*unlock.output)))
 
         if supplied:
             victory_required_items |= set(A1800Requirement(consumption, population.region)

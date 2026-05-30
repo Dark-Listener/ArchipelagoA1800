@@ -610,8 +610,8 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("World's Fair: Superstructure", DLC.VANILLA, Region.OW, 1010490, 1010490,
                 Trigger.POPULATION("Investors", Region.OW, 750),
-                {"World's Fair: Foundations"}, "Workers",
-                {"Bricks", "Steel Beams", "Reinforced Concrete"}, {"World's Fair: Superstructure"}),
+                "World's Fair: Foundations", "Workers",
+                {"Bricks", "Steel Beams", "Reinforced Concrete"}, "World's Fair: Superstructure"),
 
     A1800Unlock("Jewellers", DLC.VANILLA, Region.OW, 1010328, 140048,
                 Trigger.POPULATION("Investors", Region.OW, 1750),
@@ -620,8 +620,8 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("World's Fair: Glazing", DLC.VANILLA, Region.OW, 101336, 101336,
                 Trigger.POPULATION("Investors", Region.OW, 1750),
-                {"World's Fair: Superstructure"}, "Artisans",
-                {"Windows", "Steam Motors", "Wood Veneers"}, {"World's Fair: Glazing"}),
+                "World's Fair: Superstructure", "Artisans",
+                {"Windows", "Steam Motors", "Wood Veneers"}, "World's Fair: Glazing"),
 
     A1800Unlock("Gramophone Factory", DLC.VANILLA, Region.OW, 1010326, 140047,
                 Trigger.POPULATION("Investors", Region.OW, 3000),
@@ -630,8 +630,8 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("World's Fair: Infrastructure", DLC.VANILLA, Region.OW, 1010491, 1010491,
                 Trigger.POPULATION("Investors", Region.OW, 3000),
-                {"World's Fair: Glazing"}, {"Engineers", "Electricity"},
-                {"Filaments", "Light Bulbs", "Caoutchouc"}, {"World's Fair: Infrastructure"}),
+                "World's Fair: Glazing", {"Engineers", "Electricity"},
+                {"Filaments", "Light Bulbs", "Caoutchouc"}, "World's Fair: Infrastructure"),
 
     A1800Unlock("Coachmakers", DLC.VANILLA, Region.OW, 1010289, 140049,
                 Trigger.POPULATION("Investors", Region.OW, 5000),
@@ -645,7 +645,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("World's Fair", DLC.VANILLA, Region.OW, 1010492, 1010492,
                 Trigger.POPULATION("Investors", Region.OW, 5000),
-                {"World's Fair: Infrastructure"}, {"Investors", "Electricity"},
+                "World's Fair: Infrastructure", {"Investors", "Electricity"},
                 set(), {"World's Fair: Exhibitions", "World's Fair"}),
 
     A1800Unlock("Lumberjack's Hut", DLC.VANILLA, Region.NW, 101260, 130093,
@@ -953,6 +953,10 @@ _a1800_unlocks: list[A1800Unlock] = [
                 input={"Timber", "Steel Beams", "Air Travel"}, output="Plateau Settling",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
+    A1800Unlock("Search in the far northern Arctic", DLC.THE_PASSAGE, Region.AR,
+                input="Air Travel", output="Lost Expedition Scrap",
+                type=UnlockType.META | UnlockType.FACTORY),
+
     # Unlock
     A1800Unlock("Expedition: The Arctic", DLC.THE_PASSAGE, ALL_REGIONS, Session.AR.expedition_unlock_guid, [],
                 Trigger.POPULATION("Engineers", Region.OW, 1)),
@@ -1041,15 +1045,15 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Arctic Airship Hangar: Foundations", DLC.THE_PASSAGE, Region.AR, 112685, 112685,
                 Trigger.POPULATION("Technicians", Region.AR, 1),
                 {"Timber", "Steel Beams"}, {"Explorers", "Heat"},
-                {"Timber", "Cement"}, {"Arctic Airship Hangar: Foundations"}),
+                {"Timber", "Cement"}, "Arctic Airship Hangar: Foundations"),
 
     A1800Unlock("Post Office", DLC.THE_PASSAGE, Region.AR, 112684, 112684,
                 Trigger.POPULATION("Technicians", Region.AR, 100), {"Timber", "Steel Beams"}, set(), set(), "Post Office"),
 
     A1800Unlock("Arctic Airship Hangar: Structure", DLC.THE_PASSAGE, Region.AR, 112687, 112687,
                 Trigger.POPULATION("Technicians", Region.AR, 100),
-                {"Arctic Airship Hangar: Foundations"}, {"Technicians", "Heat"},
-                {"Steel Beams", "Reinforced Concrete"}, {"Arctic Airship Hangar: Structure"}),
+                "Arctic Airship Hangar: Foundations", {"Technicians", "Heat"},
+                {"Steel Beams", "Reinforced Concrete"}, "Arctic Airship Hangar: Structure"),
 
     A1800Unlock("Bear Hunting Cabin", DLC.THE_PASSAGE, Region.AR, 112673, 112719,
                 Trigger.POPULATION("Technicians", Region.AR, 300),
@@ -1064,8 +1068,8 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Arctic Airship Hangar: Roof", DLC.THE_PASSAGE, Region.AR, 112688, 112688,
                 Trigger.POPULATION("Technicians", Region.AR, 300),
-                {"Arctic Airship Hangar: Structure"}, {"Technicians", "Heat"},
-                {"Sails", "Windows", "Steam Motors"}, {"Arctic Airship Hangar: Roof"}),
+                "Arctic Airship Hangar: Structure", {"Technicians", "Heat"},
+                {"Sails", "Windows", "Steam Motors"}, "Arctic Airship Hangar: Roof"),
 
     A1800Unlock("Husky Farm", DLC.THE_PASSAGE, Region.AR, 112682, 112722,
                 Trigger.POPULATION("Technicians", Region.AR, 750),
@@ -1092,7 +1096,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     # No arctic gas input to avoid cyclic dependency - Nate will always give you some if you have none and no Boreas
     A1800Unlock("Arctic Airship Hangar", DLC.THE_PASSAGE, Region.AR, 112689, 112689,
                 Trigger.POPULATION("Technicians", Region.AR, 750),
-                {"Arctic Airship Hangar: Roof"}, {"Technicians", "Heat"},
+                "Arctic Airship Hangar: Roof", {"Technicians", "Heat"},
                 {"Timber", "Sails", "Steam Motors"}, "Air Travel"),
 
     # Building, Upgrade
@@ -1194,27 +1198,27 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Research Institute, Engineers for infinite permits
     A1800Unlock("1500 Elders", DLC.LAND_OF_LIONS, Region.EN,
                 input={("Elders", Region.EN), ("Engineers", Region.OW), ("Research Institute", Region.OW)},
-                output={"Permit: Scholar Residence"},
+                output="Permit: Scholar Residence",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.EN),
 
     A1800Unlock("Research: Advanced Coffee Roaster", DLC.LAND_OF_LIONS, Region.OW,
                 input={"Engineers", "Research Institute", "Research Points"},
-                output={"Permit: Advanced Coffee Roaster"},
+                output="Permit: Advanced Coffee Roaster",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     A1800Unlock("Research: Advanced Rum Distillery", DLC.LAND_OF_LIONS, Region.OW,
                 input={"Engineers", "Research Institute", "Research Points"},
-                output={"Permit: Advanced Rum Distillery"},
+                output="Permit: Advanced Rum Distillery",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     A1800Unlock("Research: Advanced Cotton Mill", DLC.LAND_OF_LIONS, Region.OW,
                 input={"Engineers", "Research Institute", "Research Points"},
-                output={"Permit: Advanced Cotton Mill"},
+                output="Permit: Advanced Cotton Mill",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     A1800Unlock("Research: Advanced Pier", DLC.LAND_OF_LIONS, Region.OW,
                 input={"Engineers", "Research Institute", "Research Points"},
-                output={"Permit: Advanced Pier"},
+                output="Permit: Advanced Pier",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     # Unlock
@@ -1269,16 +1273,16 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Research Institute: Foundations", DLC.LAND_OF_LIONS, Region.OW, 118938, 118938,
                 Trigger.POPULATION("Elders", Region.EN, 300),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Workers",
-                {"Bricks", "Cement"}, {"Research Institute: Foundations"}),
+                {"Bricks", "Cement"}, "Research Institute: Foundations"),
 
     A1800Unlock("Research Institute: Superstructure", DLC.LAND_OF_LIONS, Region.OW, 118939, 118939,
                 Trigger.POPULATION("Elders", Region.EN, 300),
-                {"Research Institute: Foundations"}, "Engineers",
-                {"Steel Beams", "Windows", "Reinforced Concrete"}, {"Research Institute: Superstructure"}),
+                "Research Institute: Foundations", "Engineers",
+                {"Steel Beams", "Windows", "Reinforced Concrete"}, "Research Institute: Superstructure"),
 
     A1800Unlock("Research Institute", DLC.LAND_OF_LIONS, Region.OW, [118940, 119392], [118940, 119392],
                 Trigger.POPULATION("Elders", Region.EN, 300),
-                {"Research Institute: Superstructure"}, {"Engineers", "Electricity"}, set(), "Research Institute"),
+                "Research Institute: Superstructure", {"Engineers", "Electricity"}, set(), "Research Institute"),
 
     A1800Unlock("Advanced Coffee Roaster", DLC.LAND_OF_LIONS, Region.OW, 124738, 127612,
                 Trigger.COUNTER("Research Institute", Region.OW, 1),
@@ -1342,7 +1346,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Wanza Timber", {"Shepherds", "Irrigation"}, "Linen", "Finery", "Finery"),
 
     A1800Unlock("Musicians' Court", DLC.LAND_OF_LIONS, Region.EN, 114519, 114519,
-                Trigger.POPULATION("Shepherds", Region.EN, 150), "Wanza Timber", set(), set(), {"Musicians' Court"}),
+                Trigger.POPULATION("Shepherds", Region.EN, 150), "Wanza Timber", set(), set(), "Musicians' Court"),
 
     A1800Unlock("Fire Station", DLC.LAND_OF_LIONS, Region.EN, 119892, 119892,
                 Trigger.POPULATION("Shepherds", Region.EN, 150), "Wanza Timber", "Irrigation", set(), "Fire Protection"),
@@ -1615,24 +1619,24 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Restaurant", DLC.TOURIST_SEASON, Region.OW, 132780, 132780,
                 Trigger.POPULATION("Tourists", Region.OW, 250),
-                {"Timber", "Bricks"}, set(), set(), {"Restaurant (Blank)"}),
+                {"Timber", "Bricks"}, set(), set(), "Restaurant (Blank)"),
 
     A1800Unlock("Restaurant: Archduke's Schnitzel", DLC.TOURIST_SEASON, Region.OW,
                 [132747, RECIPE_GUIDS["Recipe: Archduke's Schnitzel"][0]], [132747],
                 Trigger.UNLOCK("Restaurant", Region.OW),
-                set(), {"Tourists", "Restaurant (Blank)"}, {"Pigs", "Potatoes", "Tallow"}, "Restaurant"),
+                "Restaurant (Blank)", "Tourists", {"Pigs", "Potatoes", "Tallow"}, "Restaurant"),
 
     A1800Unlock("Restaurant: Stroggof Goulash", DLC.TOURIST_SEASON, Region.OW,
                 [132750, RECIPE_GUIDS["Recipe: Stroggof Goulash"][0]], [132750],
                 Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
                                Trigger.COUNTER_GOOD_IN_REGION("Corn", ALL_REGIONS, 1, Region.OW)),
-                set(), {"Tourists", "Restaurant (Blank)"}, {"Beef", "Red Peppers", "Corn"}, "Restaurant"),
+                "Restaurant (Blank)", "Tourists", {"Beef", "Red Peppers", "Corn"}, "Restaurant"),
 
     A1800Unlock("Restaurant: Fish and Frites", DLC.TOURIST_SEASON, Region.OW,
                 [133339, RECIPE_GUIDS["Recipe: Fish and Frites"][0]], [133339],
                 Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
                                Trigger.COUNTER("Orchard: Citrus", Region.NW, 1)),
-                set(), {"Tourists", "Restaurant (Blank)"}, {"Fish", "Potatoes", "Citrus"}, "Restaurant"),
+                "Restaurant (Blank)", "Tourists", {"Fish", "Potatoes", "Citrus"}, "Restaurant"),
 
     A1800Unlock("Orchard: Jam", DLC.TOURIST_SEASON, Region.OW, [133496, 133498, 132933], [133496, 134706, 132933],
                 Trigger.POPULATION("Tourists", Region.OW, 300),
@@ -1640,12 +1644,12 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Cafe", DLC.TOURIST_SEASON, Region.OW, 132782, 132782,
                 Trigger.POPULATION("Tourists", Region.OW, 550),
-                {"Timber", "Bricks"}, set(), set(), {"Cafe (Blank)"}),
+                {"Timber", "Bricks"}, set(), set(), "Cafe (Blank)"),
 
     A1800Unlock("Cafe: Donut Fourre", DLC.TOURIST_SEASON, Region.OW,
                 [132753, RECIPE_GUIDS["Recipe: Donut Fourre"][0]], [132753],
                 Trigger.UNLOCK("Cafe", Region.OW),
-                set(), {"Tourists", "Cafe (Blank)"}, {"Flour", "Tallow", "Jam"}, "Cafe"),
+                "Cafe (Blank)", "Tourists", {"Flour", "Tallow", "Jam"}, "Cafe"),
 
     A1800Unlock("Cafe: Eclair", DLC.TOURIST_SEASON, Region.OW,
                 [133347, RECIPE_GUIDS["Recipe: Eclair"][0]], [133347],
@@ -1657,7 +1661,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         {("Tourists", Region.OW), ("Cafe", Region.OW)}
                     )
                 ),
-                set(), {"Tourists", "Cafe (Blank)"}, {"Flour", "Sugar", "Chocolate"}, "Cafe"),
+                "Cafe (Blank)", "Tourists", {"Flour", "Sugar", "Chocolate"}, "Cafe"),
 
     A1800Unlock("Cafe: Palmier Biscuit", DLC.TOURIST_SEASON, Region.OW,
                 [133348, RECIPE_GUIDS["Recipe: Palmier Biscuit"][0]], [133348],
@@ -1669,7 +1673,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         ap_location_name="Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)"
                     )
                 ),
-                set(), {"Tourists", "Cafe (Blank)"}, {"Flour", "Tallow", "Cinnamon"}, "Cafe", is_excluded=True),
+                "Cafe (Blank)", "Tourists", {"Flour", "Tallow", "Cinnamon"}, "Cafe", is_excluded=True),
 
     A1800Unlock("Orchard: Coconut Oil", DLC.TOURIST_SEASON, Region.NW,
                 [133004, 133005, 133010], [133004, 134710, 133010],
@@ -1703,29 +1707,29 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Bar", DLC.TOURIST_SEASON, Region.OW, 132781, 132781,
                 Trigger.POPULATION("Tourists", Region.OW, 1500),
-                {"Timber", "Bricks"}, set(), set(), {"Bar (Blank)"}),
+                {"Timber", "Bricks"}, set(), set(), "Bar (Blank)"),
 
     A1800Unlock("Bar: Daiquiri Tropic", DLC.TOURIST_SEASON, Region.OW,
                 [132752, RECIPE_GUIDS["Recipe: Daiquiri Tropic"][0]], [132752],
                 Trigger.UNLOCK("Bar", Region.OW),
-                set(), {"Tourists", "Bar (Blank)"}, {"Sugar Cane", "Rum", "Plantains"}, "Bar"),
+                "Bar (Blank)", "Tourists", {"Sugar Cane", "Rum", "Plantains"}, "Bar"),
 
     A1800Unlock("Bar: Black Muscovy", DLC.TOURIST_SEASON, Region.OW,
                 [133342, RECIPE_GUIDS["Recipe: Black Muscovy"][0]], [133342],
                 Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, guid=133472),
                                Trigger.COUNTER("Members Club", Region.OW, 1)),
-                set(), {"Tourists", "Bar (Blank)"}, {"Coffee", "Rum", "Schnapps"}, "Bar"),
+                "Bar (Blank)", "Tourists", {"Coffee", "Rum", "Schnapps"}, "Bar"),
 
     A1800Unlock("Bar: Montmartre '75'", DLC.TOURIST_SEASON, Region.OW,
                 [133343, RECIPE_GUIDS["Recipe: Montmartre '75'"][0]], [133343],
                 Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, guid=133472),
                                Trigger.EVENT_ACTIVE("World's Fair: Exhibitions", Region.OW)),
-                set(), {"Tourists", "Bar (Blank)"}, {"Sugar", "Champagne", "Citrus"}, "Bar"),
+                "Bar (Blank)", "Tourists", {"Sugar", "Champagne", "Citrus"}, "Bar"),
 
     A1800Unlock("The Iron Tower: Superstructure", DLC.TOURIST_SEASON, Region.OW, 132766, 132766,
                 Trigger.POPULATION("Tourists", Region.OW, 1500),
-                {"The Iron Tower: Foundations"}, "Artisans",
-                {"Steel Beams", "Reinforced Concrete"}, {"The Iron Tower: Superstructure"}),
+                "The Iron Tower: Foundations", "Artisans",
+                {"Steel Beams", "Reinforced Concrete"}, "The Iron Tower: Superstructure"),
 
     A1800Unlock("Orchard: Camphor Wax", DLC.TOURIST_SEASON, Region.NW,
                 [134614, 134615, 133010], [134614, 134709, 133010],
@@ -1740,12 +1744,12 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("The Iron Tower", DLC.TOURIST_SEASON, Region.OW, 132770, 132770,
                 Trigger.POPULATION("Tourists", Region.OW, 4000),
-                {"The Iron Tower: Superstructure"}, set(), set(), {"The Iron Tower (Blank)"}),
+                "The Iron Tower: Superstructure", set(), set(), "The Iron Tower (Blank)"),
 
     A1800Unlock("The Iron Tower: Brioche Royale", DLC.TOURIST_SEASON, Region.OW,
                 [133928, RECIPE_GUIDS["Recipe: Brioche Royale"][0]], [133928],
                 Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
-                set(), {"Tourists", "Electricity", "The Iron Tower (Blank)"},
+                "The Iron Tower (Blank)", {"Tourists", "Electricity"},
                 {"Sausages", "Bread", "Beef", "Gold"}, "The Iron Tower"),
 
     A1800Unlock("The Iron Tower: Trifle Tower", DLC.TOURIST_SEASON, Region.OW,
@@ -1758,7 +1762,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         {("Tourists", Region.OW), ("The Iron Tower", Region.OW)}
                     )
                 ),
-                set(), {"Tourists", "Electricity", "The Iron Tower (Blank)"},
+                "The Iron Tower (Blank)", {"Tourists", "Electricity"},
                 {"Rum", "Bread", "Grapes", "Sugar"}, "The Iron Tower"),
 
     A1800Unlock("The Iron Tower: Lady Marmelade", DLC.TOURIST_SEASON, Region.OW,
@@ -1770,7 +1774,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         Trigger.COUNTER("Chemical Plant: Lemonade", Region.OW, 1)
                     )
                 ),
-                set(), {"Tourists", "Electricity", "The Iron Tower (Blank)"},
+                "The Iron Tower (Blank)", {"Tourists", "Electricity"},
                 {"Rum", "Champagne", "Citrus", "Jam"}, "The Iron Tower"),
 
     # Building, Factory, Upgrade
@@ -1797,13 +1801,13 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
                                Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1, guid=114166,
                                                ap_location_name="(Build 1 OW: Restaurant) THEN (Build 1 Boreas)")),
-                set(), {"Tourists", "Restaurant (Blank)"}, {"Flour", "Potatoes", "Caribou Meat"}, "Restaurant"),
+                "Restaurant (Blank)", "Tourists", {"Flour", "Potatoes", "Caribou Meat"}, "Restaurant"),
 
     A1800Unlock("Cafe: Venison Tartare", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
                 [133349, RECIPE_GUIDS["Recipe: Venison Tartare"][0]], [133349],
                 Trigger.LINEAR(Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                                Trigger.COUNTER("Post Office", Region.AR, 1)),
-                set(), {"Tourists", "Cafe (Blank)"}, {"Grapes", "Caribou Meat", "Citrus"}, "Cafe"),
+                "Cafe (Blank)", "Tourists", {"Grapes", "Caribou Meat", "Citrus"}, "Cafe"),
 
     A1800Unlock("Bar: Glogg", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
                 [133345, RECIPE_GUIDS["Recipe: Glogg"][0]], [133345],
@@ -1815,19 +1819,19 @@ _a1800_unlocks: list[A1800Unlock] = [
                         134300,
                         {("Expedition: The Arctic", ALL_REGIONS), ("Sea Travel", ALL_REGIONS), ("Artisans", Region.OW)})
                 ),
-                set(), {"Tourists", "Bar (Blank)"}, {"Whale Oil", "Grapes", "Cinnamon"}, "Bar"),
+                "Bar (Blank)", "Tourists", {"Whale Oil", "Grapes", "Cinnamon"}, "Bar"),
 
     A1800Unlock("The Iron Tower: Age of Exploration", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
                 [133932, RECIPE_GUIDS["Recipe: Age of Exploration"][0]], [133932],
                 Trigger.LINEAR(
                     Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                     Trigger.QUEST_COMPLETE(
-                        "Hidden quest: Complete the set Polar Circle in a Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)",
+                        "Hidden quest: Complete the set Polar Circle in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)",
                         134983,
-                        {("Zoo", Region.OW)}
+                        {("Zoo", Region.OW), ("Engineers", Region.OW)}
                     )
                 ),
-                set(), {"Tourists", "Electricity", "The Iron Tower (Blank)"},
+                "The Iron Tower (Blank)", {"Tourists", "Electricity"},
                 {"Arctic Gas", "Potatoes", "Red Peppers", "Beef"}, "The Iron Tower", is_excluded=True),
 
     ### Needs Land of Lions ###
@@ -1842,31 +1846,31 @@ _a1800_unlocks: list[A1800Unlock] = [
                         {("Scholars", Region.OW), ("Clay Pipes", Region.OW)}
                     )
                 ),
-                set(), {"Tourists", "Restaurant (Blank)"}, {"Lobster", "Citrus", "Tobacco"}, "Restaurant"),
+                "Restaurant (Blank)", "Tourists", {"Lobster", "Citrus", "Tobacco"}, "Restaurant"),
 
     A1800Unlock("Cafe: Banana Surprise", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
                 [133350, RECIPE_GUIDS["Recipe: Banana Surprise"][0]], [133350],
                 Trigger.LINEAR(Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                                Trigger.COUNTER_GOOD_IN_REGION("Plantains", ALL_REGIONS, 1, Region.EN)),
-                set(), {"Tourists", "Cafe (Blank)"}, {"Goat Milk", "Plantains", "Cinnamon"}, "Cafe"),
+                "Cafe (Blank)", "Tourists", {"Goat Milk", "Plantains", "Cinnamon"}, "Cafe"),
 
     A1800Unlock("Bar: Enbesa Sunrise", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
                 [133346, RECIPE_GUIDS["Recipe: Enbesa Sunrise"][0]], [133346],
                 Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, guid=133472),
                                Trigger.POPULATION_HAPPINESS("Elders", Session.EN, 30, "Elder Residence")),
-                set(), {"Tourists", "Bar (Blank)"}, {"Hibiscus Petals", "Rum", "Spices"}, "Bar"),
+                "Bar (Blank)", "Tourists", {"Hibiscus Petals", "Rum", "Spices"}, "Bar"),
 
     A1800Unlock("The Iron Tower: Homard Lit de Terroir", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
                 [133933, RECIPE_GUIDS["Recipe: Homard Lit de Terroir"][0]], [133933],
                 Trigger.LINEAR(
                     Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                     Trigger.QUEST_COMPLETE(
-                        "Hidden quest: Socket a Lobsterman in a Harbourmaster's Office in Enbesa",
+                        "Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa",
                         134984,
                         {("Artisans", Region.OW), ("Elders", Region.EN), ("Harbourmaster's Office", Region.EN)}
                     )
                 ),
-                set(), {"Tourists", "Electricity", "The Iron Tower (Blank)"},
+                "The Iron Tower (Blank)", {"Tourists", "Electricity"},
                 {"Lobster", "Sanga Cow", "Potatoes", "Spices"}, "The Iron Tower", is_excluded=True),
 
     ################################################################################################################

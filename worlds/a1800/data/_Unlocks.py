@@ -4,6 +4,7 @@ from typing import ClassVar, Iterator, Optional
 from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerType, UnlockType
 from ._Guid import RECIPE_GUIDS
+from ._ParsedOptions import ParsedOptions
 from ._Products import PRODUCTS
 from ._Trigger import Trigger
 
@@ -113,12 +114,14 @@ class A1800Unlock:
 
         if UnlockType.BUILDING in self.type:
             for chain, region in self.unlock_chain:
-                self.unlock_guids.append(next(CHAINS.find_chains(chain, self.name, self.region, region)).guid)
+                chain_guid = next(CHAINS.find_chains(chain, self.name, self.region, region)).guid
+                if not chain_guid in self.unlock_guids:
+                    self.unlock_guids.append(chain_guid)
 
         if UnlockType.FACTORY in self.type:
             for name, region in self.output:
                 output_guid = next(PRODUCTS.find_products(name, region)).guid
-                if output_guid:
+                if output_guid and not output_guid in self.unlock_guids:
                     self.unlock_guids.append(output_guid)
 
     def __str__(self) -> str:
@@ -1197,27 +1200,27 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     # Research Institute, Engineers for infinite permits
     A1800Unlock("1500 Elders", DLC.LAND_OF_LIONS, Region.EN,
-                input={("Elders", Region.EN), ("Engineers", Region.OW), ("Research Institute", Region.OW)},
+                input={("Elders", Region.EN), ("Engineers", Region.OW), ("Research", Region.OW)},
                 output="Permit: Scholar Residence",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.EN),
 
     A1800Unlock("Research: Advanced Coffee Roaster", DLC.LAND_OF_LIONS, Region.OW,
-                input={"Engineers", "Research Institute", "Research Points"},
+                input={"Engineers", "Research", "Research Points"},
                 output="Permit: Advanced Coffee Roaster",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     A1800Unlock("Research: Advanced Rum Distillery", DLC.LAND_OF_LIONS, Region.OW,
-                input={"Engineers", "Research Institute", "Research Points"},
+                input={"Engineers", "Research", "Research Points"},
                 output="Permit: Advanced Rum Distillery",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     A1800Unlock("Research: Advanced Cotton Mill", DLC.LAND_OF_LIONS, Region.OW,
-                input={"Engineers", "Research Institute", "Research Points"},
+                input={"Engineers", "Research", "Research Points"},
                 output="Permit: Advanced Cotton Mill",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     A1800Unlock("Research: Advanced Pier", DLC.LAND_OF_LIONS, Region.OW,
-                input={"Engineers", "Research Institute", "Research Points"},
+                input={"Engineers", "Research", "Research Points"},
                 output="Permit: Advanced Pier",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
@@ -1282,7 +1285,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Research Institute", DLC.LAND_OF_LIONS, Region.OW, [118940, 119392], [118940, 119392],
                 Trigger.POPULATION("Elders", Region.EN, 300),
-                "Research Institute: Superstructure", {"Engineers", "Electricity"}, set(), "Research Institute"),
+                "Research Institute: Superstructure", {"Engineers", "Electricity"}, set(), "Research"),
 
     A1800Unlock("Advanced Coffee Roaster", DLC.LAND_OF_LIONS, Region.OW, 124738, 127612,
                 Trigger.COUNTER("Research Institute", Region.OW, 1),
@@ -1741,7 +1744,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "The Iron Tower: Foundations", "Artisans",
                 {"Steel Beams", "Reinforced Concrete"}, "The Iron Tower: Superstructure"),
 
-    A1800Unlock("Orchard: Camphor Wax", DLC.TOURIST_SEASON, Region.NW,
+    A1800Unlock("Orchard: Camphor Wax", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, Region.NW,
                 [134614, 134615, 133010], [134614, 134709, 137840, 137609, 133010],
                 Trigger.ANY(
                     Trigger.POPULATION("Tourists", Region.OW, 2000),
@@ -2073,7 +2076,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building, Factory, Residence
     A1800Unlock("Skyline Tower", DLC.THE_HIGH_LIFE, Region.OW, 406, 406,
                 Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 75),
-                "Skyline Tower: Glazing", set(), set(), {"Investors", "Skyline Tower"},
+                "Skyline Tower: Glazing", set(), set(), {"Skyline Tower"},
                 consumption={"Spectacles", "Coffee", "Electricity", "Light Bulbs", "Champagne", "Cigars", "Chocolate",
                              "Steam Carriages", "Fire Protection", "Riot Control", "Healthcare"},
                 luxury={"Penny Farthings", "Pocket Watches", "Bank", "Members Club", "Jewellery", "Gramophones"},
@@ -2206,8 +2209,8 @@ _a1800_unlocks: list[A1800Unlock] = [
 class _Unlocks:
     _initialized: bool = False
 
-    def init(self, enabled_dlcs: DLC, enable_docklands_logic: bool) -> None:
-        self._apply_options(enabled_dlcs, enable_docklands_logic)
+    def init(self, parsed_options: ParsedOptions) -> None:
+        self._apply_options(parsed_options)
 
         for a1800_unlock in self._a1800_unlocks:
             a1800_unlock.trigger = self._flatten_trigger(a1800_unlock.trigger)
@@ -2257,18 +2260,24 @@ class _Unlocks:
             assert references, f"Trigger references unknown product {trigger.product_name}"
             assert len(references) == 1, \
                 f"Trigger references multiple products {[reference.name for reference in references]}"
+            assert references[0].guid, \
+                f"Trigger references product without guid {references[0].name}"
             trigger.guid = references[0].guid
         elif (trigger.trigger_type == TriggerType.EVENT_ACTIVE) and trigger.guid == 0:
             references = list(PRODUCTS.find_products(trigger.product_name, trigger.region))
             assert references, f"Trigger references unknown product {trigger.product_name}"
             assert len(references) == 1, \
                 f"Trigger references multiple products {[reference.name for reference in references]}"
+            assert references[0].guid, \
+                f"Trigger references product without guid {references[0].name}"
             trigger.guid = references[0].guid
         elif (trigger.trigger_type in [TriggerType.POPULATION, TriggerType.POPULATION_HAPPINESS]) and trigger.guid == 0:
             references = list(PRODUCTS.find_products(trigger.population_name, trigger.region))
             assert references, f"Trigger references unknown population {trigger.population_name}"
             assert len(references) == 1, \
                 f"Trigger references multiple populations {[reference.name for reference in references]}"
+            assert references[0].guid, \
+                f"Trigger references population without guid {references[0].name}"
             trigger.guid = references[0].guid
         elif (trigger.trigger_type == TriggerType.OBJECT_POSITION) and trigger.guid == 0:
             references = [unlock for unlock in self._a1800_unlocks
@@ -2378,12 +2387,13 @@ class _Unlocks:
             if missing_lifestyles:
                 unlock.lifestyle -= missing_lifestyles
 
-    def _apply_options(self, enabled_dlcs: DLC, enable_docklands_logic: bool) -> None:
+    def _apply_options(self, parsed_options: ParsedOptions) -> None:
         global _a1800_unlocks
 
-        self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if any(dlc in enabled_dlcs for dlc in unlock.dlc)]
+        self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if any(
+            dlc in parsed_options.enabled_dlcs for dlc in unlock.dlc)]
 
-        if DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES in enabled_dlcs:
+        if DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES in parsed_options.enabled_dlcs:
             for unlock in self._a1800_unlocks:
                 if unlock.name == "Post Office" and unlock.region == Region.AR:
                     unlock.dlc = {DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES}
@@ -2391,12 +2401,12 @@ class _Unlocks:
                     unlock.output.add(("Local Mail", Region.AR))
                     break
 
-        if DLC.DOCKLANDS in enabled_dlcs and not enable_docklands_logic:
+        if DLC.DOCKLANDS in parsed_options.enabled_dlcs and not parsed_options.enable_docklands_logic:
             for unlock in self._a1800_unlocks:
                 if unlock.name == "Docklands Main Wharf" and unlock.region == Region.OW:
                     unlock.output = {("Docklands", Region.OW)}
 
-        self._clean_dlc_references(enabled_dlcs)
+        self._clean_dlc_references(parsed_options.enabled_dlcs)
 
     def _verify_data(self) -> None:
         # Assure all references exist

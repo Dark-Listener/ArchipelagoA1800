@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from ._Enums import ALL_REGIONS, DLC, Region, START_REGION
+from ._ParsedOptions import ParsedOptions
 from ._Products import PRODUCTS
 from ._Requirement import A1800Requirement
 from ._Unlocks import UNLOCKS
@@ -54,7 +55,7 @@ class A1800Region:
 class _Regions:
     _initialized: bool = False
 
-    def init(self, enabled_dlcs: DLC) -> None:
+    def init(self, parsed_options: ParsedOptions) -> None:
         global _a1800_regions
 
         self._a1800_regions = {
@@ -63,7 +64,7 @@ class _Regions:
                 dlc,
                 {A1800Requirement(name, region) for name, region in entry_requirements},
                 {A1800Requirement(name, region) for name, region in build_requirements}
-            ) for region, (dlc, entry_requirements, build_requirements) in _a1800_regions.items() if dlc in enabled_dlcs
+            ) for region, (dlc, entry_requirements, build_requirements) in _a1800_regions.items() if dlc in parsed_options.enabled_dlcs
         }
 
         self._initialized = True

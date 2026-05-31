@@ -3,7 +3,8 @@ from typing import Optional
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, START_REGION, TriggerType, UnlockType
 from ._EventItems import A1800EventItem, EVENT_ITEMS
 from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
-from ._Products import A1800Product
+from ._ParsedOptions import ParsedOptions
+from ._Products import PRODUCTS
 from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
 from ._Sessions import SESSIONS
@@ -11,53 +12,35 @@ from ._Trigger import Trigger
 from ._Unlocks import A1800Unlock, UNLOCKS
 
 
-def _get_victory_condition_info(
-    population_requirements: list[tuple[A1800Product, int, bool, bool, bool]]
-) -> tuple[str, set[A1800Requirement], Trigger, DLC]:
-    victory_event_location_name = ""
-    victory_required_items: set[A1800Requirement] = set()
-    victory_triggers: list[Trigger] = []
-    victory_dlcs: DLC = DLC.VANILLA
-    for population_requirement in population_requirements:
-        population, amount, supplied, luxury, lifestyle = population_requirement
+def get_requirements_for_construction(unlock: A1800Unlock) -> set[A1800Requirement]:
+    new_requirements: set[A1800Requirement] = set()
 
-        victory_event_location_name += f"{', ' if victory_event_location_name else ''}"\
-            f"{amount} {population.name if amount > 1 else population.name[:-1]}"  # ("\
-        # f"Supplied: {'Yes' if supplied else 'No'}, "\
-        # f"Luxury: {'Yes' if luxury else 'No'}, "\
-        # f"Lifestyle: {'Yes' if lifestyle else 'No'})"
+    if not UnlockType.META in unlock.type:
+        new_requirements.add(A1800Requirement(unlock.name, unlock.region, RequirementType.UNLOCK))
 
-        victory_required_items.add(A1800Requirement(population.name, population.region))
-        victory_triggers.append(Trigger.POPULATION(population.name, population.region, amount, guid=population.guid))
-        assert len(population.dlc) == 1, \
-            f"Victory condition requested population {population.name} which was introduced in more than one DLC"
-        victory_dlcs |= next(iter(population.dlc))
+    if UnlockType.BUILDING in unlock.type:
+        new_requirements |= {A1800Requirement(name, unlock.region) for name in unlock.cost | unlock.maintenance}
 
-        # Pick residence, but avoid tiered buildings and the Skyline Tower
-        residence = next(
-            unlock for unlock in UNLOCKS.get_unlocks()
-            if UnlockType.RESIDENCE in unlock.type and not "Level" in unlock.name and not "Tower" in unlock.name
-            and population.region in unlock.region and population.name in next(zip(*unlock.output)))
+    if UnlockType.FACTORY in unlock.type:
+        new_requirements |= {A1800Requirement(name, region) for name, region in unlock.input}
 
-        if supplied:
-            victory_required_items |= set(A1800Requirement(consumption, population.region)
-                                          for consumption in residence.consumption)
-        if luxury:
-            victory_required_items |= set(A1800Requirement(luxury, population.region)
-                                          for luxury in residence.luxury)
-        if lifestyle:
-            victory_required_items |= set(A1800Requirement(lifestyle, population.region)
-                                          for lifestyle in residence.lifestyle)
+    is_upgrade = UnlockType.UPGRADE in unlock.type
+    current_unlock = unlock
+    while is_upgrade:
+        previous_unlock = next(UNLOCKS.find_unlocks(
+            current_unlock.previous_building, current_unlock.region))
+        new_requirements.add(A1800Requirement(previous_unlock.name,
+                                              previous_unlock.region, RequirementType.UNLOCK))
 
-    if len(victory_triggers) == 1:
-        victory_trigger = victory_triggers[0]
-    else:
-        victory_trigger = Trigger.ALL(*victory_triggers)
+        if UnlockType.RESIDENCE in unlock.type:
+            assert UnlockType.RESIDENCE in previous_unlock.type, f"Residence {current_unlock.name} references"\
+                f" previous building {previous_unlock.name}, which is not also a residence"
+            new_requirements |= {A1800Requirement(name, previous_unlock.region)
+                                 for name in previous_unlock.consumption}
 
-    if victory_dlcs != DLC.VANILLA and DLC.VANILLA in victory_dlcs:
-        victory_dlcs ^= DLC.VANILLA
-
-    return victory_event_location_name, victory_required_items, victory_trigger, victory_dlcs
+        is_upgrade = UnlockType.UPGRADE in previous_unlock.type
+        current_unlock = previous_unlock
+    return new_requirements
 
 
 def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requirement]]:
@@ -85,7 +68,7 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
             return {A1800Requirement(trigger.population_name, trigger.region)} | {A1800Requirement(name, population.region) for name in population.luxury}
         case TriggerType.COUNTER:
             unlock = next(UNLOCKS.find_unlocks(trigger.unlock_name, trigger.region))
-            return {A1800Requirement(unlock.name, unlock.region)} | {A1800Requirement(name, unlock.region) for name in unlock.cost}
+            return get_requirements_for_construction(unlock)
         case TriggerType.COUNTER_GOOD_IN_REGION:
             a1800_region = REGIONS.find_region(trigger.region)
             assert a1800_region, \
@@ -103,8 +86,7 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
         case TriggerType.OBJECT_POSITION:
             unlock = next(UNLOCKS.find_unlocks(trigger.unlock_name, trigger.region))
             target = next(UNLOCKS.find_unlocks(trigger.target_name, trigger.region))
-            return {A1800Requirement(unlock.name, unlock.region), A1800Requirement(target.name, unlock.region)} \
-                | {A1800Requirement(name, unlock.region) for name in unlock.cost | target.cost}
+            return get_requirements_for_construction(unlock) | get_requirements_for_construction(target)
         case TriggerType.ITEM_SET_ACTIVE:
             unlock = next(UNLOCKS.find_unlocks(trigger.unlock_name, trigger.unlock_region))
             return {A1800Requirement(unlock.name, unlock.region)} | {A1800Requirement(name, unlock.region) for name in unlock.cost} | {A1800Requirement(name, region) for name, region in trigger.requirements}
@@ -121,13 +103,92 @@ class _Logic:
     _a1800_location_requirements: dict[str, set[A1800Requirement]] = {}
     _victory_trigger: Trigger = Trigger.TRUE()
 
-    def init(
-            self, population_requirements: list[tuple[A1800Product, int, bool, bool, bool]], full_accessibility: bool
-    ) -> None:
-        self._population_requirements = population_requirements
-        self._full_accessibility = full_accessibility
+    def init(self, parsed_options: ParsedOptions) -> None:
+        self._parsed_options = parsed_options
+
+        self._required_population = {
+            name: (population, amount) for name, amount in parsed_options.required_population.items()
+            for population in PRODUCTS.find_populations(name)
+        }
+
+        self._required_buildings = {
+            name: (unlock, amount) for name, amount in parsed_options.required_skyscrapers.items()
+            for unlock in UNLOCKS.find_unlocks(name)
+        } | {
+            name: (unlock, 1) for name in parsed_options.required_monuments
+            for unlock in UNLOCKS.find_unlocks(name)
+        }
 
         self._initialized = True
+
+    def _get_victory_condition(self) -> tuple[set[A1800Requirement], Trigger, DLC]:
+        victory_required_items: set[A1800Requirement] = set()
+        victory_triggers: list[Trigger] = []
+        victory_dlcs: DLC = DLC.VANILLA
+        for required_population in self._required_population.values():
+            population, amount = required_population
+            supplied = False
+            luxury = False
+            lifestyle = False
+
+            victory_required_items.add(A1800Requirement(population.name, population.region))
+            victory_triggers.append(Trigger.POPULATION(
+                population.name, population.region, amount, guid=population.guid))
+            assert len(population.dlc) == 1, \
+                f"Victory condition requested population {population.name} which was introduced in more than one DLC"
+            victory_dlcs |= next(iter(population.dlc))
+
+            if supplied or luxury or lifestyle:
+                # Pick residence, but avoid skyscrapers and the Skyline Tower
+                residence = next(
+                    unlock for unlock in UNLOCKS.get_unlocks()
+                    if UnlockType.RESIDENCE in unlock.type and not "Level" in unlock.name and not "Tower" in unlock.name
+                    and population.region in unlock.region and population.name in next(zip(*unlock.output)))
+
+                if supplied:
+                    victory_required_items |= set(A1800Requirement(consumption, population.region)
+                                                  for consumption in residence.consumption)
+                if luxury:
+                    victory_required_items |= set(A1800Requirement(luxury, population.region)
+                                                  for luxury in residence.luxury)
+                if lifestyle:
+                    victory_required_items |= set(A1800Requirement(lifestyle, population.region)
+                                                  for lifestyle in residence.lifestyle)
+
+        for required_building in self._required_buildings.values():
+            unlock, amount = required_building
+            supplied = False
+            luxury = False
+            lifestyle = False
+
+            victory_required_items |= get_requirements_for_construction(unlock)
+            victory_triggers.append(Trigger.COUNTER(
+                unlock.name, unlock.region, amount, guid=unlock.guids[0]))
+            assert len(unlock.dlc) == 1, \
+                f"Victory condition requested building {unlock.name} which was introduced in more than one DLC"
+            victory_dlcs |= next(iter(unlock.dlc))
+
+            if UnlockType.RESIDENCE in unlock.type and (supplied or luxury or lifestyle):
+                if supplied:
+                    victory_required_items |= set(A1800Requirement(consumption, unlock.region)
+                                                  for consumption in unlock.consumption)
+                if luxury:
+                    victory_required_items |= set(A1800Requirement(luxury, unlock.region)
+                                                  for luxury in unlock.luxury)
+                if lifestyle:
+                    victory_required_items |= set(A1800Requirement(lifestyle, unlock.region)
+                                                  for lifestyle in unlock.lifestyle)
+
+        assert len(victory_triggers), "No victory subtriggers could be created, goal would be immediately reached!"
+        if len(victory_triggers) == 1:
+            victory_trigger = victory_triggers[0]
+        else:
+            victory_trigger = Trigger.ALL(*victory_triggers)
+
+        if victory_dlcs != DLC.VANILLA and DLC.VANILLA in victory_dlcs:
+            victory_dlcs ^= DLC.VANILLA
+
+        return victory_required_items, victory_trigger, victory_dlcs
 
     def _generate_requirements_and_rules(
         self,
@@ -155,26 +216,13 @@ class _Logic:
             elif requirement.type == RequirementType.UNLOCK:
                 unlock = next(UNLOCKS.find_unlocks(requirement.name, requirement.region), None)
                 if unlock:
-                    if not UnlockType.META in unlock.type:
-                        new_requirements.add(A1800Requirement(unlock.name, unlock.region, RequirementType.UNLOCK))
+                    new_requirements |= get_requirements_for_construction(unlock)
 
                     if UnlockType.BUILDING in unlock.type:
-                        new_requirements |= {A1800Requirement(name, unlock.region)
-                                             for name in unlock.cost | unlock.maintenance}
+                        new_requirements |= {A1800Requirement(name, unlock.region) for name in unlock.maintenance}
 
                     if UnlockType.FACTORY in unlock.type:
                         new_requirements |= {A1800Requirement(name, region) for name, region in unlock.input}
-
-                    if UnlockType.UPGRADE in unlock.type:
-                        previous_unlock = next(UNLOCKS.find_unlocks(unlock.previous_building, unlock.region))
-                        new_requirements.add(A1800Requirement(previous_unlock.name,
-                                                              previous_unlock.region, RequirementType.UNLOCK))
-
-                        if UnlockType.RESIDENCE in unlock.type:
-                            assert UnlockType.RESIDENCE in previous_unlock.type, f"Residence {unlock.name} references"\
-                                f" previous building {previous_unlock.name}, which is not also a residence"
-                            new_requirements |= {A1800Requirement(name, previous_unlock.region)
-                                                 for name in previous_unlock.consumption}
 
                     for event_location in EVENT_LOCATIONS.find_event_locations(requirement.name, region=requirement.region):
                         if event_location.ap_location_name in location_requirements:
@@ -195,10 +243,11 @@ class _Logic:
                             checked_regions |= region
                 else:
                     raise ValueError(
-                        f"Requirement name {requirement.name} region {requirement.region} doesn't match any unlock.")
+                        f"Requirement name {requirement.name} region {requirement.region.name} doesn't match any unlock.")
 
             else:
-                raise ValueError(f"Requirement type {requirement.type} isn't PRODUCT or UNLOCK.")
+                raise ValueError(
+                    f"Requirement type {requirement.type} of ({requirement.name, requirement.region.name}) isn't PRODUCT or UNLOCK.")
 
             for new_requirement in new_requirements:
                 if not new_requirement in checked:
@@ -221,19 +270,18 @@ class _Logic:
 
     def generate_logic(self) -> None:
         assert self._initialized, "The Anno 1800 logic module was used before it was initialized."
-        victory_event_location_name, victory_required_items, self._victory_trigger, self._victory_dlcs = _get_victory_condition_info(
-            self._population_requirements)
-        self._victory_trigger.ap_location_name = "Victory Condition"
+        victory_required_items, self._victory_trigger, self._victory_dlcs = self._get_victory_condition()
 
-        if self._full_accessibility:
+        if self._parsed_options.full_accessibility:
             initial_required_items = victory_required_items.copy() | {requirement for unlock in UNLOCKS.get_unlock_locations(
             ) for requirement in _get_requirements_from_trigger(unlock.trigger) or set()}
         else:
             initial_required_items = victory_required_items.copy()
 
         victory_event_location = A1800EventLocation(
-            victory_event_location_name, {DLC.VANILLA}, Region.OW, NO_REGION, "Victory", is_progressive=True)
+            self._victory_trigger.ap_location_name, {DLC.VANILLA}, Region.OW, NO_REGION, "Victory", is_progressive=True)
         EVENT_LOCATIONS._a1800_event_locations.append(victory_event_location)  # pyright: ignore[reportPrivateUsage]
+        self._victory_trigger.ap_location_name = "Victory Condition"
 
         for event_item in EVENT_ITEMS.get_event_items():
             if event_item.name == "Victory":

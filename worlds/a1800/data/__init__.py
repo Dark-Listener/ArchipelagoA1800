@@ -1,5 +1,4 @@
 from collections.abc import Mapping, Sequence
-from functools import reduce
 from typing import Iterator, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -10,7 +9,8 @@ from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, Sessio
 from ._EventItems import A1800EventItem, EVENT_ITEMS
 from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
 from ._Guid import get_next_anno_guid, RECIPE_GUIDS
-from ._Logic import LOGIC
+from ._Logic import LOGIC, get_requirements_for_construction
+from ._ParsedOptions import ParsedOptions
 from ._Products import A1800Product, PRODUCTS
 from ._Regions import A1800Region, REGIONS
 from ._Requirement import A1800Requirement
@@ -29,23 +29,18 @@ class _A1800Data:
             _a1800_unlocks, key=lambda location: location.trigger.get_sort_key()) if unlock.ap_code}
 
     def init(self, options: "A1800Options") -> None:
-        self._enabled_dlcs = DLC.VANILLA | reduce(DLC.__or__, (
-            dlc for dlc in DLC.__members__.values() if dlc.name in options.enabled_dlcs))
+        self._parsed_options = ParsedOptions(options)
 
-        self._full_accessibility = options.accessibility == "full"
-
-        CHAINS.init(self._enabled_dlcs)
-        PRODUCTS.init(self._enabled_dlcs)
+        CHAINS.init(self._parsed_options)
+        PRODUCTS.init(self._parsed_options)
         # Chains, products must init before unlocks
-        UNLOCKS.init(self._enabled_dlcs, bool(options.enable_docklands_logic))
+        UNLOCKS.init(self._parsed_options)
         EVENT_LOCATIONS.init()  # Unlocks must init before event locations
         EVENT_ITEMS.init()  # Products, event locations must init before event items
-        REGIONS.init(self._enabled_dlcs)  # Event items, products, unlocks must init before regions
-        SESSIONS.init(self._enabled_dlcs)  # Event items, products, unlocks, regions must init before sessions
+        REGIONS.init(self._parsed_options)  # Event items, products, unlocks must init before regions
+        SESSIONS.init(self._parsed_options)  # Event items, products, unlocks, regions must init before sessions
 
-        self._parse_remaining_options(options)
-
-        LOGIC.init(self._population_requirements, self._full_accessibility)  # Logic comes last
+        LOGIC.init(self._parsed_options)  # Logic comes last
         LOGIC.generate_logic()
 
     def find_ap_item(self, ap_name: str) -> Optional[A1800Unlock]:
@@ -96,6 +91,9 @@ class _A1800Data:
     def get_regions(self) -> Sequence[A1800Region]:
         return REGIONS.get_regions()
 
+    def get_requirements_for_construction(self, unlock: A1800Unlock):
+        return get_requirements_for_construction(unlock)
+
     def get_unlocks(self) -> Sequence[A1800Unlock]:
         return UNLOCKS.get_unlocks()
 
@@ -107,33 +105,6 @@ class _A1800Data:
 
     def get_victory_trigger(self) -> Trigger:
         return LOGIC.get_victory_trigger()
-
-    def _parse_remaining_options(self, options: "A1800Options") -> None:
-        self._population_requirements: list[tuple[A1800Product, int, bool, bool, bool]] = []
-        for identifier, amount_str in options.required_population_amounts.value.items():
-            id_split = identifier.split("-")
-            if len(id_split) != 4:
-                continue
-
-            region = {region.full_name: region for region in Region.__members__.values()}[
-                id_split[1].replace("_", " ").title()]
-            name = id_split[3].replace("_", " ").title()
-            if not region or not name:
-                continue
-
-            population = next(PRODUCTS.find_populations(name, region), None)
-            if not population:
-                continue
-
-            try:
-                amount = int(amount_str)
-            except ValueError:
-                amount = 0
-
-            if not amount:
-                continue
-
-            self._population_requirements.append((population, amount, False, False, False))
 
 
 A1800_DATA = _A1800Data()

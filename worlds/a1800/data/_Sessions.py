@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-
 from ._Enums import ALL_REGIONS, DLC, Region, Session, TriggerType
+from ._ParsedOptions import ParsedOptions
 from ._Products import PRODUCTS
 from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
@@ -34,16 +34,16 @@ class A1800Session:
 class _Sessions:
     _initialized: bool = False
 
-    def init(self, enabled_dlcs: DLC) -> None:
+    def init(self, parsed_options: ParsedOptions) -> None:
         global _a1800_sessions
 
         self._a1800_sessions = {
             session: A1800Session(session, dlc, {A1800Requirement(name, region) for name, region in requirements})
-            for session, (dlc, requirements) in _a1800_sessions.items() if dlc in enabled_dlcs
+            for session, (dlc, requirements) in _a1800_sessions.items() if dlc in parsed_options.enabled_dlcs
         }
 
         for unlock in UNLOCKS.get_unlocks():
-            unlock.trigger = self._clean_dlc_trigger(enabled_dlcs, unlock.trigger)
+            unlock.trigger = self._clean_dlc_trigger(parsed_options.enabled_dlcs, unlock.trigger)
 
         self._initialized = True
 

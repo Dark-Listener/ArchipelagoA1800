@@ -2,6 +2,7 @@ from collections.abc import Sequence
 from typing import Iterator, Optional
 
 from ._Enums import DLC, NO_REGION, Region
+from ._ParsedOptions import ParsedOptions
 
 
 class A1800Chain:
@@ -335,10 +336,11 @@ assert len(_a1800_chains) == len({(chain.name, chain.region) for chain in _a1800
 class _Chains:
     _initialized: bool = False
 
-    def init(self, enabled_dlcs: DLC) -> None:
+    def init(self, parsed_options: ParsedOptions) -> None:
         global _a1800_chains
 
-        self._a1800_chains = [chain for chain in _a1800_chains if any(dlc in enabled_dlcs for dlc in chain.dlc)]
+        self._a1800_chains = [chain for chain in _a1800_chains if any(
+            dlc in parsed_options.enabled_dlcs for dlc in chain.dlc)]
 
         self._initialized = True
 

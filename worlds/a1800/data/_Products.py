@@ -2,6 +2,7 @@ from collections.abc import Sequence
 from typing import Iterator
 
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, ProductType, Region
+from ._ParsedOptions import ParsedOptions
 
 
 class A1800Product:
@@ -207,7 +208,7 @@ _a1800_products: list[A1800Product] = [
     ################################################################################################################
     ### LAND_OF_LIONS                                                                                            ###
     ################################################################################################################
-    A1800Product("Research Institute", DLC.LAND_OF_LIONS, Region.OW, 0, ProductType.META),
+    A1800Product("Research", DLC.LAND_OF_LIONS, Region.OW, 0, ProductType.META),
     A1800Product("Permit: Scholar Residence", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Permit: Advanced Coffee Roaster", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Permit: Advanced Rum Distillery", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
@@ -380,13 +381,13 @@ for population in _a1800_products:
 class _Products:
     _initialized: bool = False
 
-    def init(self, enabled_dlcs: DLC) -> None:
+    def init(self, parsed_options: ParsedOptions) -> None:
         global _a1800_products, _a1800_populations
 
         self._a1800_products = [product for product in _a1800_products if any(
-            dlc in enabled_dlcs for dlc in product.dlc)]
+            dlc in parsed_options.enabled_dlcs for dlc in product.dlc)]
         self._a1800_populations = [population for population in _a1800_populations if any(
-            dlc in enabled_dlcs for dlc in population.dlc)]
+            dlc in parsed_options.enabled_dlcs for dlc in population.dlc)]
 
         self._initialized = True
 

@@ -493,7 +493,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Rails", DLC.VANILLA, Region.OW | Region.NW, 1010136, [130047, 130124, 269755, 270062],
                 Trigger.ANY(Trigger.POPULATION("Engineers", Region.OW, 1),
                             Trigger.POPULATION("Obreros", Region.NW, 600)),
-                {"Timber", "Steel Beams"}, set(), set(), "Railway", "Electricity"),
+                {"Timber", "Steel Beams"}, set(), set(), "Railway", {("Electricity", Region.OW), ("Electricity", Region.NW)}),
 
     A1800Unlock("Oil Refinery", DLC.VANILLA, Region.OW, 101331, 130047,
                 Trigger.POPULATION("Engineers", Region.OW, 1),

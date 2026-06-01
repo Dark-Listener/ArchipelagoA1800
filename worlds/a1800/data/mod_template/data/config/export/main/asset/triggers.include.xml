@@ -35,7 +35,7 @@
 
   <!-- Add all unlockable assets-->
   <ModOp Type="addNextSibling" GUID="105568">
-{% for name, (guid, _, _, _) in recipe_unlocks.items() %}
+{% for name, (guid, _, _, _, _) in recipe_unlocks.items() %}
 {{  generate_unlockable_asset(guid, name) | indent(4, true) }}
 {% endfor %}
 {% for name, guid in expedition_unlocks.items() %}
@@ -80,7 +80,7 @@
   </ModOp>
   
   <!-- Make recipe unlocks dependent on custom unlocks and remove unlock delays if necessary -->
-{% for recipe_guid, feature_guid, unlock_guid, quest_guid in recipe_unlocks.values() %}
+{% for recipe_guid, feature_guid, unlock_guid, quest_guid, wipe_subtriggers in recipe_unlocks.values() %}
   <ModOp Type="replace" GUID="{{ feature_guid }}" Path="/Values/Trigger/TriggerCondition">
 {{( generate_trigger_condition(TriggerType, Trigger.UNLOCK("", Region(0), guid=recipe_guid)) | indent(4, true)).rstrip() }}
   </ModOp>
@@ -117,6 +117,11 @@
     </TriggerActions>
   </ModOp>
 {% endif %}
+{% if wipe_subtriggers %}
+  <ModOp Type="replace" GUID="{{ feature_guid }}" Path="/Values/Trigger/SubTriggers">
+    <SubTriggers />
+  </ModOp>
+{% endif%}
 {% endfor %}
 
   <!-- Add all triggers -->

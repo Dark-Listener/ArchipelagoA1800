@@ -1631,18 +1631,18 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks"}, set(), set(), "Restaurant (Blank)"),
 
     A1800Unlock("Restaurant: Archduke's Schnitzel", DLC.TOURIST_SEASON, Region.OW,
-                [132747, RECIPE_GUIDS["Recipe: Archduke's Schnitzel"][0]], [132747],
+                [132747, RECIPE_GUIDS["Recipe: Archduke's Schnitzel"][0]], 132747,
                 Trigger.UNLOCK("Restaurant", Region.OW),
                 "Restaurant (Blank)", "Tourists", {"Pigs", "Potatoes", "Tallow"}, "Restaurant"),
 
     A1800Unlock("Restaurant: Stroggof Goulash", DLC.TOURIST_SEASON, Region.OW,
-                [132750, RECIPE_GUIDS["Recipe: Stroggof Goulash"][0]], [132750],
+                [132750, RECIPE_GUIDS["Recipe: Stroggof Goulash"][0]], 132750,
                 Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
                                Trigger.COUNTER_GOOD_IN_REGION("Corn", ALL_REGIONS, 1, Region.OW)),
                 "Restaurant (Blank)", "Tourists", {"Beef", "Red Peppers", "Corn"}, "Restaurant"),
 
     A1800Unlock("Restaurant: Fish and Frites", DLC.TOURIST_SEASON, Region.OW,
-                [133339, RECIPE_GUIDS["Recipe: Fish and Frites"][0]], [133339],
+                [133339, RECIPE_GUIDS["Recipe: Fish and Frites"][0]], 133339,
                 Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
                                Trigger.COUNTER("Orchard: Citrus", Region.NW, 1)),
                 "Restaurant (Blank)", "Tourists", {"Fish", "Potatoes", "Citrus"}, "Restaurant"),
@@ -1656,12 +1656,12 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks"}, set(), set(), "Cafe (Blank)"),
 
     A1800Unlock("Cafe: Donut Fourre", DLC.TOURIST_SEASON, Region.OW,
-                [132753, RECIPE_GUIDS["Recipe: Donut Fourre"][0]], [132753],
+                [132753, RECIPE_GUIDS["Recipe: Donut Fourre"][0]], 132753,
                 Trigger.UNLOCK("Cafe", Region.OW),
                 "Cafe (Blank)", "Tourists", {"Flour", "Tallow", "Jam"}, "Cafe"),
 
     A1800Unlock("Cafe: Eclair", DLC.TOURIST_SEASON, Region.OW,
-                [133347, RECIPE_GUIDS["Recipe: Eclair"][0]], [133347],
+                [133347, RECIPE_GUIDS["Recipe: Eclair"][0]], 133347,
                 Trigger.LINEAR(
                     Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                     Trigger.QUEST_COMPLETE(
@@ -1673,7 +1673,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Cafe (Blank)", "Tourists", {"Flour", "Sugar", "Chocolate"}, "Cafe"),
 
     A1800Unlock("Cafe: Palmier Biscuit", DLC.TOURIST_SEASON, Region.OW,
-                [133348, RECIPE_GUIDS["Recipe: Palmier Biscuit"][0]], [133348],
+                [133348, RECIPE_GUIDS["Recipe: Palmier Biscuit"][0]], 133348,
                 Trigger.LINEAR(
                     Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                     Trigger.ANY(
@@ -1729,18 +1729,18 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks"}, set(), set(), "Bar (Blank)"),
 
     A1800Unlock("Bar: Daiquiri Tropic", DLC.TOURIST_SEASON, Region.OW,
-                [132752, RECIPE_GUIDS["Recipe: Daiquiri Tropic"][0]], [132752],
+                [132752, RECIPE_GUIDS["Recipe: Daiquiri Tropic"][0]], 132752,
                 Trigger.UNLOCK("Bar", Region.OW),
                 "Bar (Blank)", "Tourists", {"Sugar Cane", "Rum", "Plantains"}, "Bar"),
 
     A1800Unlock("Bar: Black Muscovy", DLC.TOURIST_SEASON, Region.OW,
-                [133342, RECIPE_GUIDS["Recipe: Black Muscovy"][0]], [133342],
+                [133342, RECIPE_GUIDS["Recipe: Black Muscovy"][0]], 133342,
                 Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, guid=133472),
                                Trigger.COUNTER("Members Club", Region.OW, 1)),
                 "Bar (Blank)", "Tourists", {"Coffee", "Rum", "Schnapps"}, "Bar"),
 
     A1800Unlock("Bar: Montmartre '75'", DLC.TOURIST_SEASON, Region.OW,
-                [133343, RECIPE_GUIDS["Recipe: Montmartre '75'"][0]], [133343],
+                [133343, RECIPE_GUIDS["Recipe: Montmartre '75'"][0]], 133343,
                 Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, guid=133472),
                                Trigger.EVENT_ACTIVE("World's Fair: Exhibitions", Region.OW)),
                 "Bar (Blank)", "Tourists", {"Sugar", "Champagne", "Citrus"}, "Bar"),
@@ -1768,13 +1768,13 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "The Iron Tower: Superstructure", set(), set(), "The Iron Tower (Blank)"),
 
     A1800Unlock("The Iron Tower: Brioche Royale", DLC.TOURIST_SEASON, Region.OW,
-                [133928, RECIPE_GUIDS["Recipe: Brioche Royale"][0]], [133928],
+                [133928, RECIPE_GUIDS["Recipe: Brioche Royale"][0]], 133928,
                 Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                 "The Iron Tower (Blank)", {"Tourists", "Electricity"},
                 {"Sausages", "Bread", "Beef", "Gold"}, "The Iron Tower"),
 
     A1800Unlock("The Iron Tower: Trifle Tower", DLC.TOURIST_SEASON, Region.OW,
-                [133930, RECIPE_GUIDS["Recipe: Trifle Tower"][0]], [133930],
+                [133930, RECIPE_GUIDS["Recipe: Trifle Tower"][0]], 133930,
                 Trigger.LINEAR(
                     Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                     Trigger.QUEST_COMPLETE(
@@ -1787,7 +1787,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Rum", "Bread", "Grapes", "Sugar"}, "The Iron Tower"),
 
     A1800Unlock("The Iron Tower: Lady Marmelade", DLC.TOURIST_SEASON, Region.OW,
-                [133931, RECIPE_GUIDS["Recipe: Lady Marmelade"][0]], [133931],
+                [133931, RECIPE_GUIDS["Recipe: Lady Marmelade"][0]], 133931,
                 Trigger.LINEAR(
                     Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                     Trigger.ALL(
@@ -1818,7 +1818,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     ### Needs The Passage ###
     # Building, Factory
     A1800Unlock("Restaurant: Venison en Croute", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
-                [133340, RECIPE_GUIDS["Recipe: Venison en Croute"][0]], [133340],
+                [133340, RECIPE_GUIDS["Recipe: Venison en Croute"][0]], 133340,
                 Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
                                Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1, guid=114166),
                                ap_location_name="(Build 1 OW: Restaurant) THEN (Build 1 Boreas)"),
@@ -1831,7 +1831,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Cafe (Blank)", "Tourists", {"Grapes", "Caribou Meat", "Citrus"}, "Cafe"),
 
     A1800Unlock("Bar: Glogg", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
-                [133345, RECIPE_GUIDS["Recipe: Glogg"][0]], [133345],
+                [133345, RECIPE_GUIDS["Recipe: Glogg"][0]], 133345,
                 Trigger.LINEAR(
                     Trigger.COUNTER("Bar", Region.OW, 1, guid=133472),
                     Trigger.COUNTER_EXPEDITION_SOLVED(
@@ -1843,7 +1843,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Bar (Blank)", "Tourists", {"Whale Oil", "Grapes", "Cinnamon"}, "Bar"),
 
     A1800Unlock("The Iron Tower: Age of Exploration", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
-                [133932, RECIPE_GUIDS["Recipe: Age of Exploration"][0]], [133932],
+                [133932, RECIPE_GUIDS["Recipe: Age of Exploration"][0]], 133932,
                 Trigger.LINEAR(
                     Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                     Trigger.QUEST_COMPLETE(
@@ -1858,7 +1858,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     ### Needs Land of Lions ###
     # Building, Factory
     A1800Unlock("Restaurant: Lobster Cheminee", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
-                [133341, RECIPE_GUIDS["Recipe: Lobster Cheminee"][0]], [133341],
+                [133341, RECIPE_GUIDS["Recipe: Lobster Cheminee"][0]], 133341,
                 Trigger.LINEAR(
                     Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
                     Trigger.QUEST_COMPLETE(
@@ -1870,19 +1870,19 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Restaurant (Blank)", "Tourists", {"Lobster", "Citrus", "Tobacco"}, "Restaurant"),
 
     A1800Unlock("Cafe: Banana Surprise", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
-                [133350, RECIPE_GUIDS["Recipe: Banana Surprise"][0]], [133350],
+                [133350, RECIPE_GUIDS["Recipe: Banana Surprise"][0]], 133350,
                 Trigger.LINEAR(Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                                Trigger.COUNTER_GOOD_IN_REGION("Plantains", ALL_REGIONS, 1, Region.EN)),
                 "Cafe (Blank)", "Tourists", {"Goat Milk", "Plantains", "Cinnamon"}, "Cafe"),
 
     A1800Unlock("Bar: Enbesa Sunrise", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
-                [133346, RECIPE_GUIDS["Recipe: Enbesa Sunrise"][0]], [133346],
+                [133346, RECIPE_GUIDS["Recipe: Enbesa Sunrise"][0]], 133346,
                 Trigger.LINEAR(Trigger.COUNTER("Bar", Region.OW, 1, guid=133472),
                                Trigger.POPULATION_HAPPINESS("Elders", Session.EN, 30, "Elder Residence")),
                 "Bar (Blank)", "Tourists", {"Hibiscus Petals", "Rum", "Spices"}, "Bar"),
 
     A1800Unlock("The Iron Tower: Homard Lit de Terroir", DLC.LAND_OF_LIONS | DLC.TOURIST_SEASON, Region.OW,
-                [133933, RECIPE_GUIDS["Recipe: Homard Lit de Terroir"][0]], [133933],
+                [133933, RECIPE_GUIDS["Recipe: Homard Lit de Terroir"][0]], 133933,
                 Trigger.LINEAR(
                     Trigger.COUNTER("The Iron Tower", Region.OW, 1, guid=134450),
                     Trigger.QUEST_COMPLETE(
@@ -1899,7 +1899,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     # Building, Factory
     A1800Unlock("Assembly Line: Elevators", DLC.THE_HIGH_LIFE, Region.OW,
-                [134622, 134621, 134619], [136054],
+                [134622, 134621, 134619], 136054,
                 Trigger.POPULATION("Investors", Region.OW, 5000),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Electricity"},
                 {"Steel", "Wood Veneers", "Steam Motors"}, "Elevators", "Elevators"),
@@ -1911,7 +1911,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 set(), "Department Store (Blank)"),
 
     A1800Unlock("Department Store: Toasters", DLC.THE_HIGH_LIFE, Region.OW,
-                [135103, RECIPE_GUIDS["Recipe: Toasters"][0]], [136063],
+                [135103, RECIPE_GUIDS["Recipe: Toasters"][0]], 136063,
                 Trigger.UNLOCK("Department Store", Region.OW),
                 "Department Store (Blank)", {"Artisans", "Electricity"}, {"Filaments", "Steel", "Zinc"}, {"Department Store", "Toasters"}),
 
@@ -1930,7 +1930,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Orchard: Cinnamon -> Tourist Season
 
     A1800Unlock("Chemical Plant: Chewing Gum", DLC.THE_HIGH_LIFE, Region.NW,
-                [135185, 135223, 135221], [136065],
+                [135185, 135223, 135221], 136065,
                 Trigger.ANY(Trigger.COUNTER("Engineer Skyscraper: Level 2", Region.OW, 1),
                             Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 1)),
                 {"Timber", "Bricks"}, "Obreros",
@@ -1939,7 +1939,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Orchard: Citrus -> Tourist Season
 
     A1800Unlock("Assembly Line: Biscuits", DLC.THE_HIGH_LIFE, Region.OW,
-                [135361, 135398, 134619], [136054],
+                [135361, 135398, 134619], 136054,
                 Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Electricity"},
                 {"Tallow", "Flour", "Citrus"}, "Biscuits", "Biscuits"),
@@ -1953,12 +1953,12 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Wood", "Corn"}, "Ethanol", "Ethanol"),
 
     A1800Unlock("Chemical Plant: Celluloid", DLC.THE_HIGH_LIFE, Region.NW,
-                [135224, 135222, 135221], [137840],
+                [135224, 135222, 135221], 137840,
                 Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
                 {"Timber", "Bricks"}, "Obreros",
                 {"Cotton", "Camphor Wax", "Ethanol"}, "Celluloid", "Celluloid"),
 
-    A1800Unlock("Orchard: Cherry Wood", DLC.THE_HIGH_LIFE, Region.OW, [135088, 135090, 132933], [136067],
+    A1800Unlock("Orchard: Cherry Wood", DLC.THE_HIGH_LIFE, Region.OW, [135088, 135090, 132933], 136067,
                 Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 1),
                 {"Timber", "Bricks"}, "Farmers", set(), "Cherry Wood", "Cognac"),
 
@@ -1968,12 +1968,12 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artisans",
                 {"Grapes", "Cherry Wood", "Sugar"}, "Cognac", "Cognac"),
 
-    A1800Unlock("Orchard: Resin", DLC.THE_HIGH_LIFE, Region.OW, [135085, 135089, 132933], [137839],
+    A1800Unlock("Orchard: Resin", DLC.THE_HIGH_LIFE, Region.OW, [135085, 135089, 132933], 137839,
                 Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 15),
                 {"Timber", "Bricks"}, "Farmers", set(), "Resin", "Lacquer"),
 
     A1800Unlock("Artisan's Workshop: Lacquer", DLC.THE_HIGH_LIFE, Region.OW,
-                [135133, 135146, 135295], [137839],
+                [135133, 135146, 135295], 137839,
                 Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artisans",
                 {"Quartz Sand", "Resin", "Ethanol"}, "Lacquer", "Lacquer"),
@@ -1984,7 +1984,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 set(), "Furniture Store (Blank)"),
 
     A1800Unlock("Furniture Store: Banker's Lamps", DLC.THE_HIGH_LIFE, Region.OW,
-                [135105, RECIPE_GUIDS["Recipe: Banker's Lamps"][0]], [136070],
+                [135105, RECIPE_GUIDS["Recipe: Banker's Lamps"][0]], 136070,
                 Trigger.UNLOCK("Furniture Store", Region.OW),
                 "Furniture Store (Blank)", {"Artisans", "Electricity"}, {"Light Bulbs", "Brass", "Glass"}, {"Furniture Store", "Banker's Lamps"}),
 
@@ -2009,20 +2009,20 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Furniture Store (Blank)", {"Artisans", "Electricity"}, {"Wood Veneers", "Lacquer", "Brass"}, {"Furniture Store", "Writing Desks"}),
 
     A1800Unlock("Assembly Line: Typewriters", DLC.THE_HIGH_LIFE, Region.OW,
-                [135148, 135149, 134619], [136072],
+                [135148, 135149, 134619], 136072,
                 Trigger.ANY(Trigger.COUNTER("Engineer Skyscraper: Level 3", Region.OW, 1),
                             Trigger.COUNTER("Investor Skyscraper: Level 4", Region.OW, 1)),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Electricity"},
                 {"Steel", "Brass", "Lacquer"}, "Typewriters", "Typewriters"),
 
     A1800Unlock("Artisan's Workshop: Billiard Tables", DLC.THE_HIGH_LIFE, Region.OW,
-                [135407, 135416, 135295], [136073],
+                [135407, 135416, 135295], 136073,
                 Trigger.COUNTER("Investor Skyscraper: Level 4", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artisans",
                 {"Cherry Wood", "Felt", "Celluloid"}, "Billiard Tables", "Billiard Tables"),
 
     A1800Unlock("Artisan's Workshop: Violins", DLC.THE_HIGH_LIFE, Region.OW,
-                [135397, 135417, 135295], [137194],
+                [135397, 135417, 135295], 137194,
                 Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artisans",
                 {"Steel", "Cherry Wood", "Lacquer"}, "Violins", "Violins"),
@@ -2035,12 +2035,12 @@ _a1800_unlocks: list[A1800Unlock] = [
                 set(), "Drug Store (Blank)"),
 
     A1800Unlock("Drug Store: Toothpaste", DLC.THE_HIGH_LIFE, Region.OW,
-                [134631, RECIPE_GUIDS["Recipe: Toothpaste"][0]], [137179],
+                [134631, RECIPE_GUIDS["Recipe: Toothpaste"][0]], 137179,
                 Trigger.UNLOCK("Drug Store", Region.OW),
                 "Drug Store (Blank)", {"Artisans", "Electricity"}, {"Coal", "Soap", "Sugar"}, {"Drug Store", "Toothpaste"}),
 
     A1800Unlock("Drug Store: Detergent", DLC.THE_HIGH_LIFE, Region.OW,
-                [135191, RECIPE_GUIDS["Recipe: Detergent"][0]], [135191],
+                [135191, RECIPE_GUIDS["Recipe: Detergent"][0]], 135191,
                 Trigger.LINEAR(
                     Trigger.COUNTER("Drug Store", Region.OW, 1, guid=135731),
                     Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 40)
@@ -2056,7 +2056,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Drug Store (Blank)", {"Artisans", "Electricity"}, {"Coconut Oil", "Fish Oil", "Lacquer"}, {"Drug Store", "Lipstick"}),
 
     A1800Unlock("Artisan's Workshop: Toys", DLC.THE_HIGH_LIFE, Region.OW,
-                [135669, 135670, 135295], [137195],
+                [135669, 135670, 135295], 137195,
                 Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artisans",
                 {"Felt", "Celluloid", "Lacquer"}, "Toys", "Toys"),
@@ -2136,7 +2136,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     ### Needs The Passage ###
     # Building, Factory
     A1800Unlock("Department Store: Refrigerators", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW,
-                [135189, RECIPE_GUIDS["Recipe: Refrigerators"][0]], [135189],
+                [135189, RECIPE_GUIDS["Recipe: Refrigerators"][0]], 135189,
                 Trigger.LINEAR(
                     Trigger.COUNTER("Department Store", Region.OW, 1, guid=135729),
                     Trigger.QUEST_COMPLETE(
@@ -2150,7 +2150,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Department Store (Blank)", {"Artisans", "Electricity"}, {"Arctic Gas", "Steel", "Caoutchouc"}, {"Department Store", "Refrigerators"}),
 
     A1800Unlock("Furniture Store: Four-Poster Beds", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW,
-                [135122, RECIPE_GUIDS["Recipe: Four-Poster Beds"][0]], [135122],
+                [135122, RECIPE_GUIDS["Recipe: Four-Poster Beds"][0]], 135122,
                 Trigger.LINEAR(
                     Trigger.COUNTER("Furniture Store", Region.OW, 1, guid=135730),
                     Trigger.ALL(
@@ -2181,7 +2181,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Department Store (Blank)", {"Artisans", "Electricity"}, {"Sanga Cow", "Brass", "Celluloid"}, {"Department Store", "Briefcases"}),
 
     A1800Unlock("Furniture Store: Lounge Seating", DLC.LAND_OF_LIONS | DLC.THE_HIGH_LIFE, Region.OW,
-                [135123, RECIPE_GUIDS["Recipe: Lounge Seating"][0]], [135123],
+                [135123, RECIPE_GUIDS["Recipe: Lounge Seating"][0]], 135123,
                 Trigger.LINEAR(
                     Trigger.COUNTER("Furniture Store", Region.OW, 1, guid=135730),
                     Trigger.COUNTER("Radio Tower", Region.OW, 2)
@@ -2190,7 +2190,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Wool", "Sanga Cow", "Wanza Timber"}, {"Furniture Store", "Lounge Seating"}),
 
     A1800Unlock("Drug Store: Pomade", DLC.LAND_OF_LIONS | DLC.THE_HIGH_LIFE, Region.OW,
-                [135194, RECIPE_GUIDS["Recipe: Face Cream"][0]], [135194],
+                [135194, RECIPE_GUIDS["Recipe: Face Cream"][0]], 135194,
                 Trigger.LINEAR(
                     Trigger.COUNTER("Drug Store", Region.OW, 1, guid=135731),
                     Trigger.OBJECT_POSITION("Apiary", Region.EN, 8, "Hibiscus Farm")

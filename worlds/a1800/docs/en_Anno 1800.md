@@ -22,8 +22,8 @@ Note: Ornaments are currently excluded.
 
 ## What's the goal?
 
-Your goal is to reach 5000 investors, 1500 obreros, 750 technicians, 7000 scholars and 4000 tourists at this stage of
-the Archipelago world. This is, of course, configurable.
+Your goal is to reach 5000 investors, 1500 obreros, 750 technicians, 7000 scholars,  4000 tourists and 15 level 5
+investor skyscrapers at this stage of the Archipelago world. This is, of course, configurable.
 
 ## What are locations?
 
@@ -52,6 +52,7 @@ The following DLCs are supported:
 * Docklands
 * Tourist Season
 * The High Life
+* Seeds of Change
 
 Docklands is strongly discouraged as it would render the randomizer pointless. There is an option to toggle its logic
 (default: no Docklands logic), that allows you to add it to your game without the randomizer intending you to get half

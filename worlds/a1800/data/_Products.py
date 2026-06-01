@@ -263,7 +263,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Indigo Dye", DLC.LAND_OF_LIONS, ALL_REGIONS, 114368, ProductType.GOOD),
     A1800Product("Ceramics", DLC.LAND_OF_LIONS, ALL_REGIONS, 118724, ProductType.GOOD),
     A1800Product("Tapestries", DLC.LAND_OF_LIONS, ALL_REGIONS, 114404, ProductType.GOOD),
-    A1800Product("Spices", DLC.LAND_OF_LIONS, ALL_REGIONS, 114369, ProductType.GOOD),
+    A1800Product("Spices", {DLC.LAND_OF_LIONS, DLC.SEEDS_OF_CHANGE}, ALL_REGIONS, 114369, ProductType.GOOD),
     A1800Product("Spiced Flour", DLC.LAND_OF_LIONS, ALL_REGIONS, 114408, ProductType.GOOD),
     A1800Product("Lobster", DLC.LAND_OF_LIONS, ALL_REGIONS, 118728, ProductType.GOOD),
     A1800Product("Seafood Stew", DLC.LAND_OF_LIONS, ALL_REGIONS, 114410, ProductType.GOOD),
@@ -382,6 +382,16 @@ _a1800_products: list[A1800Product] = [
 
     ### Needs Tourist Season ###
     A1800Product("Skyline Tower", DLC.TOURIST_SEASON | DLC.THE_HIGH_LIFE, Region.OW, 137757, ProductType.SERVICE),
+
+    ################################################################################################################
+    ### SEEDS_OF_CHANGE                                                                                          ###
+    ################################################################################################################
+    A1800Product("Hot Sauce", DLC.SEEDS_OF_CHANGE, ALL_REGIONS, 25506, ProductType.GOOD),
+    A1800Product("Atole", DLC.SEEDS_OF_CHANGE, ALL_REGIONS, 25131, ProductType.GOOD),
+    A1800Product("Dung", DLC.SEEDS_OF_CHANGE, ALL_REGIONS, 24807, ProductType.GOOD),
+    A1800Product("Fertiliser", DLC.SEEDS_OF_CHANGE, ALL_REGIONS, 24808, ProductType.GOOD),
+
+    A1800Product("Hacienda", DLC.SEEDS_OF_CHANGE, Region.NW, 25546, ProductType.SERVICE),
 ]
 
 _a1800_populations = [product for product in _a1800_products if product.type == ProductType.WORKFORCE]

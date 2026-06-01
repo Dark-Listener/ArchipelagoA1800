@@ -324,6 +324,10 @@ _a1800_chains: list[A1800Chain] = [
                 ("Orchard: Camphor Wax", Region.NW), ("Cotton Plantation", Region.NW),
                 ("Chemical Plant: Celluloid", Region.NW), ("Alpaca Farm", Region.NW), ("Felt Producer", Region.NW),
                 ("Artisan's Workshop: Toys", Region.OW)}),
+
+    ################################################################################################################
+    ### SEEDS_OF_CHANGE                                                                                          ###
+    ################################################################################################################
 ]
 
 

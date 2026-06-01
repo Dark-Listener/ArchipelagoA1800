@@ -53,11 +53,13 @@ The following expeditions are currently available:
 ### Recipes
 Recipes looks similar to buildings, but correspond to a basic, blank building. Some are always given combined with the blank buildings, others are not. They can be built if the blank variant is also available.
 
-The following combined recipes are available:
+The following combined recipe buildings are available:
 * Orchard (only with `Tourist Season` or `The High Life` DLCs)
 * Chemical Plant (only with `Tourist Season` or `The High Life` DLCs)
 * Assembly Line (only with `The High Life` DLC)
 * Artisan's Workshop (only with `The High Life` DLC)
+* Hacienda Farm (only with `Seeds of Change` DLC)
+* Hacienda Brewery (only with `Seeds of Change` DLC)
 
 The following blank buildings with separate recipes are available:
 * Restaurant (only with `Tourist Season` DLC):
@@ -105,7 +107,7 @@ The following blank buildings with separate recipes are available:
 
 ## Starting Items
 
-The player always starts with the same items as in vanilla. These are:
+The player always starts with some of the same items as in vanilla. These are:
 * OW: Small Trading Post
 * OW: Small Warehouse
 * OW: Dirt Road

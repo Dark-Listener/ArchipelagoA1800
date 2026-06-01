@@ -54,6 +54,7 @@ all of the supported DLCs as you desire:
 * Docklands
 * Tourist Season
 * The High Life
+* Seeds of Change
 
 Additional purchased DLCs are not an issue, but will not be taken into account in the randomizer.
 

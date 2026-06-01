@@ -844,7 +844,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Obreros", Region.NW, 1500),
                 {"Timber", "Bricks", "Steel Beams"}, previous_building="Medium Warehouse"),
 
-    # Building Facotry, Upgrade
+    # Building Factory, Upgrade
     A1800Unlock("Medium Trading Post", DLC.VANILLA, Region.OW, [100510, 100514], 130053,
                 Trigger.POPULATION("Workers", Region.OW, 1), {"Timber", "Bricks"}, output="Medium Storage", previous_building="Small Trading Post"),
 
@@ -2197,6 +2197,103 @@ _a1800_unlocks: list[A1800Unlock] = [
                 ),
                 "Drug Store (Blank)", {"Artisans", "Electricity"},
                 {"Beeswax", "Camphor Wax", "Hibiscus Petals"}, "Drug Store"),
+
+    ################################################################################################################
+    ### SEEDS_OF_CHANGE                                                                                          ###
+    ################################################################################################################
+    # Building
+    A1800Unlock("Hacienda Paving", DLC.SEEDS_OF_CHANGE, Region.NW, 24770, 25055,
+                Trigger.POPULATION("Obreros", Region.NW, 1), type=UnlockType.BUILDING),
+
+    A1800Unlock("Hacienda Pathway", DLC.SEEDS_OF_CHANGE, Region.NW, 25224, 25055,
+                Trigger.POPULATION("Obreros", Region.NW, 1), type=UnlockType.BUILDING),
+
+    # Building, Factory
+    A1800Unlock("Fertiliser Silo", DLC.SEEDS_OF_CHANGE, Region.OW, 25240, 25054,
+                Trigger.POPULATION("Obreros", Region.NW, 1),
+                {"Timber", "Bricks"}, set(), "Fertiliser"),
+
+    A1800Unlock("Hacienda", DLC.SEEDS_OF_CHANGE, Region.NW, 24768, [25055, 25546],
+                Trigger.POPULATION("Obreros", Region.NW, 1),
+                {"Timber", "Bricks"}, set(), set(), "Hacienda"),
+
+    A1800Unlock("Hacienda Storeroom", DLC.SEEDS_OF_CHANGE, Region.NW, 24775, 25055,
+                Trigger.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, "Hacienda", output={"Medium Storage", "Large Storage"}),
+
+    A1800Unlock("Hacienda Sugar Cane Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [24798, 24796, 24794], [25791, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Sugar Cane"),
+
+    A1800Unlock("Hacienda Corn Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25003, 25010, 24794], [25791, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Corn"),
+
+    A1800Unlock("Hacienda Caoutchouc Plantation", DLC.SEEDS_OF_CHANGE, Region.NW, [25006, 25013, 24794], [25791, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Caoutchouc"),
+
+    A1800Unlock("Hacienda Potato Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25019, 25023, 24794], [25791, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Potatoes"),
+
+    A1800Unlock("Hacienda Spice Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25020, 25024, 24794], [25791, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Spices"),
+
+    A1800Unlock("Hacienda Grain Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25128, 25349, 24794], [25791, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Grain"),
+
+    A1800Unlock("Hacienda Rum Distillery", DLC.SEEDS_OF_CHANGE, Region.NW, [24801, 24803, 24800], [25791, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 1),
+                "Timber", {"Jornaleros", "Hacienda"}, {"Wood", "Sugar Cane"}, "Rum"),
+
+    A1800Unlock("Hacienda Atole Maker", DLC.SEEDS_OF_CHANGE, Region.NW, [25126, 25130, 24800], [25791, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 1),
+                "Timber", {"Jornaleros", "Hacienda"}, {"Corn", "Sugar Cane"}, "Atole"),
+
+    A1800Unlock("Hacienda Schnapps Distillery", DLC.SEEDS_OF_CHANGE, Region.NW, [25350, 25351, 24800], [25791, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 1),
+                "Timber", {"Jornaleros", "Hacienda"}, "Potatoes", "Schnapps"),
+
+    A1800Unlock("Hacienda Hot Sauce Factory", DLC.SEEDS_OF_CHANGE, Region.NW, [25508, 25507, 24800], [25791, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 1),
+                "Timber", {"Jornaleros", "Hacienda"}, "Spices", "Hot Sauce"),
+
+    A1800Unlock("Hacienda Fertiliser Works", DLC.SEEDS_OF_CHANGE, Region.NW, 24805, 25054,
+                Trigger.POPULATION("Obreros", Region.NW, 1),
+                {"Steel Beams", "Steam Motors"}, {"Jornaleros", "Hacienda"}, "Dung", "Fertiliser"),
+
+    A1800Unlock("Fertiliser Silo", DLC.SEEDS_OF_CHANGE, Region.NW, 25241, 25054,
+                Trigger.POPULATION("Obreros", Region.NW, 1),
+                {"Timber", "Bricks"}, set(), "Fertiliser"),
+
+    A1800Unlock("Hacienda Coffee Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25005, 25012, 24794], [25005, 25012, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 300), "Timber", {"Jornaleros", "Hacienda"}, output="Coffee Beans"),
+
+    A1800Unlock("Hacienda Cocoa Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25009, 25015, 24794], [25009, 25015, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 600), "Timber", {"Jornaleros", "Hacienda"}, output="Cocoa"),
+
+    A1800Unlock("Hacienda Beer Brewery", DLC.SEEDS_OF_CHANGE, Region.NW, [25064, 25062, 24800], [25064, 25062, 25055],
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                "Timber", {"Jornaleros", "Hacienda"}, {"Grain", "Corn"}, "Beer"),
+
+    # Building, Factory, Residence
+    A1800Unlock("Hacienda Jornalero Quarters", DLC.SEEDS_OF_CHANGE, Region.NW, 24792, [25055, 24792],
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", set(), "Hacienda", "Jornaleros",
+                consumption={"Hacienda", "Fried Plantains", "Ponchos",
+                             "Schnapps", "Hot Sauce", "Fire Protection", "Riot Control"},
+                luxury={"Rum", "Chapel"},
+                lifestyle={"Work Clothes", "Felt", "Teff", "Local Mail",
+                           "Regional Mail", "Overseas Mail", "Soccer Balls", "Beach", "Cinema"}),
+
+    A1800Unlock("Hacienda Obrera Quarters", DLC.SEEDS_OF_CHANGE, Region.NW, 24793, [25055, 24792],
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", set(), "Hacienda", "Obreros",
+                consumption={"Hacienda", "Fried Plantains", "Ponchos", "Tortillas", "Hot Sauce", "Atole", "Coffee", "Bombins",
+                             "Sewing Machines", "Fire Protection", "Riot Control", "Healthcare"},
+                luxury={"Rum", "Chapel", "Boxing Arena", "Beer", "Cigars"},
+                lifestyle={"Spectacles", "Typewriters", "Illuminated Script", "Local Mail",
+                           "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooter"}),
+
+    ### Needs Land of Lions ###
+    # Building, Factory
+    A1800Unlock("Fertiliser Silo", DLC.LAND_OF_LIONS | DLC.SEEDS_OF_CHANGE, Region.EN, 25242, 25054,
+                Trigger.POPULATION("Obreros", Region.NW, 1),
+                {"Wanza Timber", "Mud Bricks"}, set(), "Fertiliser"),
 
     ################################################################################################################
     ### EMPIRE_OF_THE_SKIES                                                                                      ###

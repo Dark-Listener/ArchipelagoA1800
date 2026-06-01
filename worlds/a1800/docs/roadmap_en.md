@@ -27,6 +27,7 @@ The following features are being considered, but it's unclear whether they are r
 
 * Remove need unlocks (or add them to the pool) - not sure if possible
 * Double-check road upgrades without unlock via upgrade button (confirmed) and model if needed (not right now)
+* Option to en-disable paved and hacienda roads for settling
 * Include ornaments in the item pool - maybe as filler?
   * Cosmetic DLC should probably be avoided due to issues with compatibility
 * Handle NPC shops and item pools

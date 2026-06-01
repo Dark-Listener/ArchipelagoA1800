@@ -78,9 +78,13 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 300 | Jornaleros |  | 3 | NW: Police Station, NW: Chapel, NW: Pearl Farm |
 | 1 | Obrero |  | 9 | NW: Medium Trading Post, NW: Medium Warehouse, NW: Paved Street, NW: Clay Pit, NW: Brick Factory, NW: Cattle Farm,<br>NW: Corn Farm, NW: Tortilla Maker, NW: Town Hall |
 | 1 | Obrero | Bright Harvest | 1 | NW: Silo |
+| 1 | Obrero | Seeds of Change | 19 | OW: Fertiliser Silo, NW: Hacienda Paving, NW: Hacienda Pathway, NW: Hacienda, NW: Hacienda Storeroom, NW: Hacienda Sugar Cane Farm<br>NW: Hacienda Corn Farm, NW: Hacienda Caoutchouc Plantation, NW: Hacienda Potato Farm, NW: Hacienda Spice Farm, NW: Hacienda Grain Farm, NW: Hacienda Rum Distillery<br>NW: Hacienda Atole Maker, NW: Hacienda Schnapps Distillery, NW: Hacienda Hot Sauce Factory, NW: Hacienda Fertiliser Works, NW: Hacienda Fertiliser Silo, NW: Hacienda Jornalero Quarters<br>NW: Hacienda Obrera Quarters |
+| 1 | Obrero | Land of Lions & Seeds of Change | 1 | EN: Fertiliser Silo |
 | 300 | Obreros |  | 8 | NW: Coffee Plantation, NW: Coffee Roaster, NW: Boxing Arena, NW: Gold Mine, NW: Pier, NW: Public Mooring,<br>NW: Cannon Tower, NW: Flame Tower |
+| 300 | Obreros | Seeds of Change | 1 | NW: Hacienda Coffee Farm |
 | 600 | Obreros |  | 9 | NW: Felt Producer, NW: Bombin Weaver, NW: Hospital, NW: Oil Refinery, NW: Oil Well, NW: Small Oil Harbour,<br>NW: Medium Oil Harbour, NW: Large Oil Harbour, NW: Oil Store |
 | 600 | Obreros | Bright Harvest | 3 | NW: Tractor Barn, NW: Fuel Station, NW: Grand Oil Harbour |
+| 600 | Obreros | Seeds of Change | 2 | NW: Hacienda Cocoa Farm, NW: Hacienda Beer Brewery |
 | 600 \| 500 | Obreros \| Workers |  | - | *-- Repeat for clarity --*<br>OW: Hop Farm, OW: Malthouse, OW: Brewery |
 | 600 \| 1 | Obreros \|Engineer |  | - | *-- Repeat for clarity --*<br>OW\|NW: Rails |
 | 1000 | Obreros |  | 4 | NW: Zoo, NW: Tobacco Plantation, NW: Marquetry Workshop, NW: Cigar Factory |
@@ -206,7 +210,8 @@ the recipe unlocks from Tourist Season and The High Life DLCs. Below, there is a
 |  |  | + The Passage | 3 |
 |  |  | + Land of Lions | 3 |
 |  |  | + **NOT** Tourist Season | 4 |
-| Seeds of Change | N/A |  |  |
+| Seeds of Change | 23 | Base DLC | 22 |
+| |  | + Land of Lions | 1 |
 | Empire of the Skies | N/A |  |  |
 | New World Rising | N/A |  |  |
-| Total | 401 |  |  |
+| Total | 424 |  |  |

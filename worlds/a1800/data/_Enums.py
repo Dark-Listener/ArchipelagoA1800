@@ -15,7 +15,7 @@ class DLC(Flag, boundary=KEEP):
     DOCKLANDS = auto()
     TOURIST_SEASON = auto()
     THE_HIGH_LIFE = auto()
-#    SEEDS_OF_CHANGE = auto()
+    SEEDS_OF_CHANGE = auto()
     EMPIRE_OF_THE_SKIES = auto()
 #    NEW_WORLD_RISING = auto()
 
@@ -36,7 +36,7 @@ _DLC_GUIDS = {
     DLC.DOCKLANDS: 410083,
     DLC.TOURIST_SEASON: 410084,
     DLC.THE_HIGH_LIFE: 410085,
-    #    DLC.SEEDS_OF_CHANGE: 24961,
+    DLC.SEEDS_OF_CHANGE: 24961,
     DLC.EMPIRE_OF_THE_SKIES: 24962,
     #    DLC.NEW_WORLD_RISING: 24963,
 }

@@ -2216,6 +2216,7 @@ class _Unlocks:
             a1800_unlock.trigger = self._flatten_trigger(a1800_unlock.trigger)
             a1800_unlock.post_init()
             self._add_guids_to_trigger(a1800_unlock.trigger)
+            self._regenerate_trigger_ap_location_name(a1800_unlock.trigger)
 
         self._a1800_unlock_locations = sorted(
             [unlock for unlock in self._a1800_unlocks if not UnlockType.META in unlock.type],
@@ -2304,6 +2305,15 @@ class _Unlocks:
                 subtrigger.triggers if subtrigger.trigger_type == trigger.trigger_type else [subtrigger])]
 
         return trigger
+
+    def _regenerate_trigger_ap_location_name(self, trigger: Trigger) -> None:
+        if trigger.ap_location_name_generated:
+            if trigger.trigger_type in [TriggerType.ALL, TriggerType.LINEAR, TriggerType.ANY]:
+                for subtrigger in trigger.triggers:
+                    self._regenerate_trigger_ap_location_name(subtrigger)
+
+            trigger.ap_location_name = ""
+            trigger.post_init()
 
     def _clean_dlc_trigger(self, enabled_dlcs: DLC, trigger: Trigger) -> Trigger:
         if trigger.trigger_type in [TriggerType.ALL, TriggerType.LINEAR]:

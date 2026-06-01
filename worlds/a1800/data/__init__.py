@@ -70,7 +70,7 @@ class _A1800Data:
     def get_event_locations(self) -> Sequence[A1800EventLocation]:
         return EVENT_LOCATIONS.get_event_locations()
 
-    def get_recipe_unlocks(self) -> dict[str, tuple[int, int, int, int]]:
+    def get_recipe_unlocks(self) -> dict[str, tuple[int, int, int, int, bool]]:
         return RECIPE_GUIDS
 
     def get_item_name_to_ap_code(self) -> dict[str, int]:

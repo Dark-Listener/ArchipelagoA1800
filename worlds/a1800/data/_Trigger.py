@@ -25,6 +25,7 @@ class Trigger:
     dlc: DLC
 
     ap_location_name: str
+    ap_location_name_generated: bool = False
 
     def __init__(self, trigger_type: TriggerType) -> None:
         self.trigger_type = trigger_type
@@ -32,9 +33,11 @@ class Trigger:
     def post_init(self) -> None:
         try:
             if not self.ap_location_name:
-                self.ap_location_name: str = self._get_ap_location_name()
+                self.ap_location_name = self._get_ap_location_name()
+                self.ap_location_name_generated = True
         except AttributeError:
-            self.ap_location_name: str = self._get_ap_location_name()
+            self.ap_location_name = self._get_ap_location_name()
+            self.ap_location_name_generated = True
 
     def _get_ap_location_name(self) -> str:
         match(self.trigger_type):
@@ -69,7 +72,7 @@ class Trigger:
             case TriggerType.COUNTER_GOOD_IN_REGION:
                 region_prefix = f"{self.product_region.name}: " if self.product_region and self.product_region != ALL_REGIONS else ""
                 out_name = f"Have {self.amount} {'tons' if self.amount > 1 else 'ton'} of "\
-                    f"{region_prefix}{self.product_name}  in {self.region.full_name} trading posts"
+                    f"{region_prefix}{self.product_name} in {self.region.full_name} trading posts"
             case TriggerType.COUNTER_EXPEDITION_SOLVED:
                 assert False, "Trigger type COUNTER_EXPEDITION_SOLVED should have set ap_location_name already"
             case TriggerType.QUEST_COMPLETE:

@@ -26,7 +26,7 @@
 
   <!-- Removals don't have to care about DLCs, just remove everything -->
 {% for guid in lock_guid_list %}
-  <ModOp Type="remove" Path="//ActionUnlockAsset/UnlockAssets/Item[Asset='{{ guid }}']" Condition="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" />
+  <ModOp Type="remove" Path="//ActionUnlockAsset/UnlockAssets/Item[Asset='{{ guid }}']" Condition="//ActionUnlockAsset/UnlockAssets/Item[Asset='{{ guid }}']" />
   <ModOp Type="remove" Path="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" Condition="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" />
 {% endfor %}
 

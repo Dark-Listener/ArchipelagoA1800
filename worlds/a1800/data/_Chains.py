@@ -353,7 +353,7 @@ class _Chains:
         return (chain for chain in self._a1800_chains if chain.name == name and
                 next((element_name for element_name, element_region in chain.elements
                       if element_name == unlock_name and element_region == unlock_region), None)
-                and (chain.region == region if region else chain.region & unlock_region != NO_REGION))
+                and (region in chain.region if region else chain.region & unlock_region != NO_REGION))
 
 
 CHAINS = _Chains()

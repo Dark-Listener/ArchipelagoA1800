@@ -48,7 +48,7 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
         case TriggerType.TRUE:
             return set()
         case TriggerType.FALSE:
-            assert False, "TriggerType False should never be used for unlocks"
+            assert False, "TriggerType FALSE should never be used for unlocks"
         case TriggerType.ALL:
             return {requirement for trigger in trigger.triggers for requirement in _get_requirements_from_trigger(trigger) or set()}
         case TriggerType.LINEAR:

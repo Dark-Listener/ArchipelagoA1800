@@ -27,6 +27,7 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 150 | Workers |  | 10 | OW: Grain Farm, OW: Flour Mill, OW: Bakery, OW: Sailmakers, OW: Quay, OW: Depot,<br>OW: Sailing Shipyard, OW: Harbourmaster's Office, OW: Mounted Guns, OW: Church |
 | 300 | Workers |  | 8 | OW: Charcoal Kiln, OW: Iron Mine, OW: Furnace, OW: Steelworks, OW: Rendering Works, OW: Soap Factory,<br>OW: Weapon Factory, OW: Cannon Tower |
 | 300 | Workers | Bright Harvest | 1 | OW: Silo |
+| 300 | Workers | Empire of the Skies | 1 | OW: Flak Emplacement |
 | 500 | Workers |  | 1 | OW: Police Station |
 | 500 \| 600 | Workers \| Obreros |  | 3 | OW: Hop Farm, OW: Malthouse, OW: Brewery |
 | 750 | Workers |  | 2 | OW: School, OW: Artisan Residence |
@@ -36,6 +37,7 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 250 | Artisans |  | 6 | OW: Coal Mine, OW: Sewing Machine Factory, OW: Variety Theatre, OW: Pier, OW: Public Mooring, OW: Repair Crane |
 | 250 | Artisans | Docklands | 1 | Docklands Main Wharf |
 | 500 | Artisans |  | 1 | Zoo |
+| 500 | Artisans | Empire of the Skies | 2 | OW: Post Box, OW: Post Office |
 | 700 | Artisans | Sunken Treasures | 1 | Expedition: Cape Trelawney |
 | 900 | Artisans |  | 1 | OW: Hospital |
 | 900 \| 100 | Artisans \| Jornaleros |  | 4 | OW: Hunting Cabin, NW: Cotton Plantation, NW: Cotton Mill, OW: Fur Dealer |
@@ -75,19 +77,23 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 100 | Jornaleros |  | 7 | NW: Sugar Cane Plantation, NW: Rum Distillery, NW: Sailmakers, NW: Quay, NW: Depot, NW: Harbourmaster's Office,<br>NW: Sailing Shipyard |
 | 100 \| 900 | Jornaleros \| Artisans |  | - | *-- Repeat for clarity --*<br>OW: Hunting Cabin, NW: Cotton Plantation, NW: Cotton Mill, OW: Fur Dealer |
 | 200 | Jornaleros |  | 7 | NW: Alpaca Farm, NW: Poncho Darner, NW: Fire Station, NW: Caoutchouc Plantation, NW: Repair Crane, NW: Mounted Guns,<br>NW: Obrero Residence |
+| 200 | Jornaleros | Empire of the Skies | 1 | NW: Flak Emplacement |
 | 300 | Jornaleros |  | 3 | NW: Police Station, NW: Chapel, NW: Pearl Farm |
 | 1 | Obrero |  | 9 | NW: Medium Trading Post, NW: Medium Warehouse, NW: Paved Street, NW: Clay Pit, NW: Brick Factory, NW: Cattle Farm,<br>NW: Corn Farm, NW: Tortilla Maker, NW: Town Hall |
 | 1 | Obrero | Bright Harvest | 1 | NW: Silo |
 | 1 | Obrero | Seeds of Change | 19 | OW: Fertiliser Silo, NW: Hacienda Paving, NW: Hacienda Pathway, NW: Hacienda, NW: Hacienda Storeroom, NW: Hacienda Sugar Cane Farm<br>NW: Hacienda Corn Farm, NW: Hacienda Caoutchouc Plantation, NW: Hacienda Potato Farm, NW: Hacienda Spice Farm, NW: Hacienda Grain Farm, NW: Hacienda Rum Distillery<br>NW: Hacienda Atole Maker, NW: Hacienda Schnapps Distillery, NW: Hacienda Hot Sauce Factory, NW: Hacienda Fertiliser Works, NW: Hacienda Fertiliser Silo, NW: Hacienda Jornalero Quarters<br>NW: Hacienda Obrera Quarters |
 | 1 | Obrero | Land of Lions & Seeds of Change | 1 | EN: Fertiliser Silo |
+| 250 | Obreros | Empire of the Skies | 5 | NW: Charcoal Kiln, NW: Bauxite Mine, NW: Aluminium Smelter, NW: Post Box, NW: Post Office |
 | 300 | Obreros |  | 8 | NW: Coffee Plantation, NW: Coffee Roaster, NW: Boxing Arena, NW: Gold Mine, NW: Pier, NW: Public Mooring,<br>NW: Cannon Tower, NW: Flame Tower |
 | 300 | Obreros | Seeds of Change | 1 | NW: Hacienda Coffee Farm |
 | 600 | Obreros |  | 9 | NW: Felt Producer, NW: Bombin Weaver, NW: Hospital, NW: Oil Refinery, NW: Oil Well, NW: Small Oil Harbour,<br>NW: Medium Oil Harbour, NW: Large Oil Harbour, NW: Oil Store |
 | 600 | Obreros | Bright Harvest | 3 | NW: Tractor Barn, NW: Fuel Station, NW: Grand Oil Harbour |
 | 600 | Obreros | Seeds of Change | 2 | NW: Hacienda Cocoa Farm, NW: Hacienda Beer Brewery |
+| 600 | Obreros | Empire of the Skies | 25 | OW: Airship Platform, OW: Item Transfer Depot, OW: Rigid Airship Hangar: Foundations, OW: Rigid Airship Hangar: Structure, OW: Rigid Airship Hangar: Roof, OW: Rigid Airship Hangar,<br>OW: Bomb Factory, OW: Sea Mine Factory, OW: Pamphlet Printer, OW: Care Package Factory, OW: Water Drop Factory, NW: Industrial Oil Press<br>NW: Helium Extractor, NW: Airship Platform, NW: Item Transfer Depot, NW: Commuter Station, NW: Rigid Airship Hangar: Foundations, NW: Rigid Airship Hangar: Structure<br>NW: Rigid Airship Hangar: Roof, NW: Rigid Airship Hangar, NW: Bomb Factory, NW: Sea Mine Factory, NW: Pamphlet Printer, NW: Care Package Factory<br>NW: Water Drop Factory |
 | 600 \| 500 | Obreros \| Workers |  | - | *-- Repeat for clarity --*<br>OW: Hop Farm, OW: Malthouse, OW: Brewery |
 | 600 \| 1 | Obreros \|Engineer |  | - | *-- Repeat for clarity --*<br>OW\|NW: Rails |
 | 1000 | Obreros |  | 4 | NW: Zoo, NW: Tobacco Plantation, NW: Marquetry Workshop, NW: Cigar Factory |
+| 1000 | Obreros | Empire of the Skies | 2 | OW: Airmail Sorting Office, NW: Airmail Sorting Office |
 | 1500 | Obreros |  | 7 | NW: Large Trading Post, NW: Large Warehouse, NW: Cocoa Plantation, NW: Sugar Refinery, NW: Chocolate Factory, NW: Museum,<br>NW: Anti-Armour Gun |
 | 1500 | Obreros | Botanica | 1 | NW: Botanical Garden |
 | 100 | Explorers | The Passage | 3 | AR: Caribou Hunting Cabin, AR: Whaling Station, AR: Pemmican Cookhouse |
@@ -95,11 +101,14 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 500 | Explorers | The Passage | 5 | AR: Medium Trading Post, AR: Medium Sky Trading Post, AR: Medium Warehouse, AR: Oil Lamp Factory, AR: Technician Shelter |
 | 500 \| 100 | Explorers \| Farmers | The Passage \| - | - | *-- Repeat for clarity --*<br>OW: Potato Farm, OW: Schnapps Distillery |
 | 1 | Technician | The Passage | 5 | AR: Depot, AR: Pier, AR: Cannon Tower, AR: Flame Tower, AR: Arctic Airship Hangar: Foundations |
+| 1 | Technician | The Passage & Empire of the Skies | 1 | AR: Flak Emplacement |
 | 100 | Technicians | The Passage | 6 | AR: Large Trading Post, AR: Large Sky Trading Post, AR: Large Warehouse, AR: Arctic Lodge, AR: Post Office, AR: Arctic Airship Hangar: Structure |
+| 100 | Technicians | The Passage & Empire of the Skies | 2 | AR: Airship Platform, AR: Airmail Sorting Office |
 | 300 | Technicians | The Passage | 4 | AR: Bear Hunting Cabin, AR: Parka Factory, AR: Prime Hunting Cabin, AR: Arctic Airship Hangar: Roof |
 | 300 \| 1 | Technicians \| Artisan | The Passage \| - | - | *-- Repeat for clarity --*<br>OW: Cattle Farm, OW: Red Pepper Farm, OW: Artisanal Kitchen, OW: Cannery |
 | 750 | Technicians | The Passage | 6 | AR: Husky Farm, AR: Sled Frame Factory, AR: Husky Sled Factory, AR: Deep Gold Mine, AR: Arctic Gas Mine, AR: Arctic Airship Hangar |
 | 50 | Shepherds | Land of Lions | 1 | EN: Goat Farm |
+| 50 | Shepherds | Land of Lions & Empire of the Skies | 1 | EN: Flak Emplacement |
 | 150 | Shepherds | Land of Lions | 11 | EN: Linseed Farm, EN: Linen Mill, EN: Embroiderer, EN: Musician's Court, EN: Fire Station, EN: Trade Union,<br>EN: Quay, EN: Depot, EN: Harbourmaster's Office, EN: Repair Crane, EN: Mounted Guns |
 | 300 | Shepherds | Land of Lions | 6 | EN: Sanga Farm, EN: Salt Works, EN: Dry-House, EN: Hibiscus Farm, EN: Tea Spicer, EN: Elder Residence |
 | 1 | Elder | Land of Lions | 10 | EN: Medium Trading Post, EN: Medium Warehouse, EN: Paved Street, EN: Clay Collector, EN: Teff Farm, EN: Brick Dry-House,<br>EN: Indigo Farm, EN: Ceramics Workshop, EN: Tapestry Looms, EN: Police Station |
@@ -211,7 +220,9 @@ the recipe unlocks from Tourist Season and The High Life DLCs. Below, there is a
 |  |  | + Land of Lions | 3 |
 |  |  | + **NOT** Tourist Season | 4 |
 | Seeds of Change | 23 | Base DLC | 22 |
-| |  | + Land of Lions | 1 |
-| Empire of the Skies | N/A |  |  |
+|  |  | + Land of Lions | 1 |
+| Empire of the Skies | 40 | Base DLC | 36 |
+|  |  | + The Passage | 3 |
+|  |  | + Land of Lions | 1 |
 | New World Rising | N/A |  |  |
-| Total | 424 |  |  |
+| Total | 464 |  |  |

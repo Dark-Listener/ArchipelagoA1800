@@ -373,7 +373,7 @@ _a1800_products: list[A1800Product] = [
     ### Needs The Passage ###
     A1800Product("Refrigerators", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW, 135878, ProductType.STORE),
     A1800Product("Four-Poster Beds", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW, 135883, ProductType.STORE),
-    A1800Product("Face Cream", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW, 135231, ProductType.STORE),
+    A1800Product("Face Cream", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW, 135888, ProductType.STORE),
 
     ### Needs Land of Lions ###
     A1800Product("Briefcases", DLC.LAND_OF_LIONS | DLC.THE_HIGH_LIFE, Region.OW, 135879, ProductType.STORE),
@@ -392,6 +392,45 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Fertiliser", DLC.SEEDS_OF_CHANGE, ALL_REGIONS, 24808, ProductType.GOOD),
 
     A1800Product("Hacienda", DLC.SEEDS_OF_CHANGE, Region.NW, 25546, ProductType.SERVICE),
+
+    ################################################################################################################
+    ### EMPIRE_OF_THE_SKIES                                                                                      ###
+    ################################################################################################################
+    A1800Product("Airship Platform", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 0, ProductType.META),
+    A1800Product("Airmail Sorting Office", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 0, ProductType.META),
+    A1800Product("Airship Platform", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 0, ProductType.META),
+    A1800Product("Airmail Sorting Office", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 0, ProductType.META),
+
+    A1800Product("Rigid Airship Hangar: Foundations", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 0, ProductType.STAGE),
+    A1800Product("Rigid Airship Hangar: Structure", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 0, ProductType.STAGE),
+    A1800Product("Rigid Airship Hangar: Roof", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 0, ProductType.STAGE),
+    A1800Product("Rigid Airship Hangar: Foundations", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 0, ProductType.STAGE),
+    A1800Product("Rigid Airship Hangar: Structure", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 0, ProductType.STAGE),
+    A1800Product("Rigid Airship Hangar: Roof", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 0, ProductType.STAGE),
+
+    A1800Product("Local Mail", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 535, ProductType.GOOD),
+    A1800Product("Regional Mail", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 536, ProductType.GOOD),
+    A1800Product("Overseas Mail", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 2524, ProductType.GOOD),
+    A1800Product("Local Mail", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 535, ProductType.GOOD),
+    A1800Product("Regional Mail", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 536, ProductType.GOOD),
+    A1800Product("Overseas Mail", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 2524, ProductType.GOOD),
+    A1800Product("Bauxite", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 836, ProductType.GOOD),
+    A1800Product("Aluminium Profiles", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 838, ProductType.GOOD),
+    A1800Product("Industrial Lubricant", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1414, ProductType.GOOD),
+    A1800Product("Helium", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 840, ProductType.GOOD),
+    A1800Product("Bombs", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 846, ProductType.GOOD),
+    A1800Product("Sea Mines", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 847, ProductType.GOOD),
+    A1800Product("Pamphlets", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 848, ProductType.GOOD),
+    A1800Product("Care Packages", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 849, ProductType.GOOD),
+    A1800Product("Water Drop", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 850, ProductType.GOOD),
+
+    # Needs The Passage
+    A1800Product("Airship Platform", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, 0, ProductType.META),
+    A1800Product("Airmail Sorting Office", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, 0, ProductType.META),
+
+    A1800Product("Local Mail", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, 535, ProductType.GOOD),
+    A1800Product("Regional Mail", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, 536, ProductType.GOOD),
+    A1800Product("Overseas Mail", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, 2524, ProductType.GOOD),
 ]
 
 _a1800_populations = [product for product in _a1800_products if product.type == ProductType.WORKFORCE]

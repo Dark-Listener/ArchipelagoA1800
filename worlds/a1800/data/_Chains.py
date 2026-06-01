@@ -326,8 +326,13 @@ _a1800_chains: list[A1800Chain] = [
                 ("Artisan's Workshop: Toys", Region.OW)}),
 
     ################################################################################################################
-    ### SEEDS_OF_CHANGE                                                                                          ###
+    ### EMPIRE_OF_THE_SKIES                                                                                      ###
     ################################################################################################################
+    A1800Chain("Aluminium Profiles", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 1351,
+               {("Charcoal Kiln", Region.NW), ("Bauxite Mine", Region.NW), ("Aluminium Smelter", Region.NW)}),
+    A1800Chain("Helium", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 1361,
+               {("Saltpetre Works", Region.OW), ("Fish Oil Factory", Region.NW), ("Industrial Oil Press", Region.NW),
+                ("Clay Pit", Region.NW), ("Helium Extractor", Region.NW)}),
 ]
 
 

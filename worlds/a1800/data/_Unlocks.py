@@ -1825,7 +1825,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Restaurant (Blank)", "Tourists", {"Flour", "Potatoes", "Caribou Meat"}, "Restaurant"),
 
     A1800Unlock("Cafe: Venison Tartare", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
-                [133349, RECIPE_GUIDS["Recipe: Venison Tartare"][0]], [133349],
+                [133349, RECIPE_GUIDS["Recipe: Venison Tartare"][0]], [133349, 4839],
                 Trigger.LINEAR(Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                                Trigger.COUNTER("Post Office", Region.AR, 1)),
                 "Cafe (Blank)", "Tourists", {"Grapes", "Caribou Meat", "Citrus"}, "Cafe"),
@@ -2298,13 +2298,248 @@ _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     ### EMPIRE_OF_THE_SKIES                                                                                      ###
     ################################################################################################################
+    # Meta
+    A1800Unlock("Postal Service OW => OW", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
+                input={("Air Travel", Region.OW), ("Local Mail", Region.OW), ("Airship Platform", Region.OW),
+                       ("Airmail Sorting Office", Region.OW)},
+                output=("Regional Mail", Region.OW),
+                type=UnlockType.META | UnlockType.FACTORY),
 
-    # TODO: Meta Upgrades for Alpaca and Cattle Farms with Electricity
+    A1800Unlock("Postal Service OW => NW", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
+                input={("Air Travel", Region.OW | Region.NW), ("Local Mail", Region.OW),
+                       ("Airship Platform", Region.OW), ("Airship Platform", Region.NW),
+                       ("Airmail Sorting Office", Region.OW), ("Airmail Sorting Office", Region.NW)},
+                output=("Overseas Mail", Region.NW),
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Postal Service NW => NW", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
+                input={("Air Travel", Region.NW), ("Local Mail", Region.NW), ("Airship Platform", Region.NW),
+                       ("Airmail Sorting Office", Region.NW)},
+                output=("Regional Mail", Region.NW),
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Postal Service NW => OW", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
+                input={("Air Travel", Region.OW | Region.NW), ("Local Mail", Region.NW),
+                       ("Airship Platform", Region.OW), ("Airship Platform", Region.NW),
+                       ("Airmail Sorting Office", Region.OW), ("Airmail Sorting Office", Region.NW)},
+                output=("Overseas Mail", Region.OW),
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    # Building
+    A1800Unlock("Flak Emplacement", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 736, 736,
+                Trigger.POPULATION("Workers", Region.OW, 300), {"Timber", "Bricks", "Weapons"}),
+
+    A1800Unlock("Item Transfer Depot", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 964, 1989,
+                Trigger.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks", "Steel Beams"}),
+
+    A1800Unlock("Flak Emplacement", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 742, 742,
+                Trigger.POPULATION("Jornaleros", Region.NW, 200), {"Timber", "Bricks", "Weapons"}),
+
+    A1800Unlock("Item Transfer Depot", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 2274, 1988,
+                Trigger.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks"}),
+
+    A1800Unlock("Commuter Station", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 967, 1988,
+                Trigger.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks"}),
+
+    # Building, Factory
+    A1800Unlock("Post Box", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 538, 4320,
+                Trigger.POPULATION("Artisans", Region.OW, 500),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Workers", set(), "Local Mail"),
+
+    A1800Unlock("Post Office", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 3741, 4320,
+                Trigger.POPULATION("Artisans", Region.OW, 500),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Workers", set(), "Local Mail"),
+
+    A1800Unlock("Rigid Airship Hangar: Foundations", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 648, 676,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Workers",
+                {"Timber", "Bricks"}, "Rigid Airship Hangar: Foundations"),
+
+    A1800Unlock("Rigid Airship Hangar: Structure", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 649, 676,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                "Rigid Airship Hangar: Foundations", "Workers",
+                {"Bricks", "Aluminium Profiles"}, "Rigid Airship Hangar: Structure"),
+
+    A1800Unlock("Rigid Airship Hangar: Roof", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 651, 676,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                "Rigid Airship Hangar: Structure", "Workers",
+                {"Aluminium Profiles", "Windows"}, "Rigid Airship Hangar: Roof"),
+
+    A1800Unlock("Rigid Airship Hangar", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 636, 676,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                "Rigid Airship Hangar: Roof", "Workers",
+                {"Aluminium Profiles", "Sails", "Helium"}, "Air Travel"),
+
+    A1800Unlock("Airship Platform", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 962, 1989,
+                Trigger.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks", "Aluminium Profiles"}, output="Airship Platform"),
+
+    A1800Unlock("Bomb Factory", DLC.EMPIRE_OF_THE_SKIES, Region.OW, [924, 940, 923], 2040,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Steel Beams", "Aluminium Profiles"}, "Workers",
+                {"Saltpetre", "Dynamite", "Steel"}, "Bombs"),
+
+    A1800Unlock("Sea Mine Factory", DLC.EMPIRE_OF_THE_SKIES, Region.OW, [934, 953, 923], 2040,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Steel Beams", "Aluminium Profiles"}, "Workers",
+                {"Copper", "Dynamite", "Steel"}, "Sea Mines"),
+
+    A1800Unlock("Pamphlet Printer", DLC.EMPIRE_OF_THE_SKIES, Region.OW, [935, 954, 923], 2040,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Steel Beams", "Aluminium Profiles"}, "Workers",
+                {"Wood", "Cotton"}, "Pamphlets"),
+
+    A1800Unlock("Care Package Factory", DLC.EMPIRE_OF_THE_SKIES, Region.OW, [936, 955, 923], 2040,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Steel Beams", "Aluminium Profiles"}, "Workers",
+                {"Canned Food", "Chocolate", "Schnapps"}, "Care Packages"),
+
+    A1800Unlock("Water Drop Factory", DLC.EMPIRE_OF_THE_SKIES, Region.OW, [937, 956, 923], 2040,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Steel Beams", "Aluminium Profiles"}, "Workers",
+                set(), "Water Drop"),
+
+    A1800Unlock("Airmail Sorting Office", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 966, 4321,
+                Trigger.POPULATION("Obreros", Region.NW, 1000),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, output="Airmail Sorting Office"),
+
+    A1800Unlock("Post Box", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 3661, 4324,
+                Trigger.POPULATION("Obreros", Region.NW, 250),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Obreros", set(), "Local Mail"),
+
+    A1800Unlock("Post Office", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 3761, 4324,
+                Trigger.POPULATION("Obreros", Region.NW, 250),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Obreros", set(), "Local Mail"),
+
+    A1800Unlock("Charcoal Kiln", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 1345, 1352,
+                Trigger.POPULATION("Obreros", Region.NW, 250),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Coal", "Aluminium Profiles"),
+
+    A1800Unlock("Bauxite Mine", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 1308, 1352,
+                Trigger.POPULATION("Obreros", Region.NW, 250),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Bauxite", "Aluminium Profiles"),
+
+    A1800Unlock("Aluminium Smelter", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 835, 1352,
+                Trigger.POPULATION("Obreros", Region.NW, 250),
+                "Timber", "Obreros", {"Coal", "Bauxite"}, "Aluminium Profiles", "Aluminium Profiles"),
+
+    A1800Unlock("Industrial Oil Press", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 1418, 1355,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks"}, "Jornaleros",
+                {"Fish Oil", "Saltpetre"}, "Industrial Lubricant", "Helium"),
+
+    A1800Unlock("Helium Extractor", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 1353, 1355,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Obreros",
+                {"Industrial Lubricant", "Clay"}, "Helium", "Helium"),
+
+    A1800Unlock("Rigid Airship Hangar: Foundations", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 692, 696,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Jornaleros",
+                {"Timber", "Bricks"}, "Rigid Airship Hangar: Foundations"),
+
+    A1800Unlock("Rigid Airship Hangar: Structure", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 693, 696,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                "Rigid Airship Hangar: Foundations", "Jornaleros",
+                {"Bricks", "Aluminium Profiles"}, "Rigid Airship Hangar: Structure"),
+
+    A1800Unlock("Rigid Airship Hangar: Roof", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 695, 696,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                "Rigid Airship Hangar: Structure", "Obreros",
+                {"Aluminium Profiles", "Sails"}, "Rigid Airship Hangar: Roof"),
+
+    A1800Unlock("Rigid Airship Hangar", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 635, 696,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                "Rigid Airship Hangar: Roof", "Obreros",
+                {"Aluminium Profiles", "Sails", "Helium"}, "Air Travel"),
+
+    A1800Unlock("Airship Platform", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 963, 1988,
+                Trigger.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks", "Aluminium Profiles"}, output="Airship Platform"),
+
+    A1800Unlock("Bomb Factory", DLC.EMPIRE_OF_THE_SKIES, Region.NW, [906, 868, 905], 2041,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Jornaleros",
+                {"Saltpetre", "Dynamite", "Steel"}, "Bombs"),
+
+    A1800Unlock("Sea Mine Factory", DLC.EMPIRE_OF_THE_SKIES, Region.NW, [907, 918, 905], 2041,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Jornaleros",
+                {"Copper", "Dynamite", "Steel"}, "Sea Mines"),
+
+    A1800Unlock("Pamphlet Printer", DLC.EMPIRE_OF_THE_SKIES, Region.NW, [908, 919, 905], 2041,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Jornaleros",
+                {"Wood", "Cotton"}, "Pamphlets"),
+
+    A1800Unlock("Care Package Factory", DLC.EMPIRE_OF_THE_SKIES, Region.NW, [916, 921, 905], 2041,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Jornaleros",
+                {"Canned Food", "Chocolate", "Schnapps"}, "Care Packages"),
+
+    A1800Unlock("Water Drop Factory", DLC.EMPIRE_OF_THE_SKIES, Region.NW, [915, 922, 905], 2041,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Jornaleros",
+                set(), "Water Drop"),
+
+    A1800Unlock("Airmail Sorting Office", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 2276, 4321,
+                Trigger.POPULATION("Obreros", Region.NW, 1000), {"Timber", "Bricks"}, output="Airmail Sorting Office"),
+
+    ### Needs The Passage ###
+    # Meta
+    A1800Unlock("Postal Service OW => AR", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
+                input={("Air Travel", Region.OW | Region.AR), ("Local Mail", Region.OW),
+                       ("Airship Platform", Region.OW), ("Airship Platform", Region.AR),
+                       ("Airmail Sorting Office", Region.OW), ("Airmail Sorting Office", Region.AR)},
+                output=("Overseas Mail", Region.AR),
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Postal Service NW => AR", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
+                input={("Air Travel", Region.NW | Region.AR), ("Local Mail", Region.NW),
+                       ("Airship Platform", Region.NW), ("Airship Platform", Region.AR),
+                       ("Airmail Sorting Office", Region.NW), ("Airmail Sorting Office", Region.AR)},
+                output=("Overseas Mail", Region.AR),
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Postal Service AR => AR", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
+                input={("Air Travel", Region.AR), ("Local Mail", Region.AR), ("Airship Platform", Region.AR),
+                       ("Airmail Sorting Office", Region.AR)},
+                output=("Regional Mail", Region.AR),
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Postal Service AR => OW", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
+                input={("Air Travel", Region.OW | Region.AR), ("Local Mail", Region.AR),
+                       ("Airship Platform", Region.OW), ("Airship Platform", Region.AR),
+                       ("Airmail Sorting Office", Region.OW), ("Airmail Sorting Office", Region.AR)},
+                output=("Overseas Mail", Region.OW),
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Postal Service AR => NW", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
+                input={("Air Travel", Region.NW | Region.AR), ("Local Mail", Region.AR),
+                       ("Airship Platform", Region.NW), ("Airship Platform", Region.AR),
+                       ("Airmail Sorting Office", Region.NW), ("Airmail Sorting Office", Region.AR)},
+                output=("Overseas Mail", Region.NW),
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    # Building
+    A1800Unlock("Flak Emplacement", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, 822, 822,
+                Trigger.POPULATION("Technicians", Region.AR, 1), {"Timber", "Bricks", "Weapons"}),
+
+    # Building, Factory
+    A1800Unlock("Airship Platform", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, 4258, 4532,
+                Trigger.POPULATION("Technicians", Region.AR, 100), {"Timber", "Bricks"}, output="Airship Platform"),
+
+    A1800Unlock("Airmail Sorting Office", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, [4259, 4513], 4532,
+                Trigger.POPULATION("Technicians", Region.AR, 100), {"Timber", "Bricks"}, output="Airmail Sorting Office"),
+
+    ### Needs Land of Lions ###
+    # Building
+    A1800Unlock("Flak Emplacement", DLC.LAND_OF_LIONS | DLC.EMPIRE_OF_THE_SKIES, Region.EN, 743, 743,
+                Trigger.POPULATION("Shepherds", Region.EN, 50), {"Wanza Timber", "Mud Bricks", "Weapons"}),
 
     ################################################################################################################
     ### NEW_WORLD_RISING                                                                                         ###
     ################################################################################################################
 
+    # TODO: Meta Upgrades for Alpaca and Cattle Farms with Electricity
     # TODO: New restaurant, cafe, bar
 ]
 
@@ -2509,6 +2744,9 @@ class _Unlocks:
         if DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES in parsed_options.enabled_dlcs:
             for unlock in self._a1800_unlocks:
                 if unlock.name == "Post Office" and unlock.region == Region.AR:
+                    unlock.guids = [4260]
+                    unlock.unlock_guids = [4260]
+                    unlock.lock_guids.append(4532)
                     unlock.dlc = {DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES}
                     unlock.maintenance.add("Explorers")
                     unlock.output.add(("Local Mail", Region.AR))

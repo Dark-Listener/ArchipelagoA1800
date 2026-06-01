@@ -60,6 +60,7 @@ The following combined recipe buildings are available:
 * Artisan's Workshop (only with `The High Life` DLC)
 * Hacienda Farm (only with `Seeds of Change` DLC)
 * Hacienda Brewery (only with `Seeds of Change` DLC)
+* Supply Factory (only with `Empire of the Skies` DLC)
 
 The following blank buildings with separate recipes are available:
 * Restaurant (only with `Tourist Season` DLC):

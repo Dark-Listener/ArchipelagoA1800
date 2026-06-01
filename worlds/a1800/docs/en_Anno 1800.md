@@ -53,6 +53,7 @@ The following DLCs are supported:
 * Tourist Season
 * The High Life
 * Seeds of Change
+* Empire of the Skies
 
 Docklands is strongly discouraged as it would render the randomizer pointless. There is an option to toggle its logic
 (default: no Docklands logic), that allows you to add it to your game without the randomizer intending you to get half

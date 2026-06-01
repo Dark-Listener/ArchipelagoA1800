@@ -55,6 +55,7 @@ all of the supported DLCs as you desire:
 * Tourist Season
 * The High Life
 * Seeds of Change
+* Empire of the Skies
 
 Additional purchased DLCs are not an issue, but will not be taken into account in the randomizer.
 

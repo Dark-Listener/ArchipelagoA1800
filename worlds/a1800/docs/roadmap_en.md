@@ -31,6 +31,7 @@ The following features are planned to be added at some point (in no specific ord
 The following features are being considered, but it's unclear whether they are relevant or technically feasible
 
 * Remove need unlocks (or add them to the pool) - not sure if possible
+* Double-check road upgrades without unlock via upgrade button (confirmed) and model if needed (not right now)
 * Include ornaments in the item pool - maybe as filler?
   * Cosmetic DLC should probably be avoided due to issues with compatibility
 * Handle NPC shops and item pools

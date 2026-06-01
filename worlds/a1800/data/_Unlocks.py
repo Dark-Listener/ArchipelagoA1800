@@ -1989,7 +1989,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.ITEM_SET_ACTIVE(
                         "Zoo", Region.OW,
                         "Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)",
-                        191120, {("Engineers", Region.OW)}),
+                        191120, {("Artisans", Region.OW)}),
                 ),
                 "Furniture Store (Blank)", {"Artisans", "Electricity"},
                 {"Cotton Fabric", "Cherry Wood", "Lacquer"}, "Furniture Store", is_excluded=True),

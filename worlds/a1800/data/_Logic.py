@@ -19,7 +19,7 @@ def get_requirements_for_construction(unlock: A1800Unlock) -> set[A1800Requireme
         new_requirements.add(A1800Requirement(unlock.name, unlock.region, RequirementType.UNLOCK))
 
     if UnlockType.BUILDING in unlock.type:
-        new_requirements |= {A1800Requirement(name, unlock.region) for name in unlock.cost | unlock.maintenance}
+        new_requirements |= {A1800Requirement(name, unlock.region) for name in unlock.cost}
 
     if UnlockType.FACTORY in unlock.type:
         new_requirements |= {A1800Requirement(name, region) for name, region in unlock.input}
@@ -234,7 +234,7 @@ class _Logic:
                             location_requirements[event_location.ap_location_name] = new_requirements
 
                     # Traverse region requirements, but don't add them to location rule
-                    if unlock.region ^ checked_regions != NO_REGION:
+                    if (unlock.ap_region or unlock.region) ^ checked_regions != NO_REGION:
                         for region in [region for region in Region.__members__.values()
                                        if region in unlock.region & (unlock.region ^ checked_regions)]:
                             anno_region = REGIONS.find_region(region)

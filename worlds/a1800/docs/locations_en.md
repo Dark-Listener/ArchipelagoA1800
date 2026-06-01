@@ -1,11 +1,7 @@
 # Anno 1800 Locations
 
-[Game Page] | [Setup] | [Items] | Locations | [Roadmap]
+[Game Page](en_Anno%201800.md)<!--(/tutorial/Anno%201800/info/en)--> | [Setup](setup_en.md)<!--(/tutorial/Anno%201800/setup/en)--> | [Items](items_en.md)<!--(/tutorial/Anno%201800/items/en)--> | Locations | [Roadmap](roadmap_en.md)<!--(/tutorial/Anno%201800/roadmap/en)-->
 
-[Game Page]: (en_Anno%201800.md)<!--(/tutorial/Anno%201800/info/en)-->
-[Setup]: (setup_en.md)<!--(/tutorial/Anno%201800/setup/en)-->
-[Items]: (items_en.md)<!--(/tutorial/Anno%201800/items/en)-->
-[Roadmap]: (roadmap_en.md)<!--(/tutorial/Anno%201800/roadmap/en)-->
 
 ## Naming
 

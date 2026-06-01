@@ -1,11 +1,6 @@
 # Anno 1800
 
-Game Page | [Setup] | [Items] | [Locations] | [Roadmap]
-
-[Setup]: (setup_en.md)<!--(/tutorial/Anno%201800/setup/en)-->
-[Items]: (items_en.md)<!--(/tutorial/Anno%201800/items/en)-->
-[Locations]: (locations_en.md)<!--(/tutorial/Anno%201800/locations/en)-->
-[Roadmap]: (roadmap_en.md)<!--(/tutorial/Anno%201800/roadmap/en)-->
+Game Page | [Setup](setup_en.md)<!--(/tutorial/Anno%201800/setup/en)--> | [Items](items_en.md)<!--(/tutorial/Anno%201800/items/en)--> | [Locations](locations_en.md)<!--(/tutorial/Anno%201800/locations/en)--> | [Roadmap](roadmap_en.md)<!--(/tutorial/Anno%201800/roadmap/en)-->
 
 ## What do I need to do to randomize Anno 1800?
 

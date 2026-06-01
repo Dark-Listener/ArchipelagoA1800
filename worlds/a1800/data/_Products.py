@@ -53,6 +53,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Oil Harbour", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Oil Field", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Large Storage", DLC.VANILLA, Region.NW, 0, ProductType.META),
+    A1800Product("Grand Storage", DLC.VANILLA, Region.NW, 0, ProductType.META),
 
     A1800Product("World's Fair: Foundations", DLC.VANILLA, Region.OW, 0, ProductType.STAGE),
     A1800Product("World's Fair: Superstructure", DLC.VANILLA, Region.OW, 0, ProductType.STAGE),
@@ -302,12 +303,15 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Tourists", DLC.TOURIST_SEASON, Region.OW, 601379, ProductType.WORKFORCE),
 
     A1800Product("Jam", DLC.TOURIST_SEASON, ALL_REGIONS, 133183, ProductType.GOOD),
-    A1800Product("Coconut Oil", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, ALL_REGIONS, 133095, ProductType.GOOD),
+    A1800Product("Coconut Oil", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE,
+                 DLC.NEW_WORLD_RISING}, ALL_REGIONS, 133095, ProductType.GOOD),
     A1800Product("Cinnamon", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, ALL_REGIONS, 133093, ProductType.GOOD),
     A1800Product("Shampoo", DLC.TOURIST_SEASON, ALL_REGIONS, 133181, ProductType.GOOD),
-    A1800Product("Citrus", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, ALL_REGIONS, 133097, ProductType.GOOD),
+    A1800Product("Citrus", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE,
+                 DLC.NEW_WORLD_RISING}, ALL_REGIONS, 133097, ProductType.GOOD),
     A1800Product("Lemonade", DLC.TOURIST_SEASON, ALL_REGIONS, 133185, ProductType.GOOD),
-    A1800Product("Camphor Wax", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, ALL_REGIONS, 134616, ProductType.GOOD),
+    A1800Product("Camphor Wax", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE,
+                 DLC.NEW_WORLD_RISING}, ALL_REGIONS, 134616, ProductType.GOOD),
     A1800Product("Souvenirs", DLC.TOURIST_SEASON, ALL_REGIONS, 133532, ProductType.GOOD),
 
     A1800Product("Tourist Mooring", DLC.TOURIST_SEASON, Region.OW, 133891, ProductType.SERVICE),
@@ -344,8 +348,8 @@ _a1800_products: list[A1800Product] = [
     # Citrus -> Tourist Season
     A1800Product("Biscuits", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135229, ProductType.GOOD),
     # Camphor Wax -> Tourist Season
-    A1800Product("Ethanol", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135130, ProductType.GOOD),
-    A1800Product("Celluloid", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135150, ProductType.GOOD),
+    A1800Product("Ethanol", {DLC.THE_HIGH_LIFE, DLC.NEW_WORLD_RISING}, ALL_REGIONS, 135130, ProductType.GOOD),
+    A1800Product("Celluloid", {DLC.THE_HIGH_LIFE, DLC.NEW_WORLD_RISING}, ALL_REGIONS, 135150, ProductType.GOOD),
     A1800Product("Cherry Wood", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135087, ProductType.GOOD),
     A1800Product("Cognac", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135234, ProductType.GOOD),
     A1800Product("Resin", DLC.THE_HIGH_LIFE, ALL_REGIONS, 135086, ProductType.GOOD),
@@ -414,8 +418,9 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Local Mail", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 535, ProductType.GOOD),
     A1800Product("Regional Mail", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 536, ProductType.GOOD),
     A1800Product("Overseas Mail", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 2524, ProductType.GOOD),
-    A1800Product("Bauxite", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 836, ProductType.GOOD),
-    A1800Product("Aluminium Profiles", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 838, ProductType.GOOD),
+    A1800Product("Bauxite", {DLC.EMPIRE_OF_THE_SKIES, DLC.NEW_WORLD_RISING}, ALL_REGIONS, 836, ProductType.GOOD),
+    A1800Product("Aluminium Profiles", {DLC.EMPIRE_OF_THE_SKIES,
+                 DLC.NEW_WORLD_RISING}, ALL_REGIONS, 838, ProductType.GOOD),
     A1800Product("Industrial Lubricant", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1414, ProductType.GOOD),
     A1800Product("Helium", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 840, ProductType.GOOD),
     A1800Product("Bombs", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 846, ProductType.GOOD),
@@ -431,6 +436,56 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Local Mail", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, 535, ProductType.GOOD),
     A1800Product("Regional Mail", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, 536, ProductType.GOOD),
     A1800Product("Overseas Mail", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, 2524, ProductType.GOOD),
+
+    ################################################################################################################
+    ### NEW_WORLD_RISING                                                                                         ###
+    ################################################################################################################
+    A1800Product("Nandu Farm", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.META),
+    A1800Product("Cattle Farm", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.META),
+    A1800Product("Alpaca Farm", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.META),
+    A1800Product("Grand Stadium: Football Championships", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.META),
+
+    A1800Product("Dam: Structure", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.STAGE),
+    A1800Product("Dam: Engineering", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.STAGE),
+    A1800Product("Grand Stadium: Foundations", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.STAGE),
+    A1800Product("Grand Stadium: Superstructure", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.STAGE),
+
+    A1800Product("Artistas", DLC.NEW_WORLD_RISING, Region.NW, 5403, ProductType.WORKFORCE),
+
+    # Bauxite -> Empire of the Skies
+    # Aluminium Profiles -> Empire of the Skies
+    A1800Product("Nandu Leather", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5384, ProductType.GOOD),
+    A1800Product("Nandu Feathers", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5401, ProductType.GOOD),
+    A1800Product("Soccer Balls", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5803, ProductType.GOOD),
+    A1800Product("Herbs", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5383, ProductType.GOOD),
+    # Citrus -> Tourist Season or The High Life
+    A1800Product("Mezcal", DLC.NEW_WORLD_RISING, ALL_REGIONS, 6600, ProductType.GOOD),
+    A1800Product("Calamari", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5380, ProductType.GOOD),
+    A1800Product("Jalea", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5381, ProductType.GOOD),
+    A1800Product("Milk", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5385, ProductType.GOOD),
+    A1800Product("Ice Cream", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5382, ProductType.GOOD),
+    A1800Product("Orchid", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5386, ProductType.GOOD),
+    # Coconut Oil -> Tourist Season or The High Life
+    # Ethanol -> The High Life
+    A1800Product("Perfumes", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5388, ProductType.GOOD),
+    A1800Product("Minerals", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5398, ProductType.GOOD),
+    A1800Product("Pigments", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5400, ProductType.GOOD),
+    A1800Product("Costumes", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5389, ProductType.GOOD),
+    A1800Product("Fire Extinguishers", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5393, ProductType.GOOD),
+    # Camphor Wax -> Tourist Season or The High Life
+    # Celluloid -> The High Life
+    A1800Product("Electric Cables", DLC.NEW_WORLD_RISING, ALL_REGIONS, 6280, ProductType.GOOD),
+    A1800Product("Motor", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5390, ProductType.GOOD),
+    A1800Product("Fans", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5395, ProductType.GOOD),
+    A1800Product("Film Reels", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5392, ProductType.GOOD),
+    A1800Product("Police Equipment", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5394, ProductType.GOOD),
+    A1800Product("Scooters", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5391, ProductType.GOOD),
+    A1800Product("Medicine", DLC.NEW_WORLD_RISING, ALL_REGIONS, 5397, ProductType.GOOD),
+
+    A1800Product("Electricity", DLC.NEW_WORLD_RISING, Region.NW, 1010354, ProductType.SERVICE),
+    A1800Product("Beach", DLC.NEW_WORLD_RISING, Region.NW, 6265, ProductType.SERVICE),
+    A1800Product("Samba School", DLC.NEW_WORLD_RISING, Region.NW, 5831, ProductType.SERVICE),
+    A1800Product("Cinema", DLC.NEW_WORLD_RISING, Region.NW, 5830, ProductType.SERVICE),
 ]
 
 _a1800_populations = [product for product in _a1800_products if product.type == ProductType.WORKFORCE]

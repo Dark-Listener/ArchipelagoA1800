@@ -692,11 +692,12 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks"}, "Jornaleros", {"Timber", "Sails"}, "Sea Travel"),
 
     A1800Unlock("Depot", DLC.VANILLA, Region.NW, 101278, 130106,
-                Trigger.POPULATION("Jornaleros", Region.NW, 100), {"Timber", "Bricks"}, output={"Medium Storage", "Large Storage"}),
+                Trigger.POPULATION("Jornaleros", Region.NW, 100),
+                {"Timber", "Bricks"}, output={"Medium Storage", "Large Storage", "Grand Storage"}),
 
     A1800Unlock("Alpaca Farm", DLC.VANILLA, Region.NW, 101272, 130097,
                 Trigger.POPULATION("Jornaleros", Region.NW, 200),
-                "Timber", "Jornaleros", set(), "Alpaca Wool", "Ponchos"),
+                "Timber", "Jornaleros", set(), {"Alpaca Wool", "Alpaca Farm"}, "Ponchos"),
 
     A1800Unlock("Poncho Darner", DLC.VANILLA, Region.NW, 101266, 130097,
                 Trigger.POPULATION("Jornaleros", Region.NW, 200),
@@ -727,7 +728,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", "Obreros", "Clay", "Bricks", "Bricks"),
 
     A1800Unlock("Cattle Farm", DLC.VANILLA, Region.NW, 101269, 130101,
-                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", "Jornaleros", set(), "Beef", "Tortillas"),
+                Trigger.POPULATION("Obreros", Region.NW, 1),
+                "Timber", "Jornaleros", set(), {"Beef", "Cattle Farm"}, "Tortillas"),
 
     A1800Unlock("Corn Farm", DLC.VANILLA, Region.NW, 101270, 130101,
                 Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", "Jornaleros", set(), "Corn", "Tortillas"),
@@ -897,7 +899,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     "Fur Coats", "University", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Church", "Beer", "Variety Theatre", "Rum"},
                 {"Wool", "Clay", "Paper", "Local Mail", "Regional Mail",
-                    "Overseas Mail", "Soccer Balls", "Perfumes", "Scooter"}),
+                    "Overseas Mail", "Soccer Balls", "Perfumes", "Scooters"}),
 
     A1800Unlock("Engineer Residence", DLC.VANILLA, Region.OW, 1010346, 1010346,
                 Trigger.POPULATION("Artisans", Region.OW, 1500),
@@ -916,7 +918,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     "Chocolate", "Steam Carriages", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Penny Farthings", "Pocket Watches", "Bank", "Members Club", "Jewellery", "Gramophones"},
                 {"Furs", "Bear Fur", "Tapestries", "Local Mail", "Regional Mail",
-                    "Overseas Mail", "Perfumes", "Fans", "Film Reel"}),
+                    "Overseas Mail", "Perfumes", "Fans", "Film Reels"}),
 
     A1800Unlock("Obrero Residence", DLC.VANILLA, Region.NW, 101255, 101255,
                 Trigger.POPULATION("Jornaleros", Region.NW, 200),
@@ -925,7 +927,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     "Sewing Machines", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Rum", "Chapel", "Boxing Arena", "Beer", "Cigars"},
                 {"Spectacles", "Typewriters", "Illuminated Script", "Local Mail",
-                    "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooter"}),
+                    "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooters"}),
 
     ################################################################################################################
     ### SUNKEN_TREASURES                                                                                         ###
@@ -1506,7 +1508,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                              "Telephones", "Radio Tower", "Fire Protection", "Riot Control", "Healthcare"},
                 luxury={"Leather Boots", "Rum", "Bombins", "Hibiscus Tea", "Tapestries", "Clay Pipes", "Gramophones"},
                 lifestyle={"Local Mail", "Regional Mail", "Overseas Mail", "Saltpeter",
-                           "New World Reports", "Arctic Reports", "Film Reel", "Fans", "Scooter"}),
+                           "New World Reports", "Arctic Reports", "Film Reels", "Fans", "Scooters"}),
 
     A1800Unlock("Shepherd Residence", DLC.LAND_OF_LIONS, Region.EN, 114436, 114436,
                 Trigger.SESSION_ENTER(Session.EN), "Wanza Timber", set(), "Market", "Shepherds",
@@ -1684,12 +1686,13 @@ _a1800_unlocks: list[A1800Unlock] = [
                 ),
                 "Cafe (Blank)", "Tourists", {"Flour", "Tallow", "Cinnamon"}, "Cafe", is_excluded=True),
 
-    A1800Unlock("Orchard: Coconut Oil", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, Region.NW,
-                [133004, 133005, 133010], [133004, 134710, 137179, 137608, 133010],
+    A1800Unlock("Orchard: Coconut Oil", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE, DLC.NEW_WORLD_RISING}, Region.NW,
+                [133004, 133005, 133010], [133004, 134710, 137179, 137608, 5818, 133010],
                 Trigger.ANY(
                     Trigger.POPULATION("Tourists", Region.OW, 850),
-                    Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 10)),
-                {"Timber", "Bricks"}, "Jornaleros", set(), "Coconut Oil", "Shampoo"),
+                    Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 10),
+                    Trigger.POPULATION("Artistas", Region.NW, 2700)),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Coconut Oil", {"Shampoo", "Perfumes"}),
 
     A1800Unlock("Orchard: Cinnamon", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, Region.NW,
                 [133030, 133028, 133010], [133030, 134708, 136065, 137608, 133010],
@@ -1711,12 +1714,13 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, "Workers",
                 {"Timber", "Cement"}, "The Iron Tower: Foundations"),
 
-    A1800Unlock("Orchard: Citrus", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, Region.NW,
-                [133031, 133029, 133010], [133031, 134707, 136066, 137607, 133010],
+    A1800Unlock("Orchard: Citrus", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE, DLC.NEW_WORLD_RISING}, Region.NW,
+                [133031, 133029, 133010], [133031, 134707, 136066, 6611, 137607, 133010],
                 Trigger.ANY(
                     Trigger.POPULATION("Tourists", Region.OW, 1250),
-                    Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15)),
-                {"Timber", "Bricks"}, "Jornaleros", set(), "Citrus", {"Lemonade", "Biscuits"}),
+                    Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
+                    Trigger.POPULATION("Artistas", Region.NW, 1)),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Citrus", {"Lemonade", "Biscuits", "Mezcal"}),
 
     A1800Unlock("Chemical Plant: Lemonade", DLC.TOURIST_SEASON, Region.OW,
                 [132777, 132778, 132771], [134712, 132771, 137607],
@@ -1750,12 +1754,13 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "The Iron Tower: Foundations", "Artisans",
                 {"Steel Beams", "Reinforced Concrete"}, "The Iron Tower: Superstructure"),
 
-    A1800Unlock("Orchard: Camphor Wax", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE}, Region.NW,
-                [134614, 134615, 133010], [134614, 134709, 137840, 137609, 133010],
+    A1800Unlock("Orchard: Camphor Wax", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE, DLC.NEW_WORLD_RISING}, Region.NW,
+                [134614, 134615, 133010], [134614, 134709, 137840, 137609, 5812, 133010],
                 Trigger.ANY(
                     Trigger.POPULATION("Tourists", Region.OW, 2000),
-                    Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15)),
-                {"Timber", "Bricks"}, "Jornaleros", set(), "Camphor Wax", {"Souvenirs", "Celluloid"}),
+                    Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
+                    Trigger.POPULATION("Artistas", Region.NW, 4000)),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Camphor Wax", {"Souvenirs", "Celluloid", "Fans"}),
 
     A1800Unlock("Chemical Plant: Souvenirs", DLC.TOURIST_SEASON, Region.OW,
                 [133533, 133534, 132771], [134717, 132771, 137609],
@@ -1946,17 +1951,19 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     # Orchard: Camphor Wax -> Tourist Season
 
-    A1800Unlock("Chemical Plant: Ethanol", DLC.THE_HIGH_LIFE, Region.NW,
-                [135134, 135147, 135221], [137841],
-                Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
+    A1800Unlock("Chemical Plant: Ethanol", {DLC.THE_HIGH_LIFE, DLC.NEW_WORLD_RISING}, Region.NW,
+                [135134, 135147, 135221], [137841, 5811],
+                Trigger.ANY(Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
+                            Trigger.POPULATION("Artistas", Region.NW, 2700)),
                 {"Timber", "Bricks"}, "Obreros",
-                {"Wood", "Corn"}, "Ethanol", "Ethanol"),
+                {"Wood", "Corn"}, "Ethanol", {"Ethanol", "Perfumes"}),
 
-    A1800Unlock("Chemical Plant: Celluloid", DLC.THE_HIGH_LIFE, Region.NW,
-                [135224, 135222, 135221], 137840,
-                Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
+    A1800Unlock("Chemical Plant: Celluloid", {DLC.THE_HIGH_LIFE, DLC.NEW_WORLD_RISING}, Region.NW,
+                [135224, 135222, 135221], [137840, 5812],
+                Trigger.ANY(Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
+                            Trigger.POPULATION("Artistas", Region.NW, 4000)),
                 {"Timber", "Bricks"}, "Obreros",
-                {"Cotton", "Camphor Wax", "Ethanol"}, "Celluloid", "Celluloid"),
+                {"Cotton", "Camphor Wax", "Ethanol"}, "Celluloid", {"Celluloid", "Fans"}),
 
     A1800Unlock("Orchard: Cherry Wood", DLC.THE_HIGH_LIFE, Region.OW, [135088, 135090, 132933], 136067,
                 Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 1),
@@ -2287,7 +2294,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                              "Sewing Machines", "Fire Protection", "Riot Control", "Healthcare"},
                 luxury={"Rum", "Chapel", "Boxing Arena", "Beer", "Cigars"},
                 lifestyle={"Spectacles", "Typewriters", "Illuminated Script", "Local Mail",
-                           "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooter"}),
+                           "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooters"}),
 
     ### Needs Land of Lions ###
     # Building, Factory
@@ -2410,17 +2417,21 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Obreros", Region.NW, 250),
                 {"Timber", "Bricks", "Aluminium Profiles"}, "Obreros", set(), "Local Mail"),
 
-    A1800Unlock("Charcoal Kiln", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 1345, 1352,
-                Trigger.POPULATION("Obreros", Region.NW, 250),
-                {"Timber", "Bricks"}, "Jornaleros", set(), "Coal", "Aluminium Profiles"),
+    A1800Unlock("Charcoal Kiln", {DLC.EMPIRE_OF_THE_SKIES, DLC.NEW_WORLD_RISING}, Region.NW, 1345, [1352, 7221],
+                Trigger.ANY(Trigger.POPULATION("Obreros", Region.NW, 250),
+                            Trigger.POPULATION("Artistas", Region.NW, 1)),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Coal", {"Aluminium Profiles", "Sewing Machines"}),
 
-    A1800Unlock("Bauxite Mine", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 1308, 1352,
-                Trigger.POPULATION("Obreros", Region.NW, 250),
-                {"Timber", "Bricks"}, "Jornaleros", set(), "Bauxite", "Aluminium Profiles"),
+    A1800Unlock("Bauxite Mine", {DLC.EMPIRE_OF_THE_SKIES, DLC.NEW_WORLD_RISING}, Region.NW, 1308, [1352, 7221],
+                Trigger.ANY(Trigger.POPULATION("Obreros", Region.NW, 250),
+                            Trigger.POPULATION("Artistas", Region.NW, 1)),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Bauxite", {"Aluminium Profiles", "Sewing Machines"}),
 
-    A1800Unlock("Aluminium Smelter", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 835, 1352,
-                Trigger.POPULATION("Obreros", Region.NW, 250),
-                "Timber", "Obreros", {"Coal", "Bauxite"}, "Aluminium Profiles", "Aluminium Profiles"),
+    A1800Unlock("Aluminium Smelter", {DLC.EMPIRE_OF_THE_SKIES, DLC.NEW_WORLD_RISING}, Region.NW, 835, [1352, 7221],
+                Trigger.ANY(Trigger.POPULATION("Obreros", Region.NW, 250),
+                            Trigger.POPULATION("Artistas", Region.NW, 1)),
+                "Timber", "Obreros", {"Coal", "Bauxite"},
+                "Aluminium Profiles", {"Aluminium Profiles", "Sewing Machines"}),
 
     A1800Unlock("Industrial Oil Press", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 1418, 1355,
                 Trigger.POPULATION("Obreros", Region.NW, 600),
@@ -2538,9 +2549,245 @@ _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     ### NEW_WORLD_RISING                                                                                         ###
     ################################################################################################################
-
-    # TODO: Meta Upgrades for Alpaca and Cattle Farms with Electricity
+    # TODO: Meta Upgrades for Alpaca Farm with Electricity
     # TODO: New restaurant, cafe, bar
+
+    A1800Unlock("Electrified Nandu Farm", DLC.NEW_WORLD_RISING, ALL_REGIONS,
+                input={("Nandu Farm", Region.NW), ("Electricity", Region.NW)},
+                output=("Nandu Feathers", Region.NW), type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Electrified Cattle Farm", DLC.NEW_WORLD_RISING, ALL_REGIONS,
+                input={("Cattle Farm", Region.NW), ("Electricity", Region.NW)},
+                output=("Milk", Region.NW), type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Electrified Alpaca Farm", DLC.NEW_WORLD_RISING, ALL_REGIONS,
+                input={("Alpaca Farm", Region.NW), ("Electricity", Region.NW)},
+                output=("Saltpetre", Region.NW), type=UnlockType.META | UnlockType.FACTORY),
+
+    # Building, Factory
+    A1800Unlock("Fire Department", DLC.NEW_WORLD_RISING, Region.OW, 6354, 7333,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                "Timber", set(), "Fire Extinguishers", "Fire Protection", "", "Fire Station"),
+
+    A1800Unlock("Police Headquarters", DLC.NEW_WORLD_RISING, Region.OW, 6353, 7336,
+                Trigger.POPULATION("Artistas", Region.NW, 4000),
+                {"Timber", "Bricks"}, set(), "Police Equipment", "Riot Control", "", "Police Station"),
+
+    A1800Unlock("City Hospital", DLC.NEW_WORLD_RISING, Region.OW, 6355, 7337,
+                Trigger.POPULATION("Artistas", Region.NW, 6000),
+                {"Timber", "Bricks", "Steel Beams"}, set(), "Medicine", "Healthcare", "", "Hospital"),
+
+    # Charcoal Kiln -> Empire of the Skies
+
+    # Bauxite Mine -> Empire of the Skies
+
+    # Aluminium Smelter -> Empire of the Skies
+
+    A1800Unlock("Sewing Machine Factory", DLC.NEW_WORLD_RISING, Region.NW, 6083, 7221,
+                Trigger.POPULATION("Artistas", Region.NW, 1),
+                {"Timber", "Bricks"}, "Artistas",
+                {"Wood", "Aluminium Profiles"}, "Sewing Machines", "Sewing Machines (Aluminium)"),
+
+    A1800Unlock("Nandu Farm", DLC.NEW_WORLD_RISING, Region.NW, [5457, 8026], 5800,
+                Trigger.POPULATION("Artistas", Region.NW, 1),
+                "Timber", "Jornaleros", set(), {"Nandu Leather", "Nandu Farm"}, "Ballsports"),
+
+    A1800Unlock("Ball Manufactory", DLC.NEW_WORLD_RISING, Region.NW, 5879, 5807,
+                Trigger.POPULATION("Artistas", Region.NW, 1),
+                "Timber", "Jornaleros", {"Nandu Leather", "Caoutchouc"}, "Soccer Balls", "Ballsports"),
+
+    # Orchard: Citrus -> Tourist Season or The High Life
+
+    A1800Unlock("Herb Garden", DLC.NEW_WORLD_RISING, Region.NW, [5463, 5464], 6611,
+                Trigger.POPULATION("Artistas", Region.NW, 1),
+                "Timber", "Jornaleros", set(), "Herbs", "Mezcal"),
+
+    A1800Unlock("Mezcal Bar", DLC.NEW_WORLD_RISING, Region.NW, 6594, 6611,
+                Trigger.POPULATION("Artistas", Region.NW, 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, "Artistas",
+                {"Citrus", "Sugar", "Herbs"}, "Mezcal", "Mezcal"),
+
+    A1800Unlock("Calamari Fishery", DLC.NEW_WORLD_RISING, Region.NW, 7919, 5802,
+                Trigger.POPULATION("Artistas", Region.NW, 900),
+                "Timber", "Jornaleros", set(), "Calamari", "Jalea"),
+
+    A1800Unlock("Jalea Kitchen", DLC.NEW_WORLD_RISING, Region.NW, 5458, 5802,
+                Trigger.POPULATION("Artistas", Region.NW, 900),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, "Artistas",
+                {"Calamari", "Herbs", "Corn"}, "Jalea", "Jalea"),
+
+    A1800Unlock("Power Station", DLC.NEW_WORLD_RISING, Region.NW, 5164, [5164, 7305],
+                Trigger.POPULATION("Artistas", Region.NW, 900),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
+                {"Obreros", "Railway", "Oil Harbour"}, "Oil", "Electricity",
+                "Electricity (Artistas)"),
+
+    A1800Unlock("Ice Cream Factory", DLC.NEW_WORLD_RISING, Region.NW, 5459, 5801,
+                Trigger.POPULATION("Artistas", Region.NW, 1800),
+                {"Timber", "Bricks"}, "Artistas", {"Milk", "Chocolate", "Citrus"}, "Ice Cream", "Ice Cream"),
+
+    A1800Unlock("Beach", DLC.NEW_WORLD_RISING, Region.NW, [6264, 7085, 7178, 7179, 7180, 7181, 7879, 7880, 7895], 5801,
+                Trigger.POPULATION("Artistas", Region.NW, 1800), "Timber", output="Beach"),
+
+    # Orchard: Coconut Oil -> Tourist Season or The High Life
+
+    # Chemical Plant: Ethanol -> The High Life
+
+    A1800Unlock("Orchid Farm", DLC.NEW_WORLD_RISING, Region.NW, [5814, 5815], 5818,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                "Timber", "Jornaleros", set(), "Orchid", "Perfumes"),
+
+    A1800Unlock("Perfume Mixer", DLC.NEW_WORLD_RISING, Region.NW, 5657, 5818,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, "Artistas",
+                {"Orchid", "Ethanol", "Coconut Oil"}, "Perfumes", "Perfumes"),
+
+    A1800Unlock("Mineral Mine", DLC.NEW_WORLD_RISING, Region.NW, 1390, 5931,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Obreros", set(), "Minerals", "Samba School"),
+
+    A1800Unlock("Laboratory: Pigments", DLC.NEW_WORLD_RISING, Region.NW, [5462, 7000], 5931,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Artistas",
+                {"Minerals", "Saltpetre"}, "Pigments", "Samba School"),
+
+    A1800Unlock("Costume Shop", DLC.NEW_WORLD_RISING, Region.NW, 5933, 5931,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, "Artistas",
+                {"Cotton Fabric", "Pigments", "Nandu Feathers"}, "Costumes", "Samba School"),
+
+    A1800Unlock("Samba School", DLC.NEW_WORLD_RISING, Region.NW, 5840, 5931,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                {"Timber", "Bricks"}, "Artistas", "Costumes", "Samba School", "Samba School"),
+
+    A1800Unlock("Iron Mine", DLC.NEW_WORLD_RISING, Region.NW, 1388, 7348,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Iron", "Fire Department"),
+
+    A1800Unlock("Furnace", DLC.NEW_WORLD_RISING, Region.NW, 6080, 7348,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                {"Timber", "Bricks"}, "Obreros", {"Coal", "Iron"}, "Steel", "Fire Department"),
+
+    A1800Unlock("Laboratory: Fire Extinguishers", DLC.NEW_WORLD_RISING, Region.NW, [6629, 6633], 7333,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Artistas",
+                {"Steel", "Caoutchouc"}, "Fire Extinguishers", "Fire Department"),
+
+    A1800Unlock("Fire Department", DLC.NEW_WORLD_RISING, Region.NW, 6259, 7333,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                "Timber", set(), "Fire Extinguishers", "Fire Protection", "Fire Department", "Fire Station"),
+
+    # Orchard: Camphor Wax -> Tourist Season or The High Life
+
+    # Chemical Plant: Celluloid -> The High Life
+
+    A1800Unlock("Cable Factory", DLC.NEW_WORLD_RISING, Region.NW, 6279, 5812,
+                Trigger.POPULATION("Artistas", Region.NW, 4000),
+                {"Timber", "Bricks"}, "Obreros", {"Copper", "Caoutchouc"}, "Electric Cables", "Fans"),
+
+    A1800Unlock("Motor Assembly Plant", DLC.NEW_WORLD_RISING, Region.NW, 5659, 5812,
+                Trigger.POPULATION("Artistas", Region.NW, 4000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Obreros",
+                {"Electric Cables", "Celluloid", "Steel"}, "Motor", "Fans"),
+
+    A1800Unlock("Fan Factory", DLC.NEW_WORLD_RISING, Region.NW, 5659, 5812,
+                Trigger.POPULATION("Artistas", Region.NW, 4000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artistas",
+                {"Motor", "Aluminium Profiles"}, "Fans", "Fans"),
+
+    A1800Unlock("Chemical Plant: Film Reels", DLC.NEW_WORLD_RISING, Region.NW, [5828, 5932, 135221], [135221, 5812],
+                Trigger.POPULATION("Artistas", Region.NW, 4000),
+                {"Timber", "Bricks"}, "Obreros", {"Saltpetre", "Celluloid"}, "Film Reels", "Cinema"),
+
+    A1800Unlock("Cinema", DLC.NEW_WORLD_RISING, Region.NW, 6018, 5812,
+                Trigger.POPULATION("Artistas", Region.NW, 4000),
+                {"Timber", "Bricks"}, "Artistas", "Film Reels", "Cinema", "Cinema"),
+
+    A1800Unlock("Arsenal: Police Equipment", DLC.EMPIRE_OF_THE_SKIES, Region.NW, [6630, 6632, 905], [2041, 7336],
+                Trigger.POPULATION("Artistas", Region.NW, 4000),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Jornaleros",
+                {"Wood", "Steel", "Cotton Fabric"}, "Police Equipment", "Police Headquarters"),
+
+    A1800Unlock("Police Headquarters", DLC.NEW_WORLD_RISING, Region.NW, 6258, 7336,
+                Trigger.POPULATION("Artistas", Region.NW, 4000),
+                {"Timber", "Bricks"}, set(),
+                "Police Equipment", "Riot Control", "Police Headquarters", "Police Station"),
+
+    A1800Unlock("Dam: Structure", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6004, 6004,
+                Trigger.POPULATION("Artistas", Region.NW, 4000),
+                set(), "Obreros", {"Bricks", "Steel Beams"}, "Dam: Structure"),
+
+    A1800Unlock("Dam: Engineering", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6005, 6005,
+                Trigger.POPULATION("Artistas", Region.NW, 4000),
+                "Dam: Structure", "Obreros", {"Windows", "Reinforced Concrete"}, "Dam: Engineering"),
+
+    A1800Unlock("Dam", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6006, 6006,
+                Trigger.POPULATION("Artistas", Region.NW, 4000), "Dam: Engineering", "Obreros", set(), "Electricity"),
+
+    A1800Unlock("Scooter Factory", DLC.NEW_WORLD_RISING, Region.NW, 5658, 5824,
+                Trigger.POPULATION("Artistas", Region.NW, 6000),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artistas",
+                {"Motor", "Pigments", "Caoutchouc"}, "Scooters", "Scooters"),
+
+    A1800Unlock("Laboratory: Medicine", DLC.EMPIRE_OF_THE_SKIES, Region.NW, [6631, 6634], 7337,
+                Trigger.POPULATION("Artistas", Region.NW, 6000),
+                {"Timber", "Bricks", "Aluminium Profiles"}, "Artistas",
+                {"Herbs", "Orchid", "Ethanol"}, "Medicine", "City Hospital"),
+
+    A1800Unlock("City Hospital", DLC.NEW_WORLD_RISING, Region.NW, 6260, 7337,
+                Trigger.POPULATION("Artistas", Region.NW, 6000),
+                {"Timber", "Bricks"}, set(),
+                "Medicine", "Healthcare", "City Hospital", "Hospital"),
+
+    A1800Unlock("Grand Stadium: Foundations", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6117, 6117,
+                Trigger.POPULATION("Artistas", Region.NW, 6000),
+                {"Timber", "Reinforced Concrete", "Grand Storage"}, "Jornaleros",
+                {"Timber", "Reinforced Concrete"}, "Grand Stadium: Foundations"),
+
+    A1800Unlock("Grand Stadium: Superstructure", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6118, 6118,
+                Trigger.POPULATION("Artistas", Region.NW, 6000),
+                "Grand Stadium: Foundations", "Obreros",
+                {"Bricks", "Steel Beams", "Reinforced Concrete"}, "Grand Stadium: Superstructure"),
+
+    A1800Unlock("Grand Stadium", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6121, 6121,
+                Trigger.POPULATION("Artistas", Region.NW, 6000),
+                "Grand Stadium: Superstructure", "Artistas", set(), "Grand Stadium: Football Championships"),
+
+    # Building, Factory, Upgrade, Residence
+    A1800Unlock("Artista Residence", DLC.NEW_WORLD_RISING, Region.NW, 5405, 5405,
+                Trigger.POPULATION("Obreros", Region.NW, 1000),
+                {"Timber", "Bricks"}, set(), set(), "Artistas", "", "Obrero Residence",
+                {"Tortillas", "Sewing Machines", "Coffee", "Bombins", "Soccer Balls", "Mezcal", "Jalea",
+                    "Beach", "Perfumes", "Scooters", "Fire Protection", "Riot Control", "Healthcare"},
+                {"Beer", "Boxing Arena", "Cigars", "Ice Cream", "Samba School", "Cinema"},
+                {"Light Bulbs", "Champagne", "Billiard Tables", "Lanterns", "Local Mail",
+                    "Regional Mail", "Overseas Mail", "Jewellery", "Souvenirs"}),
+
+    ### Needs Tourist Season ###
+    # Building, Factory
+    A1800Unlock("Restaurant: Empanadas", DLC.TOURIST_SEASON | DLC.NEW_WORLD_RISING, Region.OW, [6136, 6139], 6187,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                "Restaurant (Blank)", "Tourists", {"Beef", "Herbs", "Flour"}, "Restaurant"),
+
+    A1800Unlock("Cafe: Cone O'Copia", DLC.TOURIST_SEASON | DLC.NEW_WORLD_RISING, Region.OW, [6138, 6145], 6187,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                "Cafe (Blank)", "Tourists", {"Milk", "Orchid", "Jam"}, "Cafe"),
+
+    A1800Unlock("Bar: Absinthe", DLC.TOURIST_SEASON | DLC.NEW_WORLD_RISING, Region.OW, [6137, 6144], 6187,
+                Trigger.POPULATION("Artistas", Region.NW, 2700),
+                "Bar (Blank)", "Tourists", {"Herbs", "Sugar", "Schnapps"}, "Bar"),
+
+    ### Needs Seeds of Change ###
+    # Building, Factory, Residence
+    A1800Unlock("Hacienda Artista Quarters", DLC.SEEDS_OF_CHANGE | DLC.NEW_WORLD_RISING, Region.NW, 6086, 6086,
+                Trigger.POPULATION("Artistas", Region.NW, 1),
+                {"Timber", "Bricks"}, set(), set(), "Artistas",
+                consumption={"Tortillas", "Sewing Machines", "Coffee", "Bombins", "Soccer Balls", "Mezcal", "Jalea",
+                             "Beach", "Perfumes", "Scooters", "Spectacles", "Electricity", "Fire Protection",
+                             "Riot Control", "Healthcare"},
+                luxury={"Beer", "Boxing Arena", "Cigars", "Ice Cream", "Samba School", "Cinema"},
+                lifestyle={"Light Bulbs", "Champagne", "Billiard Tables", "Lanterns", "Local Mail",
+                           "Regional Mail", "Overseas Mail", "Jewellery", "Souvenirs"}),
 ]
 
 

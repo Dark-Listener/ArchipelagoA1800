@@ -22,8 +22,8 @@ Note: Ornaments are currently excluded.
 
 ## What's the goal?
 
-Your goal is to reach 5000 investors, 1500 obreros, 750 technicians, 7000 scholars,  4000 tourists and 15 level 5
-investor skyscrapers at this stage of the Archipelago world. This is, of course, configurable.
+Your goal is to reach 5000 investors, 1500 obreros, 6000 artistas, 750 technicians, 7000 scholars, 4000 tourists and
+15 level 5 investor skyscrapers at this stage of the Archipelago world. This is, of course, configurable.
 
 ## What are locations?
 
@@ -42,25 +42,15 @@ For further information, check [the locations page](locations_en.md)<!--(/tutori
 
 ## What about DLCs?
 
-The following DLCs are supported:
-* Sunken Treasures
-* Botanica
-* The Passage
-* Seat of Power
-* Bright Harvest
-* Land of Lions
-* Docklands
-* Tourist Season
-* The High Life
-* Seeds of Change
-* Empire of the Skies
+All DLCs are supported! You can select in your config, which you would like to activate for the randomization.
 
 Docklands is strongly discouraged as it would render the randomizer pointless. There is an option to toggle its logic
 (default: no Docklands logic), that allows you to add it to your game without the randomizer intending you to get half
 of your goods via Docklands.
 
-If you enable unsupported DLCs in your savegame, the buildings will unlock as they would in without mods. For example,
-the docklands complex will unlock at 250 artisans with Docklands enabled.
+If you enable DLCs you didn't select in your config for your savegame, the buildings will unlock as they would
+without mods. For example, the docklands complex will unlock at 250 artisans with Docklands turned off in the config,
+but enabled in game.
 
 ## What about incidents?
 

@@ -44,20 +44,7 @@ This guide uses the following terms to refer to the software:
 ### Installing Anno 1800
 
 Purchase and install Anno 1800 via one the sources linked [above](#required-software). You could also purchase some or
-all of the supported DLCs as you desire:
-* Sunken Treasures
-* Botanica
-* The Passage
-* Seat of Power
-* Bright Harvest
-* Land of Lions
-* Docklands
-* Tourist Season
-* The High Life
-* Seeds of Change
-* Empire of the Skies
-
-Additional purchased DLCs are not an issue, but will not be taken into account in the randomizer.
+all of the DLCs as you desire.
 
 Install Archipelago via the link [above](#required-software).
 

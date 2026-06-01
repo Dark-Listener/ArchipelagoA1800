@@ -69,18 +69,21 @@ The following blank buildings with separate recipes are available:
   * Restaurant: Fish and Frites
   * Restaurant: Venison en Croute (only with `The Passage` DLC)
   * Restaurant: Lobster Cheminee (only with `Land of Lions` DLC)
+  * Restaurant: Empanadas (only with `New World Rising` DLC)
 * Cafe (only with `Tourist Season` DLC):
   * Cafe: Donut Fourre
   * Cafe: Eclair
   * Cafe: Palmier Biscuit
   * Cafe: Venison Tartare (only with `The Passage` DLC)
   * Cafe: Banana Surprise (only with `Land of Lions` DLC)
+  * Cafe: Cone O'Copia (only with `Now World Rising` DLC)
 * Bar (only with `Tourist Season` DLC):
   * Bar: Daiquiri Tropic
   * Bar: Black Muscovy
   * Bar: Montmartre '75'
   * Bar: Glogg (only with `The Passage` DLC)
   * Bar: Enbesa Sunrise (only with `Land of Lions` DLC)
+  * Bar: Absinthe (only with `Now World Rising` DLC)
 * The Iron Tower (only with `Tourist Season` DLC):
   * The Iron Tower: Brioche Royale
   * The Iron Tower: Trifle Tower

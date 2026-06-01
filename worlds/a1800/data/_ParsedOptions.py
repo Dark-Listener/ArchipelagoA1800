@@ -1,7 +1,7 @@
 from functools import reduce
 from typing import TYPE_CHECKING
 
-from ._Enums import DLC
+from ._Enums import DLC, NO_REGION, Region
 
 
 if TYPE_CHECKING:
@@ -14,7 +14,7 @@ class ParsedOptions:
     enable_docklands_logic: bool
     required_population: dict[str, int]
     required_skyscrapers: dict[str, int]
-    required_monuments: set[str]
+    required_monuments: set[tuple[str, Region]]
 
     def __init__(self, options: "A1800Options"):
         self.full_accessibility = options.accessibility == "full"
@@ -38,7 +38,20 @@ class ParsedOptions:
             for name, amount in options.required_skyscrapers.value.items() if int(amount) > 0
         }
 
-        self.required_monuments = {
-            name.replace("-", " ").title().replace("Worlds", "World's")
-            for name in options.required_monuments.value
-        }
+        self.required_monuments = set()
+        for name in options.required_monuments.value:
+            proper_name = name.title().replace("Worlds", "World's")
+            if proper_name.startswith("Ow "):
+                proper_name = proper_name[3:]
+                region = Region.OW
+            elif proper_name.startswith("Nw "):
+                region = Region.NW
+            elif proper_name.startswith("Ar "):
+                region = Region.AR
+            elif proper_name.startswith("En "):
+                region = Region.EN
+            else:
+                region = NO_REGION
+                proper_name = "   " + proper_name
+            proper_name = proper_name[3:]
+            self.required_monuments.add((proper_name, region))

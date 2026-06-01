@@ -6,9 +6,9 @@
 
 The following features are planned to be added at some point (in no specific order):
 
-* MORE DLCs!!! (Not Docklands though, defeats the purpose)
 * Include ship unlocks in the item pool (fix restaurant unlock triggering on Boreas)
   * Double-check expedition conditions (clipper needed for arctic? schooner actually enough for enbesa?)
+* Option to lock Hacienda residences behind their actual residence unlock
 * Create some filler items
 * Ingame notifications for sending&receiving unlocks
 * Ingame quests for the victory condition

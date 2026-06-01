@@ -68,10 +68,13 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 250 | Tourists | Tourist Season | 1 | OW: Restaurant |
 | 300 | Tourists | Tourist Season | 1 | OW: Orchard Jam |
 | 550 | Tourists | Tourist Season | 1 | OW: Cafe |
-| 850 | Tourists | Tourist Season | 4 | [Orchards also available with The High Life in the buildings table]<br>NW: Orchard: Coconut Oil, NW: Orchard: Cinnamon, OW: Chemical Plant: Shampoo, OW: The Iron Tower: Foundations |
-| 1250 | Tourists | Tourist Season | 2 | [Orchard also available with The High Life in the buildings table]<br>NW: Orchard: Citrus, OW: Chemical Plant: Lemonade |
+| 850 | Tourists | Tourist Season | 3 | *-- Orchard also available with The High Life in the buildings table --*<br>NW: Orchard: Cinnamon, OW: Chemical Plant: Shampoo, OW: The Iron Tower: Foundations |
+| 850 \| 2700 | Tourists \| Artistas | Tourist Season \|<br>New World Rising | 1 | *-- Orchard also available with The High Life in the buildings table --*<br>NW: Orchard: Coconut Oil |
+| 1250 | Tourists | Tourist Season | 1 | OW: Chemical Plant: Lemonade |
+| 1250 \| 1 | Tourists \| Artista | Tourist Season \|<br>New World Rising | 1 | *-- Orchard also available with The High Life in the buildings table --*<br>NW: Orchard: Citrus |
 | 1500 | Tourists | Tourist Season | 2 | OW: Bar, OW: The Iron Tower: Superstructure |
-| 2000 | Tourists | Tourist Season | 2 | [Orchard also available with The High Life in the buildings table]<br>NW: Orchard: Camphor Wax, OW: Chemical Plant: Souvenirs |
+| 2000 | Tourists | Tourist Season | 1 | OW: Chemical Plant: Souvenirs |
+| 2000 \| 4000 | Tourists \| Artistas | Tourist Season \|<br>New World Rising | 1 | *-- Orchard also available with The High Life in the buildings table --*<br>NW: Orchard: Camphor Wax |
 | 4000 | Tourists | Tourist Season | 1 | OW: The Iron Tower |
 | 50 | Jornaleros |  | 4 | NW: Fish Oil Factory, NW: Plantains Plantation, NW: Fried Plantain Kitchen, NW: Trade Union |
 | 100 | Jornaleros |  | 7 | NW: Sugar Cane Plantation, NW: Rum Distillery, NW: Sailmakers, NW: Quay, NW: Depot, NW: Harbourmaster's Office,<br>NW: Sailing Shipyard |
@@ -82,8 +85,9 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 1 | Obrero |  | 9 | NW: Medium Trading Post, NW: Medium Warehouse, NW: Paved Street, NW: Clay Pit, NW: Brick Factory, NW: Cattle Farm,<br>NW: Corn Farm, NW: Tortilla Maker, NW: Town Hall |
 | 1 | Obrero | Bright Harvest | 1 | NW: Silo |
 | 1 | Obrero | Seeds of Change | 19 | OW: Fertiliser Silo, NW: Hacienda Paving, NW: Hacienda Pathway, NW: Hacienda, NW: Hacienda Storeroom, NW: Hacienda Sugar Cane Farm<br>NW: Hacienda Corn Farm, NW: Hacienda Caoutchouc Plantation, NW: Hacienda Potato Farm, NW: Hacienda Spice Farm, NW: Hacienda Grain Farm, NW: Hacienda Rum Distillery<br>NW: Hacienda Atole Maker, NW: Hacienda Schnapps Distillery, NW: Hacienda Hot Sauce Factory, NW: Hacienda Fertiliser Works, NW: Hacienda Fertiliser Silo, NW: Hacienda Jornalero Quarters<br>NW: Hacienda Obrera Quarters |
-| 1 | Obrero | Land of Lions & Seeds of Change | 1 | EN: Fertiliser Silo |
-| 250 | Obreros | Empire of the Skies | 5 | NW: Charcoal Kiln, NW: Bauxite Mine, NW: Aluminium Smelter, NW: Post Box, NW: Post Office |
+| 1 | Obrero | Land of Lions &<br>Seeds of Change | 1 | EN: Fertiliser Silo |
+| 250 | Obreros | Empire of the Skies | 2 | NW: Post Box, NW: Post Office |
+| 250 \| 1 | Obreros \| Artista | Empire of the Skies \|<br>New World Rising | 3 | NW: Charcoal Kiln, NW: Bauxite Mine, NW: Aluminium Smelter |
 | 300 | Obreros |  | 8 | NW: Coffee Plantation, NW: Coffee Roaster, NW: Boxing Arena, NW: Gold Mine, NW: Pier, NW: Public Mooring,<br>NW: Cannon Tower, NW: Flame Tower |
 | 300 | Obreros | Seeds of Change | 1 | NW: Hacienda Coffee Farm |
 | 600 | Obreros |  | 9 | NW: Felt Producer, NW: Bombin Weaver, NW: Hospital, NW: Oil Refinery, NW: Oil Well, NW: Small Oil Harbour,<br>NW: Medium Oil Harbour, NW: Large Oil Harbour, NW: Oil Store |
@@ -94,28 +98,41 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 600 \| 1 | Obreros \|Engineer |  | - | *-- Repeat for clarity --*<br>OW\|NW: Rails |
 | 1000 | Obreros |  | 4 | NW: Zoo, NW: Tobacco Plantation, NW: Marquetry Workshop, NW: Cigar Factory |
 | 1000 | Obreros | Empire of the Skies | 2 | OW: Airmail Sorting Office, NW: Airmail Sorting Office |
+| 1000 | Obreros | New World Rising | 1 | NW: Artista Residence |
 | 1500 | Obreros |  | 7 | NW: Large Trading Post, NW: Large Warehouse, NW: Cocoa Plantation, NW: Sugar Refinery, NW: Chocolate Factory, NW: Museum,<br>NW: Anti-Armour Gun |
 | 1500 | Obreros | Botanica | 1 | NW: Botanical Garden |
+| 1 | Artista | New World Rising | 5 | NW: Sewing Machine Factory, NW: Nandu Farm, NW: Ball Manufactory, NW: Herb Garden, NW: Mezcal Bar |
+| 1 | Artista | Seeds of Change &<br>New World Rising | 1 | NW: Hacienda Artista Quarters |
+| 1 \| 1250 | Artista \| Tourists | New World Rising \|<br>Tourist Season | (+1) | *-- Repeat for clarity --*<br>*-- Orchard also available with The High Life in the buildings table --*<br>NW: Orchard: Citrus |
+| 1 \| 250 | Artista \| Obreros | New World Rising \|<br>Empire of the Skies | (+3) | *-- Repeat for clarity --*<br>NW: Charcoal Kiln, NW: Bauxite Mine, NW: Aluminium Smelter |
+| 900 | Artistas | New World Rising | 3 | NW: Calamari Fishery, NW: Jalea Kitchen, NW: Power Station |
+| 1800 | Artistas | New World Rising | 2 | NW: Ice Cream Factory, NW: Beach |
+| 2700 | Artistas | New World Rising | 11 (+1) | *-- Chemical Plant also available with The High Life in the buildings table --*<br>OW: Fire Department, NW: Orchid Farm, NW: Chemical Plant: Ethanol, NW: Perfume Mixer, NW: Mineral Mine, NW: Laboratory: Pigments<br>NW: Costume Shop, NW: Samba School, NW: Iron Mine, NW: Furnace, NW: Laboratory: Fire Extinguishers, NW: Fire Department |
+| 2700 | Artistas | Tourist Season &<br>New World Rising | 3 | OW: Restaurant: Empanadas, OW: Cafe: Cone O'Copia, OW: Bar: Absinthe |
+| 2700 \| 850 | Artistas \| Tourists | New World Rising \|<br>Tourist Season | (+1) | *-- Repeat for clarity --*<br>*-- Orchard also available with The High Life in the buildings table --*<br>NW: Orchard: Coconut Oil |
+| 4000 | Artistas | New World Rising | 11 (+1) | *-- Chemical Plant: Celluloid also available with The High Life in the buildings table --*<br>OW: Police Headquarters, NW: Chemical Plant: Celluloid, NW: Cable Factory, NW: Motor Assembly Plant, NW: Fan Factory, NW: Chemical Plant: Film Reels<br>NW: Cinema, NW: Arsenal: Police Equipment, NW: Police Headquarters, NW: Dam: Structure, NW: Dam: Engineering, NW: Dam |
+| 4000 \| 2000 | Artistas \| Tourists | New World Rising \|<br>Tourist Season | (+1) | *-- Repeat for clarity --*<br>*-- Orchard also available with The High Life in the buildings table --*<br>NW: Orchard: Camphor Wax |
+| 6000 | Artistas | New World Rising | 7 | OW: City Hospital, NW: Scooter Factory, NW: Laboratory: Medicine, NW: City Hospital, NW: Grand Stadium: Foundations, NW: Grand Stadium: Superstructure,<br>NW: Grand Stadium |
 | 100 | Explorers | The Passage | 3 | AR: Caribou Hunting Cabin, AR: Whaling Station, AR: Pemmican Cookhouse |
 | 250 | Explorers | The Passage | 4 | AR: Ranger Station, AR: Goose Farm, AR: Seal Hunting Docks, AR: Sleeping Bag Factory |
 | 500 | Explorers | The Passage | 5 | AR: Medium Trading Post, AR: Medium Sky Trading Post, AR: Medium Warehouse, AR: Oil Lamp Factory, AR: Technician Shelter |
 | 500 \| 100 | Explorers \| Farmers | The Passage \| - | - | *-- Repeat for clarity --*<br>OW: Potato Farm, OW: Schnapps Distillery |
 | 1 | Technician | The Passage | 5 | AR: Depot, AR: Pier, AR: Cannon Tower, AR: Flame Tower, AR: Arctic Airship Hangar: Foundations |
-| 1 | Technician | The Passage & Empire of the Skies | 1 | AR: Flak Emplacement |
+| 1 | Technician | The Passage &<br>Empire of the Skies | 1 | AR: Flak Emplacement |
 | 100 | Technicians | The Passage | 6 | AR: Large Trading Post, AR: Large Sky Trading Post, AR: Large Warehouse, AR: Arctic Lodge, AR: Post Office, AR: Arctic Airship Hangar: Structure |
-| 100 | Technicians | The Passage & Empire of the Skies | 2 | AR: Airship Platform, AR: Airmail Sorting Office |
+| 100 | Technicians | The Passage &<br>Empire of the Skies | 2 | AR: Airship Platform, AR: Airmail Sorting Office |
 | 300 | Technicians | The Passage | 4 | AR: Bear Hunting Cabin, AR: Parka Factory, AR: Prime Hunting Cabin, AR: Arctic Airship Hangar: Roof |
 | 300 \| 1 | Technicians \| Artisan | The Passage \| - | - | *-- Repeat for clarity --*<br>OW: Cattle Farm, OW: Red Pepper Farm, OW: Artisanal Kitchen, OW: Cannery |
 | 750 | Technicians | The Passage | 6 | AR: Husky Farm, AR: Sled Frame Factory, AR: Husky Sled Factory, AR: Deep Gold Mine, AR: Arctic Gas Mine, AR: Arctic Airship Hangar |
 | 50 | Shepherds | Land of Lions | 1 | EN: Goat Farm |
-| 50 | Shepherds | Land of Lions & Empire of the Skies | 1 | EN: Flak Emplacement |
+| 50 | Shepherds | Land of Lions &<br>Empire of the Skies | 1 | EN: Flak Emplacement |
 | 150 | Shepherds | Land of Lions | 11 | EN: Linseed Farm, EN: Linen Mill, EN: Embroiderer, EN: Musician's Court, EN: Fire Station, EN: Trade Union,<br>EN: Quay, EN: Depot, EN: Harbourmaster's Office, EN: Repair Crane, EN: Mounted Guns |
 | 300 | Shepherds | Land of Lions | 6 | EN: Sanga Farm, EN: Salt Works, EN: Dry-House, EN: Hibiscus Farm, EN: Tea Spicer, EN: Elder Residence |
 | 1 | Elder | Land of Lions | 10 | EN: Medium Trading Post, EN: Medium Warehouse, EN: Paved Street, EN: Clay Collector, EN: Teff Farm, EN: Brick Dry-House,<br>EN: Indigo Farm, EN: Ceramics Workshop, EN: Tapestry Looms, EN: Police Station |
-| 1 | Elder | Land of Lions & Bright Harvest | 1 | EN: Silo |
+| 1 | Elder | Land of Lions &<br>Bright Harvest | 1 | EN: Silo |
 | 300 | Elders | Land of Lions | 9 | EN: Spice Farm, EN: Teff Mill, EN: Lobster Fishery, EN: Wat Kitchen, EN: Pipe Maker, EN: Town Hall,<br>OW: Research Institute: Foundations, OW: Research Institute: Superstructure, OW: Research Institute |
 | 600 | Elders | Land of Lions | 5 | EN: Large Trading Post, EN: Large Warehouse, EN: Paper Mill, EN: Luminer, EN: Hospital |
-| 600 | Elders | Land of Lions & Bright Harvest | 8 | EN: Rails, EN: Small Oil Harbour, EN: Medium Oil Harbour, EN: Large Oil Harbour, EN: Grand Oil Harbour, EN: Oil Store,<br>EN: Tractor Barn, EN: Fuel Station |
+| 600 | Elders | Land of Lions &<br>Bright Harvest | 8 | EN: Rails, EN: Small Oil Harbour, EN: Medium Oil Harbour, EN: Large Oil Harbour, EN: Grand Oil Harbour, EN: Oil Store,<br>EN: Tractor Barn, EN: Fuel Station |
 | 1000 | Elders | Land of Lions | 8 | EN: Apiary, EN: Chandler, EN: Lanternsmith, EN: Monastery, EN: Pier, EN: Cannon Tower,<br>EN: Flame Tower, EN: Anti-Armour Gun |
 | 1500 | Elders | Land of Lions | 1 | OW: Scholar Residence |
 
@@ -139,14 +156,14 @@ When first constructing certain buildings, a few checks will be collected:
 | 1 | OW: Tourist Mooring | Tourist Season | 2 | OW: Hotel, OW: Bus Stop |
 | 1 | OW: The Iron Tower | Tourist Season | 1 | OW: The Iron Tower: Brioche Royale |
 | 1 \|<br>1 | OW: Engineer Skyscraper: Level 1 \|<br>OW: Investor Skyscraper: Level 1 | The High Life | 3 | OW: Department Store, OW: Engineer Skyscraper: Level 2, OW: Investor Skyscraper: Level 2 |
-| 1 \|<br>1 | OW: Engineer Skyscraper: Level 2 \|<br>OW: Investor Skyscraper: Level 2 | The High Life | 1 | *-- Orchard also unlocked with Tourists, repeat for clarity --*<br>NW: Orchard: Cinnamon, NW: Chemical Plant: Chewing Gum |
-| 15 | OW: Investor Skyscraper: Level 2 | The High Life | 4 | *-- Orchards also unlocked with Tourists, repeat for clarity --*<br>NW: Orchard: Citrus, NW: Orchard: Camphor Wax, OW: Assembly Line: Biscuits, NW: Chemical Plant: Ethanol, NW: Chemical Plant: Celluloid,<br>OW Investor Skyscraper: Level 3 |
+| 1 \|<br>1 | OW: Engineer Skyscraper: Level 2 \|<br>OW: Investor Skyscraper: Level 2 | The High Life | 1 (+1) | *-- Orchard also unlocked with Tourists, repeat for clarity --*<br>NW: Orchard: Cinnamon, NW: Chemical Plant: Chewing Gum |
+| 15 | OW: Investor Skyscraper: Level 2 | The High Life | 4 (+2) | *-- Orchards also unlocked with Tourists or Artistas, repeat for clarity --*<br>*-- Chemical Plants also unlocked with Artistas, repeat for clarity --*<br>NW: Orchard: Citrus, NW: Orchard: Camphor Wax, OW: Assembly Line: Biscuits, NW: Chemical Plant: Ethanol, NW: Chemical Plant: Celluloid,<br>OW Investor Skyscraper: Level 3 |
 | 1 | OW: Investor Skyscraper: Level 3 | The High Life | 2 | OW: Orchard: Cherry Wood, OW: Artisan's Workshop: Cognac |
 | 15 | OW: Investor Skyscraper: Level 3 | The High Life | 5 | OW: Orchard: Resin, OW: Artisan's Workshop: Lacquer, OW: Furniture Store, OW: Engineer Skyscarper: Level 3, OW: Investor Skyscraper: Level 4 |
 | 1 \|<br>1 | OW: Engineer Skyscraper: Level 3 \|<br>OW: Investor Skyscraper: Level 4 | The High Life | 1 | OW: Assembly Line: Typewriters |
 | 15 | OW: Investor Skyscraper: Level 4 | The High Life | 2 | OW: Artisan's Workshop: Billiard Tables, OW: Investor Skyscraper: Level 5 |
 | 1 | OW: Investor Skyscraper: Level 5 | The High Life | 1 | OW: Artisan's Workshop: Violins |
-| 10 | OW: Investor Skyscraper: Level 5 | The High Life | 1 | *-- Orchard also unlocked with Tourists, repeat for clarity --*<br>NW: Orchard: Coconut Oil, OW: Drug Store |
+| 10 | OW: Investor Skyscraper: Level 5 | The High Life | 1 (+1) | *-- Orchard also unlocked with Tourists or Artistas, repeat for clarity --*<br>NW: Orchard: Coconut Oil, OW: Drug Store |
 | 15 | OW: Investor Skyscraper: Level 5 | The High Life | 1 | OW: Artisan's Workshop: Toys |
 | 25 | OW: Investor Skyscraper: Level 5 | The High Life | 1 | OW: Skyline Tower: Foundations |
 | 40 | OW: Investor Skyscraper: Level 5 | The High Life | 1 | OW: SKyline Tower: Superstructure |
@@ -218,11 +235,16 @@ the recipe unlocks from Tourist Season and The High Life DLCs. Below, there is a
 | The High Life | 43 (+4) | Base DLC | 37 |
 |  |  | + The Passage | 3 |
 |  |  | + Land of Lions | 3 |
-|  |  | + **NOT** Tourist Season | 4 |
+|  |  | + **NEITHER OF** Tourist Season or New World Rising | 4 |
 | Seeds of Change | 23 | Base DLC | 22 |
 |  |  | + Land of Lions | 1 |
 | Empire of the Skies | 40 | Base DLC | 36 |
 |  |  | + The Passage | 3 |
 |  |  | + Land of Lions | 1 |
-| New World Rising | N/A |  |  |
-| Total | 464 |  |  |
+| New World Rising | 44 (+5) | Base DLC | 40 |
+|  |  | + Tourist Season | 3 |
+|  |  | + Seeds of Change | 1 |
+|  |  | + **NEITHER OF** Tourist Season or The High Life | 3 |
+|  |  | + **NOT** The High Life | 2 |
+|  |  | + **NOT** Empire of the Skies | 3 |
+| Total | 508 |  |  |

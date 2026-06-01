@@ -17,7 +17,7 @@ class DLC(Flag, boundary=KEEP):
     THE_HIGH_LIFE = auto()
     SEEDS_OF_CHANGE = auto()
     EMPIRE_OF_THE_SKIES = auto()
-#    NEW_WORLD_RISING = auto()
+    NEW_WORLD_RISING = auto()
 
     @property
     def guid(self) -> int:
@@ -38,7 +38,7 @@ _DLC_GUIDS = {
     DLC.THE_HIGH_LIFE: 410085,
     DLC.SEEDS_OF_CHANGE: 24961,
     DLC.EMPIRE_OF_THE_SKIES: 24962,
-    #    DLC.NEW_WORLD_RISING: 24963,
+    DLC.NEW_WORLD_RISING: 24963,
 }
 
 ALL_DLC = reduce(DLC.__or__, DLC.__members__.values())

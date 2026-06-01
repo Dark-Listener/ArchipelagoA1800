@@ -115,8 +115,8 @@ class _Logic:
             name: (unlock, amount) for name, amount in parsed_options.required_skyscrapers.items()
             for unlock in UNLOCKS.find_unlocks(name)
         } | {
-            name: (unlock, 1) for name in parsed_options.required_monuments
-            for unlock in UNLOCKS.find_unlocks(name)
+            name: (unlock, 1) for name, region in parsed_options.required_monuments
+            for unlock in UNLOCKS.find_unlocks(name, region)
         }
 
         self._initialized = True

@@ -7,13 +7,13 @@ class EnabledDLCsOption(OptionSet):
     List of enabled DLCs. Per default, all implemented DLCs are enabled.
     It's recommended to match this list when creating the game.
 
-    Valid keys: 'sunken-treasures', 'botanica', 'the-passage', 'seat-of-power', 'bright-harvest', 'land-of-lions', 'docklands', 'tourist-season', 'the-high-life', 'seeds-of-change', 'empire-of-the-skies'
+    Valid keys: 'sunken-treasures', 'botanica', 'the-passage', 'seat-of-power', 'bright-harvest', 'land-of-lions', 'docklands', 'tourist-season', 'the-high-life', 'seeds-of-change', 'empire-of-the-skies', 'new-world-rising'
     Enabling docklands is strongly discouraged unless you want the option to skip most of the randomizer.
     """
     display_name = "Enabled DLCs"
     valid_keys = {"sunken-treasures", "botanica", "the-passage", "seat-of-power",
                   "bright-harvest", "land-of-lions", "docklands", "tourist-season",
-                  "the-high-life", "seeds-of-change", 'empire-of-the-skies'}
+                  "the-high-life", "seeds-of-change", 'empire-of-the-skies', 'new-world-rising'}
     default = valid_keys - {"docklands"}
 
 
@@ -35,11 +35,12 @@ class RequiredPopulationOption(OptionCounter):
     Ignore the numbers in front, they are there to make sure this is sorted properly.
     """
     _populations = ["farmers", "workers", "artisans", "engineers", "investors", "jornaleros",
-                    "obreros", "explorers", "technicians", "shepherds", "elders", "scholars", "tourists"]
+                    "obreros", "artistas", "explorers", "technicians", "shepherds", "elders", "scholars", "tourists"]
     _default_required_population = {
         f"{idx:02}-{population}": 5000 if population == "investors" else 1500 if population == "obreros" else
-        750 if population == "technicians" else 7000 if population == "scholars" else
-        4000 if population == "tourists" else 0 for idx, population in enumerate(_populations)
+        6000 if population == "artistas" else 750 if population == "technicians" else
+        7000 if population == "scholars" else 4000 if population == "tourists" else 0
+        for idx, population in enumerate(_populations)
     }
 
     display_name = "Required Population Amounts"
@@ -74,10 +75,11 @@ class RequiredMonumentsOption(OptionSet):
     Each of the monuments in this list must be built to win the randomizer.
     Monuments that are not available in the DLCs selected in 'Enabled DLCs' will be ignored.
 
-    Valid keys: 'worlds-fair', 'research-institute', 'arctic-airship-hangar', 'the-iron-tower', 'skyline-tower'
+    Valid keys: 'worlds-fair', 'research-institute', 'arctic-airship-hangar', 'the-iron-tower', 'skyline-tower', 'ow-rigid-airship-hangar', 'nw-rigid-airship-hangar', 'dam', 'grand-stadium'
     """
     display_name = "Required Monuments"
-    valid_keys = ["worlds-fair", "research-institute", "arctic-airship-hangar", "the-iron-tower", "skyline-tower"]
+    valid_keys = ["worlds-fair", "research-institute", "arctic-airship-hangar", "the-iron-tower",
+                  "skyline-tower", 'ow-rigid-airship-hangar', 'nw-rigid-airship-hangar', 'dam', 'grand-stadium']
     default = []
 
 

@@ -1895,7 +1895,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Assembly Line: Elevators", DLC.THE_HIGH_LIFE, Region.OW,
                 [134622, 134621, 134619], [136054],
                 Trigger.POPULATION("Investors", Region.OW, 5000),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Workers",
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Electricity"},
                 {"Steel", "Wood Veneers", "Steam Motors"}, "Elevators", "Elevators"),
 
     A1800Unlock("Department Store", DLC.THE_HIGH_LIFE, Region.OW, 135100, 136063,
@@ -1907,19 +1907,19 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Department Store: Toasters", DLC.THE_HIGH_LIFE, Region.OW,
                 [135103, RECIPE_GUIDS["Recipe: Toasters"][0]], [136063],
                 Trigger.UNLOCK("Department Store", Region.OW),
-                "Department Store (Blank)", "Artisans", {"Filaments", "Steel", "Zinc"}, "Department Store"),
+                "Department Store (Blank)", {"Artisans", "Electricity"}, {"Filaments", "Steel", "Zinc"}, "Department Store"),
 
     A1800Unlock("Department Store: Vacuum Cleaners", DLC.THE_HIGH_LIFE, Region.OW,
                 [135188, RECIPE_GUIDS["Recipe: Vacuum Cleaners"][0]], [135188, 137606],
                 Trigger.LINEAR(Trigger.COUNTER("Department Store", Region.OW, 1, guid=135729),
                                Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 5)),
-                "Department Store (Blank)", "Artisans", {"Wool", "Celluloid", "Steel"}, "Department Store"),
+                "Department Store (Blank)", {"Artisans", "Electricity"}, {"Wool", "Celluloid", "Steel"}, "Department Store"),
 
     A1800Unlock("Department Store: Crockery", DLC.THE_HIGH_LIFE, Region.OW,
                 [135187, RECIPE_GUIDS["Recipe: Crockery"][0]], [135187, 137603],
                 Trigger.LINEAR(Trigger.COUNTER("Department Store", Region.OW, 1, guid=135729),
                                Trigger.OBJECT_POSITION("Members Club", Region.OW, 10, "Pub")),
-                "Department Store (Blank)", "Artisans", {"Clay", "Quartz Sand", "Lacquer"}, "Department Store"),
+                "Department Store (Blank)", {"Artisans", "Electricity"}, {"Clay", "Quartz Sand", "Lacquer"}, "Department Store"),
 
     # Orchard: Cinnamon -> Tourist Season
 
@@ -1935,7 +1935,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Assembly Line: Biscuits", DLC.THE_HIGH_LIFE, Region.OW,
                 [135361, 135398, 134619], [136054],
                 Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Workers",
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Electricity"},
                 {"Tallow", "Flour", "Citrus"}, "Biscuits", "Biscuits"),
 
     # Orchard: Camphor Wax -> Tourist Season
@@ -1980,7 +1980,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Furniture Store: Banker's Lamps", DLC.THE_HIGH_LIFE, Region.OW,
                 [135105, RECIPE_GUIDS["Recipe: Banker's Lamps"][0]], [136070],
                 Trigger.UNLOCK("Furniture Store", Region.OW),
-                "Furniture Store (Blank)", "Artisans", {"Light Bulbs", "Brass", "Glass"}, "Furniture Store"),
+                "Furniture Store (Blank)", {"Artisans", "Electricity"}, {"Light Bulbs", "Brass", "Glass"}, "Furniture Store"),
 
     A1800Unlock("Furniture Store: Vanity Screens", DLC.THE_HIGH_LIFE, Region.OW,
                 [135121, RECIPE_GUIDS["Recipe: Vanity Screens"][0]], [135121, 137603],
@@ -1991,7 +1991,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         "Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)",
                         191120, {("Engineers", Region.OW)}),
                 ),
-                "Furniture Store (Blank)", "Artisans",
+                "Furniture Store (Blank)", {"Artisans", "Electricity"},
                 {"Cotton Fabric", "Cherry Wood", "Lacquer"}, "Furniture Store", is_excluded=True),
 
     A1800Unlock("Furniture Store: Writing Desks", DLC.THE_HIGH_LIFE, Region.OW,
@@ -2000,13 +2000,13 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.COUNTER("Furniture Store", Region.OW, 1, guid=135730),
                     Trigger.FACTORY_PRODUCTIVITY("Furniture Store: Banker's Lamps", Region.OW, 100),
                 ),
-                "Furniture Store (Blank)", "Artisans", {"Wood Veneers", "Lacquer", "Brass"}, "Furniture Store"),
+                "Furniture Store (Blank)", {"Artisans", "Electricity"}, {"Wood Veneers", "Lacquer", "Brass"}, "Furniture Store"),
 
     A1800Unlock("Assembly Line: Typewriters", DLC.THE_HIGH_LIFE, Region.OW,
                 [135148, 135149, 134619], [136072],
                 Trigger.ANY(Trigger.COUNTER("Engineer Skyscraper: Level 3", Region.OW, 1),
                             Trigger.COUNTER("Investor Skyscraper: Level 4", Region.OW, 1)),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Workers",
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Workers", "Electricity"},
                 {"Steel", "Brass", "Lacquer"}, "Typewriters", "Typewriters"),
 
     A1800Unlock("Artisan's Workshop: Billiard Tables", DLC.THE_HIGH_LIFE, Region.OW,
@@ -2031,7 +2031,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Drug Store: Toothpaste", DLC.THE_HIGH_LIFE, Region.OW,
                 [134631, RECIPE_GUIDS["Recipe: Toothpaste"][0]], [137179],
                 Trigger.UNLOCK("Drug Store", Region.OW),
-                "Drug Store (Blank)", "Artisans", {"Coal", "Soap", "Sugar"}, "Drug Store"),
+                "Drug Store (Blank)", {"Artisans", "Electricity"}, {"Coal", "Soap", "Sugar"}, "Drug Store"),
 
     A1800Unlock("Drug Store: Detergent", DLC.THE_HIGH_LIFE, Region.OW,
                 [135191, RECIPE_GUIDS["Recipe: Detergent"][0]], [135191],
@@ -2039,7 +2039,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.COUNTER("Drug Store", Region.OW, 1, guid=135731),
                     Trigger.COUNTER("Investor Skyscraper: Level 5", Region.OW, 40)
                 ),
-                "Drug Store (Blank)", "Artisans", {"Citrus", "Ethanol", "Saltpetre"}, "Drug Store"),
+                "Drug Store (Blank)", {"Artisans", "Electricity"}, {"Citrus", "Ethanol", "Saltpetre"}, "Drug Store"),
 
     A1800Unlock("Drug Store: Lipstick", DLC.THE_HIGH_LIFE, Region.OW,
                 [135192, RECIPE_GUIDS["Recipe: Lipstick"][0]], [135192, 137603],
@@ -2047,7 +2047,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.COUNTER("Drug Store", Region.OW, 1, guid=135731),
                     Trigger.OBJECT_POSITION("Investor Skyscraper: Level 5", Region.OW, 8, "Variety Theatre")
                 ),
-                "Drug Store (Blank)", "Artisans", {"Coconut Oil", "Fish Oil", "Lacquer"}, "Drug Store"),
+                "Drug Store (Blank)", {"Artisans", "Electricity"}, {"Coconut Oil", "Fish Oil", "Lacquer"}, "Drug Store"),
 
     A1800Unlock("Artisan's Workshop: Toys", DLC.THE_HIGH_LIFE, Region.OW,
                 [135669, 135670, 135295], [137195],
@@ -2141,7 +2141,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                          ("Chocolate", ALL_REGIONS), ("Investors", Region.OW), ("Town Hall", Region.OW)}
                     )
                 ),
-                "Department Store (Blank)", "Artisans", {"Arctic Gas", "Steel", "Caoutchouc"}, "Department Store"),
+                "Department Store (Blank)", {"Artisans", "Electricity"}, {"Arctic Gas", "Steel", "Caoutchouc"}, "Department Store"),
 
     A1800Unlock("Furniture Store: Four-Poster Beds", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW,
                 [135122, RECIPE_GUIDS["Recipe: Four-Poster Beds"][0]], [135122],
@@ -2151,7 +2151,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         Trigger.COUNTER_GOOD_IN_REGION("Bear Fur", ALL_REGIONS, 1, Region.OW),
                         Trigger.COUNTER_GOOD_IN_REGION("Goose Feathers", ALL_REGIONS, 1, Region.OW))
                 ),
-                "Furniture Store (Blank)", "Artisans",
+                "Furniture Store (Blank)", {"Artisans", "Electricity"},
                 {"Cherry Wood", "Bear Fur", "Goose Feathers"}, "Furniture Store"),
 
     A1800Unlock("Drug Store: Face Cream", DLC.THE_PASSAGE | DLC.THE_HIGH_LIFE, Region.OW,
@@ -2163,7 +2163,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         "Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)",
                         193776, {("Engineers", Region.OW)}),
                 ),
-                "Drug Store (Blank)", "Artisans",
+                "Drug Store (Blank)", {"Artisans", "Electricity"},
                 {"Whale Oil", "Coconut Oil", "Citrus"}, "Drug Store", is_excluded=True),
 
     ### Needs Land of Lions ###
@@ -2172,7 +2172,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 [135190, RECIPE_GUIDS["Recipe: Briefcases"][0]], [135190, 137606],
                 Trigger.LINEAR(Trigger.COUNTER("Department Store", Region.OW, 1, guid=135729),
                                Trigger.OBJECT_POSITION("Scholar Residence", Region.OW, 8, "Department Store")),
-                "Department Store (Blank)", "Artisans", {"Sanga Cow", "Brass", "Celluloid"}, "Department Store"),
+                "Department Store (Blank)", {"Artisans", "Electricity"}, {"Sanga Cow", "Brass", "Celluloid"}, "Department Store"),
 
     A1800Unlock("Furniture Store: Lounge Seating", DLC.LAND_OF_LIONS | DLC.THE_HIGH_LIFE, Region.OW,
                 [135123, RECIPE_GUIDS["Recipe: Lounge Seating"][0]], [135123],
@@ -2180,7 +2180,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.COUNTER("Furniture Store", Region.OW, 1, guid=135730),
                     Trigger.COUNTER("Radio Tower", Region.OW, 2)
                 ),
-                "Furniture Store (Blank)", "Artisans",
+                "Furniture Store (Blank)", {"Artisans", "Electricity"},
                 {"Wool", "Sanga Cow", "Wanza Timber"}, "Furniture Store"),
 
     A1800Unlock("Drug Store: Pomade", DLC.LAND_OF_LIONS | DLC.THE_HIGH_LIFE, Region.OW,
@@ -2189,7 +2189,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.COUNTER("Drug Store", Region.OW, 1, guid=135731),
                     Trigger.OBJECT_POSITION("Apiary", Region.EN, 8, "Hibiscus Farm")
                 ),
-                "Drug Store (Blank)", "Artisans",
+                "Drug Store (Blank)", {"Artisans", "Electricity"},
                 {"Beeswax", "Camphor Wax", "Hibiscus Petals"}, "Drug Store"),
 
     ################################################################################################################

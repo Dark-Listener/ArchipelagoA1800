@@ -16,7 +16,7 @@ _a1800_regions: dict[Region, tuple[DLC, set[tuple[str, Region]], set[tuple[str, 
         ("Sea Travel", ALL_REGIONS),
     }, {
         ("Settling", Region.NW),
-        ("Dirt Road", Region.NW),
+        ("Road Network", Region.NW),
         ("Small Warehouse", Region.NW),
     }),
     Region.AR: (DLC.THE_PASSAGE, {
@@ -25,7 +25,7 @@ _a1800_regions: dict[Region, tuple[DLC, set[tuple[str, Region]], set[tuple[str, 
         ("Artisans", Region.OW),
     }, {
         ("Settling", Region.AR),
-        ("Road", Region.AR),
+        ("Road Network", Region.AR),
         ("Small Warehouse", Region.AR),
     }),
     Region.EN: (DLC.LAND_OF_LIONS, {
@@ -33,7 +33,7 @@ _a1800_regions: dict[Region, tuple[DLC, set[tuple[str, Region]], set[tuple[str, 
         ("Sea Travel", ALL_REGIONS),
     }, {
         ("Initial Settling", Region.EN),
-        ("Desert Road", Region.EN),
+        ("Road Network", Region.EN),
         ("Small Warehouse", Region.EN),
         ("Wanza Woodcutter", Region.EN),
     }),

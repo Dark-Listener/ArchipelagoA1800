@@ -156,9 +156,6 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, [1010517, 1010540], [],
                 Trigger.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
 
-    A1800Unlock("Dirt Road", DLC.VANILLA, Region.OW, 1000178, 1000178,
-                Trigger.SESSION_ENTER(Session.OW), type=UnlockType.BUILDING),
-
     A1800Unlock("Small Warehouse", DLC.VANILLA, Region.OW, 1010371, 130040,
                 Trigger.SESSION_ENTER(Session.OW), "Timber"),
 
@@ -213,9 +210,6 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, [101290, 101293], [],
                 Trigger.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
 
-    A1800Unlock("Dirt Road", DLC.VANILLA, Region.NW, 101308, 101308,
-                Trigger.SESSION_ENTER(Session.NW), type=UnlockType.BUILDING),
-
     A1800Unlock("Small Warehouse", DLC.VANILLA, Region.NW, 101323,
                 130095, Trigger.SESSION_ENTER(Session.NW), "Timber"),
 
@@ -265,6 +259,9 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Obreros", Region.NW, 1500), {"Bricks", "Steel Beams", "Advanced Weapons"}),
 
     # Building, Factory
+    A1800Unlock("Dirt Road", DLC.VANILLA, Region.OW, 1000178, 1000178,
+                Trigger.SESSION_ENTER(Session.OW), output="Road Network", type=UnlockType.BUILDING | UnlockType.FACTORY),
+
     A1800Unlock("Lumberjack's Hut", DLC.VANILLA, Region.OW, 1010266, 140029,
                 Trigger.SESSION_ENTER(Session.OW), set(), "Farmers", set(), "Wood", "Timber"),
 
@@ -301,6 +298,9 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Pub", DLC.VANILLA, Region.OW, 1010358, 130042,
                 Trigger.POPULATION("Farmers", Region.OW, 150), "Timber", set(), set(), "Pub"),
+
+    A1800Unlock("Paved Street", DLC.VANILLA, Region.OW, 1010035, 1010035,
+                Trigger.POPULATION("Workers", Region.OW, 1), "Bricks", output="Road Network"),
 
     A1800Unlock("Clay Pit", DLC.VANILLA, Region.OW, 100416, 140031,
                 Trigger.POPULATION("Workers", Region.OW, 1), "Timber", "Workers", set(), "Clay", "Bricks"),
@@ -651,6 +651,9 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "World's Fair: Infrastructure", {"Investors", "Electricity"},
                 set(), {"World's Fair: Exhibitions", "World's Fair"}),
 
+    A1800Unlock("Dirt Road", DLC.VANILLA, Region.NW, 101308, 101308,
+                Trigger.SESSION_ENTER(Session.NW), output="Road Network", type=UnlockType.BUILDING | UnlockType.FACTORY, ap_region=Region.OW),
+
     A1800Unlock("Lumberjack's Hut", DLC.VANILLA, Region.NW, 101260, 130093,
                 Trigger.SESSION_ENTER(Session.NW), set(), "Jornaleros", set(), "Wood", "Timber"),
 
@@ -712,6 +715,9 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Pearl Farm", DLC.VANILLA, Region.NW, 1010339, 1010339,
                 Trigger.POPULATION("Jornaleros", Region.NW, 300), "Timber", "Jornaleros", set(), "Pearls"),
+
+    A1800Unlock("Paved Street", DLC.VANILLA, Region.NW, 101309, 130100,
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Bricks", output="Road Network", ap_region=Region.OW),
 
     A1800Unlock("Clay Pit", DLC.VANILLA, Region.NW, 101267, 130100,
                 Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", "Obreros", set(), "Clay", "Bricks"),
@@ -798,9 +804,6 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {("Chocolate", Region.NW), ("Chocolate", Region.OW)}),
 
     # Building, Upgrade
-    A1800Unlock("Paved Street", DLC.VANILLA, Region.OW, 1010035, 1010035,
-                Trigger.POPULATION("Workers", Region.OW, 1), "Bricks", previous_building="Dirt Road"),
-
     A1800Unlock("Medium Warehouse", DLC.VANILLA, Region.OW, 100516, 130053,
                 Trigger.POPULATION("Workers", Region.OW, 1), {"Timber", "Bricks"}, previous_building="Small Warehouse"),
 
@@ -834,9 +837,6 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Engineers", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
                 previous_building="Medium Oil Harbour"),
-
-    A1800Unlock("Paved Street", DLC.VANILLA, Region.NW, 101309, 130100,
-                Trigger.POPULATION("Obreros", Region.NW, 1), "Bricks", previous_building="Dirt Road"),
 
     A1800Unlock("Medium Warehouse", DLC.VANILLA, Region.NW, 101324, 130104,
                 Trigger.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, previous_building="Small Warehouse"),
@@ -971,9 +971,6 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Small Sky Trading Post", DLC.THE_PASSAGE, Region.AR, 112726, [],
                 Trigger.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
 
-    A1800Unlock("Road", DLC.THE_PASSAGE, Region.AR, 112113, 112113,
-                Trigger.SESSION_ENTER(Session.AR), type=UnlockType.BUILDING),
-
     A1800Unlock("Small Warehouse", DLC.THE_PASSAGE, Region.AR, 112656, 112716,
                 Trigger.SESSION_ENTER(Session.AR), "Timber"),
 
@@ -997,6 +994,9 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Investors", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Engineers",
                 "Arctic Gas", "Electricity", "Electricity (Gas)"),
+
+    A1800Unlock("Road", DLC.THE_PASSAGE, Region.AR, 112113, 112113,
+                Trigger.SESSION_ENTER(Session.AR), output="Road Network", type=UnlockType.BUILDING | UnlockType.FACTORY, ap_region=Region.OW),
 
     A1800Unlock("Charcoal Kiln", DLC.THE_PASSAGE, Region.AR, 114705, 112715,
                 Trigger.SESSION_ENTER(Session.AR), "Timber", "Explorers", set(), "Coal", "Heater"),
@@ -1235,9 +1235,6 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Small Warehouse", DLC.LAND_OF_LIONS, Region.EN, 114509, 114509,
                 Trigger.SESSION_ENTER(Session.EN), "Wanza Timber"),
 
-    A1800Unlock("Desert Road", DLC.LAND_OF_LIONS, Region.EN, 114523, 114523,
-                Trigger.SESSION_ENTER(Session.EN), type=UnlockType.BUILDING),
-
     A1800Unlock("Quay", DLC.LAND_OF_LIONS, Region.EN, 117729, 117918,
                 Trigger.POPULATION("Shepherds", Region.EN, 150), "Wanza Timber"),
 
@@ -1321,6 +1318,9 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Scholars", Region.OW, 7000),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(), set(), "Radio Tower"),
 
+    A1800Unlock("Desert Road", DLC.LAND_OF_LIONS, Region.EN, 114523, 114523,
+                Trigger.SESSION_ENTER(Session.EN), output="Road Network", type=UnlockType.BUILDING | UnlockType.FACTORY, ap_region=Region.OW),
+
     A1800Unlock("Canal", DLC.LAND_OF_LIONS, Region.EN, [112842, 117786], 117783,
                 Trigger.SESSION_ENTER(Session.EN), output="Canal System", unlock_chain="Irrigation"),
 
@@ -1375,6 +1375,9 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Shepherds", Region.EN, 300),
                 "Wanza Timber", "Shepherds", "Hibiscus Petals", "Hibiscus Tea",
                 {("Hibiscus Tea", Region.EN), ("Hibiscus Tea", Region.OW)}),
+
+    A1800Unlock("Paved Street", DLC.LAND_OF_LIONS, Region.EN, 119029, 119029,
+                Trigger.POPULATION("Elders", Region.EN, 1), "Mud Bricks", output="Road Network", ap_region=Region.OW),
 
     A1800Unlock("Clay Collector", DLC.LAND_OF_LIONS, Region.EN, 117743, 114528,
                 Trigger.POPULATION("Elders", Region.EN, 1),
@@ -1468,9 +1471,6 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.COUNTER("Research Institute", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Permit: Advanced Pier"},
                 previous_building="Pier"),
-
-    A1800Unlock("Paved Street", DLC.LAND_OF_LIONS, Region.EN, 119029, 119029,
-                Trigger.POPULATION("Elders", Region.EN, 1), "Mud Bricks", previous_building="Desert Road"),
 
     A1800Unlock("Medium Warehouse", DLC.LAND_OF_LIONS, Region.EN, 114537, 114633,
                 Trigger.POPULATION("Elders", Region.EN, 1),

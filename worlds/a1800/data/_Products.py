@@ -33,6 +33,7 @@ _a1800_products: list[A1800Product] = [
 
     A1800Product("Victory", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
 
+    A1800Product("Road Network", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Settling", DLC.VANILLA, Region.OW | Region.NW, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Riot Control", DLC.VANILLA, Region.OW, 0, ProductType.META),
@@ -41,6 +42,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Oil Harbour", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Oil Field", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("World's Fair: Exhibitions", DLC.VANILLA, Region.OW, 135020, ProductType.META),
+    A1800Product("Road Network", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Riot Control", DLC.VANILLA, Region.NW, 0, ProductType.META),
     A1800Product("Healthcare", DLC.VANILLA, Region.NW, 0, ProductType.META),
@@ -174,6 +176,7 @@ _a1800_products: list[A1800Product] = [
     ################################################################################################################
     ### THE_PASSAGE                                                                                              ###
     ################################################################################################################
+    A1800Product("Road Network", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
     A1800Product("Settling", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
     A1800Product("Plateau Settling", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
@@ -215,6 +218,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Permit: Advanced Cotton Mill", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Permit: Advanced Pier", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Initial Settling", DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),
+    A1800Product("Road Network", DLC.THE_PASSAGE, Region.EN, 0, ProductType.META),
     A1800Product("Settling", DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),
     A1800Product("Canal System", DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),
     A1800Product("Irrigation", DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),

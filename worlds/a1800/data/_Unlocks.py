@@ -1814,8 +1814,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Restaurant: Venison en Croute", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
                 [133340, RECIPE_GUIDS["Recipe: Venison en Croute"][0]], [133340],
                 Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
-                               Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1, guid=114166,
-                                               ap_location_name="(Build 1 OW: Restaurant) THEN (Build 1 Boreas)")),
+                               Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1, guid=114166),
+                               ap_location_name="(Build 1 OW: Restaurant) THEN (Build 1 Boreas)"),
                 "Restaurant (Blank)", "Tourists", {"Flour", "Potatoes", "Caribou Meat"}, "Restaurant"),
 
     A1800Unlock("Cafe: Venison Tartare", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,

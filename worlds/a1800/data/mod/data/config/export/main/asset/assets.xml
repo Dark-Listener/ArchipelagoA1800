@@ -6,7 +6,7 @@
   <!-- Unlock all regular needs (not luxury or lifestyle) at 1 population amount to allow filling needs earlier -->
   <ModOp Type="remove" Path="//PopulationLevel7/PopulationInputs/Item[SupplyWeight and not(IsBonusNeed)]/NoWeightPopulationCount" />
 
-  <!-- Make scholar, advanced coffee, advanced rum, advanced cotton fabric, advanced pier permit research 5x faster -->
+  <!-- Make scholar, advanced coffee, advanced rum, advanced cotton fabric, advanced pier permit research min. 5x faster -->
   <ModOp Type="replace" GUID="125340" Path="/Values/Godlike/CraftingConfig/MinimumWorkforceTime">
     <MinimumWorkforceTime>360000</MinimumWorkforceTime>
   </ModOp>
@@ -18,5 +18,35 @@
   </ModOp>
   <ModOp Type="replace" GUID="124844,124845,124849,124850" Path="/Values/Godlike/CraftingConfig/MaximumWorkforceTime">
     <MaximumWorkforceTime>60000</MaximumWorkforceTime>
+  </ModOp>
+
+  <!-- Adapt costs of The "Magnificone" Ice Cream Maker in order to reduce scrap grind -->
+  <ModOp Type="replace" GUID="116188" Path="/Values/CraftableItem/CraftingCosts">
+    <CraftingCosts>
+      <Item>
+        <Product>115980</Product>
+        <Amount>10</Amount>
+      </Item>
+      <Item>
+        <Product>120041</Product>
+        <Amount>50</Amount>
+      </Item>
+      <Item>
+        <Product>120014</Product>
+        <Amount>50</Amount>
+      </Item>
+      <Item>
+        <Product>1010258</Product>
+        <Amount>50</Amount>
+      </Item>
+    </CraftingCosts>
+  </ModOp>
+
+  <!-- Make Hacienda menu visible once anything from it is unlocked -->
+  <ModOp Type="remove" GUID="7281" Path="/Values/ConstructionCategory/BuildingList/Item[IgnoreUnlockStateForCategoryVisibility='1']/IgnoreUnlockStateForCategoryVisibility" />
+
+  <!-- Lock later dam phases per default -->
+  <ModOp Type="replace" GUID="6005,6006" Path="/Values/Locked/DefaultLockedState">
+    <DefaultLockedState>1</DefaultLockedState>
   </ModOp>
 </ModOps>

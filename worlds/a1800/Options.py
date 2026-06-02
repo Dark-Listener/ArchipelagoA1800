@@ -57,7 +57,7 @@ class RequiredSkyscrapersOption(OptionCounter):
     Ignore the numbers in front, they are there to make sure this is sorted properly.
     """
     _skyscrapers = ["engineer-level-1", "engineer-level-2", "engineer-level-3", "investor-level-1",
-                    "investor-level-2", "investor-level-3", "investor-level-4", "investor-level-5"]
+                    "investor-level-2", "investor-level-3", "investor-level-4", "investor-level-5", "skyline-tower"]
     _default_required_skyscrapers = {
         f"{idx:02}-{skyscraper}":
         15 if skyscraper == "investor-level-5" else 0
@@ -74,12 +74,13 @@ class RequiredMonumentsOption(OptionSet):
     """
     Each of the monuments in this list must be built to win the randomizer.
     Monuments that are not available in the DLCs selected in 'Enabled DLCs' will be ignored.
+    Find the Skyline Tower under 'Required Skyscrapers' instead as it is also a residence.
 
-    Valid keys: 'worlds-fair', 'research-institute', 'arctic-airship-hangar', 'the-iron-tower', 'skyline-tower', 'ow-rigid-airship-hangar', 'nw-rigid-airship-hangar', 'dam', 'grand-stadium'
+    Valid keys: 'worlds-fair', 'research-institute', 'arctic-airship-hangar', 'the-iron-tower', 'ow-rigid-airship-hangar', 'nw-rigid-airship-hangar', 'dam', 'grand-stadium'
     """
     display_name = "Required Monuments"
     valid_keys = ["worlds-fair", "research-institute", "arctic-airship-hangar", "the-iron-tower",
-                  "skyline-tower", 'ow-rigid-airship-hangar', 'nw-rigid-airship-hangar', 'dam', 'grand-stadium']
+                  "ow-rigid-airship-hangar", "nw-rigid-airship-hangar", "dam", "grand-stadium"]
     default = []
 
 

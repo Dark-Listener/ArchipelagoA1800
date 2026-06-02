@@ -719,7 +719,9 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Jornaleros", Region.NW, 300), "Timber", "Jornaleros", set(), "Pearls"),
 
     A1800Unlock("Paved Street", DLC.VANILLA, Region.NW, 101309, 130100,
-                Trigger.POPULATION("Obreros", Region.NW, 1), "Bricks", output="Road Network", ap_region=Region.OW),
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Bricks",
+                # output="Road Network", ap_region=Region.OW # Don't allow settling with Paveed Street - later with option
+                ),
 
     A1800Unlock("Clay Pit", DLC.VANILLA, Region.NW, 101267, 130100,
                 Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", "Obreros", set(), "Clay", "Bricks"),
@@ -2227,37 +2229,37 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Hacienda Storeroom", DLC.SEEDS_OF_CHANGE, Region.NW, 24775, 25055,
                 Trigger.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, "Hacienda", output={"Medium Storage", "Large Storage"}),
 
-    A1800Unlock("Hacienda Sugar Cane Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [24798, 24796, 24794], [25791, 25055],
+    A1800Unlock("Hacienda Sugar Cane Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [24798, 24796, 24794], [24796, 25055],
                 Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Sugar Cane"),
 
-    A1800Unlock("Hacienda Corn Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25003, 25010, 24794], [25791, 25055],
+    A1800Unlock("Hacienda Corn Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25003, 25010, 24794], [25010, 25055],
                 Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Corn"),
 
-    A1800Unlock("Hacienda Caoutchouc Plantation", DLC.SEEDS_OF_CHANGE, Region.NW, [25006, 25013, 24794], [25791, 25055],
+    A1800Unlock("Hacienda Caoutchouc Plantation", DLC.SEEDS_OF_CHANGE, Region.NW, [25006, 25013, 24794], [25013, 25055],
                 Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Caoutchouc"),
 
-    A1800Unlock("Hacienda Potato Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25019, 25023, 24794], [25791, 25055],
+    A1800Unlock("Hacienda Potato Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25019, 25023, 24794], [25023, 25055],
                 Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Potatoes"),
 
-    A1800Unlock("Hacienda Spice Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25020, 25024, 24794], [25791, 25055],
+    A1800Unlock("Hacienda Spice Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25020, 25024, 24794], [25024, 25055],
                 Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Spices"),
 
-    A1800Unlock("Hacienda Grain Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25128, 25349, 24794], [25791, 25055],
+    A1800Unlock("Hacienda Grain Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [25128, 25349, 24794], [25349, 25055],
                 Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Grain"),
 
-    A1800Unlock("Hacienda Rum Distillery", DLC.SEEDS_OF_CHANGE, Region.NW, [24801, 24803, 24800], [25791, 25055],
+    A1800Unlock("Hacienda Rum Distillery", DLC.SEEDS_OF_CHANGE, Region.NW, [24801, 24803, 24800], [24803, 25055],
                 Trigger.POPULATION("Obreros", Region.NW, 1),
                 "Timber", {"Jornaleros", "Hacienda"}, {"Wood", "Sugar Cane"}, "Rum"),
 
-    A1800Unlock("Hacienda Atole Maker", DLC.SEEDS_OF_CHANGE, Region.NW, [25126, 25130, 24800], [25791, 25055],
+    A1800Unlock("Hacienda Atole Maker", DLC.SEEDS_OF_CHANGE, Region.NW, [25126, 25130, 24800], [25130, 25055],
                 Trigger.POPULATION("Obreros", Region.NW, 1),
                 "Timber", {"Jornaleros", "Hacienda"}, {"Corn", "Sugar Cane"}, "Atole"),
 
-    A1800Unlock("Hacienda Schnapps Distillery", DLC.SEEDS_OF_CHANGE, Region.NW, [25350, 25351, 24800], [25791, 25055],
+    A1800Unlock("Hacienda Schnapps Distillery", DLC.SEEDS_OF_CHANGE, Region.NW, [25350, 25351, 24800], [25351, 25055],
                 Trigger.POPULATION("Obreros", Region.NW, 1),
                 "Timber", {"Jornaleros", "Hacienda"}, "Potatoes", "Schnapps"),
 
-    A1800Unlock("Hacienda Hot Sauce Factory", DLC.SEEDS_OF_CHANGE, Region.NW, [25508, 25507, 24800], [25791, 25055],
+    A1800Unlock("Hacienda Hot Sauce Factory", DLC.SEEDS_OF_CHANGE, Region.NW, [25508, 25507, 24800], [25507, 25055],
                 Trigger.POPULATION("Obreros", Region.NW, 1),
                 "Timber", {"Jornaleros", "Hacienda"}, "Spices", "Hot Sauce"),
 
@@ -2281,15 +2283,15 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     # Building, Factory, Residence
     A1800Unlock("Hacienda Jornalero Quarters", DLC.SEEDS_OF_CHANGE, Region.NW, 24792, [25055, 24792],
-                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", set(), "Hacienda", "Jornaleros",
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", set(), {"Hacienda", "Jornaleros"}, "Jornaleros",
                 consumption={"Hacienda", "Fried Plantains", "Ponchos",
                              "Schnapps", "Hot Sauce", "Fire Protection", "Riot Control"},
                 luxury={"Rum", "Chapel"},
                 lifestyle={"Work Clothes", "Felt", "Teff", "Local Mail",
                            "Regional Mail", "Overseas Mail", "Soccer Balls", "Beach", "Cinema"}),
 
-    A1800Unlock("Hacienda Obrera Quarters", DLC.SEEDS_OF_CHANGE, Region.NW, 24793, [25055, 24792],
-                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", set(), "Hacienda", "Obreros",
+    A1800Unlock("Hacienda Obrera Quarters", DLC.SEEDS_OF_CHANGE, Region.NW, 24793, [25055, 24793],
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", set(), {"Hacienda", "Obreros"}, "Obreros",
                 consumption={"Hacienda", "Fried Plantains", "Ponchos", "Tortillas", "Hot Sauce", "Atole", "Coffee", "Bombins",
                              "Sewing Machines", "Fire Protection", "Riot Control", "Healthcare"},
                 luxury={"Rum", "Chapel", "Boxing Arena", "Beer", "Cigars"},
@@ -2549,9 +2551,6 @@ _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     ### NEW_WORLD_RISING                                                                                         ###
     ################################################################################################################
-    # TODO: Meta Upgrades for Alpaca Farm with Electricity
-    # TODO: New restaurant, cafe, bar
-
     A1800Unlock("Electrified Nandu Farm", DLC.NEW_WORLD_RISING, ALL_REGIONS,
                 input={("Nandu Farm", Region.NW), ("Electricity", Region.NW)},
                 output=("Nandu Feathers", Region.NW), type=UnlockType.META | UnlockType.FACTORY),
@@ -2563,6 +2562,10 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Electrified Alpaca Farm", DLC.NEW_WORLD_RISING, ALL_REGIONS,
                 input={("Alpaca Farm", Region.NW), ("Electricity", Region.NW)},
                 output=("Saltpetre", Region.NW), type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Dam: Foundations", DLC.NEW_WORLD_RISING, Region.NW,
+                input={"Jornaleros", "Timber", "Bricks"}, output="Dam: Foundations",
+                type=UnlockType.META | UnlockType.FACTORY),
 
     # Building, Factory
     A1800Unlock("Fire Department", DLC.NEW_WORLD_RISING, Region.OW, 6354, 7333,
@@ -2687,12 +2690,12 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Motor Assembly Plant", DLC.NEW_WORLD_RISING, Region.NW, 5659, 5812,
                 Trigger.POPULATION("Artistas", Region.NW, 4000),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Obreros",
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Obreros", "Electricity"},
                 {"Electric Cables", "Celluloid", "Steel"}, "Motor", "Fans"),
 
-    A1800Unlock("Fan Factory", DLC.NEW_WORLD_RISING, Region.NW, 5659, 5812,
+    A1800Unlock("Fan Factory", DLC.NEW_WORLD_RISING, Region.NW, 5862, 5812,
                 Trigger.POPULATION("Artistas", Region.NW, 4000),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artistas",
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Artistas", "Electricity"},
                 {"Motor", "Aluminium Profiles"}, "Fans", "Fans"),
 
     A1800Unlock("Chemical Plant: Film Reels", DLC.NEW_WORLD_RISING, Region.NW, [5828, 5932, 135221], [135221, 5812],
@@ -2713,20 +2716,20 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks"}, set(),
                 "Police Equipment", "Riot Control", "Police Headquarters", "Police Station"),
 
-    A1800Unlock("Dam: Structure", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6004, 6004,
+    A1800Unlock("Dam: Structure", DLC.NEW_WORLD_RISING, Region.NW, 6004, 6004,
                 Trigger.POPULATION("Artistas", Region.NW, 4000),
-                set(), "Obreros", {"Bricks", "Steel Beams"}, "Dam: Structure"),
+                "Dam: Foundations", "Obreros", {"Bricks", "Steel Beams"}, "Dam: Structure"),
 
-    A1800Unlock("Dam: Engineering", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6005, 6005,
+    A1800Unlock("Dam: Engineering", DLC.NEW_WORLD_RISING, Region.NW, 6005, 6005,
                 Trigger.POPULATION("Artistas", Region.NW, 4000),
                 "Dam: Structure", "Obreros", {"Windows", "Reinforced Concrete"}, "Dam: Engineering"),
 
-    A1800Unlock("Dam", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6006, 6006,
+    A1800Unlock("Dam", DLC.NEW_WORLD_RISING, Region.NW, 6006, 6006,
                 Trigger.POPULATION("Artistas", Region.NW, 4000), "Dam: Engineering", "Obreros", set(), "Electricity"),
 
     A1800Unlock("Scooter Factory", DLC.NEW_WORLD_RISING, Region.NW, 5658, 5824,
                 Trigger.POPULATION("Artistas", Region.NW, 6000),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, "Artistas",
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Artistas", "Electricity"},
                 {"Motor", "Pigments", "Caoutchouc"}, "Scooters", "Scooters"),
 
     A1800Unlock("Laboratory: Medicine", DLC.EMPIRE_OF_THE_SKIES, Region.NW, [6631, 6634], 7337,
@@ -2751,7 +2754,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Grand Stadium", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6121, 6121,
                 Trigger.POPULATION("Artistas", Region.NW, 6000),
-                "Grand Stadium: Superstructure", "Artistas", set(), "Grand Stadium: Football Championships"),
+                "Grand Stadium: Superstructure", {"Artistas", "Electricity"}, set(), "Grand Stadium: Football Championships"),
 
     # Building, Factory, Upgrade, Residence
     A1800Unlock("Artista Residence", DLC.NEW_WORLD_RISING, Region.NW, 5405, 5405,
@@ -2781,7 +2784,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building, Factory, Residence
     A1800Unlock("Hacienda Artista Quarters", DLC.SEEDS_OF_CHANGE | DLC.NEW_WORLD_RISING, Region.NW, 6086, 6086,
                 Trigger.POPULATION("Artistas", Region.NW, 1),
-                {"Timber", "Bricks"}, set(), set(), "Artistas",
+                {"Timber", "Bricks"}, set(), "Artistas", "Artistas",
                 consumption={"Tortillas", "Sewing Machines", "Coffee", "Bombins", "Soccer Balls", "Mezcal", "Jalea",
                              "Beach", "Perfumes", "Scooters", "Spectacles", "Electricity", "Fire Protection",
                              "Riot Control", "Healthcare"},

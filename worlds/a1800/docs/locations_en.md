@@ -199,7 +199,7 @@ the recipe unlocks from Tourist Season and The High Life DLCs. Below, there is a
 | OW: Department Store: Toasters | The High Life | Unlock OW: Department Store |
 | OW: Department Store: Vacuum Cleaners | The High Life | After building any department store, build 5 OW: Investor Skyscrapers: Level 3 |
 | OW: Department Store: Crockery | The High Life | After building any department store, build an OW: Pub within 10 squares of an OW: Members Club |
-| OW: Department Store: Refrigerators | The High Life & The Passage | After building any department store, socket 'The "Magnificone" Ice Cream Maker' in a OW: Town Hall (see Arctic Nate) |
+| OW: Department Store: Refrigerators | The High Life & The Passage | *-- Crafting costs have been adapted to need less Lost Expedition Scrap and more other materials --*<br>After building any department store, socket 'The "Magnificone" Ice Cream Maker' in a OW: Town Hall (see Arctic Nate) |
 | OW: Department Store: Briefcases | The High Life & Land of Lions | After building any department store, build any OW: Department Store within 8 squares of an OW: Scholar Residence |
 | OW: Furniture Store: Banker's Lamps | The High Life | Unlock OW: Furniture Store |
 | OW: Furniture Store: Vanity Screens | The High Life | **-- THIS NEVER CONTAINS A PROGRESSIVE ITEM --**<br>After building any furniture store, complete the set 'Eastern Jungle' in an OW: Zoo<br>(Items: Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger) |

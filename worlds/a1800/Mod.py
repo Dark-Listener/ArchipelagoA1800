@@ -114,6 +114,25 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     for location in checkable_locations:
         if location.item and isinstance(location.item, A1800Item) and location.data.trigger:
+            if "Hacienda" in location.item.data.name and "Quarters" in location.item.data.name:
+                if "Jornalero" in location.item.data.name:
+                    unlock_name = "Jornalero Residence"
+                    guid = 101254
+                elif "Obrera" in location.item.data.name:
+                    unlock_name = "Obrero Residence"
+                    guid = 101255
+                elif "Artista" in location.item.data.name:
+                    unlock_name = "Artista Residence"
+                    guid = 5405
+                else:
+                    assert False, f"Somehow found Hacienda Quarter with wrong population in name: {location.item.data.name}"
+                new_trigger = Trigger.COUNTER(unlock_name, Region.NW, 1, guid=guid)
+                if location.data.trigger.trigger_type == TriggerType.ALL:
+                    location.data.trigger.triggers.append(new_trigger)
+                else:
+                    location.data.trigger = Trigger.ALL(location.data.trigger, new_trigger)
+                location.data.trigger.post_init()
+
             location.data.trigger = _get_trigger_with_dlc(location.data.trigger, location.item.data.dlc)
 
     palace_ministry_unhide_guid = A1800_DATA.get_next_anno_guid()

@@ -40,6 +40,19 @@ Monument buildings are separated into stages. For example the World's Fair needs
   * Skyline Tower: Superstructure
   * Skyline Tower: Glazing
 
+Special note regarding Scholar Residence permits: The player still needs to achieve 1500 Elders in order to receive
+their first 10 permits.
+
+Special note regarding the Research Center: The researches for Scholar Residence, Advanced Rum Distillery,
+Advanced Cotton Mill, Advanced Coffee Roaster and Advanced Pier permits have had their maximum research time reduced by
+a factor of five and their minimum research time reduced to 1 min in order to reduce waiting should progression be
+stuck behind them.
+
+Special note regarding the Hacienda quarters: In order to keep the New World progression somewhat incremental, the
+Hacienda quarters will only unlock once you have built at least 1 of the regular residence version in addition to
+finding their unlock item. Otherwise, the randomizer kept giving the player Hacienda quarters with the expectation of
+spamming them to get all population-related checks and no goods were required in the New World.
+
 ### Expeditions
 Expeditions are announced by the captain and available on the left side of the screen. These are the normal
 expeditions used to unlock the other sessions.

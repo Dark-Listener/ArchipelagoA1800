@@ -445,6 +445,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Alpaca Farm", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.META),
     A1800Product("Grand Stadium: Football Championships", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.META),
 
+    A1800Product("Dam: Foundations", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.STAGE),
     A1800Product("Dam: Structure", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.STAGE),
     A1800Product("Dam: Engineering", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.STAGE),
     A1800Product("Grand Stadium: Foundations", DLC.NEW_WORLD_RISING, Region.NW, 0, ProductType.STAGE),

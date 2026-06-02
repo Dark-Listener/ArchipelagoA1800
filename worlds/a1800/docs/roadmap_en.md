@@ -7,8 +7,10 @@
 The following features are planned to be added at some point (in no specific order):
 
 * Include ship unlocks in the item pool (fix restaurant unlock triggering on Boreas)
-  * Double-check expedition conditions (clipper needed for arctic? schooner actually enough for enbesa?)
-* Option to lock Hacienda residences behind their actual residence unlock
+  * Double-check expedition conditions => schooner/gunboat for 1*, fregate+ for 2*, ship of the line or
+  steam ships for 3*
+* Option not to lock Hacienda residences behind their actual residence unlock
+* Options for handling NW roads for settling
 * Create some filler items
 * Ingame notifications for sending&receiving unlocks
 * Ingame quests for the victory condition
@@ -27,7 +29,6 @@ The following features are being considered, but it's unclear whether they are r
 
 * Remove need unlocks (or add them to the pool) - not sure if possible
 * Double-check road upgrades without unlock via upgrade button (confirmed) and model if needed (not right now)
-* Option to en-disable paved and hacienda roads for settling
 * Include ornaments in the item pool - maybe as filler?
   * Cosmetic DLC should probably be avoided due to issues with compatibility
 * Handle NPC shops and item pools

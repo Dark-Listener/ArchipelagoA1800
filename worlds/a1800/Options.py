@@ -4,7 +4,7 @@ from Options import OptionCounter, OptionGroup, OptionSet, PerGameCommonOptions,
 
 class EnabledDLCsOption(OptionSet):
     """
-    List of enabled DLCs. Per default, all implemented DLCs are enabled.
+    List of enabled DLCs. Per default, all DLCs except for docklands are enabled.
     It's recommended to match this list when creating the game.
 
     Valid keys: 'sunken-treasures', 'botanica', 'the-passage', 'seat-of-power', 'bright-harvest', 'land-of-lions', 'docklands', 'tourist-season', 'the-high-life', 'seeds-of-change', 'empire-of-the-skies', 'new-world-rising'

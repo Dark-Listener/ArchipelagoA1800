@@ -119,7 +119,7 @@ For the starting conditions, make sure to turn on all DLCs that were selected in
 Currently, the other starting conditions do not really matter, but here are a few recommendations:
 * Turn off all other DLCs. Should you keep any on, they will unlock as normal
   * Especially don't turn on Docklands, unless you want the option to skip everything
-* Turn off all NPCs - you are not guarantueed to get weapons and may not be able to defend yourself
+* Turn off all NPC players - you are not guarantueed to get weapons and may not be able to defend yourself
 * Turn off pirates - you are not guarantueed to get luxury goods and money might be tight
 * Start without ships - ships allow you to circumvent early game logic due to having sea travel capability
 * You shouldn't buy goods at NPC shops, as this also circumvent logic

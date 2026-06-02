@@ -68,7 +68,7 @@ def _get_requirements_from_trigger(trigger: Trigger) -> Optional[set[A1800Requir
             return {A1800Requirement(trigger.population_name, trigger.region)} | {A1800Requirement(name, population.region) for name in population.luxury}
         case TriggerType.COUNTER:
             unlock = next(UNLOCKS.find_unlocks(trigger.unlock_name, trigger.region))
-            return get_requirements_for_construction(unlock)
+            return get_requirements_for_construction(unlock) | {A1800Requirement(name, region) for name, region in trigger.requirements}
         case TriggerType.COUNTER_GOOD_IN_REGION:
             a1800_region = REGIONS.find_region(trigger.region)
             assert a1800_region, \
@@ -234,9 +234,10 @@ class _Logic:
                             location_requirements[event_location.ap_location_name] = new_requirements
 
                     # Traverse region requirements, but don't add them to location rule
-                    if (unlock.ap_region or unlock.region) ^ checked_regions != NO_REGION:
+                    check_region = unlock.ap_region or unlock.region
+                    if check_region ^ checked_regions != NO_REGION:
                         for region in [region for region in Region.__members__.values()
-                                       if region in unlock.region & (unlock.region ^ checked_regions)]:
+                                       if region in check_region & (check_region ^ checked_regions)]:
                             anno_region = REGIONS.find_region(region)
                             if anno_region:
                                 new_requirements |= anno_region.requirements

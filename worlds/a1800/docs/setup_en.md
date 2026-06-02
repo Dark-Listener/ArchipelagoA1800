@@ -122,7 +122,8 @@ Currently, the other starting conditions do not really matter, but here are a fe
 * Turn off all NPC players - you are not guarantueed to get weapons and may not be able to defend yourself
 * Turn off pirates - you are not guarantueed to get luxury goods and money might be tight
 * Start without ships - ships allow you to circumvent early game logic due to having sea travel capability
-* You shouldn't buy goods at NPC shops, as this also circumvent logic
+* With the exception of some expedition items, you probably shouldn't buy goods at NPC shops, as this also
+circumvents logic
 * You probably don't want to set any victory conditions in Anno itself - or at least continue playing afterwards if your
 Archipelago victory has not been achieved yet
 

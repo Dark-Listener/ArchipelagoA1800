@@ -124,6 +124,13 @@
 {% endif%}
 {% endfor %}
 
+  <!-- Move empires of the skies items out of airship asset pools -->
+  <ModOp Type="add" GUID="2006" Path="/Values/Trigger/TriggerActions/Item/TriggerAction/Values/ActionUnlockAsset/UnlockAssets">
+    <Item>
+      <Asset>2273</Asset>
+    </Item>
+  </ModOp>
+
   <!-- Add all triggers -->
   <ModOp Type="addNextSibling" GUID="130248">
     <!-- Grant start items -->

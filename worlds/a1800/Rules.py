@@ -35,7 +35,7 @@ def _create_rule(data: Iterable[A1800Requirement] | Trigger) -> Optional[Rule["A
                 return _create_rule({A1800Requirement(data.population_name, data.region)} | {A1800Requirement(name, population.region) for name in population.luxury})
             case TriggerType.COUNTER:
                 unlock = next(A1800_DATA.find_unlocks(data.unlock_name, data.region))
-                return _create_rule(A1800_DATA.get_requirements_for_construction(unlock))
+                return _create_rule(A1800_DATA.get_requirements_for_construction(unlock) | {A1800Requirement(name, region) for name, region in data.requirements})
             case TriggerType.COUNTER_GOOD_IN_REGION:
                 a1800_region = A1800_DATA.find_region(data.region)
                 assert a1800_region, \

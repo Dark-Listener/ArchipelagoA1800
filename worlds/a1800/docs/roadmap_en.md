@@ -6,9 +6,6 @@
 
 The following features are planned to be added at some point (in no specific order):
 
-* Include ship unlocks in the item pool (fix restaurant unlock triggering on Boreas)
-  * Double-check expedition conditions => schooner/gunboat for 1*, fregate+ for 2*, ship of the line or
-  steam ships for 3*
 * Option not to lock Hacienda residences behind their actual residence unlock
 * Options for handling NW roads for settling
 * Create some filler items

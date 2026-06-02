@@ -136,16 +136,20 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Starting Goods", DLC.VANILLA, Region.OW,  # Resolves circular dependency at game start
                 output="Timber", type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
-    A1800Unlock("Trading Post Materials and Sea Travel", DLC.VANILLA, ALL_REGIONS,
-                input={"Timber", "Steel Beams", "Sea Travel"}, output=("Settling", Region.OW | Region.NW),
+    A1800Unlock("Trading Post Materials and Seafaring", DLC.VANILLA, Region.OW | Region.NW,
+                input={"Timber", "Steel Beams", "Seafaring"}, output="Settling",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
-    A1800Unlock("Oil Transport OW => NW", DLC.VANILLA, ALL_REGIONS,
-                input={("Oil", Region.OW), "Oil Transport"}, output=("Oil", Region.NW),
-                type=UnlockType.META | UnlockType.FACTORY),
+    A1800Unlock("Oil Transport OW => NW", DLC.VANILLA, Region.NW,
+                input={("Oil", Region.OW), "Oil Transport"}, output="Oil", type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("Oil Transport NW => OW", DLC.VANILLA, ALL_REGIONS,
-                input={("Oil", Region.NW), "Oil Transport"}, output=("Oil", Region.OW),
+    A1800Unlock("Oil Transport NW => OW", DLC.VANILLA, Region.OW,
+                input={("Oil", Region.NW), "Oil Transport"}, output="Oil", type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("After building the World's Fair, complete the quest line 'The Floating City'", DLC.VANILLA, Region.OW,
+                input={("World's Fair: Infrastructure", Region.OW),
+                       "Steam Ships", "Steel Beams", "Steam Motors"},
+                output={"Seafaring", "Expeditions: Level 3"},
                 type=UnlockType.META | UnlockType.FACTORY),
 
     # Unlock
@@ -328,7 +332,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Sailing Shipyard", DLC.VANILLA, Region.OW, 1010520, 130050,
                 Trigger.POPULATION("Workers", Region.OW, 150),
-                {"Timber", "Bricks"}, "Workers", {"Timber", "Sails"}, "Sea Travel"),
+                {"Timber", "Bricks"}, "Workers", set(), "Sailing Ships"),
 
     A1800Unlock("Depot", DLC.VANILLA, Region.OW, 1010519, 130121,
                 Trigger.POPULATION("Workers", Region.OW, 150), {"Timber", "Bricks"}, output={"Medium Storage", "Large Storage", "Grand Storage"}),
@@ -545,12 +549,11 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Steam Shipyard", DLC.VANILLA, Region.OW, 1010521, 130051,
                 Trigger.POPULATION("Engineers", Region.OW, 500),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete",
-                    "Medium Storage"}, {"Engineers", "Electricity"},
-                {"Steel Beams", "Steam Motors"}, {"Sea Travel", "Oil Transport"}),
+                    "Medium Storage"}, {"Engineers", "Electricity"}, set(), {"Steam Ships"}),
 
     A1800Unlock("Saltpetre Works", DLC.VANILLA, Region.OW, 1010310, 140053,
                 Trigger.POPULATION("Engineers", Region.OW, 500),
-                {"Timber", "Bricks", "Steel Beams"}, {"Workers", "Sea Travel"}, set(), "Saltpetre", "Advanced Weapons"),
+                {"Timber", "Bricks", "Steel Beams"}, {"Workers", "Settling"}, set(), "Saltpetre", "Advanced Weapons"),
 
     A1800Unlock("Dynamite Factory", DLC.VANILLA, Region.OW, 1010300, 140053,
                 Trigger.POPULATION("Engineers", Region.OW, 500),
@@ -689,7 +692,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Sailing Shipyard", DLC.VANILLA, Region.NW, 101277, 130106,
                 Trigger.POPULATION("Jornaleros", Region.NW, 100),
-                {"Timber", "Bricks"}, "Jornaleros", {"Timber", "Sails"}, "Sea Travel"),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Sailing Ships"),
 
     A1800Unlock("Depot", DLC.VANILLA, Region.NW, 101278, 130106,
                 Trigger.POPULATION("Jornaleros", Region.NW, 100),
@@ -848,7 +851,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Obreros", Region.NW, 1500),
                 {"Timber", "Bricks", "Steel Beams"}, previous_building="Medium Warehouse"),
 
-    # Building Factory, Upgrade
+    # Building, Factory, Upgrade
     A1800Unlock("Medium Trading Post", DLC.VANILLA, Region.OW, [100510, 100514], 130053,
                 Trigger.POPULATION("Workers", Region.OW, 1), {"Timber", "Bricks"}, output="Medium Storage", previous_building="Small Trading Post"),
 
@@ -931,6 +934,47 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Spectacles", "Typewriters", "Illuminated Script", "Local Mail",
                     "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooters"}),
 
+    # Factory
+    A1800Unlock("Schooner", DLC.VANILLA, ALL_REGIONS, 100438, 100438,
+                Trigger.UNLOCK("Sailing Shipyard", Region.OW),
+                input={"Sailing Ships", "Timber", "Sails"}, output={"Seafaring", "Expeditions: Level 1"}, ap_region=Region.OW),
+
+    A1800Unlock("Gunboat", DLC.VANILLA, ALL_REGIONS, 100437, 100437,
+                Trigger.UNLOCK("Sailing Shipyard", Region.OW),
+                input={"Sailing Ships", "Timber", "Sails", "Weapons"}, output={"Seafaring", "Expeditions: Level 1"}, ap_region=Region.OW),
+
+    A1800Unlock("Frigate", DLC.VANILLA, ALL_REGIONS, 100439, 100439,
+                Trigger.POPULATION("Artisans", Region.OW, 1),
+                input={"Sailing Ships", "Timber", "Sails", "Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2"}, ap_region=Region.OW),
+
+    A1800Unlock("Clipper", DLC.VANILLA, ALL_REGIONS, 100441, 100441,
+                Trigger.POPULATION("Artisans", Region.OW, 750),
+                input={"Sailing Ships", "Timber", "Sails"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2"}, ap_region=Region.OW),
+
+    A1800Unlock("Ship-of-the-line", DLC.VANILLA, ALL_REGIONS, 100440, 100440,
+                Trigger.POPULATION("Artisans", Region.OW, 750),
+                input={"Sailing Ships", "Timber", "Sails", "Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Expeditions: Level 3"}, ap_region=Region.OW),
+
+    A1800Unlock("Oil Tanker", DLC.VANILLA, ALL_REGIONS, 100853, 100853,
+                Trigger.UNLOCK("Oil Power Plant", Region.OW),
+                input={"Steam Ships", "Steel Beams", "Steam Motors"}, output={"Oil Transport"}, ap_region=Region.OW),
+
+    A1800Unlock("Cargo Ship", DLC.VANILLA, ALL_REGIONS, 1010062, 1010062,
+                Trigger.UNLOCK("Steam Shipyard", Region.OW),
+                input={"Steam Ships", "Steel Beams", "Steam Motors"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Expeditions: Level 3"}, ap_region=Region.OW),
+
+    A1800Unlock("Battle Cruiser", DLC.VANILLA, ALL_REGIONS, 100442, 100442,
+                Trigger.UNLOCK("Steam Shipyard", Region.OW),
+                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Expeditions: Level 3"}, ap_region=Region.OW),
+
+    A1800Unlock("Monitor", DLC.VANILLA, ALL_REGIONS, 100443, 100443,
+                Trigger.POPULATION("Investors", Region.OW, 1),
+                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2"}, ap_region=Region.OW),
+
+    A1800Unlock("Flamethrower Monitor", DLC.VANILLA, ALL_REGIONS, 968, 968,
+                Trigger.POPULATION("Investors", Region.OW, 1),
+                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2"}, ap_region=Region.OW),
+
     ################################################################################################################
     ### SUNKEN_TREASURES                                                                                         ###
     ################################################################################################################
@@ -954,16 +998,16 @@ _a1800_unlocks: list[A1800Unlock] = [
     ### THE_PASSAGE                                                                                              ###
     ################################################################################################################
     # Meta
-    A1800Unlock("Trading Post Materials and Sea Travel", DLC.THE_PASSAGE, Region.AR,
-                input={"Timber", "Steel Beams", "Sea Travel"}, output="Settling",
+    A1800Unlock("Trading Post Materials and Seafaring", DLC.THE_PASSAGE, Region.AR,
+                input={"Timber", "Steel Beams", "Seafaring"}, output="Settling",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
-    A1800Unlock("Sky Post Materials and Air Travel", DLC.THE_PASSAGE, Region.AR,
-                input={"Timber", "Steel Beams", "Air Travel"}, output="Plateau Settling",
+    A1800Unlock("Sky Post Materials and Aviation", DLC.THE_PASSAGE, Region.AR,
+                input={"Timber", "Steel Beams", "Aviation"}, output="Plateau Settling",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     A1800Unlock("Search in the far northern Arctic", DLC.THE_PASSAGE, Region.AR,
-                input="Air Travel", output="Lost Expedition Scrap",
+                input="Aviation", output="Lost Expedition Scrap",
                 type=UnlockType.META | UnlockType.FACTORY),
 
     # Unlock
@@ -1102,11 +1146,10 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Steel Beams"}, {"Technicians", "Heat", "Plateau Settling"},
                 set(), "Arctic Gas", "Electricity (Gas)"),
 
-    # No arctic gas input to avoid cyclic dependency - Nate will always give you some if you have none and no Boreas
     A1800Unlock("Arctic Airship Hangar", DLC.THE_PASSAGE, Region.AR, 112689, 112689,
                 Trigger.POPULATION("Technicians", Region.AR, 750),
                 "Arctic Airship Hangar: Roof", {"Technicians", "Heat"},
-                {"Timber", "Sails", "Steam Motors"}, "Air Travel"),
+                set(), "Arctic Airships"),
 
     # Building, Upgrade
     A1800Unlock("Medium Warehouse", DLC.THE_PASSAGE, Region.AR, 112657, 112723,
@@ -1147,6 +1190,17 @@ _a1800_unlocks: list[A1800Unlock] = [
                              "Canned Food", "Husky Sleds", "Fire Protection", "Healthcare"},
                 luxury={"Sleeping Bags", "Schnapps", "Parkas", "Coffee"},
                 lifestyle={"Rum", "Dynamite", "Local Mail", "Regional Mail", "Overseas Mail", "Mezcal", "Motor"}),
+
+    # Factory
+    # No arctic gas input to avoid cyclic dependency - Nate will always give you some if you have none and no Boreas
+    A1800Unlock("Boreas", DLC.THE_PASSAGE, ALL_REGIONS, 114166, 114166,
+                Trigger.POPULATION("Technicians", Region.AR, 750),
+                input={"Arctic Airships", "Timber", "Sails", "Steam Motors"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Blue Flamethrower Monitor", DLC.THE_PASSAGE, ALL_REGIONS, 1537, 1537,
+                Trigger.ALL(Trigger.POPULATION("Technicians", Region.AR, 750),
+                            Trigger.POPULATION("Investors", Region.OW, 1)),
+                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons", "Arctic Gas"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2"}, ap_region=Region.OW),
 
     ################################################################################################################
     ### SEAT_OF_POWER                                                                                            ###
@@ -1197,39 +1251,44 @@ _a1800_unlocks: list[A1800Unlock] = [
     ### LAND_OF_LIONS                                                                                            ###
     ################################################################################################################
     # Meta
-    A1800Unlock("Sea Travel => Free Clipper", DLC.LAND_OF_LIONS, Region.EN,
-                input="Sea Travel", output={"Initial Settling", "Wanza Timber"},
+    A1800Unlock("Seafaring => Free Clipper", DLC.LAND_OF_LIONS, Region.EN,
+                input="Seafaring", output={"Initial Settling", "Wanza Timber"},
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
-    A1800Unlock("Trading Post Materials and Sea Travel", DLC.LAND_OF_LIONS, Region.EN,
-                input={"Wanza Timber", "Mud Bricks", "Sea Travel"}, output="Settling",
+    A1800Unlock("Trading Post Materials and Seafaring", DLC.LAND_OF_LIONS, Region.EN,
+                input={"Wanza Timber", "Mud Bricks", "Seafaring"}, output="Settling",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.EN),
 
     # Research Institute, Engineers for infinite permits
     A1800Unlock("1500 Elders", DLC.LAND_OF_LIONS, Region.EN,
                 input={("Elders", Region.EN), ("Engineers", Region.OW), ("Research", Region.OW)},
                 output="Permit: Scholar Residence",
-                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.EN),
+                type=UnlockType.META | UnlockType.FACTORY),
 
     A1800Unlock("Research: Advanced Coffee Roaster", DLC.LAND_OF_LIONS, Region.OW,
                 input={"Engineers", "Research", "Research Points"},
                 output="Permit: Advanced Coffee Roaster",
-                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+                type=UnlockType.META | UnlockType.FACTORY),
 
     A1800Unlock("Research: Advanced Rum Distillery", DLC.LAND_OF_LIONS, Region.OW,
                 input={"Engineers", "Research", "Research Points"},
                 output="Permit: Advanced Rum Distillery",
-                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+                type=UnlockType.META | UnlockType.FACTORY),
 
     A1800Unlock("Research: Advanced Cotton Mill", DLC.LAND_OF_LIONS, Region.OW,
                 input={"Engineers", "Research", "Research Points"},
                 output="Permit: Advanced Cotton Mill",
-                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+                type=UnlockType.META | UnlockType.FACTORY),
 
     A1800Unlock("Research: Advanced Pier", DLC.LAND_OF_LIONS, Region.OW,
                 input={"Engineers", "Research", "Research Points"},
                 output="Permit: Advanced Pier",
-                type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Research: Great Eastern", DLC.LAND_OF_LIONS, Region.OW,
+                input={"Engineers", "Research", "Research Points"},
+                output="Permit: Great Eastern",
+                type=UnlockType.META | UnlockType.FACTORY),
 
     # Unlock
     A1800Unlock("Expedition: Enbesa", DLC.LAND_OF_LIONS, ALL_REGIONS, Session.EN.expedition_unlock_guid, [],
@@ -1536,13 +1595,11 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     ### Needs Bright Harvest ###
     # Meta
-    A1800Unlock("Oil Transport OW => EN", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, ALL_REGIONS,
-                input={("Oil", Region.OW), "Oil Transport"}, output=("Oil", Region.EN),
-                type=UnlockType.META | UnlockType.FACTORY),
+    A1800Unlock("Oil Transport OW => EN", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN,
+                input={("Oil", Region.OW), "Oil Transport"}, output="Oil",  type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("Oil Transport NW => EN", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, ALL_REGIONS,
-                input={("Oil", Region.NW), "Oil Transport"}, output=("Oil", Region.EN),
-                type=UnlockType.META | UnlockType.FACTORY),
+    A1800Unlock("Oil Transport NW => EN", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN,
+                input={("Oil", Region.NW), "Oil Transport"}, output="Oil", type=UnlockType.META | UnlockType.FACTORY),
 
     # Building
     A1800Unlock("Silo", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, [119025, 269999], [119025, 269999],
@@ -1681,8 +1738,10 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.LINEAR(
                     Trigger.COUNTER("Cafe", Region.OW, 1, guid=133510),
                     Trigger.ANY(
-                        Trigger.COUNTER("Zoo", Region.OW, 1, guid=101816),
-                        Trigger.COUNTER("Zoo", Region.OW, 1, guid=124109),
+                        Trigger.COUNTER("Zoo", Region.OW, 1, guid=101816, requirements={
+                                        ("Expeditions: Level 2", ALL_REGIONS)}),
+                        Trigger.COUNTER("Zoo", Region.OW, 1, guid=124109, requirements={
+                                        ("Expeditions: Level 3", ALL_REGIONS)}),
                         ap_location_name="Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)"
                     )
                 ),
@@ -1827,8 +1886,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Restaurant: Venison en Croute", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
                 [133340, RECIPE_GUIDS["Recipe: Venison en Croute"][0]], 133340,
                 Trigger.LINEAR(Trigger.COUNTER("Restaurant", Region.OW, 1, guid=135069),
-                               Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1, guid=114166),
-                               ap_location_name="(Build 1 OW: Restaurant) THEN (Build 1 Boreas)"),
+                               Trigger.COUNTER("Boreas", Region.AR, 1)),
                 "Restaurant (Blank)", "Tourists", {"Flour", "Potatoes", "Caribou Meat"}, "Restaurant"),
 
     A1800Unlock("Cafe: Venison Tartare", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,
@@ -1845,7 +1903,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         "Complete 1 expedition in the Arctic",
                         1,
                         134300,
-                        {("Expedition: The Arctic", ALL_REGIONS), ("Sea Travel", ALL_REGIONS), ("Artisans", Region.OW)})
+                        {("Expedition: The Arctic", ALL_REGIONS), ("Seafaring", ALL_REGIONS), ("Expeditions: Level 2", Region.OW)})
                 ),
                 "Bar (Blank)", "Tourists", {"Whale Oil", "Grapes", "Cinnamon"}, "Bar"),
 
@@ -1856,7 +1914,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.QUEST_COMPLETE(
                         "Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)",
                         134983,
-                        {("Zoo", Region.OW), ("Engineers", Region.OW)}
+                        {("Zoo", Region.OW), ("Expeditions: Level 3", Region.OW)}
                     )
                 ),
                 "The Iron Tower (Blank)", {"Tourists", "Electricity"},
@@ -2004,7 +2062,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.ITEM_SET_ACTIVE(
                         "Zoo", Region.OW,
                         "Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)",
-                        191120, {("Artisans", Region.OW)}),
+                        191120, {("Expeditions: Level 2", Region.OW)}),
                 ),
                 "Furniture Store (Blank)", {"Artisans", "Electricity"},
                 {"Cotton Fabric", "Cherry Wood", "Lacquer"}, {"Furniture Store", "Vanity Screens"}, is_excluded=True),
@@ -2151,7 +2209,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.QUEST_COMPLETE(
                         "Hidden quest: Socket 'The \"Magnificone\" Ice Cream Maker' in n OW: Town Hall (see Arctic Nate)",
                         135736,
-                        {("Expedition: The Arctic", ALL_REGIONS), ("Sea Travel", ALL_REGIONS),
+                        {("Expedition: The Arctic", ALL_REGIONS), ("Seafaring", ALL_REGIONS),
                          ("Lost Expedition Scrap", ALL_REGIONS), ("Grapes", ALL_REGIONS), ("Plantains", ALL_REGIONS),
                          ("Chocolate", ALL_REGIONS), ("Investors", Region.OW), ("Town Hall", Region.OW)}
                     )
@@ -2176,7 +2234,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     Trigger.ITEM_SET_ACTIVE(
                         "Museum", Region.OW,
                         "Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)",
-                        193776, {("Engineers", Region.OW)}),
+                        193776, {("Expeditions: Level 3", Region.OW)}),
                 ),
                 "Drug Store (Blank)", {"Artisans", "Electricity"},
                 {"Whale Oil", "Coconut Oil", "Citrus"}, {"Drug Store", "Face Cream"}, is_excluded=True),
@@ -2308,31 +2366,27 @@ _a1800_unlocks: list[A1800Unlock] = [
     ### EMPIRE_OF_THE_SKIES                                                                                      ###
     ################################################################################################################
     # Meta
-    A1800Unlock("Postal Service OW => OW", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
-                input={("Air Travel", Region.OW), ("Local Mail", Region.OW), ("Airship Platform", Region.OW),
+    A1800Unlock("Postal Service OW => OW", DLC.EMPIRE_OF_THE_SKIES, Region.OW,
+                input={("Aviation", Region.OW), ("Local Mail", Region.OW), ("Airship Platform", Region.OW),
                        ("Airmail Sorting Office", Region.OW)},
-                output=("Regional Mail", Region.OW),
-                type=UnlockType.META | UnlockType.FACTORY),
+                output="Regional Mail", type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("Postal Service OW => NW", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
-                input={("Air Travel", Region.OW | Region.NW), ("Local Mail", Region.OW),
+    A1800Unlock("Postal Service OW => NW", DLC.EMPIRE_OF_THE_SKIES, Region.NW,
+                input={("Aviation", Region.OW | Region.NW), ("Local Mail", Region.OW),
                        ("Airship Platform", Region.OW), ("Airship Platform", Region.NW),
                        ("Airmail Sorting Office", Region.OW), ("Airmail Sorting Office", Region.NW)},
-                output=("Overseas Mail", Region.NW),
-                type=UnlockType.META | UnlockType.FACTORY),
+                output="Overseas Mail", type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("Postal Service NW => NW", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
-                input={("Air Travel", Region.NW), ("Local Mail", Region.NW), ("Airship Platform", Region.NW),
+    A1800Unlock("Postal Service NW => NW", DLC.EMPIRE_OF_THE_SKIES, Region.NW,
+                input={("Aviation", Region.NW), ("Local Mail", Region.NW), ("Airship Platform", Region.NW),
                        ("Airmail Sorting Office", Region.NW)},
-                output=("Regional Mail", Region.NW),
-                type=UnlockType.META | UnlockType.FACTORY),
+                output="Regional Mail", type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("Postal Service NW => OW", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
-                input={("Air Travel", Region.OW | Region.NW), ("Local Mail", Region.NW),
+    A1800Unlock("Postal Service NW => OW", DLC.EMPIRE_OF_THE_SKIES, Region.OW,
+                input={("Aviation", Region.OW | Region.NW), ("Local Mail", Region.NW),
                        ("Airship Platform", Region.OW), ("Airship Platform", Region.NW),
                        ("Airmail Sorting Office", Region.OW), ("Airmail Sorting Office", Region.NW)},
-                output=("Overseas Mail", Region.OW),
-                type=UnlockType.META | UnlockType.FACTORY),
+                output="Overseas Mail", type=UnlockType.META | UnlockType.FACTORY),
 
     # Building
     A1800Unlock("Flak Emplacement", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 736, 736,
@@ -2377,7 +2431,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Rigid Airship Hangar", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 636, 676,
                 Trigger.POPULATION("Obreros", Region.NW, 600),
                 "Rigid Airship Hangar: Roof", "Workers",
-                {"Aluminium Profiles", "Sails", "Helium"}, "Air Travel"),
+                set(), {"Airships", "Arctic Airships"}),
 
     A1800Unlock("Airship Platform", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 962, 1989,
                 Trigger.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks", "Aluminium Profiles"}, output="Airship Platform"),
@@ -2463,7 +2517,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Rigid Airship Hangar", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 635, 696,
                 Trigger.POPULATION("Obreros", Region.NW, 600),
                 "Rigid Airship Hangar: Roof", "Obreros",
-                {"Aluminium Profiles", "Sails", "Helium"}, "Air Travel"),
+                set(), {"Airships", "Arctic Airships"}),
 
     A1800Unlock("Airship Platform", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 963, 1988,
                 Trigger.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks", "Aluminium Profiles"}, output="Airship Platform"),
@@ -2496,41 +2550,73 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Airmail Sorting Office", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 2276, 4321,
                 Trigger.POPULATION("Obreros", Region.NW, 1000), {"Timber", "Bricks"}, output="Airmail Sorting Office"),
 
+    # Factory
+    A1800Unlock("Flak Monitor", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 720, 720,
+                Trigger.POPULATION("Engineers", Region.OW, 1),
+                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 2"}, ap_region=Region.OW),
+
+    A1800Unlock("Colibri", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1654, 2011,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                input={"Airships", "Aluminium Profiles", "Sails", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Colibri (Armed)", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1054, 2011,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                input={"Airships", "Aluminium Profiles", "Sails", "Helium", "Weapons"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Atotolin", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1058, 2011,
+                Trigger.POPULATION("Obreros", Region.NW, 600),
+                input={"Airships", "Aluminium Profiles", "Sails", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Alicanto", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1655, 2012,
+                Trigger.ALL(Trigger.POPULATION("Obreros", Region.NW, 1500),
+                            Trigger.POPULATION("Engineers", Region.OW, 500)),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Alicanto (Armed)", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1056, 2012,
+                Trigger.ALL(Trigger.POPULATION("Obreros", Region.NW, 1500),
+                            Trigger.POPULATION("Engineers", Region.OW, 500)),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium", "Weapons"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Dtundtuncan", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1059, 2012,
+                Trigger.ALL(Trigger.POPULATION("Obreros", Region.NW, 1500),
+                            Trigger.POPULATION("Engineers", Region.OW, 500)),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Quetzalcoatl", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1060, 2012,
+                Trigger.ALL(Trigger.POPULATION("Obreros", Region.NW, 1500),
+                            Trigger.POPULATION("Engineers", Region.OW, 500)),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+
     ### Needs The Passage ###
     # Meta
-    A1800Unlock("Postal Service OW => AR", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
-                input={("Air Travel", Region.OW | Region.AR), ("Local Mail", Region.OW),
+    A1800Unlock("Postal Service OW => AR", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR,
+                input={("Aviation", Region.OW | Region.AR), ("Local Mail", Region.OW),
                        ("Airship Platform", Region.OW), ("Airship Platform", Region.AR),
                        ("Airmail Sorting Office", Region.OW), ("Airmail Sorting Office", Region.AR)},
-                output=("Overseas Mail", Region.AR),
-                type=UnlockType.META | UnlockType.FACTORY),
+                output="Overseas Mail", type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("Postal Service NW => AR", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
-                input={("Air Travel", Region.NW | Region.AR), ("Local Mail", Region.NW),
+    A1800Unlock("Postal Service NW => AR", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR,
+                input={("Aviation", Region.NW | Region.AR), ("Local Mail", Region.NW),
                        ("Airship Platform", Region.NW), ("Airship Platform", Region.AR),
                        ("Airmail Sorting Office", Region.NW), ("Airmail Sorting Office", Region.AR)},
-                output=("Overseas Mail", Region.AR),
-                type=UnlockType.META | UnlockType.FACTORY),
+                output="Overseas Mail", type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("Postal Service AR => AR", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
-                input={("Air Travel", Region.AR), ("Local Mail", Region.AR), ("Airship Platform", Region.AR),
+    A1800Unlock("Postal Service AR => AR", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR,
+                input={("Aviation", Region.AR), ("Local Mail", Region.AR), ("Airship Platform", Region.AR),
                        ("Airmail Sorting Office", Region.AR)},
-                output=("Regional Mail", Region.AR),
-                type=UnlockType.META | UnlockType.FACTORY),
+                output="Regional Mail", type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("Postal Service AR => OW", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
-                input={("Air Travel", Region.OW | Region.AR), ("Local Mail", Region.AR),
+    A1800Unlock("Postal Service AR => OW", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.OW,
+                input={("Aviation", Region.OW | Region.AR), ("Local Mail", Region.AR),
                        ("Airship Platform", Region.OW), ("Airship Platform", Region.AR),
                        ("Airmail Sorting Office", Region.OW), ("Airmail Sorting Office", Region.AR)},
-                output=("Overseas Mail", Region.OW),
-                type=UnlockType.META | UnlockType.FACTORY),
+                output="Overseas Mail", type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("Postal Service AR => NW", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS,
-                input={("Air Travel", Region.NW | Region.AR), ("Local Mail", Region.AR),
+    A1800Unlock("Postal Service AR => NW", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.NW,
+                input={("Aviation", Region.NW | Region.AR), ("Local Mail", Region.AR),
                        ("Airship Platform", Region.NW), ("Airship Platform", Region.AR),
                        ("Airmail Sorting Office", Region.NW), ("Airmail Sorting Office", Region.AR)},
-                output=("Overseas Mail", Region.NW),
-                type=UnlockType.META | UnlockType.FACTORY),
+                output="Overseas Mail", type=UnlockType.META | UnlockType.FACTORY),
 
     # Building
     A1800Unlock("Flak Emplacement", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, 822, 822,
@@ -2543,6 +2629,51 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Airmail Sorting Office", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, Region.AR, [4259, 4513], 4532,
                 Trigger.POPULATION("Technicians", Region.AR, 100), {"Timber", "Bricks"}, output="Airmail Sorting Office"),
 
+    # Factory
+    A1800Unlock("Mapinguari", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1755, 3369,
+                Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
+                            Trigger.POPULATION("Obreros", Region.NW, 600)),
+                input={"Airships", "Timber", "Sails", "Steam Motors", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Harpy", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1733, 3369,
+                Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
+                            Trigger.POPULATION("Obreros", Region.NW, 600)),
+                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Harpy (Armed)", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1731, 3369,
+                Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
+                            Trigger.POPULATION("Obreros", Region.NW, 600)),
+                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas", "Weapons"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Hermes", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1735, 3369,
+                Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
+                            Trigger.POPULATION("Obreros", Region.NW, 600)),
+                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Manticore", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1734, 3370,
+                Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
+                            Trigger.POPULATION("Obreros", Region.NW, 1500),
+                            Trigger.POPULATION("Engineers", Region.OW, 500)),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Manticore (Armed)", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1732, 3370,
+                Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
+                            Trigger.POPULATION("Obreros", Region.NW, 1500),
+                            Trigger.POPULATION("Engineers", Region.OW, 500)),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas", "Weapons"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Pegasus", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1736, 3370,
+                Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
+                            Trigger.POPULATION("Obreros", Region.NW, 1500),
+                            Trigger.POPULATION("Engineers", Region.OW, 500)),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas"}, output={"Aviation"}, ap_region=Region.OW),
+
+    A1800Unlock("Zephyr", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1737, 3370,
+                Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
+                            Trigger.POPULATION("Obreros", Region.NW, 1500),
+                            Trigger.POPULATION("Engineers", Region.OW, 500)),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas"}, output={"Aviation"}, ap_region=Region.OW),
+
     ### Needs Land of Lions ###
     # Building
     A1800Unlock("Flak Emplacement", DLC.LAND_OF_LIONS | DLC.EMPIRE_OF_THE_SKIES, Region.EN, 743, 743,
@@ -2551,17 +2682,15 @@ _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     ### NEW_WORLD_RISING                                                                                         ###
     ################################################################################################################
-    A1800Unlock("Electrified Nandu Farm", DLC.NEW_WORLD_RISING, ALL_REGIONS,
-                input={("Nandu Farm", Region.NW), ("Electricity", Region.NW)},
-                output=("Nandu Feathers", Region.NW), type=UnlockType.META | UnlockType.FACTORY),
+    A1800Unlock("Electrified Nandu Farm", DLC.NEW_WORLD_RISING, Region.NW,
+                input={"Nandu Farm", "Electricity"}, output="Nandu Feathers",
+                type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("Electrified Cattle Farm", DLC.NEW_WORLD_RISING, ALL_REGIONS,
-                input={("Cattle Farm", Region.NW), ("Electricity", Region.NW)},
-                output=("Milk", Region.NW), type=UnlockType.META | UnlockType.FACTORY),
+    A1800Unlock("Electrified Cattle Farm", DLC.NEW_WORLD_RISING, Region.NW,
+                input={"Cattle Farm", "Electricity"}, output="Milk", type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("Electrified Alpaca Farm", DLC.NEW_WORLD_RISING, ALL_REGIONS,
-                input={("Alpaca Farm", Region.NW), ("Electricity", Region.NW)},
-                output=("Saltpetre", Region.NW), type=UnlockType.META | UnlockType.FACTORY),
+    A1800Unlock("Electrified Alpaca Farm", DLC.NEW_WORLD_RISING, Region.NW,
+                input={"Alpaca Farm", "Electricity"}, output="Saltpetre", type=UnlockType.META | UnlockType.FACTORY),
 
     A1800Unlock("Dam: Foundations", DLC.NEW_WORLD_RISING, Region.NW,
                 input={"Jornaleros", "Timber", "Bricks"}, output="Dam: Foundations",
@@ -2990,6 +3119,12 @@ class _Unlocks:
 
         self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if any(
             dlc in parsed_options.enabled_dlcs for dlc in unlock.dlc)]
+
+        if DLC.LAND_OF_LIONS in parsed_options.enabled_dlcs:
+            for unlock in self._a1800_unlocks:
+                if unlock.name == "After building a World's Fair, complete the quest line 'The Floating City'":
+                    unlock.input.add(("Permit: Great Eastern", ALL_REGIONS))
+                    break
 
         if DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES in parsed_options.enabled_dlcs:
             for unlock in self._a1800_unlocks:

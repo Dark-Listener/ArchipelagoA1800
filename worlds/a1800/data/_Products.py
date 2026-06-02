@@ -27,9 +27,14 @@ _a1800_products: list[A1800Product] = [
     ################################################################################################################
     ### VANILLA                                                                                                  ###
     ################################################################################################################
-    A1800Product("Sea Travel", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
-    A1800Product("Air Travel", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
+    A1800Product("Sailing Ships", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
+    A1800Product("Seafaring", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
+    A1800Product("Expeditions: Level 1", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
+    A1800Product("Expeditions: Level 2", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
+    A1800Product("Steam Ships", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
+    A1800Product("Expeditions: Level 3", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Oil Transport", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
+    A1800Product("Aviation", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
 
     A1800Product("Victory", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
 
@@ -182,6 +187,8 @@ _a1800_products: list[A1800Product] = [
     ################################################################################################################
     ### THE_PASSAGE                                                                                              ###
     ################################################################################################################
+    A1800Product("Arctic Airships", DLC.THE_PASSAGE, ALL_REGIONS, 0, ProductType.META),
+
     A1800Product("Road Network", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
     A1800Product("Settling", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
     A1800Product("Plateau Settling", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
@@ -227,6 +234,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Permit: Advanced Rum Distillery", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Permit: Advanced Cotton Mill", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Permit: Advanced Pier", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
+    A1800Product("Permit: Great Eastern", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Initial Settling", DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),
     A1800Product("Road Network", DLC.THE_PASSAGE, Region.EN, 0, ProductType.META),
     A1800Product("Settling", DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),
@@ -400,6 +408,8 @@ _a1800_products: list[A1800Product] = [
     ################################################################################################################
     ### EMPIRE_OF_THE_SKIES                                                                                      ###
     ################################################################################################################
+    A1800Product("Airships", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 0, ProductType.META),
+
     A1800Product("Airship Platform", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 0, ProductType.META),
     A1800Product("Airmail Sorting Office", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 0, ProductType.META),
     A1800Product("Airship Platform", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 0, ProductType.META),

@@ -13,7 +13,8 @@ _a1800_regions: dict[Region, tuple[DLC, set[tuple[str, Region]], set[tuple[str, 
     Region.OW: (DLC.VANILLA, set(), set()),
     Region.NW: (DLC.VANILLA, {
         ("Expedition: New World", ALL_REGIONS),
-        ("Sea Travel", ALL_REGIONS),
+        ("Seafaring", ALL_REGIONS),
+        ("Expeditions: Level 1", ALL_REGIONS),
     }, {
         ("Settling", Region.NW),
         ("Road Network", Region.NW),
@@ -21,8 +22,8 @@ _a1800_regions: dict[Region, tuple[DLC, set[tuple[str, Region]], set[tuple[str, 
     }),
     Region.AR: (DLC.THE_PASSAGE, {
         ("Expedition: The Arctic", ALL_REGIONS),
-        ("Sea Travel", ALL_REGIONS),
-        ("Artisans", Region.OW),
+        ("Seafaring", ALL_REGIONS),
+        ("Expeditions: Level 2", ALL_REGIONS),
     }, {
         ("Settling", Region.AR),
         ("Road Network", Region.AR),
@@ -30,7 +31,8 @@ _a1800_regions: dict[Region, tuple[DLC, set[tuple[str, Region]], set[tuple[str, 
     }),
     Region.EN: (DLC.LAND_OF_LIONS, {
         ("Expedition: Enbesa", ALL_REGIONS),
-        ("Sea Travel", ALL_REGIONS),
+        ("Seafaring", ALL_REGIONS),
+        ("Expeditions: Level 1", ALL_REGIONS),
     }, {
         ("Initial Settling", Region.EN),
         ("Road Network", Region.EN),

@@ -5,17 +5,21 @@
 
 ## Naming
 
-Locations names are built of two components, a task or requirement and the original, vanilla item like so: `100 Farmers (OW: Sawmill)`. Some of these tasks can become quite long at the moment.
+Locations names are built of two components, a task or requirement and the original, vanilla item like so:
+`100 Farmers (OW: Sawmill)`. Some of these tasks can become quite long at the moment.
 
 ## Types of Locations
 
-Currently, there are 4 groups of locations in Anno 1800: population-dependent, session-dependent, building-dependent and special.
+Currently, there are 4 groups of locations in Anno 1800: population-dependent, session-dependent, building-dependent
+and special.
 
 ### Population Requirement
 
-There may be multiple amounts and populations listed. If so, 'or' or '&' in the line between the conditions will tell you whether you need either or both.
+There may be multiple amounts and populations listed. If so, 'or' or '&' in the line between the conditions will tell
+you whether you need either or both.
 
-Locations depending on DLC are only available if the correspondings DLC is enabled. Populations depending on DLC are only part of the requirement if the corresponding DLC is enabled.
+Locations depending on DLC are only available if the correspondings DLC is enabled. Populations depending on DLC are
+only part of the requirement if the corresponding DLC is enabled.
 
 <!-- Non-breaking spaces to force the column wide enough for the longest DLC name -->
 | Amt. | Population | DLC | # | Vanilla Item(s) |
@@ -27,12 +31,12 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 1 | Worker |  | 8 | OW: Medium Trading Post, OW: Medium Warehouse, OW: Paved Street,<br>OW: Clay Pit, OW: Brick Factory, OW: Pig Farm, OW: Slaughterhouse,<br>OW: Trade Union |
 | 150 | Workers |  | 10 | OW: Grain Farm, OW: Flour Mill, OW: Bakery, OW: Sailmakers,<br>OW: Quay, OW: Depot, OW: Sailing Shipyard,<br>OW: Harbourmaster's Office, OW: Mounted Guns, OW: Church |
 | 300 | Workers |  | 8 | OW: Charcoal Kiln, OW: Iron Mine, OW: Furnace, OW: Steelworks,<br>OW: Rendering Works, OW: Soap Factory, OW: Weapon Factory,<br>OW: Cannon Tower |
-| 300 | Workers | BrightHarvest | 1 | OW: Silo |
+| 300 | Workers | Bright Harvest | 1 | OW: Silo |
 | 300 | Workers | Empire&nbsp;of&nbsp;the&nbsp;Skies | 1 | OW: Flak Emplacement | 
 | 500 | Workers |  | 1 | OW: Police Station |
 | 500<br>or<br>600 | Workers<br>or<br>Obreros |  | 3 | OW: Hop Farm, OW: Malthouse, OW: Brewery |
 | 750 | Workers |  | 2 | OW: School, OW: Artisan Residence |
-| 1 | Artisan |  | 8 | Expedition: New World, OW: Large Trading Post, OW: Large Warehouse,<br>OW: Sand Mine, OW: Glassmakers, OW: Window Makers,<br>OW: Flame Tower, OW: Town Hall |
+| 1 | Artisan |  | 9 | Expedition: New World, OW: Large Trading Post, OW: Large Warehouse,<br>OW: Sand Mine, OW: Glassmakers, OW: Window Makers,<br>OW: Flame Tower, OW: Town Hall, Frigate |
 | 1<br>or<br>300 | Artisan<br>or<br>Technicians | -<br>or<br>The Passage | 4 | OW: Cattle Farm, OW: Red Pepper Farm, OW: Artisanal Kitchen,<br>OW: Cannery |
 | 100 | Artisans | Land of Lions | 1 | Expedition: Enbesa |
 | 250 | Artisans |  | 6 | OW: Coal Mine, OW: Sewing Machine Factory, OW: Variety Theatre,<br>OW: Pier, OW: Public Mooring, OW: Repair Crane |
@@ -40,22 +44,26 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 500 | Artisans |  | 1 | OW: Zoo |
 | 500 | Artisans | Empire of the Skies | 2 | OW: Post Box, OW: Post Office |
 | 700 | Artisans | Sunken Treasures | 1 | Expedition: Cape Trelawney |
+| 750 | Artisans |  | 2 | Clipper, Ship-of-the-line |
 | 900 | Artisans |  | 1 | OW: Hospital |
 | 900<br>or<br>100 | Artisans<br>or<br>Jornaleros |  | 4 | OW: Hunting Cabin, NW: Cotton Plantation, NW: Cotton Mill,<br>OW: Fur Dealer |
 | 1500 | Artisans |  | 3 | OW: University, OW: Museum, OW: Engineer Residence |
 | 1 | Engineer |  | 16 | OW: Grand Trading Post, OW: Grand Warehouse,<br>OW: Limestone Quarry, OW: Concrete Factory, OW: Oil Refinery,<br>OW: Oil Well, OW: Small Oil Harbour, OW: Medium Oil Harbour,<br>OW: Large Oil Harbour, OW: Oil Store, OW: Oil Power Plant,<br>OW: Copper Mine, OW: Zinc Mine, OW: Brass Smeltery,<br>OW: Spectacles Factory, OW: Commuter Pier |
 | 1 | Engineer | The Passage | 1 | Expedition: The Arctic |
 | 1 | Engineer | Bright Harvest | 1 | OW: Grand Oil Harbour |
+| 1 | Engineer | Empire of the Skies | 1 | Flak Monitor |
 | 1<br>or<br>600 | Engineer<br>or<br>Obreros |  | 1 | OW\|NW: Rails |
 | 500 | Engineers |  | 8 | OW: Motor Assembly Line, OW: Bicycle Factory, OW: Big Betty,<br>OW: Anti-Armour Gun, OW: Steam Shipyard, OW: Saltpetre Works,<br>OW: Dynamite Factory, OW: Heavy Weapons Factory |
 | 500 | Engineers | Bright Harvest | 2 | OW: Tractor Barn, OW: Fuel Station |
 | 500 | Engineers | Tourist Season | 1 | OW: Tourist Mooring |
+| 500<br>&<br>1500 | Engineers<br>&<br>Obreros | Empire of the Skies | 4 | Alicanto, Alicanto (Armed), Dtundtuncan, Quetzalcoatl |
 | 1000 | Engineers |  | 2 | OW: Goldsmiths, OW: Clockmakers |
 | 1000 | Engineers | Botanica | 1 | OW: Botanical Garden |
 | 1750 | Engineers |  | 3 | OW: Filament Factory, OW: Light Bulb Factory, OW: Investor Residence |
 | 3000 | Engineers |  | 1 | OW: Bank |
-| 1 | Investor |  | 3 | OW: Vineyard, OW: Champagne Cellar, OW: World's Fair: Foundations |
+| 1 | Investor |  | 5 | OW: Vineyard, OW: Champagne Cellar, OW: World's Fair: Foundations, Monitor, Flamethrower Monitor |
 | 1 | Investor | The Passage | 1 | OW: Gas-Fired Power Plant |
+| 1<br>&<br>750 | Investor<br>&<br>Technicians | The Passage | 1 | Blue Flamethrower Monitor |
 | 1 | Investor | Seat of Power | 1 | OW: Palace |
 | 750 | Investor |  | 3 | OW: Marquetry Workshop, OW: Members Club,<br>OW: World's Fair: Superstructure |
 | 1750 | Investor |  | 2 | OW: Jewellers, OW: World's Fair: Glazing |
@@ -94,7 +102,7 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 600 | Obreros |  | 9 | NW: Felt Producer, NW: Bombin Weaver, NW: Hospital, NW: Oil Refinery,<br>NW: Oil Well, NW: Small Oil Harbour, NW: Medium Oil Harbour,<br>NW: Large Oil Harbour, NW: Oil Store |
 | 600 | Obreros | Bright Harvest | 3 | NW: Tractor Barn, NW: Fuel Station, NW: Grand Oil Harbour |
 | 600 | Obreros | Seeds of Change | 2 | NW: Hacienda Cocoa Farm, NW: Hacienda Beer Brewery |
-| 600 | Obreros | Empire of the Skies | 25 | OW: Airship Platform, OW: Item Transfer Depot,<br>OW: Rigid Airship Hangar: Foundations,<br>OW: Rigid Airship Hangar: Structure, OW: Rigid Airship Hangar: Roof,<br>OW: Rigid Airship Hangar, OW: Bomb Factory, OW: Sea Mine Factory,<br>OW: Pamphlet Printer, OW: Care Package Factory,<br>OW: Water Drop Factory, NW: Industrial Oil Press, NW: Helium Extractor,<br>NW: Airship Platform, NW: Item Transfer Depot,<br>NW: Commuter Station, NW: Rigid Airship Hangar: Foundations,<br>NW: Rigid Airship Hangar: Structure, NW: Rigid Airship Hangar: Roof,<br>NW: Rigid Airship Hangar, NW: Bomb Factory, NW: Sea Mine Factory,<br>NW: Pamphlet Printer, NW: Care Package Factory,<br>NW: Water Drop Factory |
+| 600 | Obreros | Empire of the Skies | 28 | OW: Airship Platform, OW: Item Transfer Depot,<br>OW: Rigid Airship Hangar: Foundations,<br>OW: Rigid Airship Hangar: Structure, OW: Rigid Airship Hangar: Roof,<br>OW: Rigid Airship Hangar, OW: Bomb Factory, OW: Sea Mine Factory,<br>OW: Pamphlet Printer, OW: Care Package Factory,<br>OW: Water Drop Factory, NW: Industrial Oil Press, NW: Helium Extractor,<br>NW: Airship Platform, NW: Item Transfer Depot,<br>NW: Commuter Station, NW: Rigid Airship Hangar: Foundations,<br>NW: Rigid Airship Hangar: Structure, NW: Rigid Airship Hangar: Roof,<br>NW: Rigid Airship Hangar, NW: Bomb Factory, NW: Sea Mine Factory,<br>NW: Pamphlet Printer, NW: Care Package Factory,<br>NW: Water Drop Factory, Colibri, Colibri (Armed), Atotolin |
 | 600<br>or<br>500 | Obreros<br>or<br>Workers |  | - | *– Repeat for clarity –*<br>OW: Hop Farm, OW: Malthouse, OW: Brewery |
 | 600<br>or<br>1 | Obreros<br>or<br>Engineer |  | - | *– Repeat for clarity –*<br>OW\|NW: Rails |
 | 1000 | Obreros |  | 4 | NW: Zoo, NW: Tobacco Plantation, NW: Marquetry Workshop,<br>NW: Cigar Factory |
@@ -102,6 +110,7 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 1000 | Obreros | New World Rising | 1 | NW: Artista Residence |
 | 1500 | Obreros |  | 7 | NW: Large Trading Post, NW: Large Warehouse, NW: Cocoa Plantation,<br>NW: Sugar Refinery, NW: Chocolate Factory, NW: Museum,<br>NW: Anti-Armour Gun |
 | 1500 | Obreros | Botanica | 1 | NW: Botanical Garden |
+| 1500<br>&<br>500 | Obreros<br>&<br>Engineers | Empire of the Skies | - | *– Repeat for clarity –*<br>Alicanto, Alicanto (Armed), Dtundtuncan, Quetzalcoatl |
 | 1 | Artista | New World Rising | 5 | NW: Sewing Machine Factory, NW: Nandu Farm, NW: Ball Manufactory,<br>NW: Herb Garden, NW: Mezcal Bar |
 | 1 | Artista | Seeds of Change<br>&<br>New World Rising | 1 | NW: Hacienda Artista Quarters |
 | 1<br>or<br>1250 | Artista<br>or<br>Tourists | New World Rising<br>or<br>Tourist Season | (+1) | *– Repeat for clarity –*<br>*– Orchard also available with The High Life in the buildings table –*<br>NW: Orchard: Citrus |
@@ -124,7 +133,8 @@ Locations depending on DLC are only available if the correspondings DLC is enabl
 | 100 | Technicians | The Passage<br>&<br>Empire of the Skies | 2 | AR: Airship Platform, AR: Airmail Sorting Office |
 | 300 | Technicians | The Passage | 4 | AR: Bear Hunting Cabin, AR: Parka Factory, AR: Prime Hunting Cabin,<br>AR: Arctic Airship Hangar: Roof |
 | 300<br>or<br>1 | Technicians<br>or<br>Artisan | The Passage<br>or<br>- | - | *– Repeat for clarity –*<br>OW: Cattle Farm, OW: Red Pepper Farm, OW: Artisanal Kitchen,<br>OW: Cannery |
-| 750 | Technicians | The Passage | 6 | AR: Husky Farm, AR: Sled Frame Factory, AR: Husky Sled Factory,<br>AR: Deep Gold Mine, AR: Arctic Gas Mine, AR: Arctic Airship Hangar |
+| 750 | Technicians | The Passage | 7 | AR: Husky Farm, AR: Sled Frame Factory, AR: Husky Sled Factory,<br>AR: Deep Gold Mine, AR: Arctic Gas Mine, AR: Arctic Airship Hangar, Boreas |
+| 750<br>&<br>1 | Technicians<br>&<br>Investor | The Passage | - | *– Repeat for clarity –*<br>Blue Flamethrower Monitor |
 | 50 | Shepherds | Land of Lions | 1 | EN: Goat Farm |
 | 50 | Shepherds | Land of Lions<br>&<br>Empire of the Skies | 1 | EN: Flak Emplacement |
 | 150 | Shepherds | Land of Lions | 11 | EN: Linseed Farm, EN: Linen Mill, EN: Embroiderer, EN: Musician's Court,<br>EN: Fire Station, EN: Trade Union, EN: Quay, EN: Depot,<br>EN: Harbourmaster's Office, EN: Repair Crane, EN: Mounted Guns |
@@ -175,11 +185,25 @@ When first constructing certain buildings, a few checks will be collected:
 ### Special Requirements
 
 Certain location checks have specific requirements that don't easily fall into a single category. Currently, these are
-the recipe unlocks from Tourist Season and The High Life DLCs. Below, there is an exact list of tasks to unlock these.
+the several ships (including airships from The Passage and Empire of the SKies DLCs) as well as recipe unlocks from
+Tourist Season and The High Life DLCs. Below, there is an exact list of tasks to unlock these.
 
 | Vanilla Item | DLC | Task |
 |---|:---:|---|
-| OW: Restaurant:<br>Archduke's Schnitzel | Tourist&nbsp;Season | Unlock OW: Restaurant |
+| Schooner |  | Unlock OW: Sailing Shipyard |
+| Gunboat |  | Unlock OW: Sailing Shipyard |
+| Oil Tanker |  | Unlock OW: Oil Power Plant |
+| Cargo Ship |  | Unlock OW: Steam Shipyard |
+| Battle Cruiser |  | Unlock OW: Steam Shipyard |
+| Mapinguari | The Passage<br>&<br>Empire&nbsp;of&nbsp;the&nbsp;Skies | After building the Arctic Airship Hangar, reach 600 Obreros |
+| Harpy | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 600 Obreros |
+| Harpy (Armed) | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 600 Obreros |
+| Hermes | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 600 Obreros |
+| Manticore | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 500 Engineers and 1500 Obreros |
+| Manticore (Armed) | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 500 Engineers and 1500 Obreros |
+| Pegasus | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 500 Engineers and 1500 Obreros |
+| Zephyr | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 500 Engineers and 1500 Obreros |
+| OW: Restaurant:<br>Archduke's Schnitzel | Tourist Season | Unlock OW: Restaurant |
 | OW: Restaurant:<br>Stroggof Goulash | Tourist Season | After building any restaurant, have 1 ton of Corn in Old World trading posts |
 | OW: Restaurant:<br>Fish and Frites | Tourist Season | After building any restaurant, build an NW: Orchard: Citrus |
 | OW: Restaurant:<br>Venison en Croute | Tourist Season<br>&<br>The Passage | After building any restaurant, build a Boreas airship |
@@ -219,11 +243,11 @@ the recipe unlocks from Tourist Season and The High Life DLCs. Below, there is a
 
 | DLC | Total # Checks | Subdivision | # Checks
 |:---:|:---:|:---:|:---:|
-| Base Game | 183 | Base Game | 175
+| Base Game | 193 | Base Game | 185
 |  |  | Starting Items | 8 |
 | Sunken Treasures | 1 | Base DLC | 1 |
 | Botanica | 2 | Base DLC | 2 |
-| The Passage | 45 | Base DLC | 43 |
+| The Passage | 47 | Base DLC | 45 |
 |  |  | Starting Items | 2 |
 | Seat of Power | 1 | Base DLC | 1 |
 | Bright Harvest | 8 | Base DLC | 8 |
@@ -241,8 +265,8 @@ the recipe unlocks from Tourist Season and The High Life DLCs. Below, there is a
 |  |  | + **NEITHER OF**<br>Tourist Season or New World Rising | 4 |
 | Seeds of Change | 23 | Base DLC | 22 |
 |  |  | + Land of Lions | 1 |
-| Empire of the Skies | 40 | Base DLC | 36 |
-|  |  | + The Passage | 3 |
+| Empire of the Skies | 56 | Base DLC | 44 |
+|  |  | + The Passage | 11 |
 |  |  | + Land of Lions | 1 |
 | New World Rising | 44 (+5) | Base DLC | 40 |
 |  |  | + Tourist Season | 3 |
@@ -250,4 +274,4 @@ the recipe unlocks from Tourist Season and The High Life DLCs. Below, there is a
 |  |  | + **NEITHER OF**<br>Tourist Season or The High Life | 3 |
 |  |  | + **NOT** The High Life | 2 |
 |  |  | + **NOT** Empire of the Skies | 3 |
-| Total | 508 |  |  |
+| Total | 536 |  |  |

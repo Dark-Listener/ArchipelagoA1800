@@ -30,9 +30,10 @@ tourists and 15 level 5 investor skyscrapers. This is, of course, configurable.
 Whenever you'd normally unlock a building in Anno 1800, you instead send a location check to the server. This often
 means you send multiple checks at once at a certain population threshold, for example 5 checks at 100 farmers.
 
-Additionally, each expedition that unlocks a new session is also a location check. Should you enable "The Passage", the
-randomizer will expect you to have at least Artisans before you must make your trip to "The Arctic" due to the
-difficulty of the expedition (Artisans unlock the Clipper).
+Also, any ship unlocks are also location checks, which can then be used to go on expeditions...
+
+... And if they would unlock a new session, receiving them is also a location check. Expedition difficulty is taken
+into account against your unlocked ships to check if you can complete it.
 
 Certain recipe buildings also have location checks for their recipe unlocks (specifically Restaurant, Cafe, Bar and
 The Iron Tower). These have various interesting requirements and become available with the Tourist Season DLC.

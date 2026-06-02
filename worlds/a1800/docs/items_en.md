@@ -14,12 +14,14 @@ Prefixes:
 
 ## Types of Items
 
-Currently, there are 3 types of items in Anno 1800: Buildings, Expeditions and Recipes.
+Currently, there are 4 types of items in Anno 1800: Buildings, Expeditions Ships, and Recipes.
 
 ### Buildings
-Buildings are the most common. When received, they can be built (assuming the required resources and workforce are available).
+Buildings are the most common. When received, they can be built (assuming the required resources and workforce are
+available).
 
-Monument buildings are separated into stages. For example the World's Fair needs 5 separate items to be fully built. The following monuments and stages are currently available:
+Monument buildings are separated into stages. For example the World's Fair needs 5 separate items to be fully built.
+The following monuments and stages are currently available:
 * World's Fair:
   * World's Fair: Foundations
   * World's Fair: Superstructure
@@ -63,8 +65,16 @@ The following expeditions are currently available:
 * Expedition: The Arctic (only with `The Passage` DLC)
 * Expedition: Enbesa (only with `Land of Lions` DLC)
 
+### Ships
+Ships can be unlocked like buildings. Once unlocked, they are available in the same shipyard / airship hangar that they
+could usually be built in.
+
+Exception: The Great Eastern, The World-Class Reefer and the Salvager are all unique ships and not poart opf the pool.
+They unlock as normal via their quests / entering Cape Trelawney.
+
 ### Recipes
-Recipes looks similar to buildings, but correspond to a basic, blank building. Some are always given combined with the blank buildings, others are not. They can be built if the blank variant is also available.
+Recipes looks similar to buildings, but correspond to a basic, blank building. Some are always given combined with the
+blank buildings, others are not. They can be built if the blank variant is also available.
 
 The following combined recipe buildings are available:
 * Orchard (only with `Tourist Season` or `The High Life` DLCs)

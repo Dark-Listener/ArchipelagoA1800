@@ -236,13 +236,14 @@ class Trigger:
         return trigger
 
     @classmethod
-    def COUNTER(cls, unlock_name: str, region: Region, amount: int, *, guid: int = 0, ap_location_name: str = "") -> Self:
+    def COUNTER(cls, unlock_name: str, region: Region, amount: int, *, guid: int = 0, ap_location_name: str = "", requirements: set[tuple[str, Region]] = set()) -> Self:
         trigger = cls(TriggerType.COUNTER)
         trigger.unlock_name = unlock_name
         trigger.region = region
         trigger.amount = amount
         trigger.guid = guid
         trigger.ap_location_name = ap_location_name
+        trigger.requirements = requirements
         trigger.post_init()
         return trigger
 

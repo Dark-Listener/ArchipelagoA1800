@@ -53,6 +53,7 @@ class RequiredSkyscrapersOption(OptionCounter):
     """
     This many buildings of each skyscraper type must be built to win the randomizer.
     If a building's required amount is 0, the building will not be required.
+    Amounts greater than 1 will be treated as 1 for the Skyline Tower as it is a unique building.
     Has no effect unless The High Life DLC is enabled.
     Ignore the numbers in front, they are there to make sure this is sorted properly.
     """

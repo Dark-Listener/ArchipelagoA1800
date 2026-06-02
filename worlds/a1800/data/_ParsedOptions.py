@@ -34,7 +34,8 @@ class ParsedOptions:
         }
 
         self.required_skyscrapers = {
-            f"{name.split('-')[1].title()} Skyscraper: Level {name.split('-')[3]}": int(amount)
+            name.split('-', 1)[1].replace("-", " ").title() if "skyline-tower" in name else
+            f"{name.split('-')[1].title()} Skyscraper: Level {name.split('-')[3]}": 1 if "skyline-tower" in name else int(amount)
             for name, amount in options.required_skyscrapers.value.items() if int(amount) > 0
         }
 

@@ -22,8 +22,8 @@ Note: Ornaments are currently excluded.
 
 ## What's the goal?
 
-Your goal is to reach 5000 investors, 1500 obreros, 6000 artistas, 750 technicians, 7000 scholars, 4000 tourists and
-15 level 5 investor skyscrapers at this stage of the Archipelago world. This is, of course, configurable.
+By default, the goal is to reach 5000 investors, 1500 obreros, 6000 artistas, 750 technicians, 7000 scholars, 4000
+tourists and 15 level 5 investor skyscrapers. This is, of course, configurable.
 
 ## What are locations?
 

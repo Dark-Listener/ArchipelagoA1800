@@ -33,6 +33,8 @@ class ParsedOptions:
         self.paved_street_for_settling = options.required_street_for_settling.value & 1
         self.hacienda_street_for_settling = options.required_street_for_settling.value & 2
 
+        self.allow_hacienda_residences_upon_unlock = bool(options.allow_hacienda_residences_upon_unlock)
+
         self.required_population = {
             name.split("-")[1].title(): int(amount)
             for name, amount in options.required_population.value.items() if int(amount) > 0

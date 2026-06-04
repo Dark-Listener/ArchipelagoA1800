@@ -3136,8 +3136,9 @@ class _Unlocks:
                     unlock.output = {("Road Network", Region.NW)}
                     unlock.ap_region = Region.OW
                     unlock.type = UnlockType.BUILDING | UnlockType.FACTORY
+                    break
 
-        if parsed_options.hacienda_street_for_settling:
+        if DLC.SEEDS_OF_CHANGE in parsed_options.enabled_dlcs and parsed_options.hacienda_street_for_settling:
             for unlock in self._a1800_unlocks:
                 if unlock.name == "Hacienda" and unlock.region in Region.NW:
                     unlock.ap_region = Region.OW
@@ -3146,6 +3147,19 @@ class _Unlocks:
                     unlock.output = {("Road Network", Region.NW)}
                     unlock.ap_region = Region.OW
                     unlock.type = UnlockType.BUILDING | UnlockType.FACTORY
+
+        if DLC.SEEDS_OF_CHANGE in parsed_options.enabled_dlcs and parsed_options.allow_hacienda_residences_upon_unlock:
+            for unlock in self._a1800_unlocks:
+                if unlock.name == "Hacienda Jornalero Quarters" and unlock.region in Region.NW:
+                    unlock.input.remove(("Jornaleros", Region.NW))
+                if unlock.name == "Hacienda Obrera Quarters" and unlock.region in Region.NW:
+                    unlock.input.remove(("Obreros", Region.NW))
+
+        if (DLC.SEEDS_OF_CHANGE | DLC.NEW_WORLD_RISING) in parsed_options.enabled_dlcs and parsed_options.allow_hacienda_residences_upon_unlock:
+            for unlock in self._a1800_unlocks:
+                if unlock.name == "Hacienda Artista Quarters" and unlock.region in Region.NW:
+                    unlock.input.remove(("Artistas", Region.NW))
+                    break
 
         if DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES in parsed_options.enabled_dlcs:
             for unlock in self._a1800_unlocks:

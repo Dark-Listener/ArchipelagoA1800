@@ -52,6 +52,16 @@ class RequiredStreetForSettlingOption(Choice):
     default = 0
 
 
+class AllowHaciendaResidencesUponUnlockOption(Toggle):
+    """
+    Per default, Hacienda residence must not only be unlocked, but their corresponding regular residence also has to be
+    built at least once first. By turning this on, they will be buildable as soon as they are unlocked. This often
+    results in skipping most of the New World goods as these residences allow the randomizer to progress without
+    fulfilling the needs of the New World populations.
+    """
+    display = "Allow Hacienda Residences upon Unlock"
+
+
 class RequiredPopulationOption(OptionCounter):
     """
     This many citizens of each population must be reached to win the randomizer.
@@ -117,6 +127,7 @@ class A1800Options(PerGameCommonOptions):
     enable_docklands_logic: EnableDocklandsLogicOption
     enable_start_with_flagship: EnableStartWithFlagshipOption
     required_street_for_settling: RequiredStreetForSettlingOption
+    allow_hacienda_residences_upon_unlock: AllowHaciendaResidencesUponUnlockOption
 
     # Victory Conditions
     required_population: RequiredPopulationOption

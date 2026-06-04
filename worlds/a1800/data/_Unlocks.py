@@ -146,12 +146,6 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Oil Transport NW => OW", DLC.VANILLA, Region.OW,
                 input={("Oil", Region.NW), "Oil Transport"}, output="Oil", type=UnlockType.META | UnlockType.FACTORY),
 
-    A1800Unlock("After building the World's Fair, complete the quest line 'The Floating City'", DLC.VANILLA, Region.OW,
-                input={("World's Fair: Infrastructure", Region.OW),
-                       "Steam Ships", "Steel Beams", "Steam Motors"},
-                output={"Seafaring", "Expeditions: Level 3"},
-                type=UnlockType.META | UnlockType.FACTORY),
-
     # Unlock
     A1800Unlock("Expedition: New World", DLC.VANILLA, ALL_REGIONS, Session.NW.expedition_unlock_guid, [],
                 Trigger.POPULATION("Artisans", Region.OW, 1)),
@@ -2835,7 +2829,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Artistas", Region.NW, 4000),
                 {"Timber", "Bricks"}, "Artistas", "Film Reels", "Cinema", "Cinema"),
 
-    A1800Unlock("Arsenal: Police Equipment", DLC.EMPIRE_OF_THE_SKIES, Region.NW, [6630, 6632, 905], [2041, 7336],
+    A1800Unlock("Arsenal: Police Equipment", DLC.NEW_WORLD_RISING, Region.NW, [6630, 6632, 905], [2041, 7336],
                 Trigger.POPULATION("Artistas", Region.NW, 4000),
                 {"Timber", "Bricks", "Aluminium Profiles"}, "Jornaleros",
                 {"Wood", "Steel", "Cotton Fabric"}, "Police Equipment", "Police Headquarters"),
@@ -2861,7 +2855,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, {"Artistas", "Electricity"},
                 {"Motor", "Pigments", "Caoutchouc"}, "Scooters", "Scooters"),
 
-    A1800Unlock("Laboratory: Medicine", DLC.EMPIRE_OF_THE_SKIES, Region.NW, [6631, 6634], 7337,
+    A1800Unlock("Laboratory: Medicine", DLC.NEW_WORLD_RISING, Region.NW, [6631, 6634], 7337,
                 Trigger.POPULATION("Artistas", Region.NW, 6000),
                 {"Timber", "Bricks", "Aluminium Profiles"}, "Artistas",
                 {"Herbs", "Orchid", "Ethanol"}, "Medicine", "City Hospital"),
@@ -2871,17 +2865,17 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks"}, set(),
                 "Medicine", "Healthcare", "City Hospital", "Hospital"),
 
-    A1800Unlock("Grand Stadium: Foundations", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6117, 6117,
+    A1800Unlock("Grand Stadium: Foundations", DLC.NEW_WORLD_RISING, Region.NW, 6117, 6117,
                 Trigger.POPULATION("Artistas", Region.NW, 6000),
                 {"Timber", "Reinforced Concrete", "Grand Storage"}, "Jornaleros",
                 {"Timber", "Reinforced Concrete"}, "Grand Stadium: Foundations"),
 
-    A1800Unlock("Grand Stadium: Superstructure", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6118, 6118,
+    A1800Unlock("Grand Stadium: Superstructure", DLC.NEW_WORLD_RISING, Region.NW, 6118, 6118,
                 Trigger.POPULATION("Artistas", Region.NW, 6000),
                 "Grand Stadium: Foundations", "Obreros",
                 {"Bricks", "Steel Beams", "Reinforced Concrete"}, "Grand Stadium: Superstructure"),
 
-    A1800Unlock("Grand Stadium", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 6121, 6121,
+    A1800Unlock("Grand Stadium", DLC.NEW_WORLD_RISING, Region.NW, 6121, 6121,
                 Trigger.POPULATION("Artistas", Region.NW, 6000),
                 "Grand Stadium: Superstructure", {"Artistas", "Electricity"}, set(), "Grand Stadium: Football Championships"),
 
@@ -3119,12 +3113,6 @@ class _Unlocks:
 
         self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if any(
             dlc in parsed_options.enabled_dlcs for dlc in unlock.dlc)]
-
-        if DLC.LAND_OF_LIONS in parsed_options.enabled_dlcs:
-            for unlock in self._a1800_unlocks:
-                if unlock.name == "After building a World's Fair, complete the quest line 'The Floating City'":
-                    unlock.input.add(("Permit: Great Eastern", ALL_REGIONS))
-                    break
 
         if DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES in parsed_options.enabled_dlcs:
             for unlock in self._a1800_unlocks:

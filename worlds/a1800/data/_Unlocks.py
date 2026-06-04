@@ -1897,8 +1897,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                         "Complete 1 expedition in the Arctic",
                         1,
                         134300,
-                        {("Expedition: The Arctic", ALL_REGIONS), ("Seafaring", ALL_REGIONS), ("Expeditions: Level 2", Region.OW)})
-                ),
+                        {("Artisans", Region.OW), ("Seafaring", ALL_REGIONS), ("Expeditions: Level 2", ALL_REGIONS)})
+                ),  # Require expedition level 2 to reduce RNG factor by allowing for the lowest 2 tiers to be doable
                 "Bar (Blank)", "Tourists", {"Whale Oil", "Grapes", "Cinnamon"}, "Bar"),
 
     A1800Unlock("The Iron Tower: Age of Exploration", DLC.THE_PASSAGE | DLC.TOURIST_SEASON, Region.OW,

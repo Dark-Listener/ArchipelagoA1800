@@ -195,14 +195,14 @@ Tourist Season and The High Life DLCs. Below, there is an exact list of tasks to
 | Oil Tanker |  | Unlock OW: Oil Power Plant |
 | Cargo Ship |  | Unlock OW: Steam Shipyard |
 | Battle Cruiser |  | Unlock OW: Steam Shipyard |
-| Mapinguari | The Passage<br>&<br>Empire&nbsp;of&nbsp;the&nbsp;Skies | After building the Arctic Airship Hangar, reach 600 Obreros |
-| Harpy | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 600 Obreros |
-| Harpy (Armed) | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 600 Obreros |
-| Hermes | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 600 Obreros |
-| Manticore | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 500 Engineers and 1500 Obreros |
-| Manticore (Armed) | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 500 Engineers and 1500 Obreros |
-| Pegasus | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 500 Engineers and 1500 Obreros |
-| Zephyr | The Passage<br>&<br>Empire of the Skies | After building the Arctic Airship Hangar, reach 500 Engineers and 1500 Obreros |
+| Mapinguari | The Passage<br>&<br>Empire&nbsp;of&nbsp;the&nbsp;Skies | Build the Arctic Airship Hangar and reach 600 Obreros |
+| Harpy | The Passage<br>&<br>Empire of the Skies | Build the Arctic Airship Hangar and reach 600 Obreros |
+| Harpy (Armed) | The Passage<br>&<br>Empire of the Skies | Build the Arctic Airship Hangar and reach 600 Obreros  |
+| Hermes | The Passage<br>&<br>Empire of the Skies | Build the Arctic Airship Hangar and reach 600 Obreros  |
+| Manticore | The Passage<br>&<br>Empire of the Skies | Build the Arctic Airship Hangar and reach 500 Engineers and 1500 Obreros |
+| Manticore (Armed) | The Passage<br>&<br>Empire of the Skies | Build the Arctic Airship Hangar and reach 500 Engineers and 1500 Obreros |
+| Pegasus | The Passage<br>&<br>Empire of the Skies | Build the Arctic Airship Hangar and reach 500 Engineers and 1500 Obreros |
+| Zephyr | The Passage<br>&<br>Empire of the Skies | Build the Arctic Airship Hangar and reach 500 Engineers and 1500 Obreros |
 | OW: Restaurant:<br>Archduke's Schnitzel | Tourist Season | Unlock OW: Restaurant |
 | OW: Restaurant:<br>Stroggof Goulash | Tourist Season | After building any restaurant, have 1 ton of Corn in Old World trading posts |
 | OW: Restaurant:<br>Fish and Frites | Tourist Season | After building any restaurant, build an NW: Orchard: Citrus |
@@ -226,7 +226,7 @@ Tourist Season and The High Life DLCs. Below, there is an exact list of tasks to
 | OW:&nbsp;Department&nbsp;Store:<br>Toasters | The High Life | Unlock OW: Department Store |
 | OW: Department Store:<br>Vacuum Cleaners | The High Life | After building any department store, build 5 OW: Investor Skyscrapers: Level 3 |
 | OW: Department Store:<br>Crockery | The High Life | After building any department store, build an OW: Pub within 10 squares of an OW: Members Club |
-| OW: Department Store:<br>Refrigerators | The High Life<br>&<br>The Passage | *– Crafting costs change: needs less Lost Expedition Scrap and more other materials –*<br>After building any department store, socket 'The "Magnificone" Ice Cream Maker' in a OW: Town Hall (see Arctic Nate) |
+| OW: Department Store:<br>Refrigerators | The High Life<br>&<br>The Passage | *– Crafting costs change: needs less Lost Expedition Scrap and more other materials –*<br>After building any department store, socket 'The "Magnificone" Ice Cream Maker' in an OW: Town Hall (see Arctic Nate) |
 | OW: Department Store:<br>Briefcases | The High Life<br>&<br>Land of Lions | After building any department store, build any OW: Department Store within 8 squares of an OW: Scholar Residence |
 | OW: Furniture Store:<br>Banker's Lamps | The High Life | Unlock OW: Furniture Store |
 | OW: Furniture Store:<br>Vanity Screens | The High Life | **– THIS NEVER CONTAINS A PROGRESSIVE ITEM –**<br>After building any furniture store, complete the set 'Eastern Jungle' in an OW: Zoo<br>(Items: Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger) |

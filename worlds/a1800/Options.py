@@ -27,6 +27,14 @@ class EnableDocklandsLogicOption(Toggle):
     display_name = "Enable Docklands Logic"
 
 
+class EnableStartWithFlagshipOption(Toggle):
+    """
+    Per default, the starting flagship will not be included in the randomizer logic. If you intend to start with a
+    flagship (or even a fleet), turn this on to tell the randomizer you have a decent expedition ship from the start.
+    """
+    display_name = "Enable Start with Flagship"
+
+
 class RequiredPopulationOption(OptionCounter):
     """
     This many citizens of each population must be reached to win the randomizer.
@@ -90,6 +98,7 @@ class A1800Options(PerGameCommonOptions):
     # Game Options (=> ungrouped)
     enabled_dlcs: EnabledDLCsOption
     enable_docklands_logic: EnableDocklandsLogicOption
+    enable_start_with_flagship: EnableStartWithFlagshipOption
 
     # Victory Conditions
     required_population: RequiredPopulationOption

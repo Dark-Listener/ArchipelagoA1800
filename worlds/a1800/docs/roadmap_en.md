@@ -16,7 +16,6 @@ The following features are planned to be added at some point (in no specific ord
 * Option not to include recipe checks (unlock recipes with main building)
 * Option to send hints for unlocks visible in chains
   * Fix incorrect recipe description hints
-* Option to start with flagship, enabling expeditions from the get-go
 * Figure out how to handle free session starting items in logic (ships and goods)
 * Introduce progressive items for trading posts, warehouses, monument stages...
 

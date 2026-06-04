@@ -116,12 +116,12 @@ Start a new Anno 1800 free play game or load into your existing savegame. Single
 work the same, none of the standard singleplayer questlines will trigger. The campaign and scenarios won't work.
 
 For the starting conditions, make sure to turn on all DLCs that were selected in the player options for your world.
+Also, for all game settings available as player options in your yaml file, match them during game setup.
 Currently, the other starting conditions do not really matter, but here are a few recommendations:
 * Turn off all other DLCs. Should you keep any on, they will unlock as normal
   * Especially don't turn on Docklands, unless you want the option to skip everything
 * Turn off all NPC players - you are not guarantueed to get weapons and may not be able to defend yourself
 * Turn off pirates - you are not guarantueed to get luxury goods and money might be tight
-* Start without ships - ships allow you to circumvent early game logic due to having sea travel capability
 * With the exception of some expedition items, you probably shouldn't buy goods at NPC shops, as this also
 circumvents logic
 * You probably don't want to set any victory conditions in Anno itself - or at least continue playing afterwards if your

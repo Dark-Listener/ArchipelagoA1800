@@ -134,7 +134,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     # Meta
     A1800Unlock("Starting Goods", DLC.VANILLA, Region.OW,  # Resolves circular dependency at game start
-                output="Timber", type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
+                output="Timber", type=UnlockType.META | UnlockType.FACTORY),
 
     A1800Unlock("Trading Post Materials and Seafaring", DLC.VANILLA, Region.OW | Region.NW,
                 input={"Timber", "Steel Beams", "Seafaring"}, output="Settling",
@@ -2201,11 +2201,12 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.LINEAR(
                     Trigger.COUNTER("Department Store", Region.OW, 1, guid=135729),
                     Trigger.QUEST_COMPLETE(
-                        "Hidden quest: Socket 'The \"Magnificone\" Ice Cream Maker' in n OW: Town Hall (see Arctic Nate)",
+                        "Hidden quest: Socket 'The \"Magnificone\" Ice Cream Maker' in an OW: Town Hall (see Arctic Nate)",
                         135736,
-                        {("Expedition: The Arctic", ALL_REGIONS), ("Seafaring", ALL_REGIONS),
-                         ("Lost Expedition Scrap", ALL_REGIONS), ("Grapes", ALL_REGIONS), ("Plantains", ALL_REGIONS),
-                         ("Chocolate", ALL_REGIONS), ("Investors", Region.OW), ("Town Hall", Region.OW)}
+                        {("Expedition: The Arctic", ALL_REGIONS), ("Expeditions: Level 2", ALL_REGIONS),
+                         ("Aviation", ALL_REGIONS), ("Lost Expedition Scrap", ALL_REGIONS), ("Grapes", ALL_REGIONS),
+                         ("Plantains", ALL_REGIONS), ("Chocolate", ALL_REGIONS), ("Investors", Region.OW),
+                         ("Town Hall", Region.OW)}
                     )
                 ),
                 "Department Store (Blank)", {"Artisans", "Electricity"}, {"Arctic Gas", "Steel", "Caoutchouc"}, {"Department Store", "Refrigerators"}),
@@ -3113,6 +3114,23 @@ class _Unlocks:
 
         self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if any(
             dlc in parsed_options.enabled_dlcs for dlc in unlock.dlc)]
+
+        if parsed_options.enable_start_with_flagship:
+            self._a1800_unlocks.append(
+                A1800Unlock("Flagship Start", DLC.VANILLA, Region.OW,
+                            output={"Seafaring"},
+                            type=UnlockType.META | UnlockType.FACTORY),
+            )
+            self._a1800_unlocks.append(
+                A1800Unlock("Flagship Start with Fish", DLC.VANILLA, Region.OW,
+                            input={"Fish"}, output={"Expeditions: Level 1"},
+                            type=UnlockType.META | UnlockType.FACTORY),
+            )
+            self._a1800_unlocks.append(
+                A1800Unlock("Flagship Start with Fish and Work Clothes", DLC.VANILLA, Region.OW,
+                            input={"Fish", "Work Clothes"}, output={"Expeditions: Level 2"},
+                            type=UnlockType.META | UnlockType.FACTORY),
+            )
 
         if DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES in parsed_options.enabled_dlcs:
             for unlock in self._a1800_unlocks:

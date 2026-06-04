@@ -28,6 +28,8 @@ class ParsedOptions:
 
         self.enable_docklands_logic = bool(options.enable_docklands_logic)
 
+        self.enable_start_with_flagship = bool(options.enable_start_with_flagship)
+
         self.required_population = {
             name.split("-")[1].title(): int(amount)
             for name, amount in options.required_population.value.items() if int(amount) > 0

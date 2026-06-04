@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import OptionCounter, OptionGroup, OptionSet, PerGameCommonOptions, Toggle
+from Options import Choice, OptionCounter, OptionGroup, OptionSet, PerGameCommonOptions, Toggle
 
 
 class EnabledDLCsOption(OptionSet):
@@ -33,6 +33,23 @@ class EnableStartWithFlagshipOption(Toggle):
     flagship (or even a fleet), turn this on to tell the randomizer you have a decent expedition ship from the start.
     """
     display_name = "Enable Start with Flagship"
+
+
+class RequiredStreetForSettlingOption(Choice):
+    """
+    Sets which level of street must be availablee for the randomizer to assume ability to settle. Only affects the
+    New World.
+    Basic: The dirt road must be available.
+    Upgraded: The dirt road or the paved street must be available. This may require shipping many bricks to the New World.
+    Hacienda: The dirt road or any of the two hacienda streets must be available. Hacienda streets are limited to 999 squares, which makes settling very restrictive and likely makes settling multiple islands required. Same as Basic unless the Seeds of Change DLC is enabled.
+    Hacienda and Upgraded: The dirt road, paved street or any of the two hacienda streets must be available. Same as Upgraded unless the Seeds of Change DLC is enabled.
+    """
+    display_name = "Required Street for Settling"
+    option_basic = 0
+    option_upgraded = 1
+    option_hacienda = 2
+    option_hacienda_and_upgraded = 3
+    default = 0
 
 
 class RequiredPopulationOption(OptionCounter):
@@ -99,6 +116,7 @@ class A1800Options(PerGameCommonOptions):
     enabled_dlcs: EnabledDLCsOption
     enable_docklands_logic: EnableDocklandsLogicOption
     enable_start_with_flagship: EnableStartWithFlagshipOption
+    required_street_for_settling: RequiredStreetForSettlingOption
 
     # Victory Conditions
     required_population: RequiredPopulationOption

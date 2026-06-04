@@ -30,6 +30,9 @@ class ParsedOptions:
 
         self.enable_start_with_flagship = bool(options.enable_start_with_flagship)
 
+        self.paved_street_for_settling = options.required_street_for_settling.value & 1
+        self.hacienda_street_for_settling = options.required_street_for_settling.value & 2
+
         self.required_population = {
             name.split("-")[1].title(): int(amount)
             for name, amount in options.required_population.value.items() if int(amount) > 0

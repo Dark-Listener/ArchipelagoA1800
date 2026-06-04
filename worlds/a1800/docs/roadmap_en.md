@@ -7,7 +7,6 @@
 The following features are planned to be added at some point (in no specific order):
 
 * Option not to lock Hacienda residences behind their actual residence unlock
-* Options for handling NW roads for settling
 * Create some filler items
 * Ingame notifications for sending&receiving unlocks
 * Ingame quests for the victory condition

@@ -716,9 +716,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Jornaleros", Region.NW, 300), "Timber", "Jornaleros", set(), "Pearls"),
 
     A1800Unlock("Paved Street", DLC.VANILLA, Region.NW, 101309, 130100,
-                Trigger.POPULATION("Obreros", Region.NW, 1), "Bricks",
-                # output="Road Network", ap_region=Region.OW # Don't allow settling with Paveed Street - later with option
-                ),
+                Trigger.POPULATION("Obreros", Region.NW, 1), "Bricks"),
 
     A1800Unlock("Clay Pit", DLC.VANILLA, Region.NW, 101267, 130100,
                 Trigger.POPULATION("Obreros", Region.NW, 1), "Timber", "Obreros", set(), "Clay", "Bricks"),
@@ -3131,6 +3129,23 @@ class _Unlocks:
                             input={"Fish", "Work Clothes"}, output={"Expeditions: Level 2"},
                             type=UnlockType.META | UnlockType.FACTORY),
             )
+
+        if parsed_options.paved_street_for_settling:
+            for unlock in self._a1800_unlocks:
+                if unlock.name == "Paved Street" and unlock.region in Region.NW:
+                    unlock.output = {("Road Network", Region.NW)}
+                    unlock.ap_region = Region.OW
+                    unlock.type = UnlockType.BUILDING | UnlockType.FACTORY
+
+        if parsed_options.hacienda_street_for_settling:
+            for unlock in self._a1800_unlocks:
+                if unlock.name == "Hacienda" and unlock.region in Region.NW:
+                    unlock.ap_region = Region.OW
+                if unlock.name in ["Hacienda Paving", "Hacienda Pathway"] and unlock.region in Region.NW:
+                    unlock.input = {("Hacienda", Region.NW)}
+                    unlock.output = {("Road Network", Region.NW)}
+                    unlock.ap_region = Region.OW
+                    unlock.type = UnlockType.BUILDING | UnlockType.FACTORY
 
         if DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES in parsed_options.enabled_dlcs:
             for unlock in self._a1800_unlocks:

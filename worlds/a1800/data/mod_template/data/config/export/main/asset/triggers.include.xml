@@ -1,4 +1,3 @@
-<ModOps>
 {% macro generate_unlockable_asset(guid, name) %}
 <Asset>
   <Template>UnlockableAsset</Template>
@@ -10,6 +9,7 @@
     <Locked/>
   </Values>
 </Asset>{% endmacro %}
+<ModOps>
   <ModOp Type="add" GUID="1500004636" Path="Values/Trigger/ResetTrigger/Values/Trigger/TriggerActions">
     <Item>
       <TriggerAction>

@@ -95,7 +95,19 @@ def generate_mod(world: "A1800World", output_directory: str):
     data_py_template = template_env.get_template("data/archipelago/scripts/data.py")
     data_lua_template = template_env.get_template("data/archipelago/scripts/data.lua")
     on_game_loaded_template = template_env.get_template("data/archipelago/scripts/on_game_loaded.py")
+    quests_template = template_env.get_template("data/config/export/main/asset/quests.include.xml")
     triggers_template = template_env.get_template("data/config/export/main/asset/triggers.include.xml")
+    texts_chinese_template = template_env.get_template("data/config/gui/texts_chinese.xml")
+    texts_english_template = template_env.get_template("data/config/gui/texts_english.xml")
+    texts_french_template = template_env.get_template("data/config/gui/texts_french.xml")
+    texts_german_template = template_env.get_template("data/config/gui/texts_german.xml")
+    texts_italian_template = template_env.get_template("data/config/gui/texts_italian.xml")
+    texts_japanese_template = template_env.get_template("data/config/gui/texts_japanese.xml")
+    texts_korean_template = template_env.get_template("data/config/gui/texts_korean.xml")
+    texts_polish_template = template_env.get_template("data/config/gui/texts_polish.xml")
+    texts_russian_template = template_env.get_template("data/config/gui/texts_russian.xml")
+    texts_spanish_template = template_env.get_template("data/config/gui/texts_spanish.xml")
+    texts_taiwanese_template = template_env.get_template("data/config/gui/texts_taiwanese.xml")
     set_is_unlocked_template = template_env.get_template("data/archipelago/scripts/set_is_unlocked/set_is_unlocked.py")
     ap_receive_item_template = template_env.get_template(
         "data/archipelago/scripts/ap_receive_item/ap_receive_item.lua")
@@ -140,6 +152,10 @@ def generate_mod(world: "A1800World", output_directory: str):
     trigger_guid_to_locations = {A1800_DATA.get_next_anno_guid(): list(locations) for _, locations in groupby(
         sorted(checkable_locations, key=trigger_key), key=trigger_key)}
     victory_trigger_guid = A1800_DATA.get_next_anno_guid()
+    victory_quest_guid = A1800_DATA.get_next_anno_guid()
+    victory_quest_pool_guid = A1800_DATA.get_next_anno_guid()
+    victory_trigger = Trigger.QUEST_COMPLETE(
+        A1800_DATA.get_victory_trigger().ap_location_name, victory_quest_guid, set())
 
     def location_to_data(location: A1800Location) -> tuple[int, A1800Location, list[int], list[int]]:
         return (
@@ -163,6 +179,7 @@ def generate_mod(world: "A1800World", output_directory: str):
     }
 
     victory_guid = A1800_DATA.get_next_anno_guid()
+    victory_quest_description_guid = A1800_DATA.get_next_anno_guid()
 
     start_trigger = Trigger(TriggerType.TRUE)
     start_trigger.ap_location_name = "Game Start"
@@ -195,7 +212,12 @@ def generate_mod(world: "A1800World", output_directory: str):
         "expedition_unlocks": expedition_unlocks,
         "recipe_unlocks": A1800_DATA.get_recipe_unlocks(),
         "victory_trigger_guid": victory_trigger_guid,
-        "victory_trigger": _get_trigger_with_dlc(A1800_DATA.get_victory_trigger(), {A1800_DATA.get_victory_dlcs()}),
+        "victory_quest_guid": victory_quest_guid,
+        "victory_quest_pool_guid": victory_quest_pool_guid,
+        "victory_quest_description_guid": victory_quest_description_guid,
+        "victory_quest_trigger": A1800_DATA.get_victory_trigger(),
+        "victory_quest_precondition_trigger": Trigger.ACTIVE_DLC(A1800_DATA.get_victory_dlcs()),
+        "victory_trigger": victory_trigger,
         "victory_trigger_data": [(victory_guid, None, [], [])],
         "palace_ministry_unhide_guid": palace_ministry_unhide_guid,
         "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,
@@ -230,8 +252,32 @@ def generate_mod(world: "A1800World", output_directory: str):
     mod.writing_tasks.append(lambda: ("data/archipelago/scripts/data.lua", data_lua_template.render(**template_data)))
     mod.writing_tasks.append(lambda: ("data/archipelago/scripts/on_game_loaded.py",
                              on_game_loaded_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/export/main/asset/quests.include.xml",
+                             quests_template.render(**template_data)))
     mod.writing_tasks.append(lambda: ("data/config/export/main/asset/triggers.include.xml",
                              triggers_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/gui/texts_chinese.xml",
+                             texts_chinese_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/gui/texts_english.xml",
+                             texts_english_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/gui/texts_french.xml",
+                             texts_french_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/gui/texts_german.xml",
+                             texts_german_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/gui/texts_italian.xml",
+                             texts_italian_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/gui/texts_japanese.xml",
+                             texts_japanese_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/gui/texts_korean.xml",
+                             texts_korean_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/gui/texts_polish.xml",
+                             texts_polish_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/gui/texts_russian.xml",
+                             texts_russian_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/gui/texts_spanish.xml",
+                             texts_spanish_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/gui/texts_taiwanese.xml",
+                             texts_taiwanese_template.render(**template_data)))
 
     for location_guid in location_guid_data.keys():
         set_is_unlocked_data: dict[str, Any] = {

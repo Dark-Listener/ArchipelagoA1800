@@ -1,7 +1,8 @@
 <ModOps>
   <Include File="./convert_to_multiplayer.include.xml" />
-  <Include File="./triggers.include.xml" />
   <Include File="./incidents.include.xml" />
+  <Include File="./quests.include.xml" />
+  <Include File="./triggers.include.xml" />
 
   <!-- Unlock all regular needs (not luxury or lifestyle) at 1 population amount to allow filling needs earlier -->
   <ModOp Type="remove" Path="//PopulationLevel7/PopulationInputs/Item[SupplyWeight and not(IsBonusNeed)]/NoWeightPopulationCount" />

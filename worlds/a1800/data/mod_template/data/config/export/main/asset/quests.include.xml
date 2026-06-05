@@ -1,0 +1,194 @@
+{% macro generate_objective(TriggerType, trigger_data) %}
+{% if trigger_data.trigger_type == TriggerType.ALL %}
+{% for trigger in trigger_data.triggers %}
+{{ generate_objective(TriggerType, trigger) }}{% endfor %}
+{% elif trigger_data.trigger_type == TriggerType.POPULATION %}
+<Item>
+  <Objective>
+    <Template>StatusQuoObjective</Template>
+    <Values>
+      <ConditionQuestObjective>
+        <TextCombinedContextValue>12715</TextCombinedContextValue>
+      </ConditionQuestObjective>
+      <ConditionPlayerCounter>
+        <PlayerCounter>PopulationByLevel</PlayerCounter>
+        <Context>{{ trigger_data.guid }}</Context>
+        <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+      </ConditionPlayerCounter>
+    </Values>
+  </Objective>
+</Item>
+{% elif trigger_data.trigger_type == TriggerType.COUNTER %}
+<Item>
+  <Objective>
+    <Template>StatusQuoObjective</Template>
+    <Values>
+      <ConditionQuestObjective>
+{%      if trigger_data.guid == 636 %}
+        <TextCombinedContextValue>104803</TextCombinedContextValue>
+{%      elif trigger_data.guid == 635 %}
+        <TextCombinedContextValue>104800</TextCombinedContextValue>
+{%      else %}
+        <TextCombinedContextValue>12714</TextCombinedContextValue>
+{%      endif %}
+      </ConditionQuestObjective>
+      <ConditionPlayerCounter>
+        <Context>{{ trigger_data.guid }}</Context>
+        <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+      </ConditionPlayerCounter>
+    </Values>
+  </Objective>
+</Item>
+{% endif %}
+{% endmacro %}
+{% macro generate_precondition(TriggerType, trigger_data) %}
+{% if trigger_data.trigger_type == TriggerType.ACTIVE_DLC %}
+<Condition>
+  <Template>ConditionIsDLCActive</Template>
+  <Values>
+    <Condition/>
+    <ConditionIsDLCActive>
+      <DLCAssetList>
+{%    for guid in trigger_data.guids %}
+        <Item>
+          <DLCAsset>{{ guid }}</DLCAsset>
+        </Item>
+{%    endfor %}
+      </DLCAssetList>
+    </ConditionIsDLCActive>
+    <ConditionPropsNegatable/>
+  </Values>
+</Condition>
+{% endif %}
+{% endmacro %}
+<ModOps>
+  <!-- Add all quests -->
+  <ModOp Type="addNextSibling" GUID="152264">
+    <!-- Victory condition quest -->
+    <Asset>
+      <Template>A7_QuestStatusQuo</Template>
+      <Values>
+        <Standard>
+          <GUID>{{ victory_quest_guid }}</GUID>
+          <Name>Victory Quest</Name>
+        </Standard>
+        <Text>
+          <TextOverride>898</TextOverride>
+        </Text>
+        <Quest>
+          <StarterMessage>
+            <Notification>
+              <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+              <Values>
+                <CharacterNotification/>
+                <BaseNotification/>
+                <NotificationSubtitle/>
+              </Values>
+            </Notification>
+            <SuppressMessage>1</SuppressMessage>
+          </StarterMessage>
+          <SuccessMessage>
+            <Notification>
+              <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+              <Values>
+                <CharacterNotification/>
+                <BaseNotification/>
+                <NotificationSubtitle/>
+              </Values>
+            </Notification>
+            <SuppressMessage>1</SuppressMessage>
+          </SuccessMessage>
+          <FailureMessage>
+            <Notification>
+              <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+              <Values>
+                <CharacterNotification/>
+                <BaseNotification/>
+                <NotificationSubtitle/>
+              </Values>
+            </Notification>
+            <SuppressMessage>1</SuppressMessage>
+          </FailureMessage>
+          <InvitationMessage>
+            <Notification>
+              <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+              <Values>
+                <CharacterNotification/>
+                <BaseNotification/>
+                <NotificationSubtitle/>
+              </Values>
+            </Notification>
+          </InvitationMessage>
+          <QuestHints>
+            <Item>
+              <Text>{{ victory_quest_description_guid }}</Text>
+            </Item>
+          </QuestHints>
+          <QuestGiver>75</QuestGiver>
+          <QuestTimeLimit>0</QuestTimeLimit>
+          <QuestActivation>QuestStart</QuestActivation>
+          <MaxCallOut>1</MaxCallOut>
+          <MaxSolveCount>1</MaxSolveCount>
+          <IsAbortable>0</IsAbortable>
+          <DelayTimer>5000</DelayTimer>
+          <QuestTrackerVisibility>Global</QuestTrackerVisibility>
+          <HasExclusiveQuestGiver>0</HasExclusiveQuestGiver>
+          <CanBeActiveForMultipleParticipants>1</CanBeActiveForMultipleParticipants>
+          <ReputationQuestFail>
+            <ReputationFailList />
+          </ReputationQuestFail>
+        </Quest>
+        <Reward>
+          <RewardAssets />
+          <RewardReputation />
+        </Reward>
+        <Objectives>
+          <WinConditions>
+{{(          generate_objective(TriggerType, victory_quest_trigger) | indent(12, true)).rstrip(" ") -}}
+{{       "</WinConditions>"                                         | indent(10, true)               }}
+        </Objectives>
+        <QuestOptional>
+          <HasStarterObject>None</HasStarterObject>
+          <StarterObject>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <Condition />
+              <ConditionStarterObject />
+              <ConditionQuestObjective />
+              <ConditionPropsSessionSettings />
+            </Values>
+          </StarterObject>
+        </QuestOptional>
+      </Values>
+    </Asset>
+  </ModOp>
+
+  <!-- Add quest pool -->
+  <ModOp Type="addNextSibling" GUID="150725">
+    <Asset>
+      <Template>QuestPool</Template>
+      <Values>
+        <Standard>
+          <GUID>{{ victory_quest_pool_guid }}</GUID>
+          <Name>Victory QuestPool</Name>
+        </Standard>
+        <QuestPool>
+          <Quests>
+            <Item>
+              <Quest>{{ victory_quest_guid }}</Quest>
+            </Item>
+          </Quests>
+          <IsTopLevel>1</IsTopLevel>
+          <PoolCooldown>0</PoolCooldown>
+          <QuestCooldown>0</QuestCooldown>
+        </QuestPool>
+        <Locked>
+          <DefaultLockedState>0</DefaultLockedState>
+        </Locked>
+        <PreConditionList>
+{{(       generate_precondition(TriggerType, victory_quest_precondition_trigger) | indent(10, true)).rstrip(" ") -}}
+{{     "</PreConditionList>"                                                     | indent(8, true)                }}
+      </Values>
+    </Asset>
+  </ModOp>
+</ModOps>

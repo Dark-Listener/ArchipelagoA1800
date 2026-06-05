@@ -175,7 +175,7 @@ additional mods, all other players need to use the same mods as you.
 
 However, only one player should to use the Archipelago client.
 
-Note: multiplayer is as of yet untested.
+Note: Co-op was successfully tested, but multiplayer with separate players is as of yet untested.
 
 ## Frequently Asked Questions
 

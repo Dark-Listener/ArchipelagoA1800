@@ -8,7 +8,6 @@ The following features are planned to be added at some point (in no specific ord
 
 * Create some filler items
 * Ingame notifications for sending&receiving unlocks
-* Ingame quests for the victory condition
 * More options for victory conditions
 * More options in general!
 * Option not to include recipe checks (unlock recipes with main building)
@@ -22,6 +21,7 @@ The following features are planned to be added at some point (in no specific ord
 The following features are being considered, but it's unclear whether they are relevant or technically feasible
 
 * Remove need unlocks (or add them to the pool) - not sure if possible
+  * Removed for basic needs, kept for others
 * Double-check road upgrades without unlock via upgrade button (confirmed) and model if needed (not right now)
 * Include ornaments in the item pool - maybe as filler?
   * Cosmetic DLC should probably be avoided due to issues with compatibility

@@ -1,0 +1,9 @@
+<ModOps>
+  <ModOp Type="add" Path="/TextExport/Texts">
+    <Text>
+      <GUID>{{ victory_quest_description_guid }}</GUID>
+      <Text>以下の目標を達成してください：</Text>
+      <!--MachineTranslated-->
+    </Text>
+  </ModOp>
+</ModOps>

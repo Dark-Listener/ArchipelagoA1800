@@ -173,7 +173,7 @@ class Trigger:
     def ALL(cls, trigger_1: Self, trigger_2: Self, *triggers: Self, ap_location_name: str = "") -> Self:
         trigger = cls(TriggerType.ALL)
         trigger.triggers = [trigger_1, trigger_2] + list(triggers)
-        trigger.region = reduce(Region.__or__, [subtrigger.region for subtrigger in trigger.triggers])
+        trigger.region = reduce(Region.__or__, [subtrigger.region for subtrigger in trigger.triggers], NO_REGION)
         trigger.ap_location_name = ap_location_name
         trigger.post_init()
         return trigger
@@ -182,7 +182,7 @@ class Trigger:
     def LINEAR(cls, trigger_1: Self, trigger_2: Self, *triggers: Self, ap_location_name: str = "") -> Self:
         trigger = cls(TriggerType.LINEAR)
         trigger.triggers = [trigger_1, trigger_2] + list(triggers)
-        trigger.region = reduce(Region.__or__, [subtrigger.region for subtrigger in trigger.triggers])
+        trigger.region = reduce(Region.__or__, [subtrigger.region for subtrigger in trigger.triggers], NO_REGION)
         trigger.ap_location_name = ap_location_name
         trigger.post_init()
         return trigger
@@ -191,7 +191,7 @@ class Trigger:
     def ANY(cls, trigger_1: Self, trigger_2: Self, *triggers: Self, ap_location_name: str = "") -> Self:
         trigger = cls(TriggerType.ANY)
         trigger.triggers = [trigger_1, trigger_2] + list(triggers)
-        trigger.region = reduce(Region.__or__, [subtrigger.region for subtrigger in trigger.triggers])
+        trigger.region = reduce(Region.__or__, [subtrigger.region for subtrigger in trigger.triggers], NO_REGION)
         trigger.ap_location_name = ap_location_name
         trigger.post_init()
         return trigger
@@ -266,7 +266,7 @@ class Trigger:
         trigger.amount = amount
         trigger.guid = guid
         trigger.requirements = requirements
-        trigger.region = reduce(Region.__or__, [region for _, region in requirements])
+        trigger.region = reduce(Region.__or__, [region for _, region in requirements], NO_REGION)
         trigger.post_init()
         return trigger
 
@@ -276,7 +276,7 @@ class Trigger:
         trigger.ap_location_name = ap_location_name
         trigger.guid = guid
         trigger.requirements = requirements
-        trigger.region = reduce(Region.__or__, [region for _, region in requirements])
+        trigger.region = reduce(Region.__or__, [region for _, region in requirements], NO_REGION)
         trigger.post_init()
         return trigger
 
@@ -311,7 +311,7 @@ class Trigger:
         trigger.ap_location_name = ap_location_name
         trigger.guid = guid
         trigger.requirements = requirements
-        trigger.region = unlock_region | reduce(Region.__or__, [region for _, region in requirements])
+        trigger.region = unlock_region | reduce(Region.__or__, [region for _, region in requirements], NO_REGION)
         trigger.post_init()
         return trigger
 

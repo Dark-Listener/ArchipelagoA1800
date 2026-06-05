@@ -48,9 +48,8 @@ class ParsedOptions:
 
         self.required_monuments = set()
         for name in options.required_monuments.value:
-            proper_name = name.title().replace("Worlds", "World's")
+            proper_name = name.replace("-", " ").title().replace("Worlds", "World's")
             if proper_name.startswith("Ow "):
-                proper_name = proper_name[3:]
                 region = Region.OW
             elif proper_name.startswith("Nw "):
                 region = Region.NW

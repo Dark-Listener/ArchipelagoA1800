@@ -107,16 +107,16 @@ class _Logic:
         self._parsed_options = parsed_options
 
         self._required_population = {
-            name: (population, amount) for name, amount in parsed_options.required_population.items()
+            (population.name, population.region): (population, amount) for name, amount in parsed_options.required_population.items()
             for population in PRODUCTS.find_populations(name)
         }
 
         self._required_buildings = {
-            name: (unlock, amount) for name, amount in parsed_options.required_skyscrapers.items()
+            (unlock.name, unlock.region): (unlock, amount) for name, amount in parsed_options.required_skyscrapers.items()
             for unlock in UNLOCKS.find_unlocks(name)
         } | {
-            name: (unlock, 1) for name, region in parsed_options.required_monuments
-            for unlock in UNLOCKS.find_unlocks(name, region)
+            (unlock.name, unlock.region): (unlock, 1) for name, region in parsed_options.required_monuments
+            for unlock in UNLOCKS.find_unlocks(name, region or NO_REGION)
         }
 
         self._initialized = True

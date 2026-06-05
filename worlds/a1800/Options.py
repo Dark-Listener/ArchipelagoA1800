@@ -68,6 +68,8 @@ class RequiredPopulationOption(OptionCounter):
     If a population's required amount is 0, the population will not be required.
     Populations that are not available in the DLCs selected in 'Enabled DLCs' will be ignored.
     Ignore the numbers in front, they are there to make sure this is sorted properly.
+
+    If you are using the options creator, remove all entries you don't want as it will otherwise save 1 instead of 0.
     """
     _populations = ["farmers", "workers", "artisans", "engineers", "investors", "jornaleros",
                     "obreros", "artistas", "explorers", "technicians", "shepherds", "elders", "scholars", "tourists"]
@@ -91,6 +93,8 @@ class RequiredSkyscrapersOption(OptionCounter):
     Amounts greater than 1 will be treated as 1 for the Skyline Tower as it is a unique building.
     Has no effect unless The High Life DLC is enabled.
     Ignore the numbers in front, they are there to make sure this is sorted properly.
+
+    If you are using the options creator, remove all entries you don't want as it will otherwise save 1 instead of 0.
     """
     _skyscrapers = ["engineer-level-1", "engineer-level-2", "engineer-level-3", "investor-level-1",
                     "investor-level-2", "investor-level-3", "investor-level-4", "investor-level-5", "skyline-tower"]

@@ -76,6 +76,10 @@ a config file. However, this is a custom apworld, so either start your Achipelag
 download. Afterwards, pass it to the host of your game. If that's you, check out the hosting instructions
 [below](#hosting-your-own-anno-1800-game).
 
+Alternatively, you can use the `Options Creator` from the Archipelago Launcher for a visual yaml creator. Unfortunately,
+it can't enter 0 as an amount in the lists for required population and required skyscrapers, so you have to remove the
+ones you don't want if you intend to change any from the default.
+
 #### Verifying Your Config File
 
 If you would like to validate your config file to make sure it works, you may do so on the

@@ -113,7 +113,9 @@ connect to the first one it finds while the game will try to load all of them.
 
 You can install additional mods by adding them to the same folder or via the Mod Browser / mod.io. Note that there may
 be compatibility issues if other mods modify the game's unlocks. If other mods add new building unlocks, they will not
-be modified and work as usual.
+be modified and work as usual though they may break the logic.
+
+For a list of supported and compatible mods, see [below](#other-mods).
 
 ## Running and Connecting the Game
 Start a new Anno 1800 free play game or load into your existing savegame. Singleplayer or multiplayer should both
@@ -176,6 +178,40 @@ additional mods, all other players need to use the same mods as you.
 However, only one player should to use the Archipelago client.
 
 Note: Co-op was successfully tested, but multiplayer with separate players is as of yet untested.
+
+## Other Mods
+
+Find other mods mostly on [mod.io](https://mod.io/g/anno-1800), with some on nexus or github. The following lists
+always refer to the name on mod.io.
+
+### Supported Mods
+
+The following mods are supported, but must be enabled in the config yaml:
+* Mine Slot Unification (Taludas) - v1.2.2
+
+### Compatible Mods
+
+The following mods are compatible with the randomizer and should not cause any issues:
+* Adjustments for HighLife Goods (Taludas) - v1.1
+* Attractiveness Rebalancing \[Spice It Up\] - v1.0.2
+* Bigger Gas Pump Radius \[Spice It Up\] - v1.0.1
+* Bigger Harbour \[Spice It Up\] - v1.0.3
+* Bigger Oil Pump Radius \[Spice It Up\] - v1.0.1
+* \[Devtool\] Console - v1.0.5
+* Dockland Speed (Kurila) - v1.5.1
+* Fam's More Unique Icons - v1.0.0
+* Fancy Billiardtables (Taludas) - v1.0.0
+* Faster Constructions (Kurila) - v1.6.1
+* \[Fix\] Community Patch - v1.025
+* Fix for feedbackunit Texture bugs (Taludas) - v1.0.0
+* Free Farmfield Placement (Taludas) - v3.1.1
+* Harbor Blocking \[Spice it Up\] - v1.0.1
+* Mine Infolayers \[Spice it Up\] - v1.0.1
+* NW Expanded (Taludas) - v2.0.0a
+* Royal Taxes Removed \[Spice It Up\] - v1.0.1
+
+If you think any mods are missing from this list, please inform me here or on either the Archipelago or Anno Modding
+discord and I will take a look.
 
 ## Frequently Asked Questions
 

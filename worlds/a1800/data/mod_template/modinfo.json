@@ -6,7 +6,8 @@
     "shared_EventOnGameLoaded_Serp"
   ],
   "LoadAfterIds": [
-    "*"
+    "*",
+    "Community_Patch"
   ],
   "Category": {
     "English": "Gameplay"

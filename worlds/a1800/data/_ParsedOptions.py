@@ -17,6 +17,7 @@ class ParsedOptions:
     required_monuments: set[tuple[str, Region]]
 
     def __init__(self, options: "A1800Options"):
+        ### Game Options ###
         self.full_accessibility = options.accessibility == "full"
 
         self.enabled_dlcs = DLC.VANILLA
@@ -35,6 +36,7 @@ class ParsedOptions:
 
         self.allow_hacienda_residences_upon_unlock = bool(options.allow_hacienda_residences_upon_unlock)
 
+        ### Victory Conditions ###
         self.required_population = {
             name.split("-")[1].title(): int(amount)
             for name, amount in options.required_population.value.items() if int(amount) > 0
@@ -62,3 +64,6 @@ class ParsedOptions:
                 proper_name = "   " + proper_name
             proper_name = proper_name[3:]
             self.required_monuments.add((proper_name, region))
+
+        ### Mod Support ###
+        self.enable_mine_slot_unification = bool(options.enable_mine_slot_unification)

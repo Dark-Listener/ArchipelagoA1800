@@ -124,6 +124,15 @@ class RequiredMonumentsOption(OptionSet):
     default = []
 
 
+class EnableMineSlotUnificationOption(Toggle):
+    """
+    Enables support for the mod 'Mine Slot Unification (Taludas)'.
+
+    Removes the requirement for settling other islands from mines in the Old World.
+    """
+    display_name = "Enable Mine Slot Unification (Taludas)"
+
+
 @dataclass
 class A1800Options(PerGameCommonOptions):
     # Game Options (=> ungrouped)
@@ -138,11 +147,17 @@ class A1800Options(PerGameCommonOptions):
     required_skyscrapers: RequiredSkyscrapersOption
     required_monuments: RequiredMonumentsOption
 
+    # Mod Support
+    enable_mine_slot_unification: EnableMineSlotUnificationOption
+
 
 a1800_option_groups: list[OptionGroup] = [
     OptionGroup("Victory Conditions", [
         RequiredPopulationOption,
         RequiredSkyscrapersOption,
         RequiredMonumentsOption,
+    ]),
+    OptionGroup("Mod Support", [
+        EnableMineSlotUnificationOption,
     ]),
 ]

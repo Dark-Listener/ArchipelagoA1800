@@ -3120,6 +3120,7 @@ class _Unlocks:
     def _apply_options(self, parsed_options: ParsedOptions) -> None:
         global _a1800_unlocks
 
+        ### Game Options ###
         self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if any(
             dlc in parsed_options.enabled_dlcs for dlc in unlock.dlc)]
 
@@ -3186,6 +3187,12 @@ class _Unlocks:
             for unlock in self._a1800_unlocks:
                 if unlock.name == "Docklands Main Wharf" and unlock.region == Region.OW:
                     unlock.output = {("Docklands", Region.OW)}
+
+        ### Mod Support ###
+        if parsed_options.enable_mine_slot_unification:
+            for unlock in self._a1800_unlocks:
+                if unlock.name in ["Coal Mine", "Limestone Quarry", "Zinc mine", "Copper Mine"] and unlock.region == Region.OW:
+                    unlock.maintenance.remove("Settling")
 
         self._clean_dlc_references(parsed_options.enabled_dlcs)
 

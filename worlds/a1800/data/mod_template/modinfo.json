@@ -1,6 +1,6 @@
 {
   "Anno": 7,
-  "Version": "0.1.0",
+  "Version": "1.1.0",
   "ModID": "{{ mod_name }}",
   "ModDependencies": [
     "shared_EventOnGameLoaded_Serp"

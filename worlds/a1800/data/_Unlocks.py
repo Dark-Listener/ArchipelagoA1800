@@ -2952,6 +2952,16 @@ class _Unlocks:
         assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
         return self._a1800_unlock_locations
 
+    def get_primary_residence(self, name: str, region: Region) -> A1800Unlock:
+        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
+        # Pick residence, but avoid skyscrapers and the Skyline Tower
+        residence = next((
+            unlock for unlock in self._a1800_unlocks
+            if UnlockType.RESIDENCE in unlock.type and not "Level" in unlock.name and not "Tower" in unlock.name
+            and region in unlock.region and name in next(zip(*unlock.output))), None)
+        assert residence, f"Requested {name} in {region.name}, which does not have a primary residence"
+        return residence
+
     def _add_guids_to_trigger(self, trigger: Trigger) -> None:
         if trigger.trigger_type in [TriggerType.ALL, TriggerType.LINEAR, TriggerType.ANY]:
             for subtrigger in trigger.triggers:

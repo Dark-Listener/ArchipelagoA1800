@@ -139,11 +139,7 @@ class _Logic:
             victory_dlcs |= next(iter(population.dlc))
 
             if supplied or luxury or lifestyle:
-                # Pick residence, but avoid skyscrapers and the Skyline Tower
-                residence = next(
-                    unlock for unlock in UNLOCKS.get_unlocks()
-                    if UnlockType.RESIDENCE in unlock.type and not "Level" in unlock.name and not "Tower" in unlock.name
-                    and population.region in unlock.region and population.name in next(zip(*unlock.output)))
+                residence = UNLOCKS.get_primary_residence(population.name, population.region)
 
                 if supplied:
                     victory_required_items |= set(A1800Requirement(consumption, population.region)

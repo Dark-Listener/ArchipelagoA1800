@@ -70,12 +70,6 @@ class _A1800Data:
     def get_event_locations(self) -> Sequence[A1800EventLocation]:
         return EVENT_LOCATIONS.get_event_locations()
 
-    def get_parsed_options(self) -> ParsedOptions:
-        return self._parsed_options
-
-    def get_recipe_unlocks(self) -> dict[str, tuple[int, int, int, int, bool]]:
-        return RECIPE_GUIDS
-
     def get_item_name_to_ap_code(self) -> dict[str, int]:
         return self._item_name_to_ap_code
 
@@ -88,8 +82,14 @@ class _A1800Data:
     def get_next_anno_guid(self) -> int:
         return get_next_anno_guid()
 
+    def get_parsed_options(self) -> ParsedOptions:
+        return self._parsed_options
+
     def get_populations(self) -> Sequence[A1800Product]:
         return PRODUCTS.get_populations()
+
+    def get_recipe_unlocks(self) -> dict[str, tuple[int, int, int, int, bool]]:
+        return RECIPE_GUIDS
 
     def get_regions(self) -> Sequence[A1800Region]:
         return REGIONS.get_regions()

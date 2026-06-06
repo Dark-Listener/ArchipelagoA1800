@@ -1,0 +1,207 @@
+<ModOps>
+{% from 'triggers.util.xml' import generate_sub_triggers, generate_trigger_condition %}
+  <ModOp Type="addNextSibling" GUID="141671">
+    <Asset>
+      <Template>FeatureUnlock</Template>
+      <Values>
+        <Standard>
+          <GUID>{{ incident_feature_guids["FireIncidents_SA"] }}</GUID>
+          <Name>FireIncidents_SA</Name>
+          <IconFilename>data/ui/2kimages/main/3dicons/icon_fire_house.png</IconFilename>
+        </Standard>
+        <Locked/>
+        <Trigger>
+{% set nw_fires_trigger = Trigger.UNLOCK("", Region(0), guid=101275) %}
+{{( generate_trigger_condition(TriggerType, nw_fires_trigger) | indent(10, true)).rstrip() }}
+          <ResetTrigger>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <EmptyAutoCreateValue />
+            </Values>
+          </ResetTrigger>
+        </Trigger>
+        <TriggerSetup />
+      </Values>
+    </Asset>
+    <Asset>
+      <Template>FeatureUnlock</Template>
+      <Values>
+        <Standard>
+          <GUID>{{ incident_feature_guids["RiotIncidents_SA"] }}</GUID>
+          <Name>RiotIncidents_SA</Name>
+          <IconFilename>data/ui/2kimages/main/3dicons/icon_police.png</IconFilename>
+        </Standard>
+        <Locked/>
+        <Trigger>
+{% set nw_riots_trigger = Trigger.UNLOCK("", Region(0), guid=101274) %}
+{{( generate_trigger_condition(TriggerType, nw_riots_trigger) | indent(10, true)).rstrip() }}
+          <ResetTrigger>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <EmptyAutoCreateValue />
+            </Values>
+          </ResetTrigger>
+        </Trigger>
+        <TriggerSetup />
+      </Values>
+    </Asset>
+    <Asset>
+      <Template>FeatureUnlock</Template>
+      <Values>
+        <Standard>
+          <GUID>{{ incident_feature_guids["IllnessIncidents_SA"] }}</GUID>
+          <Name>IllnessIncidents_SA</Name>
+          <IconFilename>data/ui/2kimages/main/3dicons/icon_hospital.png</IconFilename>
+        </Standard>
+        <Locked/>
+        <Trigger>
+{% set nw_illness_trigger = Trigger.UNLOCK("", Region(0), guid=101276) %}
+{{( generate_trigger_condition(TriggerType, nw_illness_trigger) | indent(10, true)).rstrip() }}
+          <ResetTrigger>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <EmptyAutoCreateValue />
+            </Values>
+          </ResetTrigger>
+        </Trigger>
+        <TriggerSetup />
+      </Values>
+    </Asset>
+    <Asset>
+      <Template>FeatureUnlock</Template>
+      <Values>
+        <Standard>
+          <GUID>{{ incident_feature_guids["ExplosionIncidents_SA"] }}</GUID>
+          <Name>ExplosionIncidents_SA</Name>
+          <IconFilename>data/ui/2kimages/main/icons/icon_bomb.png</IconFilename>
+        </Standard>
+        <Locked/>
+        <Trigger>
+{% set nw_explosions_trigger = Trigger.UNLOCK("", Region(0), guid=101275) %}
+{{( generate_trigger_condition(TriggerType, nw_explosions_trigger) | indent(10, true)).rstrip() }}
+          <ResetTrigger>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <EmptyAutoCreateValue />
+            </Values>
+          </ResetTrigger>
+        </Trigger>
+        <TriggerSetup />
+      </Values>
+    </Asset>
+  </ModOp>
+
+  <ModOp Type="replace" GUID="2001023" Path="/Values/GeneralIncidentConfiguration/PerRegionUnlocks/Colony01/IncidentUnlocks/Fire/RegionIncidentUnlock">
+    <RegionIncidentUnlock>{{ incident_feature_guids["FireIncidents_SA"] }}</RegionIncidentUnlock>
+  </ModOp>
+  <ModOp Type="replace" GUID="2001023" Path="/Values/GeneralIncidentConfiguration/PerRegionUnlocks/Colony01/IncidentUnlocks/Riot/RegionIncidentUnlock">
+    <RegionIncidentUnlock>{{ incident_feature_guids["RiotIncidents_SA"] }}</RegionIncidentUnlock>
+  </ModOp>
+  <ModOp Type="replace" GUID="2001023" Path="/Values/GeneralIncidentConfiguration/PerRegionUnlocks/Colony01/IncidentUnlocks/Illness/RegionIncidentUnlock">
+    <RegionIncidentUnlock>{{ incident_feature_guids["IllnessIncidents_SA"] }}</RegionIncidentUnlock>
+  </ModOp>
+  <ModOp Type="replace" GUID="2001023" Path="/Values/GeneralIncidentConfiguration/PerRegionUnlocks/Colony01/IncidentUnlocks/Explosion/RegionIncidentUnlock">
+    <RegionIncidentUnlock>{{ incident_feature_guids["ExplosionIncidents_SA"] }}</RegionIncidentUnlock>
+  </ModOp>
+
+{% if parsed_options.incident_difficulty == IncidentDifficulty.EASY %}
+  <!-- Couple incident unlocks to incident resolver unlocks + having the required amount of building materials -->
+  <!-- Old World -->
+  <ModOp Type="replace" GUID="140595,141671" Path="/Values/Trigger/TriggerCondition">
+{% set ow_fires_trigger = Trigger.ALL(Trigger.UNLOCK("", Region(0), guid=1010463),
+                                      Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 4, Region.OW, guid=1010196)) %}
+{{( generate_trigger_condition(TriggerType, ow_fires_trigger) | indent(4, true)).rstrip() }}
+{{( generate_sub_triggers(TriggerType, ow_fires_trigger)      | indent(4, true)).rstrip() }}
+  </ModOp>
+  <ModOp Type="replace" GUID="140596" Path="/Values/Trigger/TriggerCondition">
+{% set ow_riots_trigger = Trigger.ALL(Trigger.UNLOCK("", Region(0), guid=1010462),
+                                      Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 8, Region.OW, guid=1010196),
+                                      Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 10, Region.OW, guid=1010205)) %}
+{{( generate_trigger_condition(TriggerType, ow_riots_trigger) | indent(4, true)).rstrip() }}
+{{( generate_sub_triggers(TriggerType, ow_riots_trigger)      | indent(4, true)).rstrip() }}
+  </ModOp>
+  <ModOp Type="replace" GUID="140597" Path="/Values/Trigger/TriggerCondition">
+{% set ow_illness_trigger = Trigger.ALL(Trigger.UNLOCK("", Region(0), guid=1010464),
+                                        Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 12, Region.OW, guid=1010196),
+                                        Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 20, Region.OW, guid=1010205),
+                                        Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 16, Region.OW, guid=1010218),
+                                        Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 40, Region.OW, guid=1010207)) %}
+{{( generate_trigger_condition(TriggerType, ow_illness_trigger) | indent(4, true)).rstrip() }}
+{{( generate_sub_triggers(TriggerType, ow_illness_trigger)      | indent(4, true)).rstrip() }}
+  </ModOp>
+
+  <!-- New World -->
+  <ModOp Type="replace" GUID="{{ incident_feature_guids["FireIncidents_SA"] }},{{ incident_feature_guids["ExplosionIncidents_SA"] }}" Path="/Values/Trigger/TriggerCondition">
+{% set nw_fires_trigger = Trigger.ALL(Trigger.UNLOCK("", Region(0), guid=101275),
+                                      Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 4, Region.NW, guid=1010196)) %}
+{{( generate_trigger_condition(TriggerType, nw_fires_trigger) | indent(4, true)).rstrip() }}
+{{( generate_sub_triggers(TriggerType, nw_fires_trigger)      | indent(4, true)).rstrip() }}
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ incident_feature_guids["RiotIncidents_SA"] }}" Path="/Values/Trigger/TriggerCondition">
+{% set nw_riots_trigger = Trigger.ALL(Trigger.UNLOCK("", Region(0), guid=101274),
+                                      Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 6, Region.NW, guid=1010196)) %}
+{{( generate_trigger_condition(TriggerType, nw_riots_trigger) | indent(4, true)).rstrip() }}
+{{( generate_sub_triggers(TriggerType, nw_riots_trigger)      | indent(4, true)).rstrip() }}
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ incident_feature_guids["IllnessIncidents_SA"] }}" Path="/Values/Trigger/TriggerCondition">
+{% set nw_illness_trigger = Trigger.ALL(Trigger.UNLOCK("", Region(0), guid=101276),
+                                      Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 12, Region.NW, guid=1010196),
+                                      Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 20, Region.NW, guid=1010205)) %}
+{{( generate_trigger_condition(TriggerType, nw_illness_trigger) | indent(4, true)).rstrip() }}
+{{( generate_sub_triggers(TriggerType, nw_illness_trigger)      | indent(4, true)).rstrip() }}
+  </ModOp>
+  
+  <!-- The Arctic -->
+  <ModOp Type="replace" GUID="113649,113652,116026" Path="/Values/Trigger/TriggerCondition">
+{% set ar_trigger = Trigger.ALL(Trigger.UNLOCK("", Region(0), guid=112669),
+                                Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 10, Region.AR, guid=1010196),
+                                Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 5, Region.AR, guid=1010218)) %}
+{{( generate_trigger_condition(TriggerType, ar_trigger) | indent(4, true)).rstrip() }}
+{{( generate_sub_triggers(TriggerType, ar_trigger)      | indent(4, true)).rstrip() }}
+  </ModOp>
+  
+  <!-- Enbesa -->
+  <ModOp Type="replace" GUID="117659,117662" Path="/Values/Trigger/TriggerCondition">
+{% set en_fires_trigger = Trigger.ALL(Trigger.UNLOCK("", Region(0), guid=119892),
+                                      Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 11, Region.EN, guid=114356)) %}
+{{( generate_trigger_condition(TriggerType, en_fires_trigger) | indent(4, true)).rstrip() }}
+{{( generate_sub_triggers(TriggerType, en_fires_trigger)      | indent(4, true)).rstrip() }}
+  </ModOp>
+  <ModOp Type="replace" GUID="117660" Path="/Values/Trigger/TriggerCondition">
+{% set en_riots_trigger = Trigger.ALL(Trigger.UNLOCK("", Region(0), guid=114508),
+                                      Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 8, Region.EN, guid=114356)) %}
+{{( generate_trigger_condition(TriggerType, en_riots_trigger) | indent(4, true)).rstrip() }}
+{{( generate_sub_triggers(TriggerType, en_riots_trigger)      | indent(4, true)).rstrip() }}
+  </ModOp>
+  <ModOp Type="replace" GUID="117661" Path="/Values/Trigger/TriggerCondition">
+{% set en_illness_trigger = Trigger.ALL(Trigger.UNLOCK("", Region(0), guid=117668),
+                                        Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 15, Region.EN, guid=114356),
+                                        Trigger.COUNTER_GOOD_IN_REGION("", Region(0), 20, Region.EN, guid=114402)) %}
+{{( generate_trigger_condition(TriggerType, en_illness_trigger) | indent(4, true)).rstrip() }}
+{{( generate_sub_triggers(TriggerType, en_illness_trigger)      | indent(4, true)).rstrip() }}
+  </ModOp>
+{% elif parsed_options.incident_difficulty == IncidentDifficulty.NORMAL %}
+  <!-- Couple incident unlocks to incident resolver unlocks -->
+  <ModOp Type="replace" GUID="140595,141671" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
+    <UnlockNeeded>1010463</UnlockNeeded>
+  </ModOp>
+  <ModOp Type="replace" GUID="140596" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
+    <UnlockNeeded>1010462</UnlockNeeded>
+  </ModOp>
+  <ModOp Type="replace" GUID="140597" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
+    <UnlockNeeded>1010464</UnlockNeeded>
+  </ModOp>
+
+  <ModOp Type="replace" GUID="117660" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
+    <UnlockNeeded>114508</UnlockNeeded>
+  </ModOp>
+  <ModOp Type="replace" GUID="117661" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
+    <UnlockNeeded>117668</UnlockNeeded>
+  </ModOp>
+{% elif parsed_options.incident_difficulty in [IncidentDifficulty.CHALLENGING, IncidentDifficulty.BRUTAL] %}
+  <!-- Set incident unlocks to unlocked - only local population matters -->
+  <ModOp Type="replace" GUID="140595,140596,140597,141671,{{ incident_feature_guids["FireIncidents_SA"] }},{{ incident_feature_guids["RiotIncidents_SA"] }},{{ incident_feature_guids["IllnessIncidents_SA"] }},{{ incident_feature_guids["ExplosionIncidents_SA"] }},113649,113652,116026,117659,117660,117661,117662" Path="/Values/Trigger/TriggerCondition">
+{{( generate_trigger_condition(TriggerType, Trigger.TRUE()) | indent(4, true)).rstrip() }}
+  </ModOp>
+{% endif %}
+</ModOps>

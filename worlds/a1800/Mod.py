@@ -10,7 +10,7 @@ import jinja2
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .data import A1800_DATA, DLC, Region, Session, Trigger, TriggerType
+from .data import A1800_DATA, DLC, IncidentDifficulty, Region, Session, Trigger, TriggerType
 from .Items import A1800Item
 from .Locations import A1800Location
 
@@ -95,6 +95,7 @@ def generate_mod(world: "A1800World", output_directory: str):
     data_py_template = template_env.get_template("data/archipelago/scripts/data.py")
     data_lua_template = template_env.get_template("data/archipelago/scripts/data.lua")
     on_game_loaded_template = template_env.get_template("data/archipelago/scripts/on_game_loaded.py")
+    incidents_template = template_env.get_template("data/config/export/main/asset/incidents.include.xml")
     quests_template = template_env.get_template("data/config/export/main/asset/quests.include.xml")
     triggers_template = template_env.get_template("data/config/export/main/asset/triggers.include.xml")
     texts_chinese_template = template_env.get_template("data/config/gui/texts_chinese.xml")
@@ -186,6 +187,13 @@ def generate_mod(world: "A1800World", output_directory: str):
     starting_guids = list(set([guid for item in multiworld.precollected_items[player] if isinstance(item, A1800Item)
                                for guid in item.data.unlock_guids]))
 
+    incident_feature_guids = {
+        "FireIncidents_SA": A1800_DATA.get_next_anno_guid(),
+        "RiotIncidents_SA": A1800_DATA.get_next_anno_guid(),
+        "IllnessIncidents_SA": A1800_DATA.get_next_anno_guid(),
+        "ExplosionIncidents_SA": A1800_DATA.get_next_anno_guid(),
+    }
+
     expedition_unlocks = {
         "Expedition: New World": Session.NW.expedition_unlock_guid,
         "Expedition: Cape Trelawney": Session.CT.expedition_unlock_guid,
@@ -197,11 +205,13 @@ def generate_mod(world: "A1800World", output_directory: str):
         "Palace", Region.OW, guid=249947), Trigger.ACTIVE_DLC(DLC.SEAT_OF_POWER))
 
     template_data: dict[str, Any] = {
-        "lock_guid_list": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),
-        "trigger_to_location_data": trigger_to_location_data,
+        "IncidentDifficulty": IncidentDifficulty,
         "Region": Region,
         "Trigger": Trigger,
         "TriggerType": TriggerType,
+        "parsed_options": A1800_DATA.get_parsed_options(),
+        "lock_guid_list": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),
+        "trigger_to_location_data": trigger_to_location_data,
         "location_guid_data": location_guid_data,
         "item_id_to_guids": item_id_to_guids,
         "start_trigger_guid": start_trigger_guid,
@@ -209,6 +219,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "start_trigger_data": [(
             starting_guids[0] if starting_guids else 0, None, starting_guids[1:] if len(starting_guids) > 1 else [], []
         )],
+        "incident_feature_guids": incident_feature_guids,
         "expedition_unlocks": expedition_unlocks,
         "recipe_unlocks": A1800_DATA.get_recipe_unlocks(),
         "victory_trigger_guid": victory_trigger_guid,
@@ -252,6 +263,8 @@ def generate_mod(world: "A1800World", output_directory: str):
     mod.writing_tasks.append(lambda: ("data/archipelago/scripts/data.lua", data_lua_template.render(**template_data)))
     mod.writing_tasks.append(lambda: ("data/archipelago/scripts/on_game_loaded.py",
                              on_game_loaded_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/export/main/asset/incidents.include.xml",
+                             incidents_template.render(**template_data)))
     mod.writing_tasks.append(lambda: ("data/config/export/main/asset/quests.include.xml",
                              quests_template.render(**template_data)))
     mod.writing_tasks.append(lambda: ("data/config/export/main/asset/triggers.include.xml",

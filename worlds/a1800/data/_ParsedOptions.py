@@ -1,7 +1,7 @@
 from functools import reduce
 from typing import TYPE_CHECKING
 
-from ._Enums import DLC, NO_REGION, Region
+from ._Enums import DLC, IncidentDifficulty, NO_REGION, Region
 
 
 if TYPE_CHECKING:
@@ -35,6 +35,8 @@ class ParsedOptions:
         self.hacienda_street_for_settling = options.required_street_for_settling.value & 2
 
         self.allow_hacienda_residences_upon_unlock = bool(options.allow_hacienda_residences_upon_unlock)
+
+        self.incident_difficulty = IncidentDifficulty(int(options.incident_difficulty.value))
 
         ### Victory Conditions ###
         self.required_population = {

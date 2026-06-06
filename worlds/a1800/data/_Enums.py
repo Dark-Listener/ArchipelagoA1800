@@ -44,6 +44,13 @@ _DLC_GUIDS = {
 ALL_DLC = reduce(DLC.__or__, DLC.__members__.values())
 
 
+class IncidentDifficulty(Enum):
+    EASY = 0
+    NORMAL = 1
+    CHALLENGING = 2
+    BRUTAL = 3
+
+
 class ProductType(Enum):
     META = auto()
     STAGE = auto()

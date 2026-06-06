@@ -2,7 +2,7 @@ from collections.abc import Sequence
 from typing import ClassVar, Iterator, Optional
 
 from ._Chains import CHAINS
-from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerType, UnlockType
+from ._Enums import ALL_REGIONS, DLC, NO_REGION, IncidentDifficulty, Region, Session, TriggerType, UnlockType
 from ._Guid import RECIPE_GUIDS
 from ._ParsedOptions import ParsedOptions
 from ._Products import PRODUCTS
@@ -3187,6 +3187,17 @@ class _Unlocks:
             for unlock in self._a1800_unlocks:
                 if unlock.name == "Docklands Main Wharf" and unlock.region == Region.OW:
                     unlock.output = {("Docklands", Region.OW)}
+
+        if parsed_options.incident_difficulty == IncidentDifficulty.BRUTAL:
+            for unlock in self._a1800_unlocks:
+                if "Fire Protection" in unlock.consumption:
+                    unlock.consumption.remove("Fire Protection")
+                    if unlock.region == Region.OW:
+                        unlock.is_early = False
+                if "Riot Control" in unlock.consumption:
+                    unlock.consumption.remove("Riot Control")
+                if "Healthcare" in unlock.consumption:
+                    unlock.consumption.remove("Healthcare")
 
         ### Mod Support ###
         if parsed_options.enable_mine_slot_unification:

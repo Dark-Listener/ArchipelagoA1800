@@ -1,13 +1,19 @@
 from dataclasses import dataclass
 from Options import Choice, OptionCounter, OptionGroup, OptionSet, PerGameCommonOptions, Toggle
 
+################
+# Game Options #
+################
+
 
 class EnabledDLCsOption(OptionSet):
     """
     List of enabled DLCs. Per default, all DLCs except for docklands are enabled.
     It's recommended to match this list when creating the game.
 
-    Valid keys: 'sunken-treasures', 'botanica', 'the-passage', 'seat-of-power', 'bright-harvest', 'land-of-lions', 'docklands', 'tourist-season', 'the-high-life', 'seeds-of-change', 'empire-of-the-skies', 'new-world-rising'
+    Valid keys: 'sunken-treasures', 'botanica', 'the-passage', 'seat-of-power', 'bright-harvest', 'land-of-lions',
+    'docklands', 'tourist-season', 'the-high-life', 'seeds-of-change', 'empire-of-the-skies', 'new-world-rising'
+
     Enabling docklands is strongly discouraged unless you want the option to skip most of the randomizer.
     """
     display_name = "Enabled DLCs"
@@ -39,10 +45,17 @@ class RequiredStreetForSettlingOption(Choice):
     """
     Sets which level of street must be availablee for the randomizer to assume ability to settle. Only affects the
     New World.
+
     Basic: The dirt road must be available.
-    Upgraded: The dirt road or the paved street must be available. This may require shipping many bricks to the New World.
-    Hacienda: The dirt road or any of the two hacienda streets must be available. Hacienda streets are limited to 999 squares, which makes settling very restrictive and likely makes settling multiple islands required. Same as Basic unless the Seeds of Change DLC is enabled.
-    Hacienda and Upgraded: The dirt road, paved street or any of the two hacienda streets must be available. Same as Upgraded unless the Seeds of Change DLC is enabled.
+
+    Upgraded: The dirt road or the paved street must be available. Often requires shipping many bricks to the New World.
+
+    Hacienda: The dirt road or any of the two hacienda streets must be available. Hacienda streets are limited to 999
+    squares, which makes settling very restrictive and likely makes settling multiple islands required. Same as Basic
+    unless the Seeds of Change DLC is enabled.
+
+    Hacienda and Upgraded: The dirt road, paved street or any of the two hacienda streets must be available. Same as
+    Upgraded unless the Seeds of Change DLC is enabled.
     """
     display_name = "Required Street for Settling"
     option_basic = 0
@@ -54,12 +67,42 @@ class RequiredStreetForSettlingOption(Choice):
 
 class AllowHaciendaResidencesUponUnlockOption(Toggle):
     """
-    Per default, Hacienda residence must not only be unlocked, but their corresponding regular residence also has to be
+    Per default, Hacienda residences must not only be unlocked, but their corresponding regular residence also has to be
     built at least once first. By turning this on, they will be buildable as soon as they are unlocked. This often
     results in skipping most of the New World goods as these residences allow the randomizer to progress without
     fulfilling the needs of the New World populations.
     """
-    display = "Allow Hacienda Residences upon Unlock"
+    display_name = "Allow Hacienda Residences upon Unlock"
+
+
+class IncidentDifficultyOption(Choice):
+    """
+    Select how challenging incidents (fire, riots, illness) should be. Can be combined indepoendently with the ingame
+    setting to adjust difficulty to your liking.
+
+    Easy: Incidents unlock once you have unlocked the responder building and had enough materials to build them in 
+    storage at least once. They are guaranteed to be available before upgrading to the tier of population after the
+    one they would unlock with in vanilla.
+
+    Normal: Incidents unlock once you have unlocked the responder building. They are guaranteed to be available before
+    upgrading to the tier of population after the one they would unlock with in vanilla.
+
+    Challenging: Incidents unlock once you reach the local incident requirement. They are guaranteed to be available
+    before upgrading to the tier of population after the one they would unlock with in vanilla.
+
+    Brutal: Incidents unlock once you reach the local incident requirement. There are no guarantees about ever
+    unlocking the responder building.
+    """
+    display_name = "Incident Difficulty"
+    option_easy = 0
+    option_normal = 1
+    option_challenging = 2
+    option_brutal = 3
+    default = 1
+
+######################
+# Victory Conditions #
+######################
 
 
 class RequiredPopulationOption(OptionCounter):
@@ -116,12 +159,17 @@ class RequiredMonumentsOption(OptionSet):
     Monuments that are not available in the DLCs selected in 'Enabled DLCs' will be ignored.
     Find the Skyline Tower under 'Required Skyscrapers' instead as it is also a residence.
 
-    Valid keys: 'worlds-fair', 'research-institute', 'arctic-airship-hangar', 'the-iron-tower', 'ow-rigid-airship-hangar', 'nw-rigid-airship-hangar', 'dam', 'grand-stadium'
+    Valid keys: 'worlds-fair', 'research-institute', 'arctic-airship-hangar', 'the-iron-tower',
+    'ow-rigid-airship-hangar', 'nw-rigid-airship-hangar', 'dam', 'grand-stadium'
     """
     display_name = "Required Monuments"
     valid_keys = ["worlds-fair", "research-institute", "arctic-airship-hangar", "the-iron-tower",
                   "ow-rigid-airship-hangar", "nw-rigid-airship-hangar", "dam", "grand-stadium"]
     default = []
+
+###############
+# Mod Support #
+###############
 
 
 class EnableMineSlotUnificationOption(Toggle):
@@ -141,6 +189,7 @@ class A1800Options(PerGameCommonOptions):
     enable_start_with_flagship: EnableStartWithFlagshipOption
     required_street_for_settling: RequiredStreetForSettlingOption
     allow_hacienda_residences_upon_unlock: AllowHaciendaResidencesUponUnlockOption
+    incident_difficulty: IncidentDifficultyOption
 
     # Victory Conditions
     required_population: RequiredPopulationOption

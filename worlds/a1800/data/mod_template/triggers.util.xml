@@ -126,14 +126,14 @@
     <ConditionUnlocked>
       <UnlockNeeded>{{ trigger_data.guid }}</UnlockNeeded>
     </ConditionUnlocked>
-    <ConditionPropsNegatable/>
+    <ConditionPropsNegatable />
   </Values>
 </TriggerCondition>
 {% elif trigger_data.trigger_type == TriggerType.COUNTER %}
 <TriggerCondition>
   <Template>ConditionPlayerCounter</Template>
   <Values>
-    <Condition/>
+    <Condition />
     <ConditionPlayerCounter>
       <Context>{{ trigger_data.guid }}</Context>
       <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
@@ -144,7 +144,7 @@
 <TriggerCondition>
   <Template>ConditionPlayerCounter</Template>
   <Values>
-    <Condition/>
+    <Condition />
     <ConditionPlayerCounter>
       <PlayerCounter>GoodsInStock</PlayerCounter>
       <Context>{{ trigger_data.guid }}</Context>
@@ -159,7 +159,7 @@
 <TriggerCondition>
   <Template>ConditionPlayerCounter</Template>
   <Values>
-    <Condition/>
+    <Condition />
     <ConditionPlayerCounter>
       <PlayerCounter>ExpeditionSolved</PlayerCounter>
       <Context>{{ trigger_data.guid }}</Context>
@@ -171,7 +171,7 @@
 <TriggerCondition>
   <Template>ConditionQuestState</Template>
   <Values>
-    <Condition/>
+    <Condition />
     <ConditionQuestState>
       <ConditionQuestStateStates>Reached</ConditionQuestStateStates>
       <ConditionQuestStateQuestGUID>{{ trigger_data.guid }}</ConditionQuestStateQuestGUID>
@@ -182,7 +182,7 @@
 <TriggerCondition>
   <Template>ConditionMonumentEventActive</Template>
   <Values>
-    <Condition/>
+    <Condition />
     <ConditionMonumentEventsActive>
       <MonumentEventsActive>
         <Item>
@@ -196,8 +196,8 @@
 <TriggerCondition>
   <Template>ConditionObjectPosition</Template>
   <Values>
-    <Condition/>
-    <ConditionPropsSessionSettings/>
+    <Condition />
+    <ConditionPropsSessionSettings />
     <ConditionObjectPosition>
       <Radius>{{ trigger_data.distance }}</Radius>
       <ExpectObjectExists>0</ExpectObjectExists>
@@ -212,14 +212,14 @@
       <TargetGUID>{{ trigger_data.target_guid }}</TargetGUID>
       <TargetCheckProcessingParticipantID>1</TargetCheckProcessingParticipantID>
     </ObjectTargetFilter>
-    <ConditionPropsNegatable/>
+    <ConditionPropsNegatable />
   </Values>
 </TriggerCondition>
 {% elif trigger_data.trigger_type == TriggerType.ITEM_SET_ACTIVE %}
 <TriggerCondition>
   <Template>ConditionPlayerCounter</Template>
   <Values>
-    <Condition/>
+    <Condition />
     <ConditionPlayerCounter>
       <PlayerCounter>ItemSetsActive</PlayerCounter>
       <Context>{{ trigger_data.guid }}</Context>
@@ -234,7 +234,7 @@
 <TriggerCondition>
   <Template>ConditionFactoryProductivity</Template>
   <Values>
-    <Condition/>
+    <Condition />
     <ConditionFactoryProductivity>
       <ProductivityThreshold>{{ trigger_data.amount }}</ProductivityThreshold>
     </ConditionFactoryProductivity>
@@ -249,7 +249,7 @@
 <TriggerCondition>
   <Template>ConditionIsDLCActive</Template>
   <Values>
-    <Condition/>
+    <Condition />
     <ConditionIsDLCActive>
       <DLCAssetList>
 {%    for guid in trigger_data.guids %}
@@ -259,7 +259,7 @@
 {%    endfor %}
       </DLCAssetList>
     </ConditionIsDLCActive>
-    <ConditionPropsNegatable/>
+    <ConditionPropsNegatable />
   </Values>
 </TriggerCondition>
 {% endif %}

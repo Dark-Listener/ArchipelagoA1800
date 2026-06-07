@@ -182,7 +182,7 @@ Note: Co-op was successfully tested, but multiplayer with separate players is as
 ## Other Mods
 
 Find other mods mostly on [mod.io](https://mod.io/g/anno-1800), with some on nexus or github. The following lists
-always refer to the name on mod.io.
+always refer to the name on mod.io. Note that many mods assume the player has all DLCs.
 
 ### Supported Mods
 

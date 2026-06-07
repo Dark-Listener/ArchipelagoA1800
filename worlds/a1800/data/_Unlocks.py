@@ -146,6 +146,22 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Oil Transport NW => OW", DLC.VANILLA, Region.OW,
                 input={("Oil", Region.NW), "Oil Transport"}, output="Oil", type=UnlockType.META | UnlockType.FACTORY),
 
+    A1800Unlock("Medium-Volume Transport and Pier", DLC.VANILLA, Region.OW,
+                input={"Medium-Volume Transport", "Pier"}, output="Medium-Volume Trade",
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("High-Volume Transport and Pier", DLC.VANILLA, Region.OW,
+                input={"High-Volume Transport", "Pier"}, output="High-Volume Trade",
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Medium-Volume Transport and Pier", DLC.VANILLA, Region.NW,
+                input={"Medium-Volume Transport", "Pier"}, output="Medium-Volume Trade",
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("High-Volume Transport and Pier", DLC.VANILLA, Region.NW,
+                input={"High-Volume Transport", "Pier"}, output="High-Volume Trade",
+                type=UnlockType.META | UnlockType.FACTORY),
+
     # Unlock
     A1800Unlock("Expedition: New World", DLC.VANILLA, ALL_REGIONS, Session.NW.expedition_unlock_guid, [],
                 Trigger.POPULATION("Artisans", Region.OW, 1)),
@@ -179,9 +195,6 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Artisans", Region.OW, 1), {"Timber", "Bricks", "Steel Beams", "Weapons"}),
 
     A1800Unlock("Public Mooring", DLC.VANILLA, Region.OW, 100429, 130052,
-                Trigger.POPULATION("Artisans", Region.OW, 250), {"Timber", "Bricks", "Steel Beams", "Windows"}),
-
-    A1800Unlock("Pier", DLC.VANILLA, Region.OW, 100519, 100519,
                 Trigger.POPULATION("Artisans", Region.OW, 250), {"Timber", "Bricks", "Steel Beams", "Windows"}),
 
     A1800Unlock("Repair Crane", DLC.VANILLA, Region.OW, 1010525, 1010525,
@@ -225,9 +238,6 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Town Hall", DLC.VANILLA, Region.NW, 101285, 101285,
                 Trigger.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}),
-
-    A1800Unlock("Pier", DLC.VANILLA, Region.NW, 101344, 130123,
-                Trigger.POPULATION("Obreros", Region.NW, 300), {"Timber", "Bricks"}),
 
     A1800Unlock("Cannon Tower", DLC.VANILLA, Region.NW, 101570, 130123,
                 Trigger.POPULATION("Obreros", Region.NW, 300), {"Timber", "Bricks", "Weapons"}),
@@ -434,6 +444,9 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Variety Theatre", DLC.VANILLA, Region.OW, 1010361, 130045,
                 Trigger.POPULATION("Artisans", Region.OW, 250),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), "Variety Theatre"),
+
+    A1800Unlock("Pier", DLC.VANILLA, Region.OW, 100519, 100519,
+                Trigger.POPULATION("Artisans", Region.OW, 250), {"Timber", "Bricks", "Steel Beams", "Windows"}, output="Pier"),
 
     A1800Unlock("Zoo", DLC.VANILLA, Region.OW, 1010470, 1010470,
                 Trigger.POPULATION("Artisans", Region.OW, 500),
@@ -750,6 +763,9 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Gold Mine", DLC.VANILLA, Region.NW, 101311, 101311,
                 Trigger.POPULATION("Obreros", Region.NW, 300), {"Timber", "Bricks"}, "Obreros", set(), "Gold Ore"),
 
+    A1800Unlock("Pier", DLC.VANILLA, Region.NW, 101344, 130123,
+                Trigger.POPULATION("Obreros", Region.NW, 300), {"Timber", "Bricks"}, output="Pier"),
+
     A1800Unlock("Felt Producer", DLC.VANILLA, Region.NW, 101415, [130103, 120290],
                 Trigger.POPULATION("Obreros", Region.NW, 600),
                 {"Timber", "Bricks"}, "Jornaleros", "Alpaca Wool", "Felt",
@@ -891,7 +907,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Artisan Residence", DLC.VANILLA, Region.OW, 1010345, 1010345,
                 Trigger.POPULATION("Workers", Region.OW, 750),
-                {"Timber", "Bricks", "Steel Beams"}, set(), set(), "Artisans", "", "Worker Residence",
+                {"Timber", "Bricks", "Steel Beams"}, set(), "Low-Volume Trade", "Artisans", "", "Worker Residence",
                 {"Sausages", "Bread", "Soap", "School", "Canned Food", "Sewing Machines",
                     "Fur Coats", "University", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Church", "Beer", "Variety Theatre", "Rum"},
@@ -900,7 +916,8 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Engineer Residence", DLC.VANILLA, Region.OW, 1010346, 1010346,
                 Trigger.POPULATION("Artisans", Region.OW, 1500),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), "Engineers", "", "Artisan Residence",
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), {"Medium-Volume Trade",
+                                                                        ("Medium-Volume Trade", Region.NW)}, "Engineers", "", "Artisan Residence",
                 {"Canned Food", "Sewing Machines", "Fur Coats", "University", "Spectacles", "Coffee",
                     "Electricity", "Light Bulbs", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Variety Theatre", "Rum", "Penny Farthings", "Pocket Watches", "Bank"},
@@ -929,23 +946,23 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Factory
     A1800Unlock("Schooner", DLC.VANILLA, ALL_REGIONS, 100438, 100438,
                 Trigger.UNLOCK("Sailing Shipyard", Region.OW),
-                input={"Sailing Ships", "Timber", "Sails"}, output={"Seafaring", "Expeditions: Level 1"}, ap_region=Region.OW),
+                input={"Sailing Ships", "Timber", "Sails"}, output={"Seafaring", "Expeditions: Level 1", "Low-Volume Trade"}, ap_region=Region.OW),
 
     A1800Unlock("Gunboat", DLC.VANILLA, ALL_REGIONS, 100437, 100437,
                 Trigger.UNLOCK("Sailing Shipyard", Region.OW),
-                input={"Sailing Ships", "Timber", "Sails", "Weapons"}, output={"Seafaring", "Expeditions: Level 1"}, ap_region=Region.OW),
+                input={"Sailing Ships", "Timber", "Sails", "Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Low-Volume Trade"}, ap_region=Region.OW),
 
     A1800Unlock("Frigate", DLC.VANILLA, ALL_REGIONS, 100439, 100439,
                 Trigger.POPULATION("Artisans", Region.OW, 1),
-                input={"Sailing Ships", "Timber", "Sails", "Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2"}, ap_region=Region.OW),
+                input={"Sailing Ships", "Timber", "Sails", "Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Clipper", DLC.VANILLA, ALL_REGIONS, 100441, 100441,
                 Trigger.POPULATION("Artisans", Region.OW, 750),
-                input={"Sailing Ships", "Timber", "Sails"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2"}, ap_region=Region.OW),
+                input={"Sailing Ships", "Timber", "Sails"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Ship-of-the-line", DLC.VANILLA, ALL_REGIONS, 100440, 100440,
                 Trigger.POPULATION("Artisans", Region.OW, 750),
-                input={"Sailing Ships", "Timber", "Sails", "Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Expeditions: Level 3"}, ap_region=Region.OW),
+                input={"Sailing Ships", "Timber", "Sails", "Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Expeditions: Level 3", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Oil Tanker", DLC.VANILLA, ALL_REGIONS, 100853, 100853,
                 Trigger.UNLOCK("Oil Power Plant", Region.OW),
@@ -953,19 +970,19 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Cargo Ship", DLC.VANILLA, ALL_REGIONS, 1010062, 1010062,
                 Trigger.UNLOCK("Steam Shipyard", Region.OW),
-                input={"Steam Ships", "Steel Beams", "Steam Motors"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Expeditions: Level 3"}, ap_region=Region.OW),
+                input={"Steam Ships", "Steel Beams", "Steam Motors"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Expeditions: Level 3", "Low-Volume Trade", "Medium-Volume Transport", "High-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Battle Cruiser", DLC.VANILLA, ALL_REGIONS, 100442, 100442,
                 Trigger.UNLOCK("Steam Shipyard", Region.OW),
-                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Expeditions: Level 3"}, ap_region=Region.OW),
+                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Expeditions: Level 3", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Monitor", DLC.VANILLA, ALL_REGIONS, 100443, 100443,
                 Trigger.POPULATION("Investors", Region.OW, 1),
-                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2"}, ap_region=Region.OW),
+                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Low-Volume Trade"}, ap_region=Region.OW),
 
     A1800Unlock("Flamethrower Monitor", DLC.VANILLA, ALL_REGIONS, 968, 968,
                 Trigger.POPULATION("Investors", Region.OW, 1),
-                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2"}, ap_region=Region.OW),
+                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Low-Volume Trade"}, ap_region=Region.OW),
 
     ################################################################################################################
     ### SUNKEN_TREASURES                                                                                         ###
@@ -1002,6 +1019,14 @@ _a1800_unlocks: list[A1800Unlock] = [
                 input="Aviation", output="Lost Expedition Scrap",
                 type=UnlockType.META | UnlockType.FACTORY),
 
+    A1800Unlock("Medium-Volume Transport and Pier", DLC.THE_PASSAGE, Region.AR,
+                input={"Medium-Volume Transport", "Pier"}, output="Medium-Volume Trade",
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("High-Volume Transport and Pier", DLC.THE_PASSAGE, Region.AR,
+                input={"High-Volume Transport", "Pier"}, output="High-Volume Trade",
+                type=UnlockType.META | UnlockType.FACTORY),
+
     # Unlock
     A1800Unlock("Expedition: The Arctic", DLC.THE_PASSAGE, ALL_REGIONS, Session.AR.expedition_unlock_guid, [],
                 Trigger.POPULATION("Engineers", Region.OW, 1)),
@@ -1018,9 +1043,6 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Cannon Tower", DLC.THE_PASSAGE, Region.AR, 112671, 112671,
                 Trigger.POPULATION("Technicians", Region.AR, 1), {"Timber", "Steel Beams", "Weapons"}),
-
-    A1800Unlock("Pier", DLC.THE_PASSAGE, Region.AR, 116030, 116030,
-                Trigger.POPULATION("Technicians", Region.AR, 1), {"Timber", "Steel Beams"}),
 
     A1800Unlock("Flame Tower", DLC.THE_PASSAGE, Region.AR, 824, 824,
                 Trigger.POPULATION("Technicians", Region.AR, 1), {"Timber", "Bricks", "Weapons"}),
@@ -1091,6 +1113,9 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Depot", DLC.THE_PASSAGE, Region.AR, 112670, 112670,
                 Trigger.POPULATION("Technicians", Region.AR, 1), "Timber", output={"Medium Storage", "Large Storage"}),
+
+    A1800Unlock("Pier", DLC.THE_PASSAGE, Region.AR, 116030, 116030,
+                Trigger.POPULATION("Technicians", Region.AR, 1), {"Timber", "Steel Beams"}, output="Pier"),
 
     A1800Unlock("Post Office", DLC.THE_PASSAGE, Region.AR, 112684, 112684,
                 Trigger.POPULATION("Technicians", Region.AR, 100), {"Timber", "Steel Beams"}, set(), set(), "Post Office"),
@@ -1177,7 +1202,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building, Factory, Residence, Upgrade
     A1800Unlock("Technician Shelter", DLC.THE_PASSAGE, Region.AR, 112652, 112652,
                 Trigger.POPULATION("Explorers", Region.AR, 500),
-                "Timber", "Heat", set(), "Technicians", "", "Explorer Shelter",
+                "Timber", "Heat", "Low-Volume Trade", "Technicians", "", "Explorer Shelter",
                 consumption={"Canteen", "Pemmican", "Oil Lamps", "Post Office",
                              "Canned Food", "Husky Sleds", "Fire Protection", "Healthcare"},
                 luxury={"Sleeping Bags", "Schnapps", "Parkas", "Coffee"},
@@ -1187,12 +1212,12 @@ _a1800_unlocks: list[A1800Unlock] = [
     # No arctic gas input to avoid cyclic dependency - Nate will always give you some if you have none and no Boreas
     A1800Unlock("Boreas", DLC.THE_PASSAGE, ALL_REGIONS, 114166, 114166,
                 Trigger.POPULATION("Technicians", Region.AR, 750),
-                input={"Arctic Airships", "Timber", "Sails", "Steam Motors"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Arctic Airships", "Timber", "Sails", "Steam Motors"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Blue Flamethrower Monitor", DLC.THE_PASSAGE, ALL_REGIONS, 1537, 1537,
                 Trigger.ALL(Trigger.POPULATION("Technicians", Region.AR, 750),
                             Trigger.POPULATION("Investors", Region.OW, 1)),
-                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons", "Arctic Gas"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2"}, ap_region=Region.OW),
+                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons", "Arctic Gas"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Low-Volume Trade"}, ap_region=Region.OW),
 
     ################################################################################################################
     ### SEAT_OF_POWER                                                                                            ###
@@ -1250,6 +1275,14 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Trading Post Materials and Seafaring", DLC.LAND_OF_LIONS, Region.EN,
                 input={"Wanza Timber", "Mud Bricks", "Seafaring"}, output="Settling",
                 type=UnlockType.META | UnlockType.FACTORY, ap_region=Region.EN),
+
+    A1800Unlock("Medium-Volume Transport and Pier", DLC.LAND_OF_LIONS, Region.EN,
+                input={"Medium-Volume Transport", "Pier"}, output="Medium-Volume Trade",
+                type=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("High-Volume Transport and Pier", DLC.LAND_OF_LIONS, Region.EN,
+                input={"High-Volume Transport", "Pier"}, output="High-Volume Trade",
+                type=UnlockType.META | UnlockType.FACTORY),
 
     # Research Institute, Engineers for infinite permits
     A1800Unlock("1500 Elders", DLC.LAND_OF_LIONS, Region.EN,
@@ -1310,9 +1343,6 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Town Hall", DLC.LAND_OF_LIONS, Region.EN, 117859, 117859,
                 Trigger.POPULATION("Elders", Region.EN, 300), {"Wanza Timber", "Mud Bricks"}),
-
-    A1800Unlock("Pier", DLC.LAND_OF_LIONS, Region.EN, 117871, 117921,
-                Trigger.POPULATION("Elders", Region.EN, 1000), {"Wanza Timber", "Mud Bricks"}),
 
     A1800Unlock("Cannon Tower", DLC.LAND_OF_LIONS, Region.EN, 117863, 117921,
                 Trigger.POPULATION("Elders", Region.EN, 1000), {"Wanza Timber", "Mud Bricks", "Weapons"}),
@@ -1519,6 +1549,9 @@ _a1800_unlocks: list[A1800Unlock] = [
                 Trigger.POPULATION("Elders", Region.EN, 1000),
                 {"Wanza Timber", "Mud Bricks"}, set(), set(), "Monastery"),
 
+    A1800Unlock("Pier", DLC.LAND_OF_LIONS, Region.EN, 117871, 117921,
+                Trigger.POPULATION("Elders", Region.EN, 1000), {"Wanza Timber", "Mud Bricks"}, output="Pier"),
+
     # Building, Upgrade
     A1800Unlock("Advanced Pier", DLC.LAND_OF_LIONS, Region.OW, 125028, 125028,
                 Trigger.COUNTER("Research Institute", Region.OW, 1),
@@ -1556,7 +1589,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Scholar Residence", DLC.LAND_OF_LIONS, Region.OW, 114445, 114445,
                 Trigger.POPULATION("Elders", Region.EN, 1500),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Permit: Scholar Residence"}, set(),
-                {"University", "Canned Food"}, {"Scholars", "Research Points"},
+                {"University", "Canned Food", ("Medium-Volume Trade", Region.OW),
+                 ("Medium-Volume Trade", Region.EN)}, {"Scholars", "Research Points"},
                 consumption={"University", "Canned Food", "Tailored Suits", "Electricity", "Seafood Stew",
                              "Telephones", "Radio Tower", "Fire Protection", "Riot Control", "Healthcare"},
                 luxury={"Leather Boots", "Rum", "Bombins", "Hibiscus Tea", "Tapestries", "Clay Pipes", "Gramophones"},
@@ -2153,44 +2187,44 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Engineer Skyscraper: Level 1", DLC.THE_HIGH_LIFE, Region.OW, 601888, 601888,
                 Trigger.POPULATION("Investors", Region.OW, 5000),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                set(), "Engineers", "", "Engineer Residence", {"Department Store"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Engineers", "", "Engineer Residence", {"Department Store"}),
 
     A1800Unlock("Engineer Skyscraper: Level 2", DLC.THE_HIGH_LIFE, Region.OW, 601889, 601889,
                 Trigger.ANY(Trigger.COUNTER("Engineer Skyscraper: Level 1", Region.OW, 1),
                             Trigger.COUNTER("Investor Skyscraper: Level 1", Region.OW, 1)),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                set(), "Engineers", "", "Engineer Skyscraper: Level 1", {"Chewing Gum", "Furniture Store"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Engineers", "", "Engineer Skyscraper: Level 1", {"Chewing Gum", "Furniture Store"}),
 
     A1800Unlock("Engineer Skyscraper: Level 3", DLC.THE_HIGH_LIFE, Region.OW, 601890, 601890,
                 Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                set(), "Engineers", "", "Engineer Skyscraper: Level 2", {"Typewriters", "Drug Store", "Violins"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Engineers", "", "Engineer Skyscraper: Level 2", {"Typewriters", "Drug Store", "Violins"}),
 
     A1800Unlock("Investor Skyscraper: Level 1", DLC.THE_HIGH_LIFE, Region.OW, 601882, 601882,
                 Trigger.POPULATION("Investors", Region.OW, 5000),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                set(), "Investors", "", "Investor Residence", {"Department Store"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors", "", "Investor Residence", {"Department Store"}),
 
     A1800Unlock("Investor Skyscraper: Level 2", DLC.THE_HIGH_LIFE, Region.OW, 601883, 601883,
                 Trigger.ANY(Trigger.COUNTER("Engineer Skyscraper: Level 1", Region.OW, 1),
                             Trigger.COUNTER("Investor Skyscraper: Level 1", Region.OW, 1)),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                set(), "Investors", "", "Investor Skyscraper: Level 1", {"Chewing Gum", "Biscuits"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors", "", "Investor Skyscraper: Level 1", {"Chewing Gum", "Biscuits"}),
 
     A1800Unlock("Investor Skyscraper: Level 3", DLC.THE_HIGH_LIFE, Region.OW, 601884, 601884,
                 Trigger.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                set(), "Investors", "", "Investor Skyscraper: Level 2", {"Cognac", "Furniture Store"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors", "", "Investor Skyscraper: Level 2", {"Cognac", "Furniture Store"}),
 
     A1800Unlock("Investor Skyscraper: Level 4", DLC.THE_HIGH_LIFE, Region.OW, 601886, 601886,
                 Trigger.COUNTER("Investor Skyscraper: Level 3", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                set(), "Investors", "", "Investor Skyscraper: Level 3", {"Typewriters", "Billiard Tables"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors", "", "Investor Skyscraper: Level 3", {"Typewriters", "Billiard Tables"}),
 
     A1800Unlock("Investor Skyscraper: Level 5", DLC.THE_HIGH_LIFE, Region.OW, 601891, 601891,
                 Trigger.COUNTER("Investor Skyscraper: Level 4", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                set(), "Investors", "", "Investor Skyscraper: Level 4", {"Violins", "Drug Store", "Toys"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors", "", "Investor Skyscraper: Level 4", {"Violins", "Drug Store", "Toys"}),
 
     ### Needs The Passage ###
     # Building, Factory
@@ -2546,39 +2580,39 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Factory
     A1800Unlock("Flak Monitor", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 720, 720,
                 Trigger.POPULATION("Engineers", Region.OW, 1),
-                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 2"}, ap_region=Region.OW),
+                input={"Steam Ships", "Steel Beams", "Steam Motors", "Advanced Weapons"}, output={"Seafaring", "Expeditions: Level 2", "Low-Volume Trade"}, ap_region=Region.OW),
 
     A1800Unlock("Colibri", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1654, 2011,
                 Trigger.POPULATION("Obreros", Region.NW, 600),
-                input={"Airships", "Aluminium Profiles", "Sails", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Sails", "Helium"}, output={"Aviation", "Low-Volume Trade"}, ap_region=Region.OW),
 
     A1800Unlock("Colibri (Armed)", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1054, 2011,
                 Trigger.POPULATION("Obreros", Region.NW, 600),
-                input={"Airships", "Aluminium Profiles", "Sails", "Helium", "Weapons"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Sails", "Helium", "Weapons"}, output={"Aviation", "Low-Volume Trade"}, ap_region=Region.OW),
 
     A1800Unlock("Atotolin", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1058, 2011,
                 Trigger.POPULATION("Obreros", Region.NW, 600),
-                input={"Airships", "Aluminium Profiles", "Sails", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Sails", "Helium"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Alicanto", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1655, 2012,
                 Trigger.ALL(Trigger.POPULATION("Obreros", Region.NW, 1500),
                             Trigger.POPULATION("Engineers", Region.OW, 500)),
-                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Alicanto (Armed)", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1056, 2012,
                 Trigger.ALL(Trigger.POPULATION("Obreros", Region.NW, 1500),
                             Trigger.POPULATION("Engineers", Region.OW, 500)),
-                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium", "Weapons"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium", "Weapons"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Dtundtuncan", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1059, 2012,
                 Trigger.ALL(Trigger.POPULATION("Obreros", Region.NW, 1500),
                             Trigger.POPULATION("Engineers", Region.OW, 500)),
-                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport", "High-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Quetzalcoatl", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1060, 2012,
                 Trigger.ALL(Trigger.POPULATION("Obreros", Region.NW, 1500),
                             Trigger.POPULATION("Engineers", Region.OW, 500)),
-                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport", "High-Volume Transport"}, ap_region=Region.OW),
 
     ### Needs The Passage ###
     # Meta
@@ -2626,46 +2660,46 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Mapinguari", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1755, 3369,
                 Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
                             Trigger.POPULATION("Obreros", Region.NW, 600)),
-                input={"Airships", "Timber", "Sails", "Steam Motors", "Helium"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Timber", "Sails", "Steam Motors", "Helium"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Harpy", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1733, 3369,
                 Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
                             Trigger.POPULATION("Obreros", Region.NW, 600)),
-                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas"}, output={"Aviation", "Low-Volume Trade"}, ap_region=Region.OW),
 
     A1800Unlock("Harpy (Armed)", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1731, 3369,
                 Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
                             Trigger.POPULATION("Obreros", Region.NW, 600)),
-                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas", "Weapons"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas", "Weapons"}, output={"Aviation", "Low-Volume Trade"}, ap_region=Region.OW),
 
     A1800Unlock("Hermes", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1735, 3369,
                 Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
                             Trigger.POPULATION("Obreros", Region.NW, 600)),
-                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Manticore", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1734, 3370,
                 Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
                             Trigger.POPULATION("Obreros", Region.NW, 1500),
                             Trigger.POPULATION("Engineers", Region.OW, 500)),
-                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Manticore (Armed)", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1732, 3370,
                 Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
                             Trigger.POPULATION("Obreros", Region.NW, 1500),
                             Trigger.POPULATION("Engineers", Region.OW, 500)),
-                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas", "Weapons"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas", "Weapons"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Pegasus", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1736, 3370,
                 Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
                             Trigger.POPULATION("Obreros", Region.NW, 1500),
                             Trigger.POPULATION("Engineers", Region.OW, 500)),
-                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport", "High-Volume Transport"}, ap_region=Region.OW),
 
     A1800Unlock("Zephyr", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1737, 3370,
                 Trigger.ALL(Trigger.COUNTER("Arctic Airship Hangar", Region.AR, 1),
                             Trigger.POPULATION("Obreros", Region.NW, 1500),
                             Trigger.POPULATION("Engineers", Region.OW, 500)),
-                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas"}, output={"Aviation"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport", "High-Volume Transport"}, ap_region=Region.OW),
 
     ### Needs Land of Lions ###
     # Building
@@ -2881,7 +2915,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building, Factory, Upgrade, Residence
     A1800Unlock("Artista Residence", DLC.NEW_WORLD_RISING, Region.NW, 5405, 5405,
                 Trigger.POPULATION("Obreros", Region.NW, 1000),
-                {"Timber", "Bricks"}, set(), set(), "Artistas", "", "Obrero Residence",
+                {"Timber", "Bricks"}, set(), {"Medium-Volume Trade", ("Medium-Volume Trade",
+                                                                      Region.OW)}, "Artistas", "", "Obrero Residence",
                 {"Tortillas", "Sewing Machines", "Coffee", "Bombins", "Soccer Balls", "Mezcal", "Jalea",
                     "Beach", "Perfumes", "Scooters", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Beer", "Boxing Arena", "Cigars", "Ice Cream", "Samba School", "Cinema"},
@@ -2906,7 +2941,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building, Factory, Residence
     A1800Unlock("Hacienda Artista Quarters", DLC.SEEDS_OF_CHANGE | DLC.NEW_WORLD_RISING, Region.NW, 6086, 6086,
                 Trigger.POPULATION("Artistas", Region.NW, 1),
-                {"Timber", "Bricks"}, set(), "Artistas", "Artistas",
+                {"Timber", "Bricks"}, set(), {"Artistas", "Medium-Volume Trade",
+                                              ("Medium-Volume Trade", Region.OW)}, "Artistas",
                 consumption={"Tortillas", "Sewing Machines", "Coffee", "Bombins", "Soccer Balls", "Mezcal", "Jalea",
                              "Beach", "Perfumes", "Scooters", "Spectacles", "Electricity", "Fire Protection",
                              "Riot Control", "Healthcare"},
@@ -3127,7 +3163,7 @@ class _Unlocks:
         if parsed_options.enable_start_with_flagship:
             self._a1800_unlocks.append(
                 A1800Unlock("Flagship Start", DLC.VANILLA, Region.OW,
-                            output={"Seafaring"},
+                            output={"Seafaring", "Low-Volume Trade"},
                             type=UnlockType.META | UnlockType.FACTORY),
             )
             self._a1800_unlocks.append(

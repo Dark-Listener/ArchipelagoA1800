@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import Choice, OptionCounter, OptionGroup, OptionSet, PerGameCommonOptions, Toggle
+from Options import Choice, DefaultOnToggle, OptionCounter, OptionGroup, OptionSet, PerGameCommonOptions, Toggle
 
 ################
 # Game Options #
@@ -33,12 +33,22 @@ class EnableDocklandsLogicOption(Toggle):
     display_name = "Enable Docklands Logic"
 
 
-class EnableStartWithFlagshipOption(Toggle):
+class StartWithFlagshipOption(Toggle):
     """
     Per default, the starting flagship will not be included in the randomizer logic. If you intend to start with a
-    flagship (or even a fleet), turn this on to tell the randomizer you have a decent expedition ship from the start.
+    flagship, turn this on to tell the randomizer you have a decent expedition ship from the start.
+
+    If you start with one of the fleets, you will have some out-of-logic ships.
     """
-    display_name = "Enable Start with Flagship"
+    display_name = "Start with Flagship"
+
+
+class StartWithTradingPostOption(DefaultOnToggle):
+    """
+    Per default, the randomizer assumes you start with a trading post. If you intend to start without one, turn this
+    off. Important: DO NOT settle on an island without a clay and an iron deposit or you may get stuck.
+    """
+    display_name = "Start with Trading Post"
 
 
 class RequiredStreetForSettlingOption(Choice):
@@ -98,6 +108,32 @@ class IncidentDifficultyOption(Choice):
     option_normal = 1
     option_challenging = 2
     option_brutal = 3
+    default = 1
+
+
+class FreeGoodsAndShipsOption(Choice):
+    """
+    Determines what goods and ships and how many you receive for free at game start and when entering sessions for the
+    first time.
+
+    Minimal: Close to the minimum required to beat the game (only game start wood and Enbesa starting goods)
+
+    In Logic: Only receive goods and ships that are in logic. If you started with a flagship and didn't unlock any ships
+    yet, you may end up empty-handed. Otherwise, unavailable goods are replace with timber and ships are downgraded to
+    the next-largest option available (min. Schooner for Enbesa).
+
+    In Logic Generous: As 'In Logic', but with more goods and ships.
+
+    Vanilla: No change to vanilla Anno 1800. May allow skipping some logic.
+
+    Generous: As 'Vanilla', but with more goods and ships.
+    """
+    display_name = "Free Goods and Ships"
+    option_minimal = 0
+    option_in_logic = 1
+    option_in_logic_generous = 2
+    option_vanilla = 3
+    option_generous = 4
     default = 1
 
 ######################
@@ -186,10 +222,12 @@ class A1800Options(PerGameCommonOptions):
     # Game Options (=> ungrouped)
     enabled_dlcs: EnabledDLCsOption
     enable_docklands_logic: EnableDocklandsLogicOption
-    enable_start_with_flagship: EnableStartWithFlagshipOption
+    start_with_flagship: StartWithFlagshipOption
+    start_with_trading_post: StartWithTradingPostOption
     required_street_for_settling: RequiredStreetForSettlingOption
     allow_hacienda_residences_upon_unlock: AllowHaciendaResidencesUponUnlockOption
     incident_difficulty: IncidentDifficultyOption
+    free_goods_and_ships: FreeGoodsAndShipsOption
 
     # Victory Conditions
     required_population: RequiredPopulationOption

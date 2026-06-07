@@ -2,7 +2,7 @@ from collections.abc import Sequence
 from typing import ClassVar, Iterator, Optional
 
 from ._Chains import CHAINS
-from ._Enums import ALL_REGIONS, DLC, NO_REGION, IncidentDifficulty, Region, Session, TriggerType, UnlockType
+from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerType, UnlockType
 from ._Guid import RECIPE_GUIDS
 from ._ParsedOptions import ParsedOptions
 from ._Products import PRODUCTS
@@ -3160,10 +3160,10 @@ class _Unlocks:
         self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if any(
             dlc in parsed_options.enabled_dlcs for dlc in unlock.dlc)]
 
-        if parsed_options.enable_start_with_flagship:
+        if parsed_options.start_with_flagship:
             self._a1800_unlocks.append(
                 A1800Unlock("Flagship Start", DLC.VANILLA, Region.OW,
-                            output={"Seafaring", "Low-Volume Trade"},
+                            output={"Initial Settling", "Seafaring", "Low-Volume Trade"},
                             type=UnlockType.META | UnlockType.FACTORY),
             )
             self._a1800_unlocks.append(
@@ -3176,6 +3176,13 @@ class _Unlocks:
                             input={"Fish", "Work Clothes"}, output={"Expeditions: Level 2"},
                             type=UnlockType.META | UnlockType.FACTORY),
             )
+
+        if not parsed_options.start_with_trading_post:
+            for unlock in self._a1800_unlocks:
+                if unlock.name in ["Clay Pit", "Iron Mine"] and unlock.region == Region.OW:
+                    unlock.maintenance.add("Initial Settling")
+                if unlock.name in ["Potato Farm", "Grain Farm"] and unlock.region == Region.OW:
+                    unlock.maintenance.add("Settling")
 
         if parsed_options.paved_street_for_settling:
             for unlock in self._a1800_unlocks:
@@ -3224,7 +3231,7 @@ class _Unlocks:
                 if unlock.name == "Docklands Main Wharf" and unlock.region == Region.OW:
                     unlock.output = {("Docklands", Region.OW)}
 
-        if parsed_options.incident_difficulty == IncidentDifficulty.BRUTAL:
+        if parsed_options.incident_difficulty == ParsedOptions.IncidentDifficulty.BRUTAL:
             for unlock in self._a1800_unlocks:
                 if "Fire Protection" in unlock.consumption:
                     unlock.consumption.remove("Fire Protection")

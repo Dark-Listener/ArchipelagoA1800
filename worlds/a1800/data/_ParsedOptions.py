@@ -1,7 +1,8 @@
+from enum import Enum
 from functools import reduce
 from typing import TYPE_CHECKING
 
-from ._Enums import DLC, IncidentDifficulty, NO_REGION, Region
+from ._Enums import DLC, NO_REGION, Region
 
 
 if TYPE_CHECKING:
@@ -16,6 +17,19 @@ class ParsedOptions:
     required_skyscrapers: dict[str, int]
     required_monuments: set[tuple[str, Region]]
 
+    class IncidentDifficulty(Enum):
+        EASY = 0
+        NORMAL = 1
+        CHALLENGING = 2
+        BRUTAL = 3
+
+    class FreeGoodsAndShips(Enum):
+        MINIMAL = 0
+        IN_LOGIC = 1
+        IN_LOGIC_GENEROUS = 2
+        VANILLA = 3
+        GENEROUS = 4
+
     def __init__(self, options: "A1800Options"):
         ### Game Options ###
         self.full_accessibility = options.accessibility == "full"
@@ -29,14 +43,17 @@ class ParsedOptions:
 
         self.enable_docklands_logic = bool(options.enable_docklands_logic)
 
-        self.enable_start_with_flagship = bool(options.enable_start_with_flagship)
+        self.start_with_flagship = bool(options.start_with_flagship)
+        self.start_with_trading_post = bool(options.start_with_trading_post)
 
         self.paved_street_for_settling = options.required_street_for_settling.value & 1
         self.hacienda_street_for_settling = options.required_street_for_settling.value & 2
 
         self.allow_hacienda_residences_upon_unlock = bool(options.allow_hacienda_residences_upon_unlock)
 
-        self.incident_difficulty = IncidentDifficulty(int(options.incident_difficulty.value))
+        self.incident_difficulty = ParsedOptions.IncidentDifficulty(int(options.incident_difficulty.value))
+
+        self.free_goods_and_ships = ParsedOptions.FreeGoodsAndShips(int(options.free_goods_and_ships.value))
 
         ### Victory Conditions ###
         self.required_population = {

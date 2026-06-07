@@ -104,7 +104,7 @@
     <RegionIncidentUnlock>{{ incident_feature_guids["ExplosionIncidents_SA"] }}</RegionIncidentUnlock>
   </ModOp>
 
-{% if parsed_options.incident_difficulty == IncidentDifficulty.EASY %}
+{% if parsed_options.incident_difficulty == parsed_options.IncidentDifficulty.EASY %}
   <!-- Couple incident unlocks to incident resolver unlocks + having the required amount of building materials -->
   <!-- Old World -->
   <ModOp Type="replace" GUID="140595,141671" Path="/Values/Trigger/TriggerCondition">
@@ -180,7 +180,7 @@
 {{( generate_trigger_condition(TriggerType, en_illness_trigger) | indent(4, true)).rstrip() }}
 {{( generate_sub_triggers(TriggerType, en_illness_trigger)      | indent(4, true)).rstrip() }}
   </ModOp>
-{% elif parsed_options.incident_difficulty == IncidentDifficulty.NORMAL %}
+{% elif parsed_options.incident_difficulty == parsed_options.IncidentDifficulty.NORMAL %}
   <!-- Couple incident unlocks to incident resolver unlocks -->
   <ModOp Type="replace" GUID="140595,141671" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
     <UnlockNeeded>1010463</UnlockNeeded>
@@ -198,7 +198,7 @@
   <ModOp Type="replace" GUID="117661" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
     <UnlockNeeded>117668</UnlockNeeded>
   </ModOp>
-{% elif parsed_options.incident_difficulty in [IncidentDifficulty.CHALLENGING, IncidentDifficulty.BRUTAL] %}
+{% elif parsed_options.incident_difficulty in [parsed_options.IncidentDifficulty.CHALLENGING, parsed_options.IncidentDifficulty.BRUTAL] %}
   <!-- Set incident unlocks to unlocked - only local population matters -->
   <ModOp Type="replace" GUID="140595,140596,140597,141671,{{ incident_feature_guids["FireIncidents_SA"] }},{{ incident_feature_guids["RiotIncidents_SA"] }},{{ incident_feature_guids["IllnessIncidents_SA"] }},{{ incident_feature_guids["ExplosionIncidents_SA"] }},113649,113652,116026,117659,117660,117661,117662" Path="/Values/Trigger/TriggerCondition">
 {{( generate_trigger_condition(TriggerType, Trigger.TRUE()) | indent(4, true)).rstrip() }}

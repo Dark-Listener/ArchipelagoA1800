@@ -5,7 +5,7 @@ if TYPE_CHECKING:
     from ..Options import A1800Options
 
 from ._Chains import CHAINS
-from ._Enums import ALL_REGIONS, DLC, NO_REGION, IncidentDifficulty, Region, RequirementType, Session, START_REGION, TriggerType, UnlockType
+from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, Session, START_REGION, TriggerType, UnlockType
 from ._EventItems import A1800EventItem, EVENT_ITEMS
 from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
 from ._Guid import get_next_anno_guid, RECIPE_GUIDS
@@ -97,6 +97,9 @@ class _A1800Data:
     def get_requirements_for_construction(self, unlock: A1800Unlock):
         return get_requirements_for_construction(unlock)
 
+    def get_sessions(self) -> Sequence[A1800Session]:
+        return SESSIONS.get_sessions()
+
     def get_unlocks(self) -> Sequence[A1800Unlock]:
         return UNLOCKS.get_unlocks()
 
@@ -120,7 +123,6 @@ __all__ = [
     "ALL_REGIONS",
     "A1800_DATA",
     "DLC",
-    "IncidentDifficulty",
     "Region",
     "RequirementType",
     "START_REGION",

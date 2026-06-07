@@ -42,6 +42,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Victory", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
 
     A1800Product("Road Network", DLC.VANILLA, Region.OW, 0, ProductType.META),
+    A1800Product("Initial Settling", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Settling", DLC.VANILLA, Region.OW | Region.NW, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.VANILLA, Region.OW, 0, ProductType.META),
     A1800Product("Medium Storage", DLC.VANILLA, Region.OW, 0, ProductType.META),

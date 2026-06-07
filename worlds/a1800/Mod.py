@@ -10,7 +10,7 @@ import jinja2
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .data import A1800_DATA, DLC, IncidentDifficulty, Region, Session, Trigger, TriggerType
+from .data import A1800_DATA, DLC, Region, Session, Trigger, TriggerType
 from .Items import A1800Item
 from .Locations import A1800Location
 
@@ -42,6 +42,54 @@ def _get_trigger_with_dlc(trigger: Trigger, trigger_dlc: set[DLC]) -> Trigger:
             return Trigger.ALL(*trigger.triggers, Trigger.ANY(*new_triggers))
         else:
             return Trigger.ALL(trigger, Trigger.ANY(*new_triggers))
+
+
+def _get_allowed_goods_and_ships_per_session(world: "A1800World") -> dict[Session, dict[str, bool]]:
+    multiworld = world.multiworld
+
+    sessions = {session.session for session in A1800_DATA.get_sessions()}
+    session_requirements = {session.session: {requirement.name for requirement in session.requirements}
+                            for session in A1800_DATA.get_sessions() if session.session != Session.OW}
+
+    gathered: set[str] = set()
+    allowed_goods_and_ships_per_session: dict[Session, dict[str, Any]] = dict()
+    for sphere in multiworld.get_spheres():
+        for location in sphere:
+            if isinstance(location, A1800Location) and isinstance(location.item, A1800Item):
+                if "Expedition" in location.item.name:
+                    gathered.add(location.item.name.split(": ")[-2] + ": " + location.item.name.split(": ")[-1])
+                else:
+                    gathered.add(location.item.name.split(": ")[-1])
+
+        for session in sessions:
+            if session == Session.OW:
+                continue
+            if not session in allowed_goods_and_ships_per_session and session_requirements[session].issubset(gathered):
+                allowed_goods_and_ships_per_session[session] = {
+                    "Bricks": "Bricks" in gathered,
+                    "Steel Beams": "Steel Beams" in gathered,
+                    "Coal": "Coal" in gathered,
+                    "Gunboat": "Gunboat" in gathered,
+                    "Schooner": "Schooner" in gathered,
+                    "Frigate": "Frigate" in gathered,
+                    "Clipper": "Clipper" in gathered,
+                }
+
+        if set(allowed_goods_and_ships_per_session.keys()) | {Session.OW} == sessions:
+            break
+
+    for session in set(Session.__members__.values()) - sessions:
+        allowed_goods_and_ships_per_session[session] = {
+            "Bricks": False,
+            "Steel Beams": False,
+            "Coal": False,
+            "Gunboat": False,
+            "Schooner": False,
+            "Frigate": False,
+            "Clipper": False,
+        }
+
+    return allowed_goods_and_ships_per_session
 
 
 class A1800ModFile(APPlayerContainer):
@@ -95,6 +143,8 @@ def generate_mod(world: "A1800World", output_directory: str):
     data_py_template = template_env.get_template("data/archipelago/scripts/data.py")
     data_lua_template = template_env.get_template("data/archipelago/scripts/data.lua")
     on_game_loaded_template = template_env.get_template("data/archipelago/scripts/on_game_loaded.py")
+    free_goods_and_ships_template = template_env.get_template(
+        "data/config/export/main/asset/free_goods_and_ships.include.xml")
     incidents_template = template_env.get_template("data/config/export/main/asset/incidents.include.xml")
     quests_template = template_env.get_template("data/config/export/main/asset/quests.include.xml")
     triggers_template = template_env.get_template("data/config/export/main/asset/triggers.include.xml")
@@ -205,8 +255,8 @@ def generate_mod(world: "A1800World", output_directory: str):
         "Palace", Region.OW, guid=249947), Trigger.ACTIVE_DLC(DLC.SEAT_OF_POWER))
 
     template_data: dict[str, Any] = {
-        "IncidentDifficulty": IncidentDifficulty,
         "Region": Region,
+        "Session": Session,
         "Trigger": Trigger,
         "TriggerType": TriggerType,
         "parsed_options": A1800_DATA.get_parsed_options(),
@@ -233,6 +283,9 @@ def generate_mod(world: "A1800World", output_directory: str):
         "palace_ministry_unhide_guid": palace_ministry_unhide_guid,
         "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,
         "palace_ministry_unhide_trigger_data": [(0, None, [], [269602])],
+        "allowed_goods_and_ships_per_session": _get_allowed_goods_and_ships_per_session(world),
+        "cape_trelawney_free_clipper_guid": A1800_DATA.get_next_anno_guid(),
+        "enbesa_second_clipper_guid": A1800_DATA.get_next_anno_guid(),
         "mod_name": versioned_mod_name,
         "ap_version": __version__,
         "slot_name": world.player_name,
@@ -263,6 +316,8 @@ def generate_mod(world: "A1800World", output_directory: str):
     mod.writing_tasks.append(lambda: ("data/archipelago/scripts/data.lua", data_lua_template.render(**template_data)))
     mod.writing_tasks.append(lambda: ("data/archipelago/scripts/on_game_loaded.py",
                              on_game_loaded_template.render(**template_data)))
+    mod.writing_tasks.append(lambda: ("data/config/export/main/asset/free_goods_and_ships.include.xml",
+                             free_goods_and_ships_template.render(**template_data)))
     mod.writing_tasks.append(lambda: ("data/config/export/main/asset/incidents.include.xml",
                              incidents_template.render(**template_data)))
     mod.writing_tasks.append(lambda: ("data/config/export/main/asset/quests.include.xml",

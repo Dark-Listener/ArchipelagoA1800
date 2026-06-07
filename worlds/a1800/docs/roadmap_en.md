@@ -13,7 +13,6 @@ The following features are planned to be added at some point (in no specific ord
 * Option not to include recipe checks (unlock recipes with main building)
 * Option to send hints for unlocks visible in chains
   * Fix incorrect recipe description hints
-* Figure out how to handle free session starting items in logic (ships and goods)
 * Introduce progressive items for trading posts, warehouses, monument stages...
 
 ## Potential Features | Considerations
@@ -26,7 +25,7 @@ The following features are being considered, but it's unclear whether they are r
 * Include ornaments in the item pool - maybe as filler?
   * Cosmetic DLC should probably be avoided due to issues with compatibility
 * Handle NPC shops and item pools
-* Improve spoiler log
+* Improve spoiler logs
 * If possible, try to not place items "later" than any chosen victory condition, e.g. don't require items at 600
 obreros if 1 was chosen as victory condition
 * Add traps (e.g. cause incidents)

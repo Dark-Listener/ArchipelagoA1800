@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from dataclasses import dataclass
 
 from ._Enums import ALL_REGIONS, DLC, Region, Session, TriggerType
@@ -53,6 +54,10 @@ class _Sessions:
                 assert next(PRODUCTS.find_products(requirement.name, requirement.region), None) \
                     or next(UNLOCKS.find_unlocks(requirement.name, requirement.region), None), \
                     f"Session {session.session.full_name} references non-existent requirement {requirement}"
+
+    def get_sessions(self) -> Sequence[A1800Session]:
+        assert self._initialized, "The Anno 1800 sessions module was used before it was initialized."
+        return list(self._a1800_sessions.values())
 
     def find_session(self, session: Session) -> A1800Session:
         assert self._initialized, "The Anno 1800 sessions module was used before it was initialized."

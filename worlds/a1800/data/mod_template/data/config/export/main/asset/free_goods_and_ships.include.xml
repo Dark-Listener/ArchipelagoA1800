@@ -1,0 +1,1277 @@
+<ModOps>
+  <!-- Add separate free clipper for cape trelawney -->
+  <ModOp Type="addNextSibling" GUID="103108">
+    <Asset>
+      <BaseAssetGUID>100441</BaseAssetGUID>
+      <Values>
+        <Standard>
+          <GUID>{{ cape_trelawney_free_clipper_guid }}</GUID>
+          <Name>TQO Clipper (Trade) with Starting Materials</Name>
+        </Standard>
+        <Object/>
+        <Mesh/>
+        <Selection>
+          <OnSelection>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <ActionList/>
+            </Values>
+          </OnSelection>
+        </Selection>
+        <Walking/>
+        <Text>
+          <TextOverride>100441</TextOverride>
+        </Text>
+        <CommandQueue/>
+        <Drifting/>
+        <Collector/>
+        <Attackable/>
+        <MinimapToken/>
+        <SoundEmitter/>
+        <UpgradeList/>
+        <QuestObject/>
+        <Infolayer/>
+        <ItemContainer>
+          <InitSlotItems>
+            <Item>
+              <Item>1010196</Item>
+              <!--timber-->
+              <StackSize>50</StackSize>
+            </Item>
+            <Item>
+              <Item>1010196</Item>
+              <!--timber-->
+              <StackSize>20</StackSize>
+            </Item>
+            <Item>
+              <Item>1010205</Item>
+              <!--bricks-->
+              <StackSize>50</StackSize>
+            </Item>
+            <Item>
+              <Item>1010218</Item>
+              <!--beams-->
+              <StackSize>50</StackSize>
+            </Item>
+          </InitSlotItems>
+        </ItemContainer>
+        <FeedbackController/>
+        <Draggable>
+          <DraggableOnDrag>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <ActionList/>
+            </Values>
+          </DraggableOnDrag>
+          <DraggableOnDrop>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <ActionList/>
+            </Values>
+          </DraggableOnDrop>
+        </Draggable>
+        <Cost/>
+        <Craftable/>
+        <TradeRouteVehicle/>
+        <Locked/>
+        <Nameable/>
+        <MetaPersistent/>
+        <ExpeditionAttribute/>
+        <ShipMaintenance/>
+        <Sellable/>
+        <Stance/>
+        <Rentable/>
+        <WorldMapSound/>
+        <Pausable/>
+        <ShipIncident>
+          <InfectableByIncident>
+            <Illness>
+              <Infectable>0</Infectable>
+            </Illness>
+          </InfectableByIncident>
+        </ShipIncident>
+        <SoundEmitterCommandBarks/>
+      </Values>
+    </Asset>
+  </ModOp>
+  <ModOp Type="replace" GUID="113868" Path="/Values/Quest/OnQuestActive/Values/ActionList/Actions/Item/Action[Template='ActionSpawnObjects']/Values/ActionSpawnObjects/SpawnGUID">
+    <SpawnGUID>{{ cape_trelawney_free_clipper_guid }}</SpawnGUID>
+  </ModOp>
+  <!-- Prepare second free clipper for enbesa without mud bricks -->
+  <ModOp Type="addNextSibling" GUID="80018">
+    <Asset>
+      <BaseAssetGUID>100441</BaseAssetGUID>
+      <Values>
+        <Standard>
+          <GUID>{{ enbesa_second_clipper_guid }}</GUID>
+          <Name>LoL Clipper (Trade) with Starting Materials</Name>
+        </Standard>
+        <Object/>
+        <Mesh/>
+        <Selection>
+          <OnSelection>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <ActionList/>
+            </Values>
+          </OnSelection>
+        </Selection>
+        <Walking/>
+        <Text>
+          <TextOverride>100441</TextOverride>
+        </Text>
+        <CommandQueue/>
+        <Drifting/>
+        <Collector/>
+        <Attackable/>
+        <MinimapToken/>
+        <SoundEmitter/>
+        <UpgradeList/>
+        <QuestObject/>
+        <Infolayer/>
+        <ItemContainer>
+          <InitSlotItems>
+            <Item>
+              <Item>114356</Item>
+              <!--timber-->
+              <StackSize>50</StackSize>
+            </Item>
+            <Item>
+              <Item>114356</Item>
+              <!--timber-->
+              <StackSize>20</StackSize>
+            </Item>
+            <Item>
+              <Item>114356</Item>
+              <!--bricks-->
+              <StackSize>50</StackSize>
+            </Item>
+            <Item>
+              <Item>114356</Item>
+              <!--beams-->
+              <StackSize>50</StackSize>
+            </Item>
+          </InitSlotItems>
+        </ItemContainer>
+        <FeedbackController/>
+        <Draggable>
+          <DraggableOnDrag>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <ActionList/>
+            </Values>
+          </DraggableOnDrag>
+          <DraggableOnDrop>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <ActionList/>
+            </Values>
+          </DraggableOnDrop>
+        </Draggable>
+        <Cost/>
+        <Craftable/>
+        <TradeRouteVehicle/>
+        <Locked/>
+        <Nameable/>
+        <MetaPersistent/>
+        <ExpeditionAttribute/>
+        <ShipMaintenance/>
+        <Sellable/>
+        <Stance/>
+        <Rentable/>
+        <WorldMapSound/>
+        <Pausable/>
+        <ShipIncident/>
+        <SoundEmitterCommandBarks/>
+      </Values>
+    </Asset>
+  </ModOp>
+{% if parsed_options.start_with_trading_post %}
+  <!-- Make trading post option 'full' actually fill your trading post with wood -->
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartWithKontor/Full/StartGoods/Item[Product='1010196']/Amount">
+    <Amount>75</Amount>
+  </ModOp>
+{% endif %}
+{% if parsed_options.free_goods_and_ships == parsed_options.FreeGoodsAndShips.MINIMAL %}
+{% if parsed_options.start_with_flagship %}
+  <!-- Remove anything unnecessary from start ships -->
+  <ModOp Type="remove" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010221']" />
+{% if parsed_options.start_with_trading_post %}
+  <ModOp Type="remove" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010196' or Product='1010218']" />
+{% else %}
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010218']/Amount">
+    <Amount>8</Amount>
+  </ModOp>
+{% endif %}
+{% endif %}
+{% if parsed_options.start_with_trading_post %}
+  <!-- Remove anything unnecessary from start trading post -->
+  <ModOp Type="remove" GUID="2002450" Path="/Values/DifficultySettings/StartWithKontor/*/StartGoods/Item[Product='1010200']" />
+{% endif %}
+  <!-- Remove free ships in the new world, cape trelawney and the arctic -->
+  <ModOp Type="remove" GUID="153252" Path="/Values/Trigger/TriggerActions" />
+  <ModOp Type="remove" GUID="114065" Path="/Values/Trigger/TriggerActions/Item[TriggerAction/Values/ActionRegisterTrigger/TriggerAsset='113867']" />
+  <ModOp Type="remove" GUID="114116" Path="/Values/Trigger/TriggerActions/Item[TriggerAction/Values/ActionRegisterTrigger/TriggerAsset='114770']" />
+  <!-- Make the free ship in enbesa a schooner -->
+  <ModOp Type="replace" GUID="80018" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100438</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="80018" Path="/Values/Text">
+    <Text>
+      <TextOverride>100438</TextOverride>
+    </Text>
+  </ModOp>
+{% elif parsed_options.free_goods_and_ships == parsed_options.FreeGoodsAndShips.IN_LOGIC %}
+{% if parsed_options.start_with_flagship %}
+  <!-- Replace weapons with timber on start ships -->
+  <ModOp Type="remove" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010221']" />
+{% if parsed_options.start_with_trading_post %}
+  <!-- Replace steel beams with timber on start ships -->
+  <ModOp Type="remove" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010218']" />
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010196']/Amount">
+    <Amount>70</Amount>
+  </ModOp>
+{% else %}
+  <!-- Leave just enough steel beams on start ships to settle one island -->
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010196']/Amount">
+    <Amount>60</Amount>
+  </ModOp>
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010218']/Amount">
+    <Amount>8</Amount>
+  </ModOp>
+{% endif %}
+{% endif %}
+{% if parsed_options.start_with_trading_post %}
+  <!-- Remove fish from start trading post -->
+  <ModOp Type="remove" GUID="2002450" Path="/Values/DifficultySettings/StartWithKontor/*/StartGoods/Item[Product='1010200']" />
+{% endif %}
+  <!-- New World -->
+{% if allowed_goods_and_ships_per_session[Session.NW]["Clipper"] %}
+  <ModOp Type="replace" GUID="103108" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>20</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>20</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>20</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.NW]["Frigate"] %}
+  <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100439</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/Text">
+    <Text>
+      <TextOverride>100439</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>20</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>20</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.NW]["Schooner"] or parsed_options.start_with_flagship %}
+  <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100438</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/Text">
+    <Text>
+      <TextOverride>100438</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% elif allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>20</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.NW]["Gunboat"] %}
+  <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100437</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/Text">
+    <Text>
+      <TextOverride>100437</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% else %}
+  <ModOp Type="remove" GUID="153252" Path="/Values/Trigger/TriggerActions" />
+{% endif %}
+  <!-- Cape Trelawney -->
+{% if allowed_goods_and_ships_per_session[Session.CT]["Clipper"] %}
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>20</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>20</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>20</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.CT]["Frigate"] %}
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100439</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/Text">
+    <Text>
+      <TextOverride>100439</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>20</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>20</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.CT]["Schooner"] or parsed_options.start_with_flagship %}
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100438</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/Text">
+    <Text>
+      <TextOverride>100438</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% elif allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>20</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.CT]["Gunboat"] %}
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100437</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/Text">
+    <Text>
+      <TextOverride>100437</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% else %}
+  <ModOp Type="remove" GUID="114065" Path="/Values/Trigger/TriggerActions/Item[TriggerAction/Values/ActionRegisterTrigger/TriggerAsset='113867']" />
+{% endif %}
+  <!-- The Arctic -->
+{% if allowed_goods_and_ships_per_session[Session.AR]["Clipper"] %}
+  <ModOp Type="replace" GUID="114140" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+        <Item>1010226</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.AR]["Frigate"] %}
+  <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100439</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/Text">
+    <Text>
+      <TextOverride>100439</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+        <Item>1010226</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.AR]["Schooner"] or parsed_options.start_with_flagship %}
+  <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100438</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/Text">
+    <Text>
+      <TextOverride>100438</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% elif allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+        <Item>1010226</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.AR]["Gunboat"] %}
+  <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100437</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/Text">
+    <Text>
+      <TextOverride>100437</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% else %}
+  <ModOp Type="remove" GUID="114116" Path="/Values/Trigger/TriggerActions/Item[TriggerAction/Values/ActionRegisterTrigger/TriggerAsset='114770']" />
+{% endif %}
+  <!-- Enbesa -->
+{% if not allowed_goods_and_ships_per_session[Session.EN]["Clipper"] %}
+{% if allowed_goods_and_ships_per_session[Session.EN]["Frigate"] %}
+  <ModOp Type="replace" GUID="80018" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100439</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="80018" Path="/Values/Text">
+    <Text>
+      <TextOverride>100439</TextOverride>
+    </Text>
+  </ModOp>
+{% else %}
+  <ModOp Type="replace" GUID="80018" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100438</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="80018" Path="/Values/Text">
+    <Text>
+      <TextOverride>100438</TextOverride>
+    </Text>
+  </ModOp>
+{% endif %}
+{% endif %}
+{% elif parsed_options.free_goods_and_ships == parsed_options.FreeGoodsAndShips.IN_LOGIC_GENEROUS %}
+{% if parsed_options.start_with_flagship %}
+  <!-- Replace weapons with full stack of timber on start ships -->
+  <ModOp Type="remove" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010221']" />
+  <!-- Fill other start ships to the brim with timber and add an extra schooner full of timber -->
+  <ModOp Type="add" GUID="2002450" Path="/Values/DifficultySettings/StartShips/TradeFleet/Ships/Item[Ship='100438']">
+    <ShipLoad>
+      <Item>
+        <Product>1010196</Product>
+        <Amount>100</Amount>
+      </Item>
+    </ShipLoad>
+  </ModOp>
+  <ModOp Type="add" GUID="2002450" Path="/Values/DifficultySettings/StartShips/WarFleet/Ships/Item[Ship='100437']">
+    <ShipLoad>
+      <Item>
+        <Product>1010196</Product>
+        <Amount>50</Amount>
+      </Item>
+    </ShipLoad>
+  </ModOp>
+  <ModOp Type="add" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*[self::TradeFleet or self::WarFleet]/Ships">
+    <Item>
+      <Ship>100438</Ship>
+      <ShipLoad>
+        <Item>
+          <Product>1010196</Product>
+          <Amount>100</Amount>
+        </Item>
+      </ShipLoad>
+    </Item>
+  </ModOp>
+{% if parsed_options.start_with_trading_post %}
+  <!-- Replace steel beams with full stack of timber on start ships -->
+  <ModOp Type="remove" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010218']" />
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartShips[/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010196']/Amount">
+    <Amount>150</Amount>
+  </ModOp>
+{% else %}
+  <!-- Leave just enough steel beams on start ships to settle one island -->
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010196']/Amount">
+    <Amount>100</Amount>
+  </ModOp>
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010218']/Amount">
+    <Amount>8</Amount>
+  </ModOp>
+{% endif %}
+{% endif %}
+{% if parsed_options.start_with_trading_post %}
+  <!-- Remove fish from and add wood to start trading post -->
+  <ModOp Type="remove" GUID="2002450" Path="/Values/DifficultySettings/StartWithKontor/*/StartGoods/Item[Product='1010200']" />
+  <ModOp Type="add" GUID="2002450" Path="/Values/DifficultySettings/StartWithKontor/Standard/StartGoods">
+    <Item>
+      <Product>120008</Product>
+      <Amount>40</Amount>
+    </Item>
+  </ModOp>
+  <ModOp Type="add" GUID="2002450" Path="/Values/DifficultySettings/StartWithKontor/Full/StartGoods">
+    <Item>
+      <Product>120008</Product>
+      <Amount>75</Amount>
+    </Item>
+  </ModOp>
+{% endif %}
+  <!-- New World -->
+{% if allowed_goods_and_ships_per_session[Session.NW]["Clipper"] %}
+  <ModOp Type="replace" GUID="103108" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.NW]["Frigate"] %}
+  <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100439</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/Text">
+    <Text>
+      <TextOverride>100439</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.NW]["Schooner"] or parsed_options.start_with_flagship %}
+  <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100438</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/Text">
+    <Text>
+      <TextOverride>100438</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% elif allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.NW]["Gunboat"] %}
+  <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100437</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/Text">
+    <Text>
+      <TextOverride>100437</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="103108" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% else %}
+  <ModOp Type="remove" GUID="153252" Path="/Values/Trigger/TriggerActions" />
+{% endif %}
+  <!-- Cape Trelawney -->
+{% if allowed_goods_and_ships_per_session[Session.CT]["Clipper"] %}
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.CT]["Frigate"] %}
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100439</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/Text">
+    <Text>
+      <TextOverride>100439</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.CT]["Schooner"] or parsed_options.start_with_flagship %}
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100438</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/Text">
+    <Text>
+      <TextOverride>100438</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% elif allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+        <Item>1010205</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.CT]["Gunboat"] %}
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100437</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/Text">
+    <Text>
+      <TextOverride>100437</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% else %}
+  <ModOp Type="remove" GUID="114065" Path="/Values/Trigger/TriggerActions/Item[TriggerAction/Values/ActionRegisterTrigger/TriggerAsset='113867']" />
+{% endif %}
+  <!-- The Arctic -->
+{% if allowed_goods_and_ships_per_session[Session.AR]["Clipper"] %}
+  <ModOp Type="replace" GUID="114140" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+        <Item>1010226</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.AR]["Frigate"] %}
+  <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100439</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/Text">
+    <Text>
+      <TextOverride>100439</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+        <Item>1010226</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.AR]["Schooner"] or parsed_options.start_with_flagship %}
+  <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100438</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/Text">
+    <Text>
+      <TextOverride>100438</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+        <Item>1010218</Item>
+{% elif allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+        <Item>1010226</Item>
+{% else %}
+        <Item>1010196</Item>
+{% endif %}
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.AR]["Gunboat"] %}
+  <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100437</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/Text">
+    <Text>
+      <TextOverride>100437</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="114140" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>1010196</Item>
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% else %}
+  <ModOp Type="remove" GUID="114116" Path="/Values/Trigger/TriggerActions/Item[TriggerAction/Values/ActionRegisterTrigger/TriggerAsset='114770']" />
+{% endif %}
+  <!-- Enbesa -->
+{% if allowed_goods_and_ships_per_session[Session.EN]["Clipper"] %}
+  <ModOp Type="replace" GUID="80018" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>114356</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>114356</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>114356</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>114402</Item>
+        <StackSize>8</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.EN]["Frigate"] %}
+  <ModOp Type="replace" GUID="80018,{{ enbesa_second_clipper_guid }}" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100439</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="80018,{{ enbesa_second_clipper_guid }}" Path="/Values/Text">
+    <Text>
+      <TextOverride>100439</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="80018" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>114356</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>114356</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>114402</Item>
+        <StackSize>8</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ enbesa_second_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>114356</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>114356</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>114356</Item>
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.EN]["Schooner"] or parsed_options.start_with_flagship %}
+  <ModOp Type="replace" GUID="80018,{{ enbesa_second_clipper_guid }}" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100438</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="80018,{{ enbesa_second_clipper_guid }}" Path="/Values/Text">
+    <Text>
+      <TextOverride>100438</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ enbesa_second_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>114356</Item>
+        <StackSize>50</StackSize>
+      </Item>
+      <Item>
+        <Item>114356</Item>
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% elif allowed_goods_and_ships_per_session[Session.EN]["Gunboat"] %}
+  <ModOp Type="replace" GUID="80018" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100438</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="80018" Path="/Values/Text">
+    <Text>
+      <TextOverride>100438</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ enbesa_second_clipper_guid }}" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100437</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ enbesa_second_clipper_guid }}" Path="/Values/Text">
+    <Text>
+      <TextOverride>100437</TextOverride>
+    </Text>
+  </ModOp>
+  <ModOp Type="replace" GUID="{{ enbesa_second_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
+    <InitSlotItems>
+      <Item>
+        <Item>114356</Item>
+        <StackSize>50</StackSize>
+      </Item>
+    </InitSlotItems>
+  </ModOp>
+{% else %}
+  <ModOp Type="replace" GUID="80018" Path="/BaseAssetGUID">
+    <BaseAssetGUID>100438</BaseAssetGUID>
+  </ModOp>
+  <ModOp Type="replace" GUID="80018" Path="/Values/Text">
+    <Text>
+      <TextOverride>100438</TextOverride>
+    </Text>
+  </ModOp>
+{% endif %}
+  <!-- Spawn an extra ship each -->
+  <ModOp Type="replace" GUID="153243,113868" Path="/Values/Quest/OnQuestActive/Values/ActionList/Actions/Item/Action[Template='ActionSpawnObjects']/Values/ActionSpawnObjects/Amount">
+    <Amount>2</Amount>
+  </ModOp>
+  <ModOp Type="replace" GUID="114770" Path="/Values/Trigger/TriggerActions/Item/TriggerAction[Template='ActionDelayedActions']/Values/ActionDelayedActions/DelayedActions/Values/ActionList/Actions/Item/Action[Template='ActionSpawnObjects']/Values/ActionSpawnObjects/Amount">
+    <Amount>2</Amount>
+  </ModOp>
+{% if allowed_goods_and_ships_per_session[Session.EN]["Clipper"] or allowed_goods_and_ships_per_session[Session.EN]["Frigate"] or allowed_goods_and_ships_per_session[Session.EN]["Schooner"] or allowed_goods_and_ships_per_session[Session.EN]["Gunboat"] or parsed_options.start_with_flagship %}
+  <ModOp Type="add" GUID="124995" Path="/Values/Quest/OnQuestActive/Values/ActionList/Actions">
+    <Item>
+      <Action>
+        <Template>ActionSpawnObjects</Template>
+        <Values>
+          <Action/>
+          <ActionSpawnObjects>
+            <SpawnGUID>{{ enbesa_second_clipper_guid }}</SpawnGUID>
+            <Amount>1</Amount>
+            <RandomRotation>1</RandomRotation>
+            <OwnerIsProcessingParticipant>1</OwnerIsProcessingParticipant>
+            <Owner>Neutral</Owner>
+          </ActionSpawnObjects>
+          <SpawnArea>
+            <SpawnContext>Object</SpawnContext>
+            <ContextGUID>119410</ContextGUID>
+            <DistanceToContext>30</DistanceToContext>
+          </SpawnArea>
+          <SessionFilter>
+            <Sessions>
+              <Item>
+                <Session>112132</Session>
+              </Item>
+            </Sessions>
+          </SessionFilter>
+        </Values>
+      </Action>
+    </Item>
+  </ModOp>
+{% endif %}
+{% elif parsed_options.free_goods_and_ships == parsed_options.FreeGoodsAndShips.GENEROUS %}
+{% if parsed_options.start_with_flagship %}
+  <!-- Fill start ships to the brim and add one extra schooner if starting with fleets -->
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010218' or Product='1010221']/Amount">
+    <Amount>50</Amount>
+  </ModOp>
+  <ModOp Type="add" GUID="2002450" Path="/Values/DifficultySettings/StartShips/TradeFleet/Ships/Item[Ship='100438']">
+    <ShipLoad>
+      <Item>
+        <Product>1010196</Product>
+        <Amount>100</Amount>
+      </Item>
+    </ShipLoad>
+  </ModOp>
+  <ModOp Type="add" GUID="2002450" Path="/Values/DifficultySettings/StartShips/WarFleet/Ships/Item[Ship='100437']">
+    <ShipLoad>
+      <Item>
+        <Product>1010196</Product>
+        <Amount>50</Amount>
+      </Item>
+    </ShipLoad>
+  </ModOp>
+  <ModOp Type="add" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*[self::TradeFleet or self::WarFleet]/Ships">
+    <Item>
+      <Ship>100438</Ship>
+      <ShipLoad>
+        <Item>
+          <Product>1010196</Product>
+          <Amount>100</Amount>
+        </Item>
+      </ShipLoad>
+    </Item>
+  </ModOp>
+{% endif %}
+{% if parsed_options.start_with_trading_post %}
+  <!-- Increase fish in trading post to match timber and add the same amount of work clothes, bricks and steel beams -->
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartWithKontor/Standard/StartGoods/Item[Product='1010200']/Amount">
+    <Amount>40</Amount>
+  </ModOp>
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartWithKontor/Full/StartGoods/Item[Product='1010200']/Amount">
+    <Amount>75</Amount>
+  </ModOp>
+  <ModOp Type="add" GUID="2002450" Path="/Values/DifficultySettings/StartWithKontor/Standard/StartGoods">
+    <Item>
+      <Product>1010237</Product>
+      <Amount>40</Amount>
+    </Item>
+    <Item>
+      <Product>1010205</Product>
+      <Amount>40</Amount>
+    </Item>
+    <Item>
+      <Product>1010218</Product>
+      <Amount>40</Amount>
+    </Item>
+  </ModOp>
+  <ModOp Type="add" GUID="2002450" Path="/Values/DifficultySettings/StartWithKontor/Full/StartGoods">
+    <Item>
+      <Product>1010237</Product>
+      <Amount>75</Amount>
+    </Item>
+    <Item>
+      <Product>1010205</Product>
+      <Amount>75</Amount>
+    </Item>
+    <Item>
+      <Product>1010218</Product>
+      <Amount>75</Amount>
+    </Item>
+  </ModOp>
+{% endif %}
+  <!-- Fill session intro ships to the brim and add one extra ship -->
+  <ModOp Type="replace" GUID="103108,{{ cape_trelawney_free_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems/Item[Item='1010196' and StackSize='20']/StackSize">
+    <StackSize>50</StackSize>
+  </ModOp>
+  <ModOp Type="addNextSibling" GUID="114140" Path="/Values/ItemContainer/InitSlotItems/Item[Item='1010196']">
+    <Item>
+      <Item>1010196</Item>
+      <StackSize>50</StackSize>
+    </Item>
+  </ModOp>
+  <ModOp Type="replace" GUID="80018" Path="/Values/ItemContainer/InitSlotItems/Item[Item='114402']/StackSize">
+    <StackSize>50</StackSize>
+  </ModOp>
+  <ModOp Type="addNextSibling" GUID="80018" Path="/Values/ItemContainer/InitSlotItems/Item[Item='114356']">
+    <Item>
+      <Item>114356</Item>
+      <StackSize>50</StackSize>
+    </Item>
+    <Item>
+      <Item>114356</Item>
+      <StackSize>50</StackSize>
+    </Item>
+  </ModOp>
+  <ModOp Type="replace" GUID="153243,113868" Path="/Values/Quest/OnQuestActive/Values/ActionList/Actions/Item/Action[Template='ActionSpawnObjects']/Values/ActionSpawnObjects/Amount">
+    <Amount>2</Amount>
+  </ModOp>
+  <ModOp Type="replace" GUID="114770" Path="/Values/Trigger/TriggerActions/Item/TriggerAction[Template='ActionDelayedActions']/Values/ActionDelayedActions/DelayedActions/Values/ActionList/Actions/Item/Action[Template='ActionSpawnObjects']/Values/ActionSpawnObjects/Amount">
+    <Amount>2</Amount>
+  </ModOp>
+  <ModOp Type="add" GUID="124995" Path="/Values/Quest/OnQuestActive/Values/ActionList/Actions">
+    <Item>
+      <Action>
+        <Template>ActionSpawnObjects</Template>
+        <Values>
+          <Action/>
+          <ActionSpawnObjects>
+            <SpawnGUID>{{ enbesa_second_clipper_guid }}</SpawnGUID>
+            <Amount>1</Amount>
+            <RandomRotation>1</RandomRotation>
+            <OwnerIsProcessingParticipant>1</OwnerIsProcessingParticipant>
+            <Owner>Neutral</Owner>
+          </ActionSpawnObjects>
+          <SpawnArea>
+            <SpawnContext>Object</SpawnContext>
+            <ContextGUID>119410</ContextGUID>
+            <DistanceToContext>30</DistanceToContext>
+          </SpawnArea>
+          <SessionFilter>
+            <Sessions>
+              <Item>
+                <Session>112132</Session>
+              </Item>
+            </Sessions>
+          </SessionFilter>
+        </Values>
+      </Action>
+    </Item>
+  </ModOp>
+{% endif %}
+</ModOps>

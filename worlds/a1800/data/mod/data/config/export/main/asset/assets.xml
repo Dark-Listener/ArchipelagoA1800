@@ -46,6 +46,14 @@
   <!-- Make Hacienda menu visible once anything from it is unlocked -->
   <ModOp Type="remove" GUID="7281" Path="/Values/ConstructionCategory/BuildingList/Item[IgnoreUnlockStateForCategoryVisibility='1']/IgnoreUnlockStateForCategoryVisibility" />
 
+  <!-- Lock Hacienda streets and store room per default -->
+  <ModOp Type="replace" GUID="24770,24775,25224" Path="/Values/Locked">
+    <Locked>
+			<DefaultLockedState>1</DefaultLockedState>
+			<DLCDependency>24961</DLCDependency>
+		</Locked>
+  </ModOp>
+
   <!-- Lock later dam phases per default -->
   <ModOp Type="replace" GUID="6005,6006" Path="/Values/Locked/DefaultLockedState">
     <DefaultLockedState>1</DefaultLockedState>

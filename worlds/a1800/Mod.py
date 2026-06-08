@@ -1,4 +1,5 @@
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
+from dataclasses import dataclass
 from itertools import groupby
 from os import walk
 from os.path import dirname, join, relpath
@@ -10,7 +11,7 @@ import jinja2
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .data import A1800_DATA, DLC, Region, Session, Trigger, TriggerType
+from .data import A1800_DATA, DLC, Region, Session, Trigger, TriggerAction, TriggerActionType, TriggerCondition, TriggerConditionType
 from .Items import A1800Item
 from .Locations import A1800Location
 
@@ -18,33 +19,42 @@ if TYPE_CHECKING:
     from . import A1800World
 
 
-def _get_trigger_with_dlc(trigger: Trigger, trigger_dlc: set[DLC]) -> Trigger:
-    new_triggers: list[Trigger] = []
+@dataclass
+class _Quest:
+    guid: int
+    pool_guid: int
+    description_guid: int
+    condition: TriggerCondition
+    pre_condition: TriggerCondition
 
-    for dlc in trigger_dlc:
+
+def _get_condition_with_dlc(condition: TriggerCondition, condition_dlc: set[DLC]) -> TriggerCondition:
+    new_conditions: list[TriggerCondition] = []
+
+    for dlc in condition_dlc:
         if dlc == DLC.VANILLA:
             continue
         elif DLC.VANILLA in dlc:
             dlc ^= DLC.VANILLA
 
-        new_triggers.append(Trigger.ACTIVE_DLC(dlc))
+        new_conditions.append(TriggerCondition.ACTIVE_DLC(dlc))
 
-    if not new_triggers:
-        return trigger
+    if not new_conditions:
+        return condition
 
-    if len(new_triggers) == 1:
-        if trigger.trigger_type == TriggerType.ALL:
-            return Trigger.ALL(*trigger.triggers, *new_triggers)
+    if len(new_conditions) == 1:
+        if condition.type_ == TriggerConditionType.ALL:
+            return TriggerCondition.ALL(*condition.conditions, *new_conditions)
         else:
-            return Trigger.ALL(trigger, *new_triggers)
+            return TriggerCondition.ALL(condition, *new_conditions)
     else:
-        if trigger.trigger_type == TriggerType.ALL:
-            return Trigger.ALL(*trigger.triggers, Trigger.ANY(*new_triggers))
+        if condition.type_ == TriggerConditionType.ALL:
+            return TriggerCondition.ALL(*condition.conditions, TriggerCondition.ANY(*new_conditions))
         else:
-            return Trigger.ALL(trigger, Trigger.ANY(*new_triggers))
+            return TriggerCondition.ALL(condition, TriggerCondition.ANY(*new_conditions))
 
 
-def _get_allowed_goods_and_ships_per_session(world: "A1800World") -> dict[Session, dict[str, bool]]:
+def _get_allowed_goods_and_ships_by_session(world: "A1800World") -> dict[Session, dict[str, bool]]:
     multiworld = world.multiworld
 
     sessions = {session.session for session in A1800_DATA.get_sessions()}
@@ -52,7 +62,7 @@ def _get_allowed_goods_and_ships_per_session(world: "A1800World") -> dict[Sessio
                             for session in A1800_DATA.get_sessions() if session.session != Session.OW}
 
     gathered: set[str] = set()
-    allowed_goods_and_ships_per_session: dict[Session, dict[str, Any]] = dict()
+    allowed_goods_and_ships_by_session: dict[Session, dict[str, Any]] = dict()
     for sphere in multiworld.get_spheres():
         for location in sphere:
             if isinstance(location, A1800Location) and isinstance(location.item, A1800Item):
@@ -64,8 +74,8 @@ def _get_allowed_goods_and_ships_per_session(world: "A1800World") -> dict[Sessio
         for session in sessions:
             if session == Session.OW:
                 continue
-            if not session in allowed_goods_and_ships_per_session and session_requirements[session].issubset(gathered):
-                allowed_goods_and_ships_per_session[session] = {
+            if not session in allowed_goods_and_ships_by_session and session_requirements[session].issubset(gathered):
+                allowed_goods_and_ships_by_session[session] = {
                     "Bricks": "Bricks" in gathered,
                     "Steel Beams": "Steel Beams" in gathered,
                     "Coal": "Coal" in gathered,
@@ -75,11 +85,11 @@ def _get_allowed_goods_and_ships_per_session(world: "A1800World") -> dict[Sessio
                     "Clipper": "Clipper" in gathered,
                 }
 
-        if set(allowed_goods_and_ships_per_session.keys()) | {Session.OW} == sessions:
+        if set(allowed_goods_and_ships_by_session.keys()) | {Session.OW} == sessions:
             break
 
     for session in set(Session.__members__.values()) - sessions:
-        allowed_goods_and_ships_per_session[session] = {
+        allowed_goods_and_ships_by_session[session] = {
             "Bricks": False,
             "Steel Beams": False,
             "Coal": False,
@@ -89,7 +99,32 @@ def _get_allowed_goods_and_ships_per_session(world: "A1800World") -> dict[Sessio
             "Clipper": False,
         }
 
-    return allowed_goods_and_ships_per_session
+    return allowed_goods_and_ships_by_session
+
+
+def _adapt_hacienda_unlocks(locations: list[A1800Location]) -> None:
+    for location in locations:
+        if location.item and isinstance(location.item, A1800Item) and location.data.condition:
+            if "Hacienda" in location.item.data.name and "Quarters" in location.item.data.name:
+                if "Jornalero" in location.item.data.name:
+                    unlock_name = "Jornalero Residence"
+                    guid = 101254
+                elif "Obrera" in location.item.data.name:
+                    unlock_name = "Obrero Residence"
+                    guid = 101255
+                elif "Artista" in location.item.data.name:
+                    unlock_name = "Artista Residence"
+                    guid = 5405
+                else:
+                    assert False, f"Somehow found Hacienda Quarter with wrong population in name: {location.item.data.name}"
+                new_condition = TriggerCondition.COUNTER(unlock_name, Region.NW, 1, guid=guid)
+                if location.data.condition.type_ == TriggerConditionType.ALL:
+                    location.data.condition.conditions.append(new_condition)
+                else:
+                    location.data.condition = TriggerCondition.ALL(location.data.condition, new_condition)
+                location.data.condition.post_init()
+
+            location.data.condition = _get_condition_with_dlc(location.data.condition, location.item.data.dlc)
 
 
 class A1800ModFile(APPlayerContainer):
@@ -167,75 +202,27 @@ def generate_mod(world: "A1800World", output_directory: str):
     mod_name = f"AP-{multiworld.seed_name}-P{player}-{multiworld.get_file_safe_player_name(player)}"
     versioned_mod_name = mod_name + "-" + __version__
 
-    start_trigger_guid = A1800_DATA.get_next_anno_guid()
-
-    trigger_key: Callable[[A1800Location], tuple[Any, ...]] = \
-        lambda location: location.data.trigger.get_sort_key() if location.data.trigger else tuple()
-
-    checkable_locations = [location for location in multiworld.get_filled_locations(
+    locations = [location for location in multiworld.get_filled_locations(
         player) if isinstance(location, A1800Location) and not location.is_event]
 
     if not A1800_DATA.get_parsed_options().allow_hacienda_residences_upon_unlock:
-        for location in checkable_locations:
-            if location.item and isinstance(location.item, A1800Item) and location.data.trigger:
-                if "Hacienda" in location.item.data.name and "Quarters" in location.item.data.name:
-                    if "Jornalero" in location.item.data.name:
-                        unlock_name = "Jornalero Residence"
-                        guid = 101254
-                    elif "Obrera" in location.item.data.name:
-                        unlock_name = "Obrero Residence"
-                        guid = 101255
-                    elif "Artista" in location.item.data.name:
-                        unlock_name = "Artista Residence"
-                        guid = 5405
-                    else:
-                        assert False, f"Somehow found Hacienda Quarter with wrong population in name: {location.item.data.name}"
-                    new_trigger = Trigger.COUNTER(unlock_name, Region.NW, 1, guid=guid)
-                    if location.data.trigger.trigger_type == TriggerType.ALL:
-                        location.data.trigger.triggers.append(new_trigger)
-                    else:
-                        location.data.trigger = Trigger.ALL(location.data.trigger, new_trigger)
-                    location.data.trigger.post_init()
+        _adapt_hacienda_unlocks(locations)
 
-                location.data.trigger = _get_trigger_with_dlc(location.data.trigger, location.item.data.dlc)
+    def _get_trigger_key(location: A1800Location) -> tuple[Any, ...]:
+        return (location.data.condition or TriggerCondition.FALSE()).get_sort_key()
 
-    palace_ministry_unhide_guid = A1800_DATA.get_next_anno_guid()
-    trigger_guid_to_locations = {A1800_DATA.get_next_anno_guid(): list(locations) for _, locations in groupby(
-        sorted(checkable_locations, key=trigger_key), key=trigger_key)}
-    victory_trigger_guid = A1800_DATA.get_next_anno_guid()
-    victory_quest_guid = A1800_DATA.get_next_anno_guid()
-    victory_quest_pool_guid = A1800_DATA.get_next_anno_guid()
-    victory_trigger = Trigger.QUEST_COMPLETE(
-        A1800_DATA.get_victory_trigger().ap_location_name, victory_quest_guid, set())
+    def _get_triggers(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> list[Trigger]:
+        return [Trigger(
+            location.data.condition or TriggerCondition.FALSE(),
+            TriggerAction.UNLOCK([location.data.guid or 0] + (location.item.data.unlock_guids if location.item and isinstance(
+                location.item, A1800Item) else []))
+        ) for location in groups[1]]
 
-    def location_to_data(location: A1800Location) -> tuple[int, A1800Location, list[int], list[int]]:
-        return (
-            A1800_DATA.get_next_anno_guid(),
-            location,
-            location.item.data.unlock_guids if location.item and isinstance(location.item, A1800Item) else [],
-            []
-        )
+    triggers_grouped_by_condition = list(map(_get_triggers, groupby(
+        sorted(locations, key=_get_trigger_key), key=_get_trigger_key)))
 
-    trigger_to_location_data = {guid: (locations[0].data.trigger, list(map(location_to_data, locations)))
-                                for guid, locations in trigger_guid_to_locations.items()}
-
-    location_guid_data = {location_guid: (location.address, False)
-                          for _, (_, locations) in trigger_to_location_data.items()
-                          for location_guid, location, _, _ in locations}
-
-    item_id_to_guids = {unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in A1800_DATA.get_unlocks()} | {
-        location.item.code: (unlock_guids, location_guid) for _, (_, locations) in trigger_to_location_data.items()
-        for location_guid, location, unlock_guids, _ in locations
-        if location.item and isinstance(location.item, A1800Item) and location.item.code
-    }
-
-    victory_guid = A1800_DATA.get_next_anno_guid()
-    victory_quest_description_guid = A1800_DATA.get_next_anno_guid()
-
-    start_trigger = Trigger(TriggerType.TRUE)
-    start_trigger.ap_location_name = "Game Start"
-    starting_guids = list(set([guid for item in multiworld.precollected_items[player] if isinstance(item, A1800Item)
-                               for guid in item.data.unlock_guids]))
+    location_triggers = [Trigger.from_list([trigger for trigger in triggers], guid=A1800_DATA.get_next_anno_guid())
+                         for triggers in triggers_grouped_by_condition]
 
     incident_feature_guids = {
         "FireIncidents_SA": A1800_DATA.get_next_anno_guid(),
@@ -251,45 +238,84 @@ def generate_mod(world: "A1800World", output_directory: str):
         "Expedition: Enbesa": Session.EN.expedition_unlock_guid,
     }
 
-    palace_ministry_unhide_trigger = Trigger.ALL(Trigger.UNLOCK(
-        "Palace", Region.OW, guid=249947), Trigger.ACTIVE_DLC(DLC.SEAT_OF_POWER))
+    victory_quest_guid = A1800_DATA.get_next_anno_guid()
+    victory_quest = _Quest(
+        victory_quest_guid,
+        A1800_DATA.get_next_anno_guid(),
+        A1800_DATA.get_next_anno_guid(),
+        A1800_DATA.get_victory_condition(),
+        TriggerCondition.ACTIVE_DLC(A1800_DATA.get_victory_dlcs())
+    )
+
+    victory_guid = A1800_DATA.get_next_anno_guid()
+    victory_trigger = Trigger(
+        TriggerCondition.QUEST_COMPLETE(
+            A1800_DATA.get_victory_condition().ap_location_name, victory_quest_guid, set()),
+        [TriggerAction.UNLOCK([victory_guid])],
+        guid=A1800_DATA.get_next_anno_guid()
+    )
+
+    start_trigger = Trigger(
+        TriggerCondition.TRUE(ap_location_name="Game Start"),
+        [TriggerAction.UNLOCK(list(set([guid for item in multiworld.precollected_items[player] if isinstance(item, A1800Item)
+                                        for guid in item.data.unlock_guids])))],
+        guid=A1800_DATA.get_next_anno_guid()
+    )
+
+    palace_ministry_unhide_trigger = Trigger(
+        TriggerCondition.ALL(TriggerCondition.UNLOCK(
+            "Palace", Region.OW, guid=249947),
+            TriggerCondition.ACTIVE_DLC(DLC.SEAT_OF_POWER)
+        ),
+        TriggerAction.UNLOCK([], [269602]),
+        guid=A1800_DATA.get_next_anno_guid()
+    )
 
     template_data: dict[str, Any] = {
         "Region": Region,
         "Session": Session,
-        "Trigger": Trigger,
-        "TriggerType": TriggerType,
+        "TriggerActionType": TriggerActionType,
+        "TriggerCondition": TriggerCondition,
+        "TriggerConditionType": TriggerConditionType,
         "parsed_options": A1800_DATA.get_parsed_options(),
-        "lock_guid_list": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),
-        "trigger_to_location_data": trigger_to_location_data,
-        "location_guid_data": location_guid_data,
-        "item_id_to_guids": item_id_to_guids,
-        "start_trigger_guid": start_trigger_guid,
+        "lock_guids": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),
+        "locations": locations,
+        "location_triggers": location_triggers,
         "start_trigger": start_trigger,
-        "start_trigger_data": [(
-            starting_guids[0] if starting_guids else 0, None, starting_guids[1:] if len(starting_guids) > 1 else [], []
-        )],
+        "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,
+        "victory_quest": victory_quest,
+        "victory_trigger": victory_trigger,
         "incident_feature_guids": incident_feature_guids,
         "expedition_unlocks": expedition_unlocks,
         "recipe_unlocks": A1800_DATA.get_recipe_unlocks(),
-        "victory_trigger_guid": victory_trigger_guid,
-        "victory_quest_guid": victory_quest_guid,
-        "victory_quest_pool_guid": victory_quest_pool_guid,
-        "victory_quest_description_guid": victory_quest_description_guid,
-        "victory_quest_trigger": A1800_DATA.get_victory_trigger(),
-        "victory_quest_precondition_trigger": Trigger.ACTIVE_DLC(A1800_DATA.get_victory_dlcs()),
-        "victory_trigger": victory_trigger,
-        "victory_trigger_data": [(victory_guid, None, [], [])],
-        "palace_ministry_unhide_guid": palace_ministry_unhide_guid,
-        "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,
-        "palace_ministry_unhide_trigger_data": [(0, None, [], [269602])],
-        "allowed_goods_and_ships_per_session": _get_allowed_goods_and_ships_per_session(world),
+        "allowed_goods_and_ships_by_session": _get_allowed_goods_and_ships_by_session(world),
         "cape_trelawney_free_clipper_guid": A1800_DATA.get_next_anno_guid(),
         "enbesa_second_clipper_guid": A1800_DATA.get_next_anno_guid(),
+    }
+
+    anno_mod_data: dict[str, Any] = {
         "mod_name": versioned_mod_name,
-        "ap_version": __version__,
         "slot_name": world.player_name,
         "seed_name": multiworld.seed_name,
+        "ap_version": __version__,
+    }
+
+    text_data: dict[str, Any] = {
+        "victory_quest": victory_quest,
+    }
+
+    location_data_by_guid = {location.data.guid: (location.address, False)
+                             for location in locations if location.data.guid}
+
+    guids_by_ap_code = {unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in A1800_DATA.get_unlocks() if unlock.ap_code} | {
+        location.item.code: (location.item.data.unlock_guids, location.data.guid) for location in locations
+        if location.data.guid and location.item and isinstance(location.item, A1800Item) and location.item.code
+    }
+
+    raw_data: dict[str, Any] = {
+        "victory_guid": victory_guid,
+        "location_data_by_guid": location_data_by_guid,
+        "guids_by_ap_code": guids_by_ap_code,
     }
 
     zipfile_path = join(output_directory, versioned_mod_name + ".zip")
@@ -309,45 +335,34 @@ def generate_mod(world: "A1800World", output_directory: str):
                 mod.writing_tasks.append(lambda arcpath=(base_arc_path + "/" + filename),
                                          file_path=join(dirpath, filename): (arcpath, open(file_path, "rb").read()))
 
-    mod.writing_tasks.append(lambda: ("modinfo.json", modinfo_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("readme_en.md", readme_en_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("readme_de.md", readme_de_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/archipelago/scripts/data.py", data_py_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/archipelago/scripts/data.lua", data_lua_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/archipelago/scripts/on_game_loaded.py",
-                             on_game_loaded_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/export/main/asset/free_goods_and_ships.include.xml",
-                             free_goods_and_ships_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/export/main/asset/incidents.include.xml",
-                             incidents_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/export/main/asset/quests.include.xml",
-                             quests_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/export/main/asset/triggers.include.xml",
-                             triggers_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/gui/texts_chinese.xml",
-                             texts_chinese_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/gui/texts_english.xml",
-                             texts_english_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/gui/texts_french.xml",
-                             texts_french_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/gui/texts_german.xml",
-                             texts_german_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/gui/texts_italian.xml",
-                             texts_italian_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/gui/texts_japanese.xml",
-                             texts_japanese_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/gui/texts_korean.xml",
-                             texts_korean_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/gui/texts_polish.xml",
-                             texts_polish_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/gui/texts_russian.xml",
-                             texts_russian_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/gui/texts_spanish.xml",
-                             texts_spanish_template.render(**template_data)))
-    mod.writing_tasks.append(lambda: ("data/config/gui/texts_taiwanese.xml",
-                             texts_taiwanese_template.render(**template_data)))
+    def _get_writing_task(template: jinja2.Template, data: dict[str, Any]) -> Callable[[], tuple[str, str | bytes]]:
+        return lambda: (template.name or "", template.render(**data))
 
-    for location_guid in location_guid_data.keys():
+    mod.writing_tasks += [
+        _get_writing_task(modinfo_template, anno_mod_data),
+        _get_writing_task(readme_en_template, anno_mod_data),
+        _get_writing_task(readme_de_template, anno_mod_data),
+        _get_writing_task(on_game_loaded_template, anno_mod_data),
+        _get_writing_task(data_py_template, raw_data),
+        _get_writing_task(data_lua_template, raw_data),
+        _get_writing_task(free_goods_and_ships_template, template_data),
+        _get_writing_task(incidents_template, template_data),
+        _get_writing_task(quests_template, template_data),
+        _get_writing_task(triggers_template, template_data),
+        _get_writing_task(texts_chinese_template, text_data),
+        _get_writing_task(texts_english_template, text_data),
+        _get_writing_task(texts_french_template, text_data),
+        _get_writing_task(texts_german_template, text_data),
+        _get_writing_task(texts_italian_template, text_data),
+        _get_writing_task(texts_japanese_template, text_data),
+        _get_writing_task(texts_korean_template, text_data),
+        _get_writing_task(texts_polish_template, text_data),
+        _get_writing_task(texts_russian_template, text_data),
+        _get_writing_task(texts_spanish_template, text_data),
+        _get_writing_task(texts_taiwanese_template, text_data),
+    ]
+
+    for location_guid in location_data_by_guid.keys():
         set_is_unlocked_data: dict[str, Any] = {
             "unlocked_guid": location_guid,
             "victory": False,
@@ -362,13 +377,14 @@ def generate_mod(world: "A1800World", output_directory: str):
     mod.writing_tasks.append(lambda victory_guid=victory_guid, set_is_unlocked_data=set_is_unlocked_data: (
         f"data/archipelago/scripts/set_is_unlocked/set_is_unlocked_{victory_guid}.py", set_is_unlocked_template.render(**set_is_unlocked_data)))
 
-    for item_id, (unlock_guids, location_guid) in item_id_to_guids.items():
-        ap_receive_item_data: dict[str, Any] = {
-            "unlock_guids": unlock_guids,
-            "location_guid": location_guid,
-        }
-        mod.writing_tasks.append(lambda item_id=item_id, ap_receive_item_data=ap_receive_item_data: (
-            f"data/archipelago/scripts/ap_receive_item/ap_receive_item_{item_id}.lua", ap_receive_item_template.render(**ap_receive_item_data)))
+    for ap_code, (unlock_guids, location_guid) in guids_by_ap_code.items():
+        if unlock_guids or location_guid:
+            ap_receive_item_data: dict[str, Any] = {
+                "unlock_guids": unlock_guids,
+                "location_guid": location_guid,
+            }
+            mod.writing_tasks.append(lambda ap_code=ap_code, ap_receive_item_data=ap_receive_item_data: (
+                f"data/archipelago/scripts/ap_receive_item/ap_receive_item_{ap_code}.lua", ap_receive_item_template.render(**ap_receive_item_data)))
 
     # write the mod file
     mod.write()

@@ -1,6 +1,6 @@
-g_location_guid_data = {
-{% for location_guid, (_, unlocked) in location_guid_data.items() %}
-    { {{ location_guid }}, {{ unlocked }} },
+g_location_data_by_guid = {
+{% for location_guid, (_, is_unlocked) in location_data_by_guid.items() %}
+    { {{ location_guid }}, {{ is_unlocked }} },
 {% endfor %}
-    { {{ victory_trigger_data[0][0] }}, False },
+    { {{ victory_guid }}, False },
 }

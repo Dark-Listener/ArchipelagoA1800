@@ -9,7 +9,7 @@ if not src_path in sys.path:
 
 try:
     from anno_server import AnnoServer
-    from data import g_location_guid_data, ITEM_ID_TO_GUIDS
+    from data import g_location_data_by_guid, GUIDS_BY_AP_CODE
 
     g_victory = False
 

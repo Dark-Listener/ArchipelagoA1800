@@ -3,14 +3,15 @@ from typing import Optional
 
 from BaseClasses import Location, LocationProgressType, Region as APRegion
 
-from .data import A1800_DATA, Region, START_REGION, Trigger, TriggerType, UnlockType
+from .data import A1800_DATA, Region, START_REGION, TriggerCondition, TriggerConditionType, UnlockType
 
 
 @dataclass
 class A1800LocationData:
     name: str
     region: Region
-    trigger: Optional[Trigger] = None
+    guid: Optional[int] = None
+    condition: Optional[TriggerCondition] = None
     ap_code: Optional[int] = None
     is_excluded: bool = False
     is_event: bool = False
@@ -36,16 +37,17 @@ class _Locations:
         self._unlock_location_data_list = [
             A1800LocationData(
                 location.ap_location_name,
-                location.ap_region or location.trigger.region,
-                location.trigger,
+                location.ap_region or location.condition.region,
+                A1800_DATA.get_next_anno_guid(),
+                location.condition,
                 location.ap_code,
                 location.is_excluded,
                 False
             ) for location in A1800_DATA.get_unlock_locations()
-            if not UnlockType.META in location.type
-            and (location.trigger.trigger_type != TriggerType.SESSION_ENTER
-                 or location.trigger.session.region != START_REGION
-                 or A1800_DATA.find_session(location.trigger.session).requirements)
+            if not UnlockType.META in location.type_
+            and (location.condition.type_ != TriggerConditionType.SESSION_ENTER
+                 or location.condition.session.region != START_REGION
+                 or A1800_DATA.find_session(location.condition.session).requirements)
         ]
 
         self._event_location_data_list = [

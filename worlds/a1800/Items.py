@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional
 
 from BaseClasses import Item, ItemClassification as IC
 
-from .data import A1800_DATA, A1800EventItem, A1800Unlock, DLC, START_REGION, TriggerType, UnlockType
+from .data import A1800_DATA, A1800EventItem, A1800Unlock, DLC, START_REGION, TriggerConditionType, UnlockType
 
 if TYPE_CHECKING:
     from . import A1800World
@@ -15,7 +15,6 @@ class A1800ItemData:
     ICification: IC
     dlc: set[DLC]
     unlock_guids: list[int] = field(default_factory=lambda: [])
-    lock_guids: list[int] = field(default_factory=lambda: [])
     ap_code: Optional[int] = None
     is_early: bool = False
     is_starting_item: bool = False
@@ -35,16 +34,15 @@ class A1800Item(Item):
 def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
     if isinstance(obj, A1800Unlock):
         is_starting_item: bool = not obj.is_early \
-            and (UnlockType.META in obj.type
-                 or (obj.trigger.trigger_type == TriggerType.SESSION_ENTER
-                     and obj.trigger.session.region == START_REGION
-                     and not A1800_DATA.find_session(obj.trigger.session).requirements))
+            and (UnlockType.META in obj.type_
+                 or (obj.condition.type_ == TriggerConditionType.SESSION_ENTER
+                     and obj.condition.session.region == START_REGION
+                     and not A1800_DATA.find_session(obj.condition.session).requirements))
         return A1800ItemData(
             obj.ap_item_name,
             IC.progression if obj.is_progressive else IC.filler,
             obj.dlc,
             obj.unlock_guids,
-            obj.lock_guids,
             obj.ap_code,
             obj.is_early,
             is_starting_item,

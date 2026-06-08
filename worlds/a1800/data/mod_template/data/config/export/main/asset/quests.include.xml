@@ -1,8 +1,8 @@
-{% macro generate_objective(TriggerType, trigger_data) %}
-{% if trigger_data.trigger_type == TriggerType.ALL %}
-{% for trigger in trigger_data.triggers %}
-{{ generate_objective(TriggerType, trigger) }}{% endfor %}
-{% elif trigger_data.trigger_type == TriggerType.POPULATION %}
+{% macro generate_objective(trigger_condition) %}
+{% if trigger_condition.type_ == TriggerConditionType.ALL %}
+{% for subcondition in trigger_condition.conditions %}
+{{ generate_objective(subcondition) }}{% endfor %}
+{% elif trigger_condition.type_ == TriggerConditionType.POPULATION %}
 <Item>
   <Objective>
     <Template>StatusQuoObjective</Template>
@@ -12,44 +12,44 @@
       </ConditionQuestObjective>
       <ConditionPlayerCounter>
         <PlayerCounter>PopulationByLevel</PlayerCounter>
-        <Context>{{ trigger_data.guid }}</Context>
-        <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+        <Context>{{ trigger_condition.guid }}</Context>
+        <CounterAmount>{{ trigger_condition.amount }}</CounterAmount>
       </ConditionPlayerCounter>
     </Values>
   </Objective>
 </Item>
-{% elif trigger_data.trigger_type == TriggerType.COUNTER %}
+{% elif trigger_condition.type_ == TriggerConditionType.COUNTER %}
 <Item>
   <Objective>
     <Template>StatusQuoObjective</Template>
     <Values>
       <ConditionQuestObjective>
-{%      if trigger_data.guid == 636 %}
+{%      if trigger_condition.guid == 636 %}
         <TextCombinedContextValue>104803</TextCombinedContextValue>
-{%      elif trigger_data.guid == 635 %}
+{%      elif trigger_condition.guid == 635 %}
         <TextCombinedContextValue>104800</TextCombinedContextValue>
 {%      else %}
         <TextCombinedContextValue>12714</TextCombinedContextValue>
 {%      endif %}
       </ConditionQuestObjective>
       <ConditionPlayerCounter>
-        <Context>{{ trigger_data.guid }}</Context>
-        <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+        <Context>{{ trigger_condition.guid }}</Context>
+        <CounterAmount>{{ trigger_condition.amount }}</CounterAmount>
       </ConditionPlayerCounter>
     </Values>
   </Objective>
 </Item>
 {% endif %}
 {% endmacro %}
-{% macro generate_precondition(TriggerType, trigger_data) %}
-{% if trigger_data.trigger_type == TriggerType.ACTIVE_DLC %}
+{% macro generate_pre_condition(trigger_condition) %}
+{% if trigger_condition.type_ == TriggerConditionType.ACTIVE_DLC %}
 <Condition>
   <Template>ConditionIsDLCActive</Template>
   <Values>
     <Condition/>
     <ConditionIsDLCActive>
       <DLCAssetList>
-{%    for guid in trigger_data.guids %}
+{%    for guid in trigger_condition.guids %}
         <Item>
           <DLCAsset>{{ guid }}</DLCAsset>
         </Item>
@@ -69,7 +69,7 @@
       <Template>A7_QuestStatusQuo</Template>
       <Values>
         <Standard>
-          <GUID>{{ victory_quest_guid }}</GUID>
+          <GUID>{{ victory_quest.guid }}</GUID>
           <Name>Victory Quest</Name>
         </Standard>
         <Text>
@@ -121,7 +121,7 @@
           </InvitationMessage>
           <QuestHints>
             <Item>
-              <Text>{{ victory_quest_description_guid }}</Text>
+              <Text>{{ victory_quest.description_guid }}</Text>
             </Item>
           </QuestHints>
           <QuestGiver>75</QuestGiver>
@@ -144,8 +144,8 @@
         </Reward>
         <Objectives>
           <WinConditions>
-{{(          generate_objective(TriggerType, victory_quest_trigger) | indent(12, true)).rstrip(" ") -}}
-{{       "</WinConditions>"                                         | indent(10, true)               }}
+{{(          generate_objective(victory_quest.condition) | indent(12, true)).rstrip(" ") -}}
+{{       "</WinConditions>"                              | indent(10, true)               }}
         </Objectives>
         <QuestOptional>
           <HasStarterObject>None</HasStarterObject>
@@ -169,13 +169,13 @@
       <Template>QuestPool</Template>
       <Values>
         <Standard>
-          <GUID>{{ victory_quest_pool_guid }}</GUID>
+          <GUID>{{ victory_quest.pool_guid }}</GUID>
           <Name>Victory QuestPool</Name>
         </Standard>
         <QuestPool>
           <Quests>
             <Item>
-              <Quest>{{ victory_quest_guid }}</Quest>
+              <Quest>{{ victory_quest.guid }}</Quest>
             </Item>
           </Quests>
           <IsTopLevel>1</IsTopLevel>
@@ -186,8 +186,8 @@
           <DefaultLockedState>0</DefaultLockedState>
         </Locked>
         <PreConditionList>
-{{(       generate_precondition(TriggerType, victory_quest_precondition_trigger) | indent(10, true)).rstrip(" ") -}}
-{{     "</PreConditionList>"                                                     | indent(8, true)                }}
+{{(       generate_pre_condition(victory_quest.pre_condition) | indent(10, true)).rstrip(" ") -}}
+{{     "</PreConditionList>"                                  | indent(8, true)                }}
       </Values>
     </Asset>
   </ModOp>

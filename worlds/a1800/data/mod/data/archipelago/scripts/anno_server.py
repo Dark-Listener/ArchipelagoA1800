@@ -38,9 +38,9 @@ def _handle_ap_sync(server: RCONMMapServer, packet: RCONPacket, _body: str) -> N
 
     server.env["console"].startScript(str(server.script_path / "ap_sync.lua"))
 
-    for _, (location_id, is_unlocked) in server.env["g_location_guid_data"].items():
+    for _, (ap_code, is_unlocked) in server.env["g_location_data_by_guid"].items():
         if is_unlocked:
-            locations_checked.add(location_id)
+            locations_checked.add(ap_code)
 
     data = {
         "slot_name": server.slot_name,
@@ -55,10 +55,10 @@ def _handle_ap_sync(server: RCONMMapServer, packet: RCONPacket, _body: str) -> N
 def _handle_ap_receive_item(server: RCONMMapServer, _packet: RCONPacket, body: str) -> None:
     assert isinstance(server, AnnoServer)
 
-    item_id = int(body)
-    if item_id in server.env["ITEM_ID_TO_GUIDS"]:
+    ap_code = int(body)
+    if ap_code in server.env["GUIDS_BY_AP_CODE"]:
         server.env["console"].startScript(
-            str(server.script_path / "ap_receive_item" / "ap_receive_item_{}.lua".format(item_id)))
+            str(server.script_path / "ap_receive_item" / "ap_receive_item_{}.lua".format(ap_code)))
 
 
 @contextmanager

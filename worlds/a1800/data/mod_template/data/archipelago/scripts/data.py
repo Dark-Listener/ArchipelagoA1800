@@ -1,3 +1,3 @@
-g_location_guid_data = {{ location_guid_data }}
+g_location_data_by_guid = {{ location_data_by_guid }}
 
-ITEM_ID_TO_GUIDS = {{ item_id_to_guids }}
+GUIDS_BY_AP_CODE = {{ guids_by_ap_code }}

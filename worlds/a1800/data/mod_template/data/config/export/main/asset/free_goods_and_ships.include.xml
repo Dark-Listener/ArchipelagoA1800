@@ -246,7 +246,7 @@
   <ModOp Type="remove" GUID="2002450" Path="/Values/DifficultySettings/StartWithKontor/*/StartGoods/Item[Product='1010200']" />
 {% endif %}
   <!-- New World -->
-{% if allowed_goods_and_ships_per_session[Session.NW]["Clipper"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Clipper"] %}
   <ModOp Type="replace" GUID="103108" Path="/Values/ItemContainer/InitSlotItems">
     <InitSlotItems>
       <Item>
@@ -258,7 +258,7 @@
         <StackSize>20</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -266,7 +266,7 @@
         <StackSize>20</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -275,7 +275,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.NW]["Frigate"] %}
+{% elif allowed_goods_and_ships_by_session[Session.NW]["Frigate"] %}
   <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
     <BaseAssetGUID>100439</BaseAssetGUID>
   </ModOp>
@@ -291,7 +291,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -299,7 +299,7 @@
         <StackSize>20</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -308,7 +308,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.NW]["Schooner"] or parsed_options.start_with_flagship %}
+{% elif allowed_goods_and_ships_by_session[Session.NW]["Schooner"] or parsed_options.start_with_flagship %}
   <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
     <BaseAssetGUID>100438</BaseAssetGUID>
   </ModOp>
@@ -324,9 +324,9 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Steel Beams"] %}
         <Item>1010218</Item>
-{% elif allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+{% elif allowed_goods_and_ships_by_session[Session.NW]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -335,7 +335,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.NW]["Gunboat"] %}
+{% elif allowed_goods_and_ships_by_session[Session.NW]["Gunboat"] %}
   <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
     <BaseAssetGUID>100437</BaseAssetGUID>
   </ModOp>
@@ -356,7 +356,7 @@
   <ModOp Type="remove" GUID="153252" Path="/Values/Trigger/TriggerActions" />
 {% endif %}
   <!-- Cape Trelawney -->
-{% if allowed_goods_and_ships_per_session[Session.CT]["Clipper"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Clipper"] %}
   <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
     <InitSlotItems>
       <Item>
@@ -368,7 +368,7 @@
         <StackSize>20</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -376,7 +376,7 @@
         <StackSize>20</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -385,7 +385,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.CT]["Frigate"] %}
+{% elif allowed_goods_and_ships_by_session[Session.CT]["Frigate"] %}
   <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
     <BaseAssetGUID>100439</BaseAssetGUID>
   </ModOp>
@@ -401,7 +401,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -409,7 +409,7 @@
         <StackSize>20</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -418,7 +418,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.CT]["Schooner"] or parsed_options.start_with_flagship %}
+{% elif allowed_goods_and_ships_by_session[Session.CT]["Schooner"] or parsed_options.start_with_flagship %}
   <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
     <BaseAssetGUID>100438</BaseAssetGUID>
   </ModOp>
@@ -434,9 +434,9 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Steel Beams"] %}
         <Item>1010218</Item>
-{% elif allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+{% elif allowed_goods_and_ships_by_session[Session.CT]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -445,7 +445,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.CT]["Gunboat"] %}
+{% elif allowed_goods_and_ships_by_session[Session.CT]["Gunboat"] %}
   <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
     <BaseAssetGUID>100437</BaseAssetGUID>
   </ModOp>
@@ -466,7 +466,7 @@
   <ModOp Type="remove" GUID="114065" Path="/Values/Trigger/TriggerActions/Item[TriggerAction/Values/ActionRegisterTrigger/TriggerAsset='113867']" />
 {% endif %}
   <!-- The Arctic -->
-{% if allowed_goods_and_ships_per_session[Session.AR]["Clipper"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Clipper"] %}
   <ModOp Type="replace" GUID="114140" Path="/Values/ItemContainer/InitSlotItems">
     <InitSlotItems>
       <Item>
@@ -474,7 +474,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -482,7 +482,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Coal"] %}
         <Item>1010226</Item>
 {% else %}
         <Item>1010196</Item>
@@ -491,7 +491,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.AR]["Frigate"] %}
+{% elif allowed_goods_and_ships_by_session[Session.AR]["Frigate"] %}
   <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
     <BaseAssetGUID>100439</BaseAssetGUID>
   </ModOp>
@@ -507,7 +507,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -515,7 +515,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Coal"] %}
         <Item>1010226</Item>
 {% else %}
         <Item>1010196</Item>
@@ -524,7 +524,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.AR]["Schooner"] or parsed_options.start_with_flagship %}
+{% elif allowed_goods_and_ships_by_session[Session.AR]["Schooner"] or parsed_options.start_with_flagship %}
   <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
     <BaseAssetGUID>100438</BaseAssetGUID>
   </ModOp>
@@ -540,9 +540,9 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Steel Beams"] %}
         <Item>1010218</Item>
-{% elif allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+{% elif allowed_goods_and_ships_by_session[Session.AR]["Coal"] %}
         <Item>1010226</Item>
 {% else %}
         <Item>1010196</Item>
@@ -551,7 +551,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.AR]["Gunboat"] %}
+{% elif allowed_goods_and_ships_by_session[Session.AR]["Gunboat"] %}
   <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
     <BaseAssetGUID>100437</BaseAssetGUID>
   </ModOp>
@@ -572,8 +572,8 @@
   <ModOp Type="remove" GUID="114116" Path="/Values/Trigger/TriggerActions/Item[TriggerAction/Values/ActionRegisterTrigger/TriggerAsset='114770']" />
 {% endif %}
   <!-- Enbesa -->
-{% if not allowed_goods_and_ships_per_session[Session.EN]["Clipper"] %}
-{% if allowed_goods_and_ships_per_session[Session.EN]["Frigate"] %}
+{% if not allowed_goods_and_ships_by_session[Session.EN]["Clipper"] %}
+{% if allowed_goods_and_ships_by_session[Session.EN]["Frigate"] %}
   <ModOp Type="replace" GUID="80018" Path="/BaseAssetGUID">
     <BaseAssetGUID>100439</BaseAssetGUID>
   </ModOp>
@@ -658,7 +658,7 @@
   </ModOp>
 {% endif %}
   <!-- New World -->
-{% if allowed_goods_and_ships_per_session[Session.NW]["Clipper"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Clipper"] %}
   <ModOp Type="replace" GUID="103108" Path="/Values/ItemContainer/InitSlotItems">
     <InitSlotItems>
       <Item>
@@ -670,7 +670,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -678,7 +678,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -687,7 +687,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.NW]["Frigate"] %}
+{% elif allowed_goods_and_ships_by_session[Session.NW]["Frigate"] %}
   <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
     <BaseAssetGUID>100439</BaseAssetGUID>
   </ModOp>
@@ -703,7 +703,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -711,7 +711,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -720,7 +720,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.NW]["Schooner"] or parsed_options.start_with_flagship %}
+{% elif allowed_goods_and_ships_by_session[Session.NW]["Schooner"] or parsed_options.start_with_flagship %}
   <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
     <BaseAssetGUID>100438</BaseAssetGUID>
   </ModOp>
@@ -736,9 +736,9 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.NW]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.NW]["Steel Beams"] %}
         <Item>1010218</Item>
-{% elif allowed_goods_and_ships_per_session[Session.NW]["Bricks"] %}
+{% elif allowed_goods_and_ships_by_session[Session.NW]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -747,7 +747,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.NW]["Gunboat"] %}
+{% elif allowed_goods_and_ships_by_session[Session.NW]["Gunboat"] %}
   <ModOp Type="replace" GUID="103108" Path="/BaseAssetGUID">
     <BaseAssetGUID>100437</BaseAssetGUID>
   </ModOp>
@@ -768,7 +768,7 @@
   <ModOp Type="remove" GUID="153252" Path="/Values/Trigger/TriggerActions" />
 {% endif %}
   <!-- Cape Trelawney -->
-{% if allowed_goods_and_ships_per_session[Session.CT]["Clipper"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Clipper"] %}
   <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/Values/ItemContainer/InitSlotItems">
     <InitSlotItems>
       <Item>
@@ -780,7 +780,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -788,7 +788,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -797,7 +797,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.CT]["Frigate"] %}
+{% elif allowed_goods_and_ships_by_session[Session.CT]["Frigate"] %}
   <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
     <BaseAssetGUID>100439</BaseAssetGUID>
   </ModOp>
@@ -813,7 +813,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -821,7 +821,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -830,7 +830,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.CT]["Schooner"] or parsed_options.start_with_flagship %}
+{% elif allowed_goods_and_ships_by_session[Session.CT]["Schooner"] or parsed_options.start_with_flagship %}
   <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
     <BaseAssetGUID>100438</BaseAssetGUID>
   </ModOp>
@@ -846,9 +846,9 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.CT]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.CT]["Steel Beams"] %}
         <Item>1010218</Item>
-{% elif allowed_goods_and_ships_per_session[Session.CT]["Bricks"] %}
+{% elif allowed_goods_and_ships_by_session[Session.CT]["Bricks"] %}
         <Item>1010205</Item>
 {% else %}
         <Item>1010196</Item>
@@ -857,7 +857,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.CT]["Gunboat"] %}
+{% elif allowed_goods_and_ships_by_session[Session.CT]["Gunboat"] %}
   <ModOp Type="replace" GUID="{{ cape_trelawney_free_clipper_guid }}" Path="/BaseAssetGUID">
     <BaseAssetGUID>100437</BaseAssetGUID>
   </ModOp>
@@ -878,7 +878,7 @@
   <ModOp Type="remove" GUID="114065" Path="/Values/Trigger/TriggerActions/Item[TriggerAction/Values/ActionRegisterTrigger/TriggerAsset='113867']" />
 {% endif %}
   <!-- The Arctic -->
-{% if allowed_goods_and_ships_per_session[Session.AR]["Clipper"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Clipper"] %}
   <ModOp Type="replace" GUID="114140" Path="/Values/ItemContainer/InitSlotItems">
     <InitSlotItems>
       <Item>
@@ -890,7 +890,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -898,7 +898,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Coal"] %}
         <Item>1010226</Item>
 {% else %}
         <Item>1010196</Item>
@@ -907,7 +907,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.AR]["Frigate"] %}
+{% elif allowed_goods_and_ships_by_session[Session.AR]["Frigate"] %}
   <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
     <BaseAssetGUID>100439</BaseAssetGUID>
   </ModOp>
@@ -923,7 +923,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Steel Beams"] %}
         <Item>1010218</Item>
 {% else %}
         <Item>1010196</Item>
@@ -931,7 +931,7 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Coal"] %}
         <Item>1010226</Item>
 {% else %}
         <Item>1010196</Item>
@@ -940,7 +940,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.AR]["Schooner"] or parsed_options.start_with_flagship %}
+{% elif allowed_goods_and_ships_by_session[Session.AR]["Schooner"] or parsed_options.start_with_flagship %}
   <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
     <BaseAssetGUID>100438</BaseAssetGUID>
   </ModOp>
@@ -956,9 +956,9 @@
         <StackSize>50</StackSize>
       </Item>
       <Item>
-{% if allowed_goods_and_ships_per_session[Session.AR]["Steel Beams"] %}
+{% if allowed_goods_and_ships_by_session[Session.AR]["Steel Beams"] %}
         <Item>1010218</Item>
-{% elif allowed_goods_and_ships_per_session[Session.AR]["Coal"] %}
+{% elif allowed_goods_and_ships_by_session[Session.AR]["Coal"] %}
         <Item>1010226</Item>
 {% else %}
         <Item>1010196</Item>
@@ -967,7 +967,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.AR]["Gunboat"] %}
+{% elif allowed_goods_and_ships_by_session[Session.AR]["Gunboat"] %}
   <ModOp Type="replace" GUID="114140" Path="/BaseAssetGUID">
     <BaseAssetGUID>100437</BaseAssetGUID>
   </ModOp>
@@ -988,7 +988,7 @@
   <ModOp Type="remove" GUID="114116" Path="/Values/Trigger/TriggerActions/Item[TriggerAction/Values/ActionRegisterTrigger/TriggerAsset='114770']" />
 {% endif %}
   <!-- Enbesa -->
-{% if allowed_goods_and_ships_per_session[Session.EN]["Clipper"] %}
+{% if allowed_goods_and_ships_by_session[Session.EN]["Clipper"] %}
   <ModOp Type="replace" GUID="80018" Path="/Values/ItemContainer/InitSlotItems">
     <InitSlotItems>
       <Item>
@@ -1009,7 +1009,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.EN]["Frigate"] %}
+{% elif allowed_goods_and_ships_by_session[Session.EN]["Frigate"] %}
   <ModOp Type="replace" GUID="80018,{{ enbesa_second_clipper_guid }}" Path="/BaseAssetGUID">
     <BaseAssetGUID>100439</BaseAssetGUID>
   </ModOp>
@@ -1050,7 +1050,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.EN]["Schooner"] or parsed_options.start_with_flagship %}
+{% elif allowed_goods_and_ships_by_session[Session.EN]["Schooner"] or parsed_options.start_with_flagship %}
   <ModOp Type="replace" GUID="80018,{{ enbesa_second_clipper_guid }}" Path="/BaseAssetGUID">
     <BaseAssetGUID>100438</BaseAssetGUID>
   </ModOp>
@@ -1071,7 +1071,7 @@
       </Item>
     </InitSlotItems>
   </ModOp>
-{% elif allowed_goods_and_ships_per_session[Session.EN]["Gunboat"] %}
+{% elif allowed_goods_and_ships_by_session[Session.EN]["Gunboat"] %}
   <ModOp Type="replace" GUID="80018" Path="/BaseAssetGUID">
     <BaseAssetGUID>100438</BaseAssetGUID>
   </ModOp>
@@ -1113,7 +1113,7 @@
   <ModOp Type="replace" GUID="114770" Path="/Values/Trigger/TriggerActions/Item/TriggerAction[Template='ActionDelayedActions']/Values/ActionDelayedActions/DelayedActions/Values/ActionList/Actions/Item/Action[Template='ActionSpawnObjects']/Values/ActionSpawnObjects/Amount">
     <Amount>2</Amount>
   </ModOp>
-{% if allowed_goods_and_ships_per_session[Session.EN]["Clipper"] or allowed_goods_and_ships_per_session[Session.EN]["Frigate"] or allowed_goods_and_ships_per_session[Session.EN]["Schooner"] or allowed_goods_and_ships_per_session[Session.EN]["Gunboat"] or parsed_options.start_with_flagship %}
+{% if allowed_goods_and_ships_by_session[Session.EN]["Clipper"] or allowed_goods_and_ships_by_session[Session.EN]["Frigate"] or allowed_goods_and_ships_by_session[Session.EN]["Schooner"] or allowed_goods_and_ships_by_session[Session.EN]["Gunboat"] or parsed_options.start_with_flagship %}
   <ModOp Type="add" GUID="124995" Path="/Values/Quest/OnQuestActive/Values/ActionList/Actions">
     <Item>
       <Action>

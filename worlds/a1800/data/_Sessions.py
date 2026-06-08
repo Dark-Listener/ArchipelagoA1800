@@ -1,12 +1,12 @@
 from collections.abc import Sequence
 from dataclasses import dataclass
 
-from ._Enums import ALL_REGIONS, DLC, Region, Session, TriggerType
+from ._Enums import ALL_REGIONS, DLC, Region, Session, TriggerConditionType
 from ._ParsedOptions import ParsedOptions
 from ._Products import PRODUCTS
 from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
-from ._Trigger import Trigger
+from ._TriggerCondition import TriggerCondition
 from ._Unlocks import UNLOCKS
 
 
@@ -44,7 +44,7 @@ class _Sessions:
         }
 
         for unlock in UNLOCKS.get_unlocks():
-            unlock.trigger = self._clean_dlc_trigger(parsed_options.enabled_dlcs, unlock.trigger)
+            unlock.condition = self._clean_dlc_condition(parsed_options.enabled_dlcs, unlock.condition)
 
         self._initialized = True
 
@@ -63,35 +63,35 @@ class _Sessions:
         assert self._initialized, "The Anno 1800 sessions module was used before it was initialized."
         return self._a1800_sessions[session]
 
-    def _clean_dlc_trigger(self, enabled_dlcs: DLC, trigger: Trigger) -> Trigger:
-        if trigger.trigger_type in [TriggerType.ALL, TriggerType.LINEAR]:
-            trigger.triggers = [clean_trigger for subtrigger in trigger.triggers for clean_trigger in [
-                self._clean_dlc_trigger(enabled_dlcs, subtrigger)] if clean_trigger.trigger_type != TriggerType.TRUE]
+    def _clean_dlc_condition(self, enabled_dlcs: DLC, condition: TriggerCondition) -> TriggerCondition:
+        if condition.type_ in [TriggerConditionType.ALL, TriggerConditionType.LINEAR]:
+            condition.conditions = [clean_condition for subcondition in condition.conditions for clean_condition in [
+                self._clean_dlc_condition(enabled_dlcs, subcondition)] if clean_condition.type_ != TriggerConditionType.TRUE]
 
-            if len(trigger.triggers) == 0:
-                return Trigger.TRUE()
-            elif len(trigger.triggers) == 1:
-                return trigger.triggers[0]
-            elif any([subtrigger.trigger_type == TriggerType.FALSE for subtrigger in trigger.triggers]):
-                return Trigger.FALSE()
+            if len(condition.conditions) == 0:
+                return TriggerCondition.TRUE()
+            elif len(condition.conditions) == 1:
+                return condition.conditions[0]
+            elif any([subcondition.type_ == TriggerConditionType.FALSE for subcondition in condition.conditions]):
+                return TriggerCondition.FALSE()
             else:
-                return trigger
-        elif trigger.trigger_type == TriggerType.ANY:
-            trigger.triggers = [clean_trigger for subtrigger in trigger.triggers for clean_trigger in [
-                self._clean_dlc_trigger(enabled_dlcs, subtrigger)] if clean_trigger.trigger_type != TriggerType.FALSE]
+                return condition
+        elif condition.type_ == TriggerConditionType.ANY:
+            condition.conditions = [clean_condition for subcondition in condition.conditions for clean_condition in [
+                self._clean_dlc_condition(enabled_dlcs, subcondition)] if clean_condition.type_ != TriggerConditionType.FALSE]
 
-            if len(trigger.triggers) == 0:
-                return Trigger.FALSE()
-            elif len(trigger.triggers) == 1:
-                return trigger.triggers[0]
-            elif any([subtrigger.trigger_type == TriggerType.TRUE for subtrigger in trigger.triggers]):
-                return Trigger.TRUE()
+            if len(condition.conditions) == 0:
+                return TriggerCondition.FALSE()
+            elif len(condition.conditions) == 1:
+                return condition.conditions[0]
+            elif any([subcondition.type_ == TriggerConditionType.TRUE for subcondition in condition.conditions]):
+                return TriggerCondition.TRUE()
             else:
-                return trigger
-        elif trigger.trigger_type in [TriggerType.SESSION_ENTER, TriggerType.POPULATION_HAPPINESS]:
-            return Trigger.FALSE() if not trigger.session in self._a1800_sessions else trigger
+                return condition
+        elif condition.type_ in [TriggerConditionType.SESSION_ENTER, TriggerConditionType.POPULATION_HAPPINESS]:
+            return TriggerCondition.FALSE() if not condition.session in self._a1800_sessions else condition
         else:
-            return trigger
+            return condition
 
 
 SESSIONS = _Sessions()

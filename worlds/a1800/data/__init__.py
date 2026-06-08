@@ -5,7 +5,7 @@ if TYPE_CHECKING:
     from ..Options import A1800Options
 
 from ._Chains import CHAINS
-from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, Session, START_REGION, TriggerType, UnlockType
+from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, Session, START_REGION, TriggerActionType, TriggerConditionType, UnlockType
 from ._EventItems import A1800EventItem, EVENT_ITEMS
 from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
 from ._Guid import get_next_anno_guid, RECIPE_GUIDS
@@ -16,6 +16,8 @@ from ._Regions import A1800Region, REGIONS
 from ._Requirement import A1800Requirement
 from ._Sessions import A1800Session, SESSIONS
 from ._Trigger import Trigger
+from ._TriggerAction import TriggerAction
+from ._TriggerCondition import TriggerCondition
 from ._Unlocks import _a1800_unlocks  # pyright: ignore[reportPrivateUsage]
 from ._Unlocks import A1800Unlock, UNLOCKS
 
@@ -26,7 +28,7 @@ class _A1800Data:
 
     _location_name_to_ap_code: dict[str, int] = {
         unlock.ap_location_name: unlock.ap_code for unlock in sorted(
-            _a1800_unlocks, key=lambda location: location.trigger.get_sort_key()) if unlock.ap_code}
+            _a1800_unlocks, key=lambda location: location.condition.get_sort_key()) if unlock.ap_code}
 
     def init(self, options: "A1800Options") -> None:
         self._parsed_options = ParsedOptions(options)
@@ -109,8 +111,8 @@ class _A1800Data:
     def get_victory_dlcs(self) -> DLC:
         return LOGIC.get_victory_dlcs()
 
-    def get_victory_trigger(self) -> Trigger:
-        return LOGIC.get_victory_trigger()
+    def get_victory_condition(self) -> TriggerCondition:
+        return LOGIC.get_victory_condition()
 
 
 A1800_DATA = _A1800Data()
@@ -127,6 +129,9 @@ __all__ = [
     "RequirementType",
     "START_REGION",
     "Trigger",
-    "TriggerType",
+    "TriggerAction",
+    "TriggerActionType",
+    "TriggerCondition",
+    "TriggerConditionType",
     "UnlockType",
 ]

@@ -28,7 +28,7 @@ class _EventLocations:
             A1800EventLocation(
                 unlock.name, unlock.dlc, output_region, unlock.ap_region, output_name
             )
-            for unlock in UNLOCKS.get_unlocks() if UnlockType.FACTORY in unlock.type
+            for unlock in UNLOCKS.get_unlocks() if UnlockType.FACTORY in unlock.type_
             for output_name, output_region in unlock.output
         ]
 

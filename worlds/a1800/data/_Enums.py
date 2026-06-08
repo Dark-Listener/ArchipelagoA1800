@@ -186,7 +186,12 @@ _SESSION_REGIONS = {
 }
 
 
-class TriggerType(IntEnum):
+class TriggerActionType(IntEnum):
+    UNLOCK = auto()
+    SIDE_NOTIFICATION = auto()
+
+
+class TriggerConditionType(IntEnum):
     SESSION_ENTER = auto()
     POPULATION = auto()
     POPULATION_HAPPINESS = auto()

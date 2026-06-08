@@ -1,35 +1,30 @@
-{% macro generate_trigger_actions(has_unlocks, has_unhides, location_data) %}
+{% macro generate_trigger_actions(trigger_actions) %}
 <TriggerActions>
+{% for action in trigger_actions %}
   <Item>
     <TriggerAction>
+{%    if action.type_ == TriggerActionType.UNLOCK %}
       <Template>ActionUnlockAsset</Template>
       <Values>
         <Action/>
         <ActionUnlockAsset>
-{%        if has_unlocks %}
+{%        if action.unlock_guids %}
           <UnlockAssets>
-{%        for guid, _, unlock_guids, _ in location_data %}
+{%        for guid in action.unlock_guids %}
             <Item>
               <Asset>{{ guid }}</Asset>
             </Item>
-{%        for unlock_guid in unlock_guids %}
-            <Item>
-              <Asset>{{ unlock_guid }}</Asset>
-            </Item>
-{%        endfor %}
 {%        endfor %}
           </UnlockAssets>
 {%        else %}
           <UnlockAssets />
 {%        endif %}
-{%        if has_unhides %}
+{%        if action.unhide_guids %}
           <UnhideAssets>
-{%        for _, _, _, unhide_guids in location_data %}
-{%        for unhide_guid in unhide_guids %}
+{%        for guid in action.unhide_guids %}
             <Item>
-              <Asset>{{ unhide_guid }}</Asset>
+              <Asset>{{ guid }}</Asset>
             </Item>
-{%        endfor %}
 {%        endfor %}
           </UnhideAssets>
 {%        else %}
@@ -37,13 +32,16 @@
 {%        endif %}
         </ActionUnlockAsset>
       </Values>
+{%    elif action.action_type == TriggerActionType.SIDE_NOTIFICATION %}
+{%    endif %}
     </TriggerAction>
   </Item>
+{% endfor %}
 </TriggerActions>
 {% endmacro %}
 
-{% macro generate_trigger_condition(TriggerType, trigger_data) %}
-{% if trigger_data.trigger_type == TriggerType.TRUE %}
+{% macro generate_trigger_condition(trigger_condition) %}
+{% if trigger_condition.type_ == TriggerConditionType.TRUE %}
 <TriggerCondition>
   <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
   <Values>
@@ -51,7 +49,7 @@
     <ConditionAlwaysTrue />
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.ALL %}
+{% elif trigger_condition.type_ == TriggerConditionType.ALL %}
 <TriggerCondition>
   <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
   <Values>
@@ -61,7 +59,7 @@
     <ConditionAlwaysTrue />
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.LINEAR %}
+{% elif trigger_condition.type_ == TriggerConditionType.LINEAR %}
 <TriggerCondition>
   <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
   <Values>
@@ -71,7 +69,7 @@
     <ConditionAlwaysTrue />
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.ANY %}
+{% elif trigger_condition.type_ == TriggerConditionType.ANY %}
 <TriggerCondition>
   <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
   <Values>
@@ -81,104 +79,104 @@
     <ConditionAlwaysTrue />
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.SESSION_ENTER %}
+{% elif trigger_condition.type_ == TriggerConditionType.SESSION_ENTER %}
 <TriggerCondition>
   <Template>ConditionActiveSession</Template>
   <Values>
     <Condition />
     <ConditionActiveSession>
-      <ActiveSession>{{ trigger_data.session.guid }}</ActiveSession>
+      <ActiveSession>{{ trigger_condition.session.guid }}</ActiveSession>
     </ConditionActiveSession>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.POPULATION %}
+{% elif trigger_condition.type_ == TriggerConditionType.POPULATION %}
 <TriggerCondition>
   <Template>ConditionPlayerCounter</Template>
   <Values>
     <Condition />
     <ConditionPlayerCounter>
       <PlayerCounter>PopulationByLevel</PlayerCounter>
-      <Context>{{ trigger_data.guid }}</Context>
-      <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+      <Context>{{ trigger_condition.guid }}</Context>
+      <CounterAmount>{{ trigger_condition.amount }}</CounterAmount>
     </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.POPULATION_HAPPINESS %}
+{% elif trigger_condition.type_ == TriggerConditionType.POPULATION_HAPPINESS %}
 <TriggerCondition>
   <Template>ConditionPlayerCounter</Template>
   <Values>
     <Condition />
       <ConditionPlayerCounter>
         <PlayerCounter>PopulationHappinessByLevel</PlayerCounter>
-        <Context>{{ trigger_data.guid }}</Context>
-        <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+        <Context>{{ trigger_condition.guid }}</Context>
+        <CounterAmount>{{ trigger_condition.amount }}</CounterAmount>
         <CounterScope>Session</CounterScope>
         <CounterScopeUseCurrentContext>0</CounterScopeUseCurrentContext>
-        <CounterScopeContext>{{ trigger_data.session.guid }}</CounterScopeContext>
+        <CounterScopeContext>{{ trigger_condition.session.guid }}</CounterScopeContext>
       </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.UNLOCK %}
+{% elif trigger_condition.type_ == TriggerConditionType.UNLOCK %}
 <TriggerCondition>
   <Template>ConditionUnlocked</Template>
   <Values>
     <Condition />
     <ConditionUnlocked>
-      <UnlockNeeded>{{ trigger_data.guid }}</UnlockNeeded>
+      <UnlockNeeded>{{ trigger_condition.guid }}</UnlockNeeded>
     </ConditionUnlocked>
     <ConditionPropsNegatable />
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.COUNTER %}
+{% elif trigger_condition.type_ == TriggerConditionType.COUNTER %}
 <TriggerCondition>
   <Template>ConditionPlayerCounter</Template>
   <Values>
     <Condition />
     <ConditionPlayerCounter>
-      <Context>{{ trigger_data.guid }}</Context>
-      <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+      <Context>{{ trigger_condition.guid }}</Context>
+      <CounterAmount>{{ trigger_condition.amount }}</CounterAmount>
     </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.COUNTER_GOOD_IN_REGION %}
+{% elif trigger_condition.type_ == TriggerConditionType.COUNTER_GOOD_IN_REGION %}
 <TriggerCondition>
   <Template>ConditionPlayerCounter</Template>
   <Values>
     <Condition />
     <ConditionPlayerCounter>
       <PlayerCounter>GoodsInStock</PlayerCounter>
-      <Context>{{ trigger_data.guid }}</Context>
-      <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+      <Context>{{ trigger_condition.guid }}</Context>
+      <CounterAmount>{{ trigger_condition.amount }}</CounterAmount>
       <CounterScope>Region</CounterScope>
       <CounterScopeUseCurrentContext>0</CounterScopeUseCurrentContext>
-      <CounterScopeContext>{{ trigger_data.region.guids[0] }}</CounterScopeContext>
+      <CounterScopeContext>{{ trigger_condition.region.guids[0] }}</CounterScopeContext>
     </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.COUNTER_EXPEDITION_SOLVED %}
+{% elif trigger_condition.type_ == TriggerConditionType.COUNTER_EXPEDITION_SOLVED %}
 <TriggerCondition>
   <Template>ConditionPlayerCounter</Template>
   <Values>
     <Condition />
     <ConditionPlayerCounter>
       <PlayerCounter>ExpeditionSolved</PlayerCounter>
-      <Context>{{ trigger_data.guid }}</Context>
-      <CounterAmount>{{ trigger_data.amount }}</CounterAmount>
+      <Context>{{ trigger_condition.guid }}</Context>
+      <CounterAmount>{{ trigger_condition.amount }}</CounterAmount>
     </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.QUEST_COMPLETE %}
+{% elif trigger_condition.type_ == TriggerConditionType.QUEST_COMPLETE %}
 <TriggerCondition>
   <Template>ConditionQuestState</Template>
   <Values>
     <Condition />
     <ConditionQuestState>
       <ConditionQuestStateStates>Reached</ConditionQuestStateStates>
-      <ConditionQuestStateQuestGUID>{{ trigger_data.guid }}</ConditionQuestStateQuestGUID>
+      <ConditionQuestStateQuestGUID>{{ trigger_condition.guid }}</ConditionQuestStateQuestGUID>
     </ConditionQuestState>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.EVENT_ACTIVE %}
+{% elif trigger_condition.type_ == TriggerConditionType.EVENT_ACTIVE %}
 <TriggerCondition>
   <Template>ConditionMonumentEventActive</Template>
   <Values>
@@ -186,73 +184,73 @@
     <ConditionMonumentEventsActive>
       <MonumentEventsActive>
         <Item>
-          <MonumentEventGUID>{{ trigger_data.guid }}</MonumentEventGUID>
+          <MonumentEventGUID>{{ trigger_condition.guid }}</MonumentEventGUID>
         </Item>
       </MonumentEventsActive>
     </ConditionMonumentEventsActive>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.OBJECT_POSITION %}
+{% elif trigger_condition.type_ == TriggerConditionType.OBJECT_POSITION %}
 <TriggerCondition>
   <Template>ConditionObjectPosition</Template>
   <Values>
     <Condition />
     <ConditionPropsSessionSettings />
     <ConditionObjectPosition>
-      <Radius>{{ trigger_data.distance }}</Radius>
+      <Radius>{{ trigger_condition.distance }}</Radius>
       <ExpectObjectExists>0</ExpectObjectExists>
       <ExpectTargetExists>0</ExpectTargetExists>
     </ConditionObjectPosition>
     <ObjectFilter>
-      <ObjectGUID>{{ trigger_data.guid }}</ObjectGUID>
+      <ObjectGUID>{{ trigger_condition.guid }}</ObjectGUID>
       <CheckParticipantID>1</CheckParticipantID>
       <CheckProcessingParticipantID>1</CheckProcessingParticipantID>
     </ObjectFilter>
     <ObjectTargetFilter>
-      <TargetGUID>{{ trigger_data.target_guid }}</TargetGUID>
+      <TargetGUID>{{ trigger_condition.target_guid }}</TargetGUID>
       <TargetCheckProcessingParticipantID>1</TargetCheckProcessingParticipantID>
     </ObjectTargetFilter>
     <ConditionPropsNegatable />
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.ITEM_SET_ACTIVE %}
+{% elif trigger_condition.type_ == TriggerConditionType.ITEM_SET_ACTIVE %}
 <TriggerCondition>
   <Template>ConditionPlayerCounter</Template>
   <Values>
     <Condition />
     <ConditionPlayerCounter>
       <PlayerCounter>ItemSetsActive</PlayerCounter>
-      <Context>{{ trigger_data.guid }}</Context>
+      <Context>{{ trigger_condition.guid }}</Context>
       <CounterAmount>1</CounterAmount>
       <CounterScope>Region</CounterScope>
       <CounterScopeUseCurrentContext>0</CounterScopeUseCurrentContext>
-      <CounterScopeContext>{{ trigger_data.unlock_region.guids[0] }}</CounterScopeContext>
+      <CounterScopeContext>{{ trigger_condition.unlock_region.guids[0] }}</CounterScopeContext>
     </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.FACTORY_PRODUCTIVITY %}
+{% elif trigger_condition.type_ == TriggerConditionType.FACTORY_PRODUCTIVITY %}
 <TriggerCondition>
   <Template>ConditionFactoryProductivity</Template>
   <Values>
     <Condition />
     <ConditionFactoryProductivity>
-      <ProductivityThreshold>{{ trigger_data.amount }}</ProductivityThreshold>
+      <ProductivityThreshold>{{ trigger_condition.amount }}</ProductivityThreshold>
     </ConditionFactoryProductivity>
     <ObjectFilter>
-      <ObjectGUID>{{ trigger_data.guid }}</ObjectGUID>
+      <ObjectGUID>{{ trigger_condition.guid }}</ObjectGUID>
       <CheckParticipantID>1</CheckParticipantID>
       <CheckProcessingParticipantID>1</CheckProcessingParticipantID>
     </ObjectFilter>
   </Values>
 </TriggerCondition>
-{% elif trigger_data.trigger_type == TriggerType.ACTIVE_DLC %}
+{% elif trigger_condition.type_ == TriggerConditionType.ACTIVE_DLC %}
 <TriggerCondition>
   <Template>ConditionIsDLCActive</Template>
   <Values>
     <Condition />
     <ConditionIsDLCActive>
       <DLCAssetList>
-{%    for guid in trigger_data.guids %}
+{%    for guid in trigger_condition.guids %}
         <Item>
           <DLCAsset>{{ guid }}</DLCAsset>
         </Item>
@@ -265,18 +263,18 @@
 {% endif %}
 {% endmacro %}
 
-{% macro generate_sub_triggers(TriggerType, trigger_data) %}
-{% if trigger_data.triggers|length > 0 and trigger_data.trigger_type == TriggerType.ALL or trigger_data.trigger_type == TriggerType.ANY or trigger_data.trigger_type == TriggerType.LINEAR %}
+{% macro generate_sub_triggers(trigger_condition) %}
+{% if trigger_condition.conditions|length > 0 and trigger_condition.type_ in [TriggerConditionType.ALL, TriggerConditionType.ANY, TriggerConditionType.LINEAR] %}
 <SubTriggers>
-{% for trigger in trigger_data.triggers %}
+{% for subcondition in trigger_condition.conditions %}
   <Item>
     <SubTrigger>
       <Template>AutoCreateTrigger</Template>
       <Values>
         <Trigger>
-{{(       generate_trigger_condition(TriggerType, trigger) | indent(10, true)).rstrip(" ") -}}
-{{(       generate_sub_triggers(TriggerType, trigger)      | indent(10, true)).rstrip(" ") -}}
-{{     "</Trigger>"                                        | indent(8, true)                }}
+{{(       generate_trigger_condition(subcondition) | indent(10, true)).rstrip(" ") -}}
+{{(       generate_sub_triggers(subcondition)      | indent(10, true)).rstrip(" ") -}}
+{{     "</Trigger>"                                | indent(8, true)                }}
       </Values>
     </SubTrigger>
   </Item>
@@ -285,19 +283,19 @@
 {% endif %}
 {% endmacro %}
 
-{% macro generate_trigger_asset(TriggerType, trigger_guid, trigger_data, has_unlocks, has_unhides, location_data) %}
+{% macro generate_trigger_asset(trigger) %}
 <Asset>
   <Template>Trigger</Template>
   <Values>
     <Standard>
-      <GUID>{{ trigger_guid }}</GUID>
-      <Name>{{ trigger_data.ap_location_name }}</Name>
+      <GUID>{{ trigger.guid }}</GUID>
+      <Name>{{ trigger.condition.ap_location_name }}</Name>
     </Standard>
     <Trigger>
-{{(   generate_trigger_condition(TriggerType, trigger_data)             | indent(6, true)).rstrip(" ") -}}
-{{(   generate_trigger_actions(has_unlocks, has_unhides, location_data) | indent(6, true)).rstrip(" ") -}}
-{{(   generate_sub_triggers(TriggerType, trigger_data)                  | indent(6, true)).rstrip(" ") -}}
-{{   "<ResetTrigger>"                                                   | indent(6, true)               }}
+{{(   generate_trigger_condition(trigger.condition) | indent(6, true)).rstrip(" ") -}}
+{{(   generate_trigger_actions(trigger.actions)     | indent(6, true)).rstrip(" ") -}}
+{{(   generate_sub_triggers(trigger.condition)      | indent(6, true)).rstrip(" ") -}}
+{{   "<ResetTrigger>"                               | indent(6, true)               }}
         <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
         <Values>
           <EmptyAutoCreateValue/>

@@ -1,7 +1,7 @@
 <ModOps>
   <ModOp Type="add" Path="/TextExport/Texts">
     <Text>
-      <GUID>{{ victory_quest_description_guid }}</GUID>
+      <GUID>{{ victory_quest.description_guid }}</GUID>
       <Text>Zrealizuj poniższe zadania:</Text>
       <!--MachineTranslated-->
     </Text>

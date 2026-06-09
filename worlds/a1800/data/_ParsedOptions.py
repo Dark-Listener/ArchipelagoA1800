@@ -15,7 +15,7 @@ class ParsedOptions:
     enable_docklands_logic: bool
     required_population: dict[str, int]
     required_skyscrapers: dict[str, int]
-    required_monuments: set[tuple[str, Region]]
+    required_monuments: list[tuple[str, Region]]
 
     class IncidentDifficulty(Enum):
         EASY = 0
@@ -38,7 +38,7 @@ class ParsedOptions:
         if options.enabled_dlcs.value:
             self.enabled_dlcs |= reduce(DLC.__or__, (
                 dlc for dlc in DLC.__members__.values()
-                if (dlc.name or "").replace("_", "-").lower() in options.enabled_dlcs
+                if (dlc.name or "").replace("_", "-").lower() in set(options.enabled_dlcs)
             ))
 
         self.enable_docklands_logic = bool(options.enable_docklands_logic)
@@ -69,8 +69,8 @@ class ParsedOptions:
             for name, amount in options.required_skyscrapers.value.items() if int(amount) > 0
         }
 
-        self.required_monuments = set()
-        for name in options.required_monuments.value:
+        self.required_monuments = list()
+        for name in dict.fromkeys(options.required_monuments.value).keys():
             proper_name = name.replace("-", " ").title().replace("Worlds", "World's")
             if proper_name.startswith("Ow "):
                 region = Region.OW
@@ -84,7 +84,7 @@ class ParsedOptions:
                 region = NO_REGION
                 proper_name = "   " + proper_name
             proper_name = proper_name[3:]
-            self.required_monuments.add((proper_name, region))
+            self.required_monuments.append((proper_name, region))
 
         ### Mod Support ###
         self.enable_mine_slot_unification = bool(options.enable_mine_slot_unification)

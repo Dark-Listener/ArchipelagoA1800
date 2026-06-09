@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-from Options import Choice, DefaultOnToggle, OptionCounter, OptionGroup, OptionSet, PerGameCommonOptions, Toggle
+from Options import Choice, DefaultOnToggle, OptionCounter, OptionGroup, OptionList, PerGameCommonOptions, Toggle
 
 ################
 # Game Options #
 ################
 
 
-class EnabledDLCsOption(OptionSet):
+class EnabledDLCsOption(OptionList):
     """
     List of enabled DLCs. Per default, all DLCs except for docklands are enabled.
     It's recommended to match this list when creating the game.
@@ -17,10 +17,10 @@ class EnabledDLCsOption(OptionSet):
     Enabling docklands is strongly discouraged unless you want the option to skip most of the randomizer.
     """
     display_name = "Enabled DLCs"
-    valid_keys = {"sunken-treasures", "botanica", "the-passage", "seat-of-power",
+    valid_keys = ["sunken-treasures", "botanica", "the-passage", "seat-of-power",
                   "bright-harvest", "land-of-lions", "docklands", "tourist-season",
-                  "the-high-life", "seeds-of-change", 'empire-of-the-skies', 'new-world-rising'}
-    default = valid_keys - {"docklands"}
+                  "the-high-life", "seeds-of-change", 'empire-of-the-skies', 'new-world-rising']
+    default = [key for key in valid_keys if key != "docklands"]
 
 
 class EnableDocklandsLogicOption(Toggle):
@@ -198,7 +198,7 @@ class RequiredSkyscrapersOption(OptionCounter):
     min = 0
 
 
-class RequiredMonumentsOption(OptionSet):
+class RequiredMonumentsOption(OptionList):
     """
     Each of the monuments in this list must be built to win the randomizer.
     Monuments that are not available in the DLCs selected in 'Enabled DLCs' will be ignored.

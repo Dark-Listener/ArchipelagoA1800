@@ -17,6 +17,7 @@ The following features are planned to be added at some point (in no specific ord
 
 The following features are being considered, but it's unclear whether they are relevant or technically feasible
 
+* Add option to turn off trade smoothening
 * Remove need unlocks (or add them to the pool) - not sure if possible
   * Removed for basic needs, kept for others
 * Double-check road upgrades without unlock via upgrade button (confirmed) and model if needed (not right now)

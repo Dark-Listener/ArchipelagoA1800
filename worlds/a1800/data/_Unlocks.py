@@ -3245,6 +3245,11 @@ class _Unlocks:
                 if "Healthcare" in unlock.consumption:
                     unlock.consumption.remove("Healthcare")
 
+        if parsed_options.exclude_recipe_unlocks:
+            for unlock in self._a1800_unlocks:
+                if any(recipe.split(": ")[1] in unlock.name for recipe in RECIPE_GUIDS.keys()) and unlock.condition.type_ == TriggerConditionType.LINEAR:
+                    unlock.is_excluded = True
+
         ### Mod Support ###
         if parsed_options.enable_mine_slot_unification:
             for unlock in self._a1800_unlocks:

@@ -9,7 +9,6 @@ The following features are planned to be added at some point (in no specific ord
 * Create some filler items
 * More options for victory conditions
 * More options in general!
-* Option not to include recipe checks (unlock recipes with main building)
 * Option to send hints for unlocks visible in chains
   * Fix incorrect recipe description hints
 * Introduce progressive items for trading posts, warehouses, monument stages...

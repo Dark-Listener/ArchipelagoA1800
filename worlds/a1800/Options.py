@@ -33,6 +33,15 @@ class EnableDocklandsLogicOption(Toggle):
     display_name = "Enable Docklands Logic"
 
 
+class ExcludeRecipeUnlocksOption(Toggle):
+    """
+    Prevents all special recipe unlocks from having progressive items. 'Special' recipe unlocks are recipes that don't
+    simply unlock by unlocking/building the base building or reaching a certain population.
+    Has no effect unless at least one of Tourist Season and The High Life DLCs is enabled.
+    """
+    display_name = "Exclude Recipe Unlocks"
+
+
 class StartWithFlagshipOption(Toggle):
     """
     Per default, the starting flagship will not be included in the randomizer logic. If you intend to start with a
@@ -222,6 +231,7 @@ class A1800Options(PerGameCommonOptions):
     # Game Options (=> ungrouped)
     enabled_dlcs: EnabledDLCsOption
     enable_docklands_logic: EnableDocklandsLogicOption
+    exclude_recipe_unlocks: ExcludeRecipeUnlocksOption
     start_with_flagship: StartWithFlagshipOption
     start_with_trading_post: StartWithTradingPostOption
     required_street_for_settling: RequiredStreetForSettlingOption

@@ -66,7 +66,7 @@ def _get_allowed_goods_and_ships_by_session(world: "A1800World") -> dict[Session
     allowed_goods_and_ships_by_session: dict[Session, dict[str, Any]] = dict()
     for sphere in multiworld.get_spheres():
         for location in sphere:
-            if isinstance(location, A1800Location) and isinstance(location.item, A1800Item):
+            if isinstance(location.item, A1800Item):
                 if "Expedition" in location.item.name:
                     gathered.add(location.item.name.split(": ")[-2] + ": " + location.item.name.split(": ")[-1])
                 else:

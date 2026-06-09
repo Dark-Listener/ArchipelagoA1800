@@ -19,6 +19,8 @@ class AnnoServer(RCONMMapServer):
         self.register_handler("/ap-sync", _handle_ap_sync)
         self.register_handler("/ap-receive-item", _handle_ap_receive_item)
 
+        self.env["console"].startScript(str(self.script_path / "ap_sync.lua"))
+
 
 def _handle_ap_rcon_info(server: RCONMMapServer, packet: RCONPacket, _body: str) -> None:
     assert isinstance(server, AnnoServer)

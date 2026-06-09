@@ -55,7 +55,7 @@ def _get_condition_with_dlc(condition: TriggerCondition, condition_dlc: set[DLC]
             return TriggerCondition.ALL(condition, TriggerCondition.ANY(*new_conditions))
 
 
-def _get_allowed_goods_and_ships_by_session(world: "A1800World") -> dict[Session, dict[str, bool]]:
+def _get_allowed_goods_and_ships_by_session(world: "A1800World", player: int) -> dict[Session, dict[str, bool]]:
     multiworld = world.multiworld
 
     sessions = {session.session for session in A1800_DATA.get_sessions()}
@@ -66,7 +66,7 @@ def _get_allowed_goods_and_ships_by_session(world: "A1800World") -> dict[Session
     allowed_goods_and_ships_by_session: dict[Session, dict[str, Any]] = dict()
     for sphere in multiworld.get_spheres():
         for location in sphere:
-            if isinstance(location.item, A1800Item):
+            if isinstance(location.item, A1800Item) and location.item.player == player:
                 if "Expedition" in location.item.name:
                     gathered.add(location.item.name.split(": ")[-2] + ": " + location.item.name.split(": ")[-1])
                 else:
@@ -334,7 +334,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "incident_feature_guids": incident_feature_guids,
         "expedition_unlocks": expedition_unlocks,
         "recipe_unlocks": A1800_DATA.get_recipe_unlocks(),
-        "allowed_goods_and_ships_by_session": _get_allowed_goods_and_ships_by_session(world),
+        "allowed_goods_and_ships_by_session": _get_allowed_goods_and_ships_by_session(world, player),
         "cape_trelawney_free_clipper_guid": A1800_DATA.get_next_anno_guid(),
         "enbesa_second_clipper_guid": A1800_DATA.get_next_anno_guid(),
     }

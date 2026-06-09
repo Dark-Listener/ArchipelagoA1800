@@ -5,5 +5,31 @@
       <Text>다음 목표를 달성하세요:</Text>
       <!--MachineTranslated-->
     </Text>
+    <Text>
+      <GUID>{{ items_found_guid }}</GUID>
+      <Text>다음 위치에서 새로운 아이템을 발견했습니다</Text>
+      <!--MachineTranslated-->
+    </Text>
+    <Text>
+      <GUID>{{ received_guid }}</GUID>
+      <Text>수신:</Text>
+      <!--MachineTranslated-->
+    </Text>
+{%  for trigger in notification_triggers %}
+{%  for action in trigger.actions %}
+{%  if action.type_ == TriggerActionType.SIDE_NOTIFICATION %}
+    <Text>
+      <GUID>{{ action.text_guid }}</GUID>
+      <Text>{{ action.text | e }}</Text>
+    </Text>
+{%  endif %}
+{%  endfor %}
+{%  endfor %}
+{%  for _, _, text_guid, text in notifications_by_ap_code.values() %}
+    <Text>
+      <GUID>{{ text_guid }}</GUID>
+      <Text>{{ text | e }}</Text>
+    </Text>
+{%  endfor %}
   </ModOp>
 </ModOps>

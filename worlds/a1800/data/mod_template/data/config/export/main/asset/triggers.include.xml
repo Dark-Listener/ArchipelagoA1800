@@ -144,6 +144,11 @@
 {{  generate_trigger_asset(trigger) | indent(4, true) }}
 {%  endfor %}
 
+    <!-- Notification triggers -->
+{%  for trigger in notification_triggers %}
+{{  generate_trigger_asset(trigger, "Notification: ") | indent(4, true) }}
+{%  endfor %}
+
     <!-- Victory condition trigger -->
 {{  generate_trigger_asset(victory_trigger) | indent(4, true) }}
   </ModOp>

@@ -1,0 +1,97 @@
+<ModOps>
+  <ModOp GUID="153271" Type="AddNextSibling">
+{%  for ap_code, (unlock_guid, feature_guid, text_guid, _) in notifications_by_ap_code.items() %}
+  <Asset>
+    <Template>FeatureUnlock</Template>
+    <Values>
+      <Standard>
+        <GUID>{{ feature_guid }}</GUID>
+        <Name>Notification for AP-Code: {{ ap_code }}</Name>
+      </Standard>
+      <Locked>
+        <DefaultLockedState>0</DefaultLockedState>
+      </Locked>
+      <Trigger>
+        <TriggerCondition>
+          <Template>ConditionUnlocked</Template>
+          <Values>
+            <Condition />
+            <ConditionUnlocked>
+              <UnlockNeeded>{{ feature_guid }}</UnlockNeeded>
+            </ConditionUnlocked>
+            <ConditionPropsNegatable>
+              <NegateCondition>1</NegateCondition>
+            </ConditionPropsNegatable>
+          </Values>
+        </TriggerCondition>
+        <TriggerActions>
+          <Item>
+            <TriggerAction>
+              <Template>ActionNotification</Template>
+              <Values>
+                <Action />
+                <ActionNotification>
+                  <Notification>
+                    <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+                    <Values>
+                      <SideNotification>
+                        <IconAsset>501379</IconAsset>
+                        <FilterType>Progress</FilterType>
+                        <HasJumpLocation>0</HasJumpLocation>
+                        <Infotip>0</Infotip>
+                        <ForceOpenArchive>1</ForceOpenArchive>
+                      </SideNotification>
+                      <BaseNotification>
+                        <NotificationText>{{ text_guid }}</NotificationText>
+                        <NotificationMinDisplayTime>1</NotificationMinDisplayTime>
+                        <NotificationAudioAsset>239732</NotificationAudioAsset>
+                        <DisplayTimeout>1</DisplayTimeout>
+                      </BaseNotification>
+                      <NotificationSubtitle />
+                    </Values>
+                  </Notification>
+                </ActionNotification>
+              </Values>
+            </TriggerAction>
+          </Item>
+        </TriggerActions>
+        <SubTriggers>
+          <Item>
+            <SubTrigger>
+              <Template>AutoCreateTrigger</Template>
+              <Values>
+                <Trigger>
+                  <TriggerCondition>
+                    <Template>ConditionUnlocked</Template>
+                    <Values>
+                      <Condition />
+                      <ConditionUnlocked>
+                        <UnlockNeeded>{{ unlock_guid }}</UnlockNeeded>
+                      </ConditionUnlocked>
+                      <ConditionPropsNegatable>
+                        <NegateCondition>1</NegateCondition>
+                      </ConditionPropsNegatable>
+                    </Values>
+                  </TriggerCondition>
+                </Trigger>
+              </Values>
+            </SubTrigger>
+          </Item>
+        </SubTriggers>
+        <ResetTrigger>
+          <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+          <Values>
+            <EmptyAutoCreateValue/>
+          </Values>
+        </ResetTrigger>
+      </Trigger>
+      <TriggerSetup>
+        <AutoRegisterTrigger>1</AutoRegisterTrigger>
+        <UsedBySecondParties>0</UsedBySecondParties>
+        <AutoSelfUnlock>0</AutoSelfUnlock>
+      </TriggerSetup>
+    </Values>
+  </Asset>
+{%  endfor %}
+  </ModOp>
+</ModOps>

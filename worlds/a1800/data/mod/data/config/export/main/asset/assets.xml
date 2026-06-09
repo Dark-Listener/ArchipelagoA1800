@@ -2,6 +2,7 @@
   <Include File="./convert_to_multiplayer.include.xml" />
   <Include File="./free_goods_and_ships.include.xml" />
   <Include File="./incidents.include.xml" />
+  <Include File="./notifications.include.xml" />
   <Include File="./quests.include.xml" />
   <Include File="./triggers.include.xml" />
 
@@ -58,5 +59,10 @@
   <!-- Lock later dam phases per default -->
   <ModOp Type="replace" GUID="6005,6006" Path="/Values/Locked/DefaultLockedState">
     <DefaultLockedState>1</DefaultLockedState>
+  </ModOp>
+
+  <!-- Don't archive unlock notification -->
+  <ModOp Type="add" GUID="501378" Path="/Values/Notification/NotificationType/Values/SideNotification">
+    <IsArchived>0</IsArchived>
   </ModOp>
 </ModOps>

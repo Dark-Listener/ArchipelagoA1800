@@ -4,5 +4,29 @@
       <GUID>{{ victory_quest.description_guid }}</GUID>
       <Text>Erfüllen Sie die folgenden Ziele:</Text>
     </Text>
+    <Text>
+      <GUID>{{ items_found_guid }}</GUID>
+      <Text>Neue Gegenstände gefunden an</Text>
+    </Text>
+    <Text>
+      <GUID>{{ received_guid }}</GUID>
+      <Text>Erhalten:</Text>
+    </Text>
+{%  for trigger in notification_triggers %}
+{%  for action in trigger.actions %}
+{%  if action.type_ == TriggerActionType.SIDE_NOTIFICATION %}
+    <Text>
+      <GUID>{{ action.text_guid }}</GUID>
+      <Text>{{ action.text | e }}</Text>
+    </Text>
+{%  endif %}
+{%  endfor %}
+{%  endfor %}
+{%  for _, _, text_guid, text in notifications_by_ap_code.values() %}
+    <Text>
+      <GUID>{{ text_guid }}</GUID>
+      <Text>{{ text | e }}</Text>
+    </Text>
+{%  endfor %}
   </ModOp>
 </ModOps>

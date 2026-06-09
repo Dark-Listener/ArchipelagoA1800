@@ -5,5 +5,31 @@
       <Text>Cumple los siguientes objetivos:</Text>
       <!--MachineTranslated-->
     </Text>
+    <Text>
+      <GUID>{{ items_found_guid }}</GUID>
+      <Text>Se han encontrado nuevos objetos en</Text>
+      <!--MachineTranslated-->
+    </Text>
+    <Text>
+      <GUID>{{ received_guid }}</GUID>
+      <Text>Recibido:</Text>
+      <!--MachineTranslated-->
+    </Text>
+{%  for trigger in notification_triggers %}
+{%  for action in trigger.actions %}
+{%  if action.type_ == TriggerActionType.SIDE_NOTIFICATION %}
+    <Text>
+      <GUID>{{ action.text_guid }}</GUID>
+      <Text>{{ action.text | e }}</Text>
+    </Text>
+{%  endif %}
+{%  endfor %}
+{%  endfor %}
+{%  for _, _, text_guid, text in notifications_by_ap_code.values() %}
+    <Text>
+      <GUID>{{ text_guid }}</GUID>
+      <Text>{{ text | e }}</Text>
+    </Text>
+{%  endfor %}
   </ModOp>
 </ModOps>

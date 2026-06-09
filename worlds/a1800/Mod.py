@@ -1,4 +1,5 @@
 from collections.abc import Callable, Iterable
+from copy import deepcopy
 from dataclasses import dataclass
 from itertools import groupby
 from os import walk
@@ -124,8 +125,6 @@ def _adapt_hacienda_unlocks(locations: list[A1800Location]) -> None:
                     location.data.condition = TriggerCondition.ALL(location.data.condition, new_condition)
                 location.data.condition.post_init()
 
-            location.data.condition = _get_condition_with_dlc(location.data.condition, location.item.data.dlc)
-
 
 class A1800ModFile(APPlayerContainer):
     game = "A1800"
@@ -181,6 +180,7 @@ def generate_mod(world: "A1800World", output_directory: str):
     free_goods_and_ships_template = template_env.get_template(
         "data/config/export/main/asset/free_goods_and_ships.include.xml")
     incidents_template = template_env.get_template("data/config/export/main/asset/incidents.include.xml")
+    notifications_template = template_env.get_template("data/config/export/main/asset/notifications.include.xml")
     quests_template = template_env.get_template("data/config/export/main/asset/quests.include.xml")
     triggers_template = template_env.get_template("data/config/export/main/asset/triggers.include.xml")
     texts_chinese_template = template_env.get_template("data/config/gui/texts_chinese.xml")
@@ -211,18 +211,45 @@ def generate_mod(world: "A1800World", output_directory: str):
     def _get_trigger_key(location: A1800Location) -> tuple[Any, ...]:
         return (location.data.condition or TriggerCondition.FALSE()).get_sort_key()
 
-    def _get_triggers(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> list[Trigger]:
+    items_found_guid = A1800_DATA.get_next_anno_guid()
+    received_guid = A1800_DATA.get_next_anno_guid()
+
+    def _get_notification_trigger(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> Trigger:
+        locations = list(groups[1])
+        condition = locations[0].data.condition or TriggerCondition.FALSE()
+        text = f"[AssetData({items_found_guid}) Text] <b>{condition.ap_location_name}</b>:<br/>"
+        for location in locations:
+            if location.item:
+                if location.item.player == player:
+                    text += f"- <b>{location.item.name}</b><br/>"
+                else:
+                    text += f"- {multiworld.get_player_name(location.item.player)}'s <b>{location.item.name}</b><br/>"
+        text = text[:-5]
+        return Trigger(
+            condition,
+            TriggerAction.SIDE_NOTIFICATION(A1800_DATA.get_next_anno_guid(), text),
+            guid=A1800_DATA.get_next_anno_guid()
+        )
+
+    def _get_unlock_triggers(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> list[Trigger]:
         return [Trigger(
-            location.data.condition or TriggerCondition.FALSE(),
+            deepcopy(location.data.condition) or TriggerCondition.FALSE(),
             TriggerAction.UNLOCK([location.data.guid or 0] + (location.item.data.unlock_guids if location.item and isinstance(
-                location.item, A1800Item) else []))
+                location.item, A1800Item) and location.item.player == player else []))
         ) for location in groups[1]]
 
-    triggers_grouped_by_condition = list(map(_get_triggers, groupby(
+    notification_triggers = list(map(_get_notification_trigger, groupby(
+        sorted(locations, key=_get_trigger_key), key=_get_trigger_key)))
+
+    for location in locations:
+        if location.item and isinstance(location.item, A1800Item) and location.data.condition:
+            location.data.condition = _get_condition_with_dlc(location.data.condition, location.item.data.dlc)
+
+    triggers_grouped_by_condition_and_dlc = list(map(_get_unlock_triggers, groupby(
         sorted(locations, key=_get_trigger_key), key=_get_trigger_key)))
 
     location_triggers = [Trigger.from_list([trigger for trigger in triggers], guid=A1800_DATA.get_next_anno_guid())
-                         for triggers in triggers_grouped_by_condition]
+                         for triggers in triggers_grouped_by_condition_and_dlc]
 
     incident_feature_guids = {
         "FireIncidents_SA": A1800_DATA.get_next_anno_guid(),
@@ -271,6 +298,23 @@ def generate_mod(world: "A1800World", output_directory: str):
         guid=A1800_DATA.get_next_anno_guid()
     )
 
+    location_data_by_guid = {location.data.guid: (location.address, False)
+                             for location in locations if location.data.guid}
+
+    guids_by_ap_code = {unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in A1800_DATA.get_unlocks() if unlock.ap_code} | {
+        location.item.code: (location.item.data.unlock_guids, location.data.guid) for location in locations
+        if location.data.guid and location.item and isinstance(location.item, A1800Item) and location.item.code
+    }
+
+    notifications_by_ap_code = {
+        ap_code: (
+            unlock_guids[0],
+            A1800_DATA.get_next_anno_guid(),
+            A1800_DATA.get_next_anno_guid(),
+            f"[AssetData({received_guid}) Text] <b>{next(unlock for unlock in A1800_DATA.get_unlocks() if unlock.ap_code == ap_code).ap_item_name}</b>"
+        ) for ap_code, (unlock_guids, _) in guids_by_ap_code.items()
+    }
+
     template_data: dict[str, Any] = {
         "Region": Region,
         "Session": Session,
@@ -281,6 +325,8 @@ def generate_mod(world: "A1800World", output_directory: str):
         "lock_guids": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),
         "locations": locations,
         "location_triggers": location_triggers,
+        "notification_triggers": notification_triggers,
+        "notifications_by_ap_code": notifications_by_ap_code,
         "start_trigger": start_trigger,
         "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,
         "victory_quest": victory_quest,
@@ -301,15 +347,12 @@ def generate_mod(world: "A1800World", output_directory: str):
     }
 
     text_data: dict[str, Any] = {
+        "TriggerActionType": TriggerActionType,
+        "notification_triggers": notification_triggers,
+        "notifications_by_ap_code": notifications_by_ap_code,
         "victory_quest": victory_quest,
-    }
-
-    location_data_by_guid = {location.data.guid: (location.address, False)
-                             for location in locations if location.data.guid}
-
-    guids_by_ap_code = {unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in A1800_DATA.get_unlocks() if unlock.ap_code} | {
-        location.item.code: (location.item.data.unlock_guids, location.data.guid) for location in locations
-        if location.data.guid and location.item and isinstance(location.item, A1800Item) and location.item.code
+        "items_found_guid": items_found_guid,
+        "received_guid": received_guid,
     }
 
     raw_data: dict[str, Any] = {
@@ -347,6 +390,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         _get_writing_task(data_lua_template, raw_data),
         _get_writing_task(free_goods_and_ships_template, template_data),
         _get_writing_task(incidents_template, template_data),
+        _get_writing_task(notifications_template, template_data),
         _get_writing_task(quests_template, template_data),
         _get_writing_task(triggers_template, template_data),
         _get_writing_task(texts_chinese_template, text_data),
@@ -382,6 +426,7 @@ def generate_mod(world: "A1800World", output_directory: str):
             ap_receive_item_data: dict[str, Any] = {
                 "unlock_guids": unlock_guids,
                 "location_guid": location_guid,
+                "feature_guid": notifications_by_ap_code[ap_code][1]
             }
             mod.writing_tasks.append(lambda ap_code=ap_code, ap_receive_item_data=ap_receive_item_data: (
                 f"data/archipelago/scripts/ap_receive_item/ap_receive_item_{ap_code}.lua", ap_receive_item_template.render(**ap_receive_item_data)))

@@ -32,7 +32,32 @@
 {%        endif %}
         </ActionUnlockAsset>
       </Values>
-{%    elif action.action_type == TriggerActionType.SIDE_NOTIFICATION %}
+{%    elif action.type_ == TriggerActionType.SIDE_NOTIFICATION %}
+      <Template>ActionNotification</Template>
+      <Values>
+        <Action />
+        <ActionNotification>
+          <Notification>
+            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+            <Values>
+              <SideNotification>
+                <IconAsset>501379</IconAsset>
+                <FilterType>Progress</FilterType>
+                <HasJumpLocation>0</HasJumpLocation>
+                <Infotip>0</Infotip>
+                <ForceOpenArchive>1</ForceOpenArchive>
+              </SideNotification>
+              <BaseNotification>
+                <NotificationText>{{ action.text_guid }}</NotificationText>
+                <NotificationMinDisplayTime>1</NotificationMinDisplayTime>
+                <NotificationAudioAsset>239732</NotificationAudioAsset>
+                <DisplayTimeout>1</DisplayTimeout>
+              </BaseNotification>
+              <NotificationSubtitle />
+            </Values>
+          </Notification>
+        </ActionNotification>
+      </Values>
 {%    endif %}
     </TriggerAction>
   </Item>
@@ -283,13 +308,13 @@
 {% endif %}
 {% endmacro %}
 
-{% macro generate_trigger_asset(trigger) %}
+{% macro generate_trigger_asset(trigger, prefix="") %}
 <Asset>
   <Template>Trigger</Template>
   <Values>
     <Standard>
       <GUID>{{ trigger.guid }}</GUID>
-      <Name>{{ trigger.condition.ap_location_name }}</Name>
+      <Name>{{ prefix + trigger.condition.ap_location_name }}</Name>
     </Standard>
     <Trigger>
 {{(   generate_trigger_condition(trigger.condition) | indent(6, true)).rstrip(" ") -}}

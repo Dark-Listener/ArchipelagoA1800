@@ -5,5 +5,31 @@
       <Text>完成以下目標：</Text>
       <!--MachineTranslated-->
     </Text>
+    <Text>
+      <GUID>{{ items_found_guid }}</GUID>
+      <Text>在以下位置發現了新項目</Text>
+      <!--MachineTranslated-->
+    </Text>
+    <Text>
+      <GUID>{{ received_guid }}</GUID>
+      <Text>收到：</Text>
+      <!--MachineTranslated-->
+    </Text>
+{%  for trigger in notification_triggers %}
+{%  for action in trigger.actions %}
+{%  if action.type_ == TriggerActionType.SIDE_NOTIFICATION %}
+    <Text>
+      <GUID>{{ action.text_guid }}</GUID>
+      <Text>{{ action.text | e }}</Text>
+    </Text>
+{%  endif %}
+{%  endfor %}
+{%  endfor %}
+{%  for _, _, text_guid, text in notifications_by_ap_code.values() %}
+    <Text>
+      <GUID>{{ text_guid }}</GUID>
+      <Text>{{ text | e }}</Text>
+    </Text>
+{%  endfor %}
   </ModOp>
 </ModOps>

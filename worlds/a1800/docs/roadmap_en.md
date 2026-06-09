@@ -7,7 +7,6 @@
 The following features are planned to be added at some point (in no specific order):
 
 * Create some filler items
-* Ingame notifications for sending&receiving unlocks
 * More options for victory conditions
 * More options in general!
 * Option not to include recipe checks (unlock recipes with main building)

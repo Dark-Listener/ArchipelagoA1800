@@ -315,6 +315,24 @@ def generate_mod(world: "A1800World", output_directory: str):
         ) for ap_code, (unlock_guids, _) in guids_by_ap_code.items()
     }
 
+    lock_guids_by_trigger: dict[int, tuple[list[int], list[int]]] = {}
+    for unlock in A1800_DATA.get_unlocks():
+        for lock_guid, unhide_trigger_guids, unlock_trigger_guids in unlock.lock_guids:
+            for unhide_trigger_guid in unhide_trigger_guids:
+                if not unhide_trigger_guid in lock_guids_by_trigger:
+                    lock_guids_by_trigger[unhide_trigger_guid] = ([], [])
+
+                lock_guids_by_trigger[unhide_trigger_guid][0].append(lock_guid)
+
+            for unlock_trigger_guid in unlock_trigger_guids:
+                if not unlock_trigger_guid in lock_guids_by_trigger:
+                    lock_guids_by_trigger[unlock_trigger_guid] = ([], [])
+
+                lock_guids_by_trigger[unlock_trigger_guid][1].append(lock_guid)
+
+    for trigger_guid, (unhide_guids, unlock_guids) in lock_guids_by_trigger.items():
+        lock_guids_by_trigger[trigger_guid] = (sorted(list(set(unhide_guids))), sorted(list(set(unlock_guids))))
+
     template_data: dict[str, Any] = {
         "Region": Region,
         "Session": Session,
@@ -322,7 +340,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "TriggerCondition": TriggerCondition,
         "TriggerConditionType": TriggerConditionType,
         "parsed_options": A1800_DATA.get_parsed_options(),
-        "lock_guids": sorted(set([guid for unlock in A1800_DATA.get_unlocks() for guid in unlock.lock_guids])),
+        "lock_guids_by_trigger": {k: v for k, v in sorted(lock_guids_by_trigger.items(), key=lambda item: item[0])},
         "locations": locations,
         "location_triggers": location_triggers,
         "notification_triggers": notification_triggers,

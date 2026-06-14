@@ -628,7 +628,7 @@
 {% if parsed_options.start_with_trading_post %}
   <!-- Replace steel beams with full stack of timber on start ships -->
   <ModOp Type="remove" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010218']" />
-  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartShips[/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010196']/Amount">
+  <ModOp Type="replace" GUID="2002450" Path="/Values/DifficultySettings/StartShips/*/Ships/Item[Ship='101121']/ShipLoad/Item[Product='1010196']/Amount">
     <Amount>150</Amount>
   </ModOp>
 {% else %}

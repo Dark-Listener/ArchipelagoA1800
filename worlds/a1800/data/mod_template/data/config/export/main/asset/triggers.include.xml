@@ -25,13 +25,17 @@
   </ModOp>
 
   <!-- Removals don't have to care about DLCs, just remove everything -->
-{% for guid in lock_guids %}
-  <ModOp Type="remove" Path="//ActionUnlockAsset/UnlockAssets/Item[Asset='{{ guid }}']" Condition="//ActionUnlockAsset/UnlockAssets/Item[Asset='{{ guid }}']" />
-  <ModOp Type="remove" Path="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" Condition="//ActionUnlockAsset/UnhideAssets/Item[Asset='{{ guid }}']" />
+{% for trigger_guid, (unhide_guids, unlock_guids) in lock_guids_by_trigger.items() %}
+{% if unhide_guids %}
+  <ModOp Type="remove" GUID="{{ trigger_guid }}" Path="/Values/Trigger/TriggerActions/Item/TriggerAction/Values/ActionUnlockAsset/UnhideAssets/Item[Asset='{{ unhide_guids[0] }}'{% for unhide_guid in unhide_guids[1:] %} or Asset='{{ unhide_guid }}'{% endfor %}]" />
+{% endif %}
+{% if unlock_guids %}
+  <ModOp Type="remove" GUID="{{ trigger_guid }}" Path="/Values/Trigger/TriggerActions/Item/TriggerAction/Values/ActionUnlockAsset/UnlockAssets/Item[Asset='{{ unlock_guids[0] }}'{% for unlock_guid in unlock_guids[1:] %} or Asset='{{ unlock_guid }}'{% endfor %}]" />
+{% endif %}
 {% endfor %}
 
   <!-- Remove palace ministry unhide at 1 investor -->
-  <ModOp Type="remove" GUID="130295" Path="/Values/Trigger/TriggerActions/Item/TriggerAction/Values//ActionUnlockAsset/UnhideAssets/Item[Asset='269602']" />
+  <ModOp Type="remove" GUID="130295" Path="/Values/Trigger/TriggerActions/Item/TriggerAction/Values/ActionUnlockAsset/UnhideAssets/Item[Asset='269602']" />
 
   <!-- Add all unlockable assets-->
   <ModOp Type="addNextSibling" GUID="105568">

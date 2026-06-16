@@ -68,7 +68,9 @@ def _get_requirements_from_condition(condition: TriggerCondition) -> Optional[se
             return {A1800Requirement(condition.population_name, condition.region)} | {A1800Requirement(name, population.region) for name in population.luxury}
         case TriggerConditionType.COUNTER:
             unlock = next(UNLOCKS.find_unlocks(condition.unlock_name, condition.region))
-            return get_requirements_for_construction(unlock) | {A1800Requirement(name, region) for name, region in condition.requirements}
+            region = REGIONS.find_region(condition.region)
+            region_requirements: set[A1800Requirement] = region.requirements if region else set()
+            return get_requirements_for_construction(unlock) | region_requirements | {A1800Requirement(name, region) for name, region in condition.requirements}
         case TriggerConditionType.COUNTER_GOOD_IN_REGION:
             a1800_region = REGIONS.find_region(condition.region)
             assert a1800_region, \

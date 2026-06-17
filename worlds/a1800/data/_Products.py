@@ -249,7 +249,7 @@ _a1800_products: list[A1800Product] = [
     A1800Product("Permit: Advanced Pier", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Permit: Great Eastern", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Initial Settling", DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),
-    A1800Product("Road Network", DLC.THE_PASSAGE, Region.EN, 0, ProductType.META),
+    A1800Product("Road Network", DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),
     A1800Product("Settling", DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),
     A1800Product("Canal System", DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),
     A1800Product("Irrigation", DLC.LAND_OF_LIONS, Region.EN, 0, ProductType.META),

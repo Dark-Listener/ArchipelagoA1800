@@ -224,4 +224,14 @@ path correctly.
 
 ## Troubleshooting
 
-No known frequent issues yet.
+### Connectivity Issues
+
+If you have issues connecting the Archpelago Client to the game, especially on Windows, make sure to do everything in
+the right order:
+* Close the Archipelago Client and Launcher if they are still open.
+* Open the game and load a save file. Explicitly reload the savefile if it is already open from previous attempts.
+  * Leave the game unpaused until a connection is established.
+  * Waiting on a finihsed loading screen is not enough, the actual game must be running.
+* Open the Archipelago Launcher and start the Anno 1800 Client.
+  * The Client should now connect and tell you that it got "world information" after a short moment.
+* Connect the Client to the Archipelago Server by entering the Server's IP and port.

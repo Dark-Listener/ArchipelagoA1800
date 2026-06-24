@@ -8,7 +8,7 @@ from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, Session, START_REGION, TriggerActionType, TriggerConditionType, UnlockType
 from ._EventItems import A1800EventItem, EVENT_ITEMS
 from ._EventLocations import A1800EventLocation, EVENT_LOCATIONS
-from ._Guid import get_next_anno_guid, RECIPE_GUIDS
+from ._Guid import get_next_anno_guid, HACIENDA_QUARTER_GUIDS, RECIPE_GUIDS
 from ._Logic import LOGIC, get_requirements_for_construction
 from ._ParsedOptions import ParsedOptions
 from ._Products import A1800Product, PRODUCTS
@@ -71,6 +71,9 @@ class _A1800Data:
 
     def get_event_locations(self) -> Sequence[A1800EventLocation]:
         return EVENT_LOCATIONS.get_event_locations()
+
+    def get_hacienda_quarter_unlocks(self) -> dict[str, tuple[int, int, str, int]]:
+        return HACIENDA_QUARTER_GUIDS
 
     def get_item_name_to_ap_code(self) -> dict[str, int]:
         return self._item_name_to_ap_code

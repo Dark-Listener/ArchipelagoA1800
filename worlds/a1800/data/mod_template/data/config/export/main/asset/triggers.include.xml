@@ -42,6 +42,9 @@
 {% for name, (guid, _, _, _, _) in recipe_unlocks.items() %}
 {{  generate_unlockable_asset(guid, name) | indent(4, true) }}
 {% endfor %}
+{% for name, (guid, _, _, _) in hacienda_quarter_unlocks.items() %}
+{{  generate_unlockable_asset(guid, name) | indent(4, true) }}
+{% endfor %}
 {% for name, guid in expedition_unlocks.items() %}
 {{  generate_unlockable_asset(guid, name) | indent(4, true) }}
 {% endfor %}
@@ -145,6 +148,9 @@
 
     <!-- Unlock triggers -->
 {%  for trigger in location_triggers %}
+{{  generate_trigger_asset(trigger) | indent(4, true) }}
+{%  endfor %}
+{%  for trigger in hacienda_quarter_triggers %}
 {{  generate_trigger_asset(trigger) | indent(4, true) }}
 {%  endfor %}
 

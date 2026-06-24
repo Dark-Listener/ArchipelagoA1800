@@ -3,7 +3,7 @@ from typing import Any, ClassVar, Iterator, Optional
 
 from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerConditionType, UnlockType
-from ._Guid import RECIPE_GUIDS
+from ._Guid import HACIENDA_QUARTER_GUIDS, RECIPE_GUIDS
 from ._ParsedOptions import ParsedOptions
 from ._Products import PRODUCTS
 from ._TriggerCondition import TriggerCondition
@@ -2379,7 +2379,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Timber", {"Jornaleros", "Hacienda"}, {"Grain", "Corn"}, "Beer"),
 
     # Building, Factory, Residence
-    A1800Unlock("Hacienda Jornalero Quarters", DLC.SEEDS_OF_CHANGE, Region.NW, 24792, [(25055, [], 25059), (24792, [], 16199)],
+    A1800Unlock("Hacienda Jornalero Quarters", DLC.SEEDS_OF_CHANGE, Region.NW,
+                HACIENDA_QUARTER_GUIDS["Hacienda Jornalero Quarters"][0], [(25055, [], 25059), (24792, [], 16199)],
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1),
                 "Timber", set(), {"Hacienda", "Jornaleros"}, "Jornaleros",
                 consumption={"Hacienda", "Fried Plantains", "Ponchos",
@@ -2388,7 +2389,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 lifestyle={"Work Clothes", "Felt", "Teff", "Local Mail",
                            "Regional Mail", "Overseas Mail", "Soccer Balls", "Beach", "Cinema"}),
 
-    A1800Unlock("Hacienda Obrera Quarters", DLC.SEEDS_OF_CHANGE, Region.NW, 24793, [(25055, [], 25059), (24793, [], 16199)],
+    A1800Unlock("Hacienda Obrera Quarters", DLC.SEEDS_OF_CHANGE, Region.NW,
+                HACIENDA_QUARTER_GUIDS["Hacienda Obrera Quarters"][0], [(25055, [], 25059), (24793, [], 16199)],
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1),
                 "Timber", set(), {"Hacienda", "Obreros"}, "Obreros",
                 consumption={"Hacienda", "Fried Plantains", "Ponchos", "Tortillas", "Hot Sauce", "Atole", "Coffee", "Bombins",
@@ -2953,7 +2955,8 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     ### Needs Seeds of Change ###
     # Building, Factory, Residence
-    A1800Unlock("Hacienda Artista Quarters", DLC.SEEDS_OF_CHANGE | DLC.NEW_WORLD_RISING, Region.NW, 6086, (6086, [], 7360),
+    A1800Unlock("Hacienda Artista Quarters", DLC.SEEDS_OF_CHANGE | DLC.NEW_WORLD_RISING, Region.NW,
+                HACIENDA_QUARTER_GUIDS["Hacienda Artista Quarters"][0], (6086, [], 7360),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 1),
                 {"Timber", "Bricks"}, set(), {"Artistas", "Medium-Volume Trade",
                                               ("Medium-Volume Trade", Region.OW)}, "Artistas",

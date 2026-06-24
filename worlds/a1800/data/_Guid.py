@@ -46,3 +46,9 @@ RECIPE_GUIDS = {
     "Recipe: Face Cream": (get_next_anno_guid(), 135746, 0, 0, False),
     "Recipe: Pomade": (get_next_anno_guid(), 135747, 0, 0, False),
 }
+
+HACIENDA_QUARTER_GUIDS = {
+    "Hacienda Jornalero Quarters": (get_next_anno_guid(), 101254, "Jornalero Residence", 24792),
+    "Hacienda Obrera Quarters": (get_next_anno_guid(), 101255, "Obrero Residence", 24793),
+    "Hacienda Artista Quarters": (get_next_anno_guid(), 5405, "Artista Residence", 6086),
+}

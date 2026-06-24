@@ -116,29 +116,6 @@ def _get_allowed_goods_and_ships_by_session(world: "A1800World", player: int) ->
     return allowed_goods_and_ships_by_session
 
 
-def _adapt_hacienda_unlocks(locations: list[A1800Location]) -> None:
-    for location in locations:
-        if location.item and isinstance(location.item, A1800Item) and location.data.condition:
-            if "Hacienda" in location.item.data.name and "Quarters" in location.item.data.name:
-                if "Jornalero" in location.item.data.name:
-                    unlock_name = "Jornalero Residence"
-                    guid = 101254
-                elif "Obrera" in location.item.data.name:
-                    unlock_name = "Obrero Residence"
-                    guid = 101255
-                elif "Artista" in location.item.data.name:
-                    unlock_name = "Artista Residence"
-                    guid = 5405
-                else:
-                    assert False, f"Somehow found Hacienda Quarter with wrong population in name: {location.item.data.name}"
-                new_condition = TriggerCondition.COUNTER(unlock_name, Region.NW, 1, guid=guid)
-                if location.data.condition.type_ == TriggerConditionType.ALL:
-                    location.data.condition.conditions.append(new_condition)
-                else:
-                    location.data.condition = TriggerCondition.ALL(location.data.condition, new_condition)
-                location.data.condition.post_init()
-
-
 class A1800ModFile(APPlayerContainer):
     game = "A1800"
     compression_method = ZIP_DEFLATED
@@ -217,9 +194,6 @@ def generate_mod(world: "A1800World", output_directory: str):
     locations = [location for location in multiworld.get_filled_locations(
         player) if isinstance(location, A1800Location) and not location.is_event]
 
-    if not A1800_DATA.get_parsed_options().allow_hacienda_residences_upon_unlock:
-        _adapt_hacienda_unlocks(locations)
-
     def _get_trigger_key(location: A1800Location) -> tuple[Any, ...]:
         return (location.data.condition or TriggerCondition.FALSE()).get_sort_key()
 
@@ -266,6 +240,16 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     location_triggers = [Trigger.from_list([trigger for trigger in triggers], guid=A1800_DATA.get_next_anno_guid())
                          for triggers in triggers_grouped_by_condition_and_dlc]
+
+    hacienda_quarter_triggers: list[Trigger] = []
+    for name, (unlock_guid, residence_guid, residence_name, quarters_guid) in A1800_DATA.get_hacienda_quarter_unlocks().items():
+        condition = TriggerCondition.UNLOCK(name, Region.NW, guid=unlock_guid)
+        if not A1800_DATA.get_parsed_options().allow_hacienda_residences_upon_unlock:
+            condition = TriggerCondition.ALL(condition, TriggerCondition.COUNTER(
+                residence_name, Region.NW, 1, guid=residence_guid))
+        condition.post_init()
+        hacienda_quarter_triggers.append(Trigger(condition, TriggerAction.UNLOCK(
+            [quarters_guid]), guid=A1800_DATA.get_next_anno_guid()))
 
     incident_feature_guids = {
         "FireIncidents_SA": A1800_DATA.get_next_anno_guid(),
@@ -375,6 +359,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "notification_triggers": notification_triggers,
         "notifications_by_ap_code": notifications_by_ap_code,
         "meta_products_by_name": meta_products_by_name,
+        "hacienda_quarter_triggers": hacienda_quarter_triggers,
         "start_trigger": start_trigger,
         "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,
         "victory_quest": victory_quest,
@@ -382,6 +367,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "victory_trigger": victory_trigger,
         "incident_feature_guids": incident_feature_guids,
         "expedition_unlocks": expedition_unlocks,
+        "hacienda_quarter_unlocks": A1800_DATA.get_hacienda_quarter_unlocks(),
         "recipe_unlocks": A1800_DATA.get_recipe_unlocks(),
         "allowed_goods_and_ships_by_session": _get_allowed_goods_and_ships_by_session(world, player),
         "cape_trelawney_free_clipper_guid": A1800_DATA.get_next_anno_guid(),

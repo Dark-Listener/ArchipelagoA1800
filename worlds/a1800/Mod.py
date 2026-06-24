@@ -23,10 +23,23 @@ if TYPE_CHECKING:
 @dataclass
 class _Quest:
     guid: int
-    pool_guid: int
+    name: str
     description_guid: int
+    quest_giver: int
+    max_solve: int
+    delay: int
+    visible: bool
     condition: TriggerCondition
-    pre_condition: TriggerCondition
+    pre_condition: Optional[TriggerCondition]
+
+
+@dataclass
+class _QuestPool:
+    guid: int
+    name: str
+    quests: list[tuple[int, int]]
+    max_quests: int
+    pre_condition: Optional[TriggerCondition]
 
 
 def _get_condition_with_dlc(condition: TriggerCondition, condition_dlc: set[DLC]) -> TriggerCondition:
@@ -195,8 +208,6 @@ def generate_mod(world: "A1800World", output_directory: str):
     texts_spanish_template = template_env.get_template("data/config/gui/texts_spanish.xml")
     texts_taiwanese_template = template_env.get_template("data/config/gui/texts_taiwanese.xml")
     set_is_unlocked_template = template_env.get_template("data/archipelago/scripts/set_is_unlocked/set_is_unlocked.py")
-    ap_receive_item_template = template_env.get_template(
-        "data/archipelago/scripts/ap_receive_item/ap_receive_item.lua")
 
     # get data for templates
     mod_name = f"AP-{multiworld.seed_name}-P{player}-{multiworld.get_file_safe_player_name(player)}"
@@ -265,19 +276,30 @@ def generate_mod(world: "A1800World", output_directory: str):
         "Expedition: Enbesa": Session.EN.expedition_unlock_guid,
     }
 
-    victory_quest_guid = A1800_DATA.get_next_anno_guid()
     victory_quest = _Quest(
-        victory_quest_guid,
         A1800_DATA.get_next_anno_guid(),
+        "Victory Quest",
         A1800_DATA.get_next_anno_guid(),
+        75,
+        1,
+        5000,
+        True,
         A1800_DATA.get_victory_condition(),
+        None
+    )
+
+    victory_quest_pool = _QuestPool(
+        A1800_DATA.get_next_anno_guid(),
+        "Victory QuestPool",
+        [(victory_quest.guid, 10)],
+        1,
         TriggerCondition.ACTIVE_DLC(A1800_DATA.get_victory_dlcs())
     )
 
     victory_guid = A1800_DATA.get_next_anno_guid()
     victory_trigger = Trigger(
         TriggerCondition.QUEST_COMPLETE(
-            A1800_DATA.get_victory_condition().ap_location_name, victory_quest_guid, set()),
+            A1800_DATA.get_victory_condition().ap_location_name, victory_quest.guid, set()),
         [TriggerAction.UNLOCK([victory_guid])],
         guid=A1800_DATA.get_next_anno_guid()
     )
@@ -301,14 +323,16 @@ def generate_mod(world: "A1800World", output_directory: str):
     location_data_by_guid = {location.data.guid: (location.address, False)
                              for location in locations if location.data.guid}
 
-    guids_by_ap_code = {unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in A1800_DATA.get_unlocks() if unlock.ap_code} | {
+    guids_by_ap_code = {
+        unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in A1800_DATA.get_unlocks() if unlock.ap_code
+    } | {
         location.item.code: (location.item.data.unlock_guids, location.data.guid) for location in locations
         if location.data.guid and location.item and isinstance(location.item, A1800Item) and location.item.code
     }
 
     notifications_by_ap_code = {
         ap_code: (
-            unlock_guids[0],
+            unlock_guids[0] if unlock_guids else 0,
             A1800_DATA.get_next_anno_guid(),
             A1800_DATA.get_next_anno_guid(),
             f"[AssetData({received_guid}) Text] <b>{next(unlock for unlock in A1800_DATA.get_unlocks() if unlock.ap_code == ap_code).ap_item_name}</b>"
@@ -348,6 +372,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "start_trigger": start_trigger,
         "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,
         "victory_quest": victory_quest,
+        "victory_quest_pool": victory_quest_pool,
         "victory_trigger": victory_trigger,
         "incident_feature_guids": incident_feature_guids,
         "expedition_unlocks": expedition_unlocks,
@@ -377,6 +402,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "victory_guid": victory_guid,
         "location_data_by_guid": location_data_by_guid,
         "guids_by_ap_code": guids_by_ap_code,
+        "notifications_by_ap_code": notifications_by_ap_code,
     }
 
     zipfile_path = join(output_directory, versioned_mod_name + ".zip")
@@ -438,16 +464,6 @@ def generate_mod(world: "A1800World", output_directory: str):
     }
     mod.writing_tasks.append(lambda victory_guid=victory_guid, set_is_unlocked_data=set_is_unlocked_data: (
         f"data/archipelago/scripts/set_is_unlocked/set_is_unlocked_{victory_guid}.py", set_is_unlocked_template.render(**set_is_unlocked_data)))
-
-    for ap_code, (unlock_guids, location_guid) in guids_by_ap_code.items():
-        if unlock_guids or location_guid:
-            ap_receive_item_data: dict[str, Any] = {
-                "unlock_guids": unlock_guids,
-                "location_guid": location_guid,
-                "feature_guid": notifications_by_ap_code[ap_code][1]
-            }
-            mod.writing_tasks.append(lambda ap_code=ap_code, ap_receive_item_data=ap_receive_item_data: (
-                f"data/archipelago/scripts/ap_receive_item/ap_receive_item_{ap_code}.lua", ap_receive_item_template.render(**ap_receive_item_data)))
 
     # write the mod file
     mod.write()

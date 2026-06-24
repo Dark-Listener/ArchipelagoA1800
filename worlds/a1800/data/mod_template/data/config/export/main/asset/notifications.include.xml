@@ -1,5 +1,5 @@
 <ModOps>
-  <ModOp GUID="153271" Type="AddNextSibling">
+  <ModOp Type="addNextSibling" GUID="153271">
 {%  for ap_code, (unlock_guid, feature_guid, text_guid, _) in notifications_by_ap_code.items() %}
   <Asset>
     <Template>FeatureUnlock</Template>
@@ -54,7 +54,23 @@
               </Values>
             </TriggerAction>
           </Item>
+          <Item>
+            <TriggerAction>
+              <Template>ActionUnlockAsset</Template>
+              <Values>
+                <Action />
+                <ActionUnlockAsset>
+                  <UnlockAssets>
+                    <Item>
+                      <Asset>{{ feature_guid }}</Asset>
+                    </Item>
+                  </UnlockAssets>
+                </ActionUnlockAsset>
+              </Values>
+            </TriggerAction>
+          </Item>
         </TriggerActions>
+{%      if unlock_guid %}
         <SubTriggers>
           <Item>
             <SubTrigger>
@@ -78,10 +94,19 @@
             </SubTrigger>
           </Item>
         </SubTriggers>
+{%      endif %}
         <ResetTrigger>
-          <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+          <Template>AutoCreateTrigger</Template>
           <Values>
-            <EmptyAutoCreateValue/>
+            <Trigger>
+              <TriggerCondition>
+                <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+                <Values>
+                  <Condition />
+                  <ConditionAlwaysTrue />
+                </Values>
+              </TriggerCondition>
+            </Trigger>
           </Values>
         </ResetTrigger>
       </Trigger>

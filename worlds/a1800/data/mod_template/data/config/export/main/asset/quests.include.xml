@@ -61,134 +61,155 @@
 </Condition>
 {% endif %}
 {% endmacro %}
+{% macro generate_quest_pool(quest_pool) %}
+<Asset>
+  <Template>QuestPool</Template>
+  <Values>
+    <Standard>
+      <GUID>{{ quest_pool.guid }}</GUID>
+      <Name>{{ quest_pool.name }}</Name>
+    </Standard>
+    <QuestPool>
+      <Quests>
+{%    for guid, weight in quest_pool.quests %}
+        <Item>
+          <Quest>{{ guid }}</Quest>
+          <Weight>{{ weight }}</Weight>
+        </Item>
+{%    endfor %}
+      </Quests>
+      <IsTopLevel>1</IsTopLevel>
+      <QuestLimit>{{ quest_pool.max_quests }}</QuestLimit>
+      <PoolCooldown>0</PoolCooldown>
+      <QuestCooldown>0</QuestCooldown>
+    </QuestPool>
+    <Locked>
+      <DefaultLockedState>0</DefaultLockedState>
+    </Locked>
+{%  if quest_pool.pre_condition %}
+    <PreConditionList>
+{{(   generate_pre_condition(quest_pool.pre_condition) | indent(6, true)).rstrip(" ") -}}
+{{ "</PreConditionList>"                               | indent(4, true)               }}
+{%  endif %}
+  </Values>
+</Asset>
+{% endmacro %}
+{% macro generate_quest(quest) %}
+<Asset>
+  <Template>A7_QuestStatusQuo</Template>
+  <Values>
+    <Standard>
+      <GUID>{{ quest.guid }}</GUID>
+      <Name>{{ quest.name }}</Name>
+    </Standard>
+    <Text>
+      <TextOverride>898</TextOverride>
+    </Text>
+    <Quest>
+      <StarterMessage>
+        <Notification>
+          <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+          <Values>
+            <CharacterNotification/>
+            <BaseNotification/>
+            <NotificationSubtitle/>
+          </Values>
+        </Notification>
+        <SuppressMessage>1</SuppressMessage>
+      </StarterMessage>
+      <SuccessMessage>
+        <Notification>
+          <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+          <Values>
+            <CharacterNotification/>
+            <BaseNotification/>
+            <NotificationSubtitle/>
+          </Values>
+        </Notification>
+        <SuppressMessage>1</SuppressMessage>
+      </SuccessMessage>
+      <FailureMessage>
+        <Notification>
+          <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+          <Values>
+            <CharacterNotification/>
+            <BaseNotification/>
+            <NotificationSubtitle/>
+          </Values>
+        </Notification>
+        <SuppressMessage>1</SuppressMessage>
+      </FailureMessage>
+      <InvitationMessage>
+        <Notification>
+          <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+          <Values>
+            <CharacterNotification/>
+            <BaseNotification/>
+            <NotificationSubtitle/>
+          </Values>
+        </Notification>
+      </InvitationMessage>
+      <QuestHints>
+        <Item>
+          <Text>{{ quest.description_guid }}</Text>
+        </Item>
+      </QuestHints>
+      <QuestGiver>{{ quest.quest_giver }}</QuestGiver>
+      <QuestTimeLimit>0</QuestTimeLimit>
+      <QuestActivation>QuestStart</QuestActivation>
+      <MaxCallOut>1</MaxCallOut>
+      <MaxSolveCount>{{ quest.max_solve }}</MaxSolveCount>
+      <IsAbortable>0</IsAbortable>
+      <DelayTimer>{{ quest.delay }}</DelayTimer>
+{%    if quest.visible %}
+      <QuestTrackerVisibility>Global</QuestTrackerVisibility>
+{%    else %}
+      <QuestTrackerVisibility>Never</QuestTrackerVisibility>
+{%    endif %}
+      <HasExclusiveQuestGiver>0</HasExclusiveQuestGiver>
+      <CanBeActiveForMultipleParticipants>1</CanBeActiveForMultipleParticipants>
+      <ReputationQuestFail>
+        <ReputationFailList />
+      </ReputationQuestFail>
+    </Quest>
+{%  if quest.pre_condition %}
+    <PreConditionList>
+{{(   generate_pre_condition(quest.pre_condition) | indent(6, true)).rstrip(" ") -}}
+{{ "</PreConditionList>"                          | indent(4, true)               }}    
+{%  endif %}
+    <Reward>
+      <RewardAssets />
+      <RewardReputation />
+    </Reward>
+    <Objectives>
+      <WinConditions>
+{{(      generate_objective(quest.condition) | indent(8, true)).rstrip(" ") -}}
+{{   "</WinConditions>"                      | indent(6, true)               }}
+    </Objectives>
+    <QuestOptional>
+      <HasStarterObject>None</HasStarterObject>
+      <StarterObject>
+        <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
+        <Values>
+          <Condition />
+          <ConditionStarterObject />
+          <ConditionQuestObjective />
+          <ConditionPropsSessionSettings />
+        </Values>
+      </StarterObject>
+    </QuestOptional>
+  </Values>
+</Asset>
+{% endmacro %}
 <ModOps>
   <!-- Add all quests -->
   <ModOp Type="addNextSibling" GUID="152264">
     <!-- Victory condition quest -->
-    <Asset>
-      <Template>A7_QuestStatusQuo</Template>
-      <Values>
-        <Standard>
-          <GUID>{{ victory_quest.guid }}</GUID>
-          <Name>Victory Quest</Name>
-        </Standard>
-        <Text>
-          <TextOverride>898</TextOverride>
-        </Text>
-        <Quest>
-          <StarterMessage>
-            <Notification>
-              <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
-              <Values>
-                <CharacterNotification/>
-                <BaseNotification/>
-                <NotificationSubtitle/>
-              </Values>
-            </Notification>
-            <SuppressMessage>1</SuppressMessage>
-          </StarterMessage>
-          <SuccessMessage>
-            <Notification>
-              <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
-              <Values>
-                <CharacterNotification/>
-                <BaseNotification/>
-                <NotificationSubtitle/>
-              </Values>
-            </Notification>
-            <SuppressMessage>1</SuppressMessage>
-          </SuccessMessage>
-          <FailureMessage>
-            <Notification>
-              <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
-              <Values>
-                <CharacterNotification/>
-                <BaseNotification/>
-                <NotificationSubtitle/>
-              </Values>
-            </Notification>
-            <SuppressMessage>1</SuppressMessage>
-          </FailureMessage>
-          <InvitationMessage>
-            <Notification>
-              <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
-              <Values>
-                <CharacterNotification/>
-                <BaseNotification/>
-                <NotificationSubtitle/>
-              </Values>
-            </Notification>
-          </InvitationMessage>
-          <QuestHints>
-            <Item>
-              <Text>{{ victory_quest.description_guid }}</Text>
-            </Item>
-          </QuestHints>
-          <QuestGiver>75</QuestGiver>
-          <QuestTimeLimit>0</QuestTimeLimit>
-          <QuestActivation>QuestStart</QuestActivation>
-          <MaxCallOut>1</MaxCallOut>
-          <MaxSolveCount>1</MaxSolveCount>
-          <IsAbortable>0</IsAbortable>
-          <DelayTimer>5000</DelayTimer>
-          <QuestTrackerVisibility>Global</QuestTrackerVisibility>
-          <HasExclusiveQuestGiver>0</HasExclusiveQuestGiver>
-          <CanBeActiveForMultipleParticipants>1</CanBeActiveForMultipleParticipants>
-          <ReputationQuestFail>
-            <ReputationFailList />
-          </ReputationQuestFail>
-        </Quest>
-        <Reward>
-          <RewardAssets />
-          <RewardReputation />
-        </Reward>
-        <Objectives>
-          <WinConditions>
-{{(          generate_objective(victory_quest.condition) | indent(12, true)).rstrip(" ") -}}
-{{       "</WinConditions>"                              | indent(10, true)               }}
-        </Objectives>
-        <QuestOptional>
-          <HasStarterObject>None</HasStarterObject>
-          <StarterObject>
-            <IsBaseAutoCreateAsset>1</IsBaseAutoCreateAsset>
-            <Values>
-              <Condition />
-              <ConditionStarterObject />
-              <ConditionQuestObjective />
-              <ConditionPropsSessionSettings />
-            </Values>
-          </StarterObject>
-        </QuestOptional>
-      </Values>
-    </Asset>
+{{  generate_quest(victory_quest) | indent(4, true) }}
   </ModOp>
 
   <!-- Add quest pool -->
   <ModOp Type="addNextSibling" GUID="150725">
-    <Asset>
-      <Template>QuestPool</Template>
-      <Values>
-        <Standard>
-          <GUID>{{ victory_quest.pool_guid }}</GUID>
-          <Name>Victory QuestPool</Name>
-        </Standard>
-        <QuestPool>
-          <Quests>
-            <Item>
-              <Quest>{{ victory_quest.guid }}</Quest>
-            </Item>
-          </Quests>
-          <IsTopLevel>1</IsTopLevel>
-          <PoolCooldown>0</PoolCooldown>
-          <QuestCooldown>0</QuestCooldown>
-        </QuestPool>
-        <Locked>
-          <DefaultLockedState>0</DefaultLockedState>
-        </Locked>
-        <PreConditionList>
-{{(       generate_pre_condition(victory_quest.pre_condition) | indent(10, true)).rstrip(" ") -}}
-{{     "</PreConditionList>"                                  | indent(8, true)                }}
-      </Values>
-    </Asset>
+{{  generate_quest_pool(victory_quest_pool) | indent(4, true) }}
   </ModOp>
 </ModOps>

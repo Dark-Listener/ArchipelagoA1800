@@ -14,12 +14,12 @@ try:
     g_victory = False
 
     try:
-        anno_server.close()
+        server.close()
     except NameError:
         pass
 
-    anno_server = AnnoServer(globals(), mod_path / "A1800APCommunication.dat",
-                             src_path, "{{ slot_name }}", "{{ seed_name }}")
+    server = AnnoServer(globals(), mod_path / "A1800APCommunication.dat",
+                        src_path, "{{ slot_name }}", "{{ seed_name }}")
 
     console.startScript(str(src_path / "data.lua"))
     console.startScript(str(src_path / "polling.lua"))

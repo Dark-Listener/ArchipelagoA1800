@@ -16,7 +16,7 @@ def get_requirements_for_construction(unlock: A1800Unlock) -> set[A1800Requireme
     new_requirements: set[A1800Requirement] = set()
 
     if not UnlockType.META in unlock.type_:
-        new_requirements.add(A1800Requirement(unlock.name, unlock.region, RequirementType.UNLOCK))
+        new_requirements.add(A1800Requirement(unlock.name, unlock.region, type=RequirementType.UNLOCK))
 
     if UnlockType.BUILDING in unlock.type_:
         new_requirements |= {A1800Requirement(name, unlock.region) for name in unlock.cost}
@@ -30,7 +30,7 @@ def get_requirements_for_construction(unlock: A1800Unlock) -> set[A1800Requireme
         previous_unlock = next(UNLOCKS.find_unlocks(
             current_unlock.previous_building, current_unlock.region))
         new_requirements.add(A1800Requirement(previous_unlock.name,
-                                              previous_unlock.region, RequirementType.UNLOCK))
+                                              previous_unlock.region, type=RequirementType.UNLOCK))
 
         if UnlockType.RESIDENCE in unlock.type_:
             assert UnlockType.RESIDENCE in previous_unlock.type_, f"Residence {current_unlock.name} references"\
@@ -207,7 +207,7 @@ class _Logic:
                     for event_location_name in event_item.locations:
                         for event_location in EVENT_LOCATIONS.find_event_locations(event_location_name, event_item.name, event_item.region):
                             new_requirements.add(A1800Requirement(event_location.name,
-                                                                  event_location.region, RequirementType.UNLOCK))
+                                                                  event_location.region, type=RequirementType.UNLOCK))
                 else:
                     raise ValueError(f"Requirement name {requirement.name} doesn't match any product.")
 
@@ -254,14 +254,14 @@ class _Logic:
 
         return checked, location_requirements
 
-    def _is_progressive(self, obj: A1800Unlock | A1800EventItem | A1800EventLocation) -> bool:
+    def _is_progression(self, obj: A1800Unlock | A1800EventItem | A1800EventLocation) -> bool:
         requirement_type = RequirementType.PRODUCT if isinstance(obj, A1800EventItem) else RequirementType.UNLOCK
 
         if isinstance(obj, A1800EventLocation):
             return bool(next((
                 requirement for requirement in self._a1800_required_items if requirement.type == requirement_type
                 and requirement.name == obj.name and requirement.region in obj.region), None)) and \
-                self._is_progressive(next(EVENT_ITEMS.find_event_items(obj.output, obj.region)))
+                self._is_progression(next(EVENT_ITEMS.find_event_items(obj.output, obj.region)))
         else:
             return bool(next((
                 requirement for requirement in self._a1800_required_items if requirement.type == requirement_type
@@ -278,7 +278,7 @@ class _Logic:
             initial_required_items = victory_required_items.copy()
 
         victory_event_location = A1800EventLocation(
-            self._victory_condition.ap_location_name, {DLC.VANILLA}, Region.OW, NO_REGION, "Victory", is_progressive=True)
+            self._victory_condition.ap_location_name, {DLC.VANILLA}, Region.OW, NO_REGION, "Victory", is_progression=True)
         EVENT_LOCATIONS._a1800_event_locations.append(victory_event_location)  # pyright: ignore[reportPrivateUsage]
         self._victory_condition.ap_location_name = "Victory Condition"
 
@@ -294,8 +294,8 @@ class _Logic:
             initial_required_items, initial_checked_items, START_REGION, initial_location_requirements)
 
         for obj in list(UNLOCKS.get_unlocks()) + list(EVENT_ITEMS.get_event_items()) + list(EVENT_LOCATIONS.get_event_locations()):
-            if self._is_progressive(obj):
-                obj.is_progressive = True
+            if self._is_progression(obj):
+                obj.is_progression = True
 
     def get_location_requirements(self) -> dict[str, set[A1800Requirement]]:
         return self._a1800_location_requirements

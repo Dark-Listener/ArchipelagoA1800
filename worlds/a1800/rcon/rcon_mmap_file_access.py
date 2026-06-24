@@ -30,7 +30,7 @@ _BUFFER_WRITE_IDX = _BUFFER_READ_IDX + _BUFFER_READ_IDX_SIZE
 _BUFFER_REQUESTS = _BUFFER_WRITE_IDX + _BUFFER_WRITE_IDX_SIZE
 
 
-class _MMapAccess:
+class MMapAccess:
     def __init__(self, mmap_obj: mmap, size: Optional[int] = None, offset: int = 0) -> None:
         self._mmap_obj = mmap_obj
         self._SIZE = size if size else self._mmap_obj.size()
@@ -74,11 +74,15 @@ class _MMapAccess:
         self._mmap_obj.close()
 
     @property
+    def size(self) -> int:
+        return self._SIZE
+
+    @property
     def closed(self) -> bool:
         return self._mmap_obj.closed
 
 
-class _BufferAccess(_MMapAccess):
+class _BufferAccess(MMapAccess):
     def __init__(self, mmap_obj: mmap, offset: int = 0) -> None:
         super().__init__(mmap_obj, _BUFFER_SIZE, offset)
 
@@ -143,7 +147,7 @@ class _RequestRingBuffer:
         return self._memory.read_idx != self._memory.write_idx
 
 
-class RCONMMapFileAccess(_MMapAccess):
+class RCONMMapFileAccess(MMapAccess):
     def __init__(self, mmap_obj: mmap) -> None:
         super().__init__(mmap_obj)
         self.ring_buffer_server = _RequestRingBuffer(mmap_obj, _BUFFER_SERVER)

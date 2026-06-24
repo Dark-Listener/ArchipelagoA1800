@@ -15,7 +15,7 @@ class A1800EventItem:
     region: Region
     type: ProductType
     ap_item_name: str = ""
-    is_progressive: bool = False
+    is_progression: bool = False
     locations: set[str] = field(default_factory=lambda: set())
 
     def __post_init__(self) -> None:

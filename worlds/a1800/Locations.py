@@ -55,7 +55,7 @@ class _Locations:
                 location.ap_location_name,
                 location.ap_region or location.region,
                 is_event=True
-            ) for location in A1800_DATA.get_event_locations() if location.is_progressive
+            ) for location in A1800_DATA.get_event_locations() if location.is_progression
         ]
 
         self._location_data_list = [

@@ -37,11 +37,11 @@ class A1800Unlock:
     type_: UnlockType
     ap_region: Region
     is_early: bool
+    is_excluded: bool = False
     ap_code: Optional[int] = None
     ap_item_name: str = ""
     ap_location_name: str = ""
-    is_progressive: bool = False
-    is_excluded: bool = False
+    is_progression = False
 
     def __init__(
         self,

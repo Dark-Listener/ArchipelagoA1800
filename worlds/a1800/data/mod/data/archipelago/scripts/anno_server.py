@@ -1,8 +1,10 @@
 from contextlib import contextmanager
 import json
+from mmap import mmap
 from pathlib import Path
 from typing import Any, Dict, Generator
 
+from rcon.rcon_mmap_file_access import MMapAccess
 from rcon.rcon_mmap_server import RCONMMapServer
 from rcon.rcon_packet import RCONPacket
 
@@ -15,11 +17,26 @@ class AnnoServer(RCONMMapServer):
         self.slot_name = slot_name
         self.seed_name = seed_name
 
+        self._ap_receive_item_args_file_path = self.script_path / "ap_receive_item_args.lua"
+        self._ap_receive_item_args_file_obj = self._ap_receive_item_args_file_path.open(mode="rb+")
+
+        self.ap_receive_item_args_file_access = MMapAccess(
+            mmap(self._ap_receive_item_args_file_obj.fileno(), length=0))
+
         self.register_handler("/ap-rcon-info", _handle_ap_rcon_info)
         self.register_handler("/ap-sync", _handle_ap_sync)
         self.register_handler("/ap-receive-item", _handle_ap_receive_item)
 
         self.env["console"].startScript(str(self.script_path / "ap_sync.lua"))
+
+    def close(self):
+        if not self.ap_receive_item_args_file_access.closed:
+            self.ap_receive_item_args_file_access.close()
+
+        if not self._ap_receive_item_args_file_obj.closed:
+            self._ap_receive_item_args_file_obj.close()
+
+        super().close()
 
 
 def _handle_ap_rcon_info(server: RCONMMapServer, packet: RCONPacket, _body: str) -> None:
@@ -59,8 +76,15 @@ def _handle_ap_receive_item(server: RCONMMapServer, _packet: RCONPacket, body: s
 
     ap_code = int(body)
     if ap_code in server.env["GUIDS_BY_AP_CODE"]:
-        server.env["console"].startScript(
-            str(server.script_path / "ap_receive_item" / "ap_receive_item_{}.lua".format(ap_code)))
+        server.ap_receive_item_args_file_access.set_str(
+            0,
+            server.ap_receive_item_args_file_access.size,
+            "g_ap_receive_item_args = {{\n    [\"ap_code\"] = {:010},\n}}\n".format(
+                ap_code
+            )
+        )
+        server.ap_receive_item_args_file_access.flush()
+        server.env["console"].startScript(str(server.script_path / "ap_receive_item.lua"))
 
 
 @contextmanager

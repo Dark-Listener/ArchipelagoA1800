@@ -40,14 +40,14 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
                      and not A1800_DATA.find_session(obj.condition.session).requirements))
         return A1800ItemData(
             obj.ap_item_name,
-            IC.progression if obj.is_progressive else IC.filler,
+            IC.progression if obj.is_progression else IC.filler,
             obj.dlc,
             obj.unlock_guids,
             obj.ap_code,
             obj.is_early,
             is_starting_item,
             False)
-    elif obj.is_progressive:
+    elif obj.is_progression:
         return A1800ItemData(
             obj.ap_item_name,
             IC.progression,

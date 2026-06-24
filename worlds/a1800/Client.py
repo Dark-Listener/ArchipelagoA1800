@@ -140,7 +140,7 @@ async def a1800_server_watcher(ctx: A1800Context):
                     transfer_item: NetworkItem = ctx.items_received[ctx.send_index]
                     item_id = transfer_item.item
                     try:
-                        ctx.rcon_mmap_client.send_command(f"/ap-receive-item {item_id}")
+                        ctx.rcon_mmap_client.send_command(f"/ap-receive-item {item_id} {ctx.send_index}")
                     except:
                         ctx.rcon_mmap_client.connected = False
                         logger.warning("Anno 1800 Client has lost connection. Did you pause or quit the game?")

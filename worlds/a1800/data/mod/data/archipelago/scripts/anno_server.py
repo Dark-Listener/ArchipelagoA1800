@@ -74,13 +74,15 @@ def _handle_ap_sync(server: RCONMMapServer, packet: RCONPacket, _body: str) -> N
 def _handle_ap_receive_item(server: RCONMMapServer, _packet: RCONPacket, body: str) -> None:
     assert isinstance(server, AnnoServer)
 
-    ap_code = int(body)
-    if ap_code in server.env["GUIDS_BY_AP_CODE"]:
+    args = body.split()
+    ap_code = int(args[0])
+    rcv_idx = int(args[1])
+    if ap_code in server.env["GUIDS_BY_AP_CODE"] and rcv_idx >= server.env["g_receive_index"]:
         server.ap_receive_item_args_file_access.set_str(
             0,
             server.ap_receive_item_args_file_access.size,
-            "g_ap_receive_item_args = {{\n    [\"ap_code\"] = {:010},\n}}\n".format(
-                ap_code
+            "g_ap_receive_item_args = {{\n    [\"ap_code\"] = {:010},\n    [\"rcv_idx\"] = {:010},\n}}\n".format(
+                ap_code, rcv_idx
             )
         )
         server.ap_receive_item_args_file_access.flush()

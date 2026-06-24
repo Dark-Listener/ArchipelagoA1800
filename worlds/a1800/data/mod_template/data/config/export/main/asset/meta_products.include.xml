@@ -1,0 +1,23 @@
+<ModOps>
+  <ModOp Type="addNextSibling" GUID="1010017">
+{%  for name, guid in meta_products_by_name.items() %}
+    <Asset>
+      <Template>Product</Template>
+      <Values>
+        <Standard>
+          <GUID>{{ guid }}</GUID>
+          <Name>{{ name }}</Name>
+        </Standard>
+        <Locked>
+          <DefaultLockedState>0</DefaultLockedState>
+        </Locked>
+        <Product>
+          <StorageLevel>Meta</StorageLevel>
+          <CanBeNegative>0</CanBeNegative>
+          <HideInUI>1</HideInUI>
+        </Product>
+      </Values>
+    </Asset>
+{%  endfor %}
+  </ModOp>
+</ModOps>

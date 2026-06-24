@@ -193,6 +193,7 @@ def generate_mod(world: "A1800World", output_directory: str):
     free_goods_and_ships_template = template_env.get_template(
         "data/config/export/main/asset/free_goods_and_ships.include.xml")
     incidents_template = template_env.get_template("data/config/export/main/asset/incidents.include.xml")
+    meta_products_template = template_env.get_template("data/config/export/main/asset/meta_products.include.xml")
     notifications_template = template_env.get_template("data/config/export/main/asset/notifications.include.xml")
     quests_template = template_env.get_template("data/config/export/main/asset/quests.include.xml")
     triggers_template = template_env.get_template("data/config/export/main/asset/triggers.include.xml")
@@ -224,6 +225,10 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     items_found_guid = A1800_DATA.get_next_anno_guid()
     received_guid = A1800_DATA.get_next_anno_guid()
+
+    meta_products_by_name = {
+        "int_receive_index": A1800_DATA.get_next_anno_guid()
+    }
 
     def _get_notification_trigger(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> Trigger:
         locations = list(groups[1])
@@ -369,6 +374,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "location_triggers": location_triggers,
         "notification_triggers": notification_triggers,
         "notifications_by_ap_code": notifications_by_ap_code,
+        "meta_products_by_name": meta_products_by_name,
         "start_trigger": start_trigger,
         "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,
         "victory_quest": victory_quest,
@@ -403,6 +409,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "location_data_by_guid": location_data_by_guid,
         "guids_by_ap_code": guids_by_ap_code,
         "notifications_by_ap_code": notifications_by_ap_code,
+        "meta_products_by_name": meta_products_by_name,
     }
 
     zipfile_path = join(output_directory, versioned_mod_name + ".zip")
@@ -434,6 +441,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         _get_writing_task(data_lua_template, raw_data),
         _get_writing_task(free_goods_and_ships_template, template_data),
         _get_writing_task(incidents_template, template_data),
+        _get_writing_task(meta_products_template, template_data),
         _get_writing_task(notifications_template, template_data),
         _get_writing_task(quests_template, template_data),
         _get_writing_task(triggers_template, template_data),

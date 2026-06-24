@@ -14,3 +14,5 @@ g_guids_by_ap_code = {
     },
 {% endfor %}
 }
+
+g_int_receive_index_guid = {{ meta_products_by_name["int_receive_index"] }}

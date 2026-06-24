@@ -1,5 +1,5 @@
 from collections.abc import Sequence
-from typing import Any, ClassVar, Iterator, Optional
+from typing import ClassVar, Iterator, Optional
 
 from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerConditionType, UnlockType
@@ -38,9 +38,13 @@ class A1800Unlock:
     ap_region: Region
     is_early: bool
     is_excluded: bool = False
+    progressive_group: str = ""
+    progressive_tier: int = 0
     ap_code: Optional[int] = None
     ap_item_name: str = ""
     ap_location_name: str = ""
+    progressive_ap_code: Optional[int] = None
+    progressive_ap_item_name: str = ""
     is_progression = False
 
     def __init__(
@@ -65,7 +69,9 @@ class A1800Unlock:
         type_: UnlockType = UnlockType.UNLOCK,
         ap_region: Region = NO_REGION,
         is_early: bool = False,
-        is_excluded: bool = False
+        is_excluded: bool = False,
+        progressive_group: str = "",
+        progressive_tier: int = 0,
     ) -> None:
         self.name = name
         self.dlc = {dlc} if isinstance(dlc, DLC) else dlc
@@ -97,6 +103,10 @@ class A1800Unlock:
         self.ap_region = ap_region
         self.is_early = is_early
         self.is_excluded = is_excluded
+        self.progressive_group = progressive_group
+        self.progressive_tier = progressive_tier
+        assert bool(progressive_group) == bool(
+            progressive_tier), f"Unlock {self.name} only has one of progressive group and tier"
 
         if not UnlockType.META in self.type_:
             self.ap_code = A1800Unlock.__item_id
@@ -105,6 +115,13 @@ class A1800Unlock:
         self.ap_item_name = create_unlock_name(self.name, self.region)
 
         self.ap_location_name = self.condition.get_ap_location_name(self.ap_item_name)
+
+        if self.progressive_group and self.progressive_tier == 1:
+            self.progressive_ap_code = A1800Unlock.__item_id
+            A1800Unlock.__item_id += 1
+
+            self.progressive_ap_item_name = create_unlock_name(
+                self.progressive_group, self.region, prefix="Progressive ")
 
     def post_init(self) -> None:
         if self.type_ == UnlockType.UNLOCK:
@@ -176,10 +193,10 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     # Building
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, [1010517, 1010540], [],
-                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
+                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}, progressive_group="Trading Post", progressive_tier=1),
 
     A1800Unlock("Small Warehouse", DLC.VANILLA, Region.OW, 1010371, (130040, [], 130248),
-                TriggerCondition.SESSION_ENTER(Session.OW), "Timber"),
+                TriggerCondition.SESSION_ENTER(Session.OW), "Timber", progressive_group="Warehouse", progressive_tier=1),
 
     A1800Unlock("Trade Union", DLC.VANILLA, Region.OW, 1010516, (1010516, [], 130252),
                 TriggerCondition.POPULATION("Workers", Region.OW, 1), {"Timber", "Bricks"}),
@@ -203,7 +220,9 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TriggerCondition.POPULATION("Artisans", Region.OW, 1), {"Timber", "Bricks", "Steel Beams", "Weapons"}),
 
     A1800Unlock("Public Mooring", DLC.VANILLA, Region.OW, 100429, (130052, 130216, 130217),
-                TriggerCondition.POPULATION("Artisans", Region.OW, 250), {"Timber", "Bricks", "Steel Beams", "Windows"}),
+                TriggerCondition.POPULATION("Artisans", Region.OW, 250), {
+        "Timber", "Bricks", "Steel Beams", "Windows"},
+        progressive_group="Public Mooring", progressive_tier=1),
 
     A1800Unlock("Repair Crane", DLC.VANILLA, Region.OW, 1010525, (1010525, 130216, 130217),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 250), {"Timber", "Bricks", "Steel Beams"}),
@@ -224,10 +243,10 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Bricks", "Steel Beams", "Reinforced Concrete", "Advanced Weapons"}),
 
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, [101290, 101293], [],
-                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
+                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}, progressive_group="Trading Post", progressive_tier=1),
 
     A1800Unlock("Small Warehouse", DLC.VANILLA, Region.NW, 101323, (130095, [], 130236),
-                TriggerCondition.SESSION_ENTER(Session.NW), "Timber"),
+                TriggerCondition.SESSION_ENTER(Session.NW), "Timber", progressive_group="Warehouse", progressive_tier=1),
 
     A1800Unlock("Trade Union", DLC.VANILLA, Region.NW, 101284, (101284, 130236, 130237),
                 TriggerCondition.POPULATION("Jornaleros", Region.NW, 50), {"Timber", "Bricks"}),
@@ -304,7 +323,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Potatoes", "Schnapps", {("Schnapps", Region.OW), ("Schnapps", Region.AR)}),
 
     A1800Unlock("Fire Station", DLC.VANILLA, Region.OW, 1010463, (1010463, 130250, 130251),
-                TriggerCondition.POPULATION("Farmers", Region.OW, 150), "Timber", set(), set(), "Fire Protection", is_early=True),
+                TriggerCondition.POPULATION("Farmers", Region.OW, 150), "Timber", set(), set(), "Fire Protection",
+                is_early=True, progressive_group="Fire Station", progressive_tier=1),
 
     A1800Unlock("Pub", DLC.VANILLA, Region.OW, 1010358, (130042, 130250, 130251),
                 TriggerCondition.POPULATION("Farmers", Region.OW, 150), "Timber", set(), set(), "Pub"),
@@ -397,7 +417,8 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Police Station", DLC.VANILLA, Region.OW, 1010462, (1010462, [130254, 130255], 130255),
                 TriggerCondition.POPULATION("Workers", Region.OW, 500),
-                {"Timber", "Bricks"}, set(), set(), "Riot Control"),
+                {"Timber", "Bricks"}, set(), set(), "Riot Control",
+                progressive_group="Police Station", progressive_tier=1),
 
     A1800Unlock("School", DLC.VANILLA, Region.OW, 1010360, (130044, 130255, 130256),
                 TriggerCondition.POPULATION("Workers", Region.OW, 750),
@@ -454,7 +475,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), "Variety Theatre"),
 
     A1800Unlock("Pier", DLC.VANILLA, Region.OW, 100519, (100519, 130216, 130217),
-                TriggerCondition.POPULATION("Artisans", Region.OW, 250), {"Timber", "Bricks", "Steel Beams", "Windows"}, output="Pier"),
+                TriggerCondition.POPULATION("Artisans", Region.OW, 250), {"Timber", "Bricks", "Steel Beams", "Windows"}, output="Pier",
+                progressive_group="Pier", progressive_tier=1),
 
     A1800Unlock("Zoo", DLC.VANILLA, Region.OW, 1010470, (1010470, 130217, 130218),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 500),
@@ -486,7 +508,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Hospital", DLC.VANILLA, Region.OW, 1010464, (1010464, 130218, 130219),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 900),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), "Healthcare"),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), "Healthcare", progressive_group="Hospital", progressive_tier=1),
 
     A1800Unlock("University", DLC.VANILLA, Region.OW, 1010362, (130046, 130219, 130220),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 1500),
@@ -523,7 +545,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Small Oil Harbour", DLC.VANILLA, Region.OW, 100783, (130047, [], 130221),
                 TriggerCondition.POPULATION("Engineers", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, set(),
-                set(), "Oil Harbour", "Electricity"),
+                set(), "Oil Harbour", "Electricity", progressive_group="Oil Harbour", progressive_tier=1),
 
     A1800Unlock("Oil Power Plant", DLC.VANILLA, Region.OW, 100780, (130047, [], 130221),
                 TriggerCondition.POPULATION("Engineers", Region.OW, 1),
@@ -616,7 +638,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("World's Fair: Foundations", DLC.VANILLA, Region.OW, 1010489, (1010489, [], 130228),
                 TriggerCondition.POPULATION("Investors", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Large Storage"}, "Farmers",
-                {"Timber", "Cement"}, "World's Fair: Foundations"),
+                {"Timber", "Cement"}, "World's Fair: Foundations", progressive_group="World's Fair", progressive_tier=1),
 
     A1800Unlock("Marquetry Workshop", DLC.VANILLA, Region.OW, 1010320, (130116, 130228, 130229),
                 TriggerCondition.POPULATION("Investors", Region.OW, 750),
@@ -630,7 +652,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("World's Fair: Superstructure", DLC.VANILLA, Region.OW, 1010490, (1010490, 130228, 130229),
                 TriggerCondition.POPULATION("Investors", Region.OW, 750),
                 "World's Fair: Foundations", "Workers",
-                {"Bricks", "Steel Beams", "Reinforced Concrete"}, "World's Fair: Superstructure"),
+                {"Bricks", "Steel Beams", "Reinforced Concrete"}, "World's Fair: Superstructure",
+                progressive_group="World's Fair", progressive_tier=2),
 
     A1800Unlock("Jewellers", DLC.VANILLA, Region.OW, 1010328, (140048, 130229, 130230),
                 TriggerCondition.POPULATION("Investors", Region.OW, 1750),
@@ -640,7 +663,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("World's Fair: Glazing", DLC.VANILLA, Region.OW, 101336, (101336, 130229, 130230),
                 TriggerCondition.POPULATION("Investors", Region.OW, 1750),
                 "World's Fair: Superstructure", "Artisans",
-                {"Windows", "Steam Motors", "Wood Veneers"}, "World's Fair: Glazing"),
+                {"Windows", "Steam Motors", "Wood Veneers"}, "World's Fair: Glazing",
+                progressive_group="World's Fair", progressive_tier=3),
 
     A1800Unlock("Gramophone Factory", DLC.VANILLA, Region.OW, 1010326, (140047, 130230, 130232),
                 TriggerCondition.POPULATION("Investors", Region.OW, 3000),
@@ -650,7 +674,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("World's Fair: Infrastructure", DLC.VANILLA, Region.OW, 1010491, (1010491, 130230, 130232),
                 TriggerCondition.POPULATION("Investors", Region.OW, 3000),
                 "World's Fair: Glazing", {"Engineers", "Electricity"},
-                {"Filaments", "Light Bulbs", "Caoutchouc"}, "World's Fair: Infrastructure"),
+                {"Filaments", "Light Bulbs", "Caoutchouc"}, "World's Fair: Infrastructure",
+                progressive_group="World's Fair", progressive_tier=4),
 
     A1800Unlock("Coachmakers", DLC.VANILLA, Region.OW, 1010289, (140049, 130232, 130233),
                 TriggerCondition.POPULATION("Investors", Region.OW, 5000),
@@ -665,7 +690,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("World's Fair", DLC.VANILLA, Region.OW, 1010492, (1010492, 130232, 130233),
                 TriggerCondition.POPULATION("Investors", Region.OW, 5000),
                 "World's Fair: Infrastructure", {"Investors", "Electricity"},
-                set(), {"World's Fair: Exhibitions", "World's Fair"}),
+                set(), {"World's Fair: Exhibitions", "World's Fair"},
+                progressive_group="World's Fair", progressive_tier=5),
 
     A1800Unlock("Dirt Road", DLC.VANILLA, Region.NW, 101308, (101308, [], 130236),
                 TriggerCondition.SESSION_ENTER(Session.NW), output="Road Network", type_=UnlockType.BUILDING | UnlockType.FACTORY, ap_region=Region.OW),
@@ -722,13 +748,15 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Timber", "Jornaleros", "Alpaca Wool", "Ponchos", "Ponchos"),
 
     A1800Unlock("Fire Station", DLC.VANILLA, Region.NW, 101275, (101275, 130238, 130239),
-                TriggerCondition.POPULATION("Jornaleros", Region.NW, 200), "Timber", set(), set(), "Fire Protection"),
+                TriggerCondition.POPULATION("Jornaleros", Region.NW, 200), "Timber", set(), set(), "Fire Protection",
+                progressive_group="Fire Station", progressive_tier=1),
 
     A1800Unlock("Caoutchouc Plantation", DLC.VANILLA, Region.NW, 1010333, [(130202, 130238, 130239), (1010333, 130221, [])],
                 TriggerCondition.POPULATION("Jornaleros", Region.NW, 200), "Timber", "Jornaleros", set(), "Caoutchouc"),
 
     A1800Unlock("Police Station", DLC.VANILLA, Region.NW, 101274, (101274, 130239, 130240),
-                TriggerCondition.POPULATION("Jornaleros", Region.NW, 300), "Timber", set(), set(), "Riot Control"),
+                TriggerCondition.POPULATION("Jornaleros", Region.NW, 300), "Timber", set(), set(), "Riot Control",
+                progressive_group="Police Station", progressive_tier=1),
 
     A1800Unlock("Chapel", DLC.VANILLA, Region.NW, 101258, (130099, 130239, 130240),
                 TriggerCondition.POPULATION("Jornaleros", Region.NW, 300), "Timber", set(), set(), "Chapel"),
@@ -772,7 +800,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TriggerCondition.POPULATION("Obreros", Region.NW, 300), {"Timber", "Bricks"}, "Obreros", set(), "Gold Ore"),
 
     A1800Unlock("Pier", DLC.VANILLA, Region.NW, 101344, (130123, 130241, 130242),
-                TriggerCondition.POPULATION("Obreros", Region.NW, 300), {"Timber", "Bricks"}, output="Pier"),
+                TriggerCondition.POPULATION("Obreros", Region.NW, 300), {"Timber", "Bricks"}, output="Pier",
+                progressive_group="Pier", progressive_tier=1),
 
     A1800Unlock("Felt Producer", DLC.VANILLA, Region.NW, 101415, [(130103, 130242, 130243), (120290, 118751, 120064)],
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
@@ -785,7 +814,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {("Bombins", Region.NW), ("Bombins", Region.OW)}),
 
     A1800Unlock("Hospital", DLC.VANILLA, Region.NW, 101276, (101276, 130242, 130243),
-                TriggerCondition.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks"}, set(), set(), "Healthcare"),
+                TriggerCondition.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks"}, set(),
+                set(), "Healthcare", progressive_group="Hospital", progressive_tier=1),
 
     A1800Unlock("Oil Refinery", DLC.VANILLA, Region.NW, 1010561, (130124, 130242, 130243),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
@@ -798,7 +828,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Small Oil Harbour", DLC.VANILLA, Region.NW, 101329, (130124, 130242, 130243),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
-                {"Timber", "Bricks"}, set(), set(), "Oil Harbour", "Electricity"),
+                {"Timber", "Bricks"}, set(), set(), "Oil Harbour", "Electricity", progressive_group="Oil Harbour", progressive_tier=1),
 
     A1800Unlock("Tobacco Plantation", DLC.VANILLA, Region.NW, 1010330, (140045, 130243, 130244),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1000), "Timber", "Jornaleros", set(), "Tobacco",
@@ -829,63 +859,71 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     # Building, Upgrade
     A1800Unlock("Medium Warehouse", DLC.VANILLA, Region.OW, 100516, (130053, [], 130252),
-                TriggerCondition.POPULATION("Workers", Region.OW, 1), {"Timber", "Bricks"}, previous_building="Small Warehouse"),
+                TriggerCondition.POPULATION("Workers", Region.OW, 1), {"Timber", "Bricks"},
+                previous_building="Small Warehouse", progressive_group="Warehouse", progressive_tier=2),
 
     A1800Unlock("Large Warehouse", DLC.VANILLA, Region.OW, 100517, (130054, [], 130216),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, previous_building="Medium Warehouse"),
+                {"Timber", "Bricks", "Steel Beams", "Windows"},
+                previous_building="Medium Warehouse", progressive_group="Warehouse", progressive_tier=3),
 
     A1800Unlock("Grand Warehouse", DLC.VANILLA, Region.OW, 269869, (269869, [], 270049),
                 TriggerCondition.POPULATION("Engineers", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
-                previous_building="Large Warehouse"),
+                previous_building="Large Warehouse", progressive_group="Warehouse", progressive_tier=4),
 
     A1800Unlock("Medium Oil Harbour", DLC.VANILLA, Region.OW, 101403, (130047, [], 130221),
                 TriggerCondition.POPULATION("Engineers", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
-                previous_building="Small Oil Harbour"),
+                previous_building="Small Oil Harbour", progressive_group="Oil Harbour", progressive_tier=2),
 
     A1800Unlock("Large Oil Harbour", DLC.VANILLA, Region.OW, 101404, (130047, [], 130221),
                 TriggerCondition.POPULATION("Engineers", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
-                previous_building="Medium Oil Harbour"),
+                previous_building="Medium Oil Harbour", progressive_group="Oil Harbour", progressive_tier=3),
 
     A1800Unlock("Medium Warehouse", DLC.VANILLA, Region.NW, 101324, (130104, [], 130241),
-                TriggerCondition.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, previous_building="Small Warehouse"),
+                TriggerCondition.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"},
+                previous_building="Small Warehouse", progressive_group="Warehouse", progressive_tier=2),
 
     A1800Unlock("Medium Oil Harbour", DLC.VANILLA, Region.NW, 101405, (130124, 130242, 130243),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
-                previous_building="Small Oil Harbour"),
+                previous_building="Small Oil Harbour", progressive_group="Oil Harbour", progressive_tier=2),
 
     A1800Unlock("Large Oil Harbour", DLC.VANILLA, Region.NW, 101406, (130124, 130242, 130243),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
-                previous_building="Medium Oil Harbour"),
+                previous_building="Medium Oil Harbour", progressive_group="Oil Harbour", progressive_tier=3),
 
     A1800Unlock("Large Warehouse", DLC.VANILLA, Region.NW, 101325, (130105, 130244, 130246),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1500),
-                {"Timber", "Bricks", "Steel Beams"}, previous_building="Medium Warehouse"),
+                {"Timber", "Bricks", "Steel Beams"},
+                previous_building="Medium Warehouse", progressive_group="Warehouse", progressive_tier=3),
 
     # Building, Factory, Upgrade
     A1800Unlock("Medium Trading Post", DLC.VANILLA, Region.OW, [100510, 100514], (130053, [], 130252),
-                TriggerCondition.POPULATION("Workers", Region.OW, 1), {"Timber", "Bricks"}, output="Medium Storage", previous_building="Small Trading Post"),
+                TriggerCondition.POPULATION("Workers", Region.OW, 1), {"Timber", "Bricks"}, output="Medium Storage",
+                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2),
 
     A1800Unlock("Large Trading Post", DLC.VANILLA, Region.OW, [100511, 100515], (130054, [], 130216),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, output="Large Storage", previous_building="Medium Trading Post"),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, output="Large Storage",
+                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3),
 
     A1800Unlock("Grand Trading Post", DLC.VANILLA, Region.OW, [269867, 269879], [(269867, [], 270049), (269879, [], 270049)],
                 TriggerCondition.POPULATION("Engineers", Region.OW, 1),
-                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"},
-                output="Grand Storage", previous_building="Large Trading Post"),
+                {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, output="Grand Storage",
+                previous_building="Large Trading Post", progressive_group="Trading Post", progressive_tier=4),
 
     A1800Unlock("Medium Trading Post", DLC.VANILLA, Region.NW, [101291, 101294], (130104, [], 130241),
-                TriggerCondition.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, output="Medium Storage", previous_building="Small Trading Post"),
+                TriggerCondition.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, output="Medium Storage",
+                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2),
 
     A1800Unlock("Large Trading Post", DLC.VANILLA, Region.NW, [101292, 101295], (130105, 130244, 130246),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1500),
-                {"Timber", "Bricks", "Steel Beams", "Windows"}, output="Large Storage", previous_building="Medium Trading Post"),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, output="Large Storage",
+                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3),
 
     # Building, Factory, Residence
     A1800Unlock("Farmer Residence", DLC.VANILLA, Region.OW, 1010343, (1010343, [], 130248),
@@ -893,14 +931,16 @@ _a1800_unlocks: list[A1800Unlock] = [
                 consumption={"Market", "Fish", "Work Clothes", "Fire Protection"},
                 luxury={"Schnapps", "Pub"},
                 lifestyle={"Flour", "Sugar", "Jam", "Local Mail", "Regional Mail",
-                           "Overseas Mail", "Soap", "Herbs", "Hibiscus Petals"}),
+                           "Overseas Mail", "Soap", "Herbs", "Hibiscus Petals"},
+                progressive_group="Residence", progressive_tier=1),
 
     A1800Unlock("Jornalero Residence", DLC.VANILLA, Region.NW, 101254, (101254, [], 130236),
                 TriggerCondition.SESSION_ENTER(Session.NW), "Timber", set(), "Market", "Jornaleros",
                 consumption={"Market", "Fried Plantains", "Ponchos", "Fire Protection", "Riot Control"},
                 luxury={"Rum", "Chapel"},
                 lifestyle={"Work Clothes", "Felt", "Teff", "Local Mail",
-                           "Regional Mail", "Overseas Mail", "Soccer Balls", "Beach", "Cinema"}),
+                           "Regional Mail", "Overseas Mail", "Soccer Balls", "Beach", "Cinema"},
+                progressive_group="Residence", progressive_tier=1),
 
     # Building, Factory, Upgrade, Residence
     A1800Unlock("Worker Residence", DLC.VANILLA, Region.OW, 1010344, (1010344, 130249, 130250),
@@ -911,7 +951,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Schnapps", "Pub", "Church", "Beer"},
                 {"Rum", "Penny Farthings", "Hot Sauce", "Local Mail", "Regional Mail",
                     "Overseas Mail", "Beef", "Soccer Balls", "Clay Pipes"},
-                is_early=True),
+                is_early=True, progressive_group="Residence", progressive_tier=2),
 
     A1800Unlock("Artisan Residence", DLC.VANILLA, Region.OW, 1010345, (1010345, 130255, 130256),
                 TriggerCondition.POPULATION("Workers", Region.OW, 750),
@@ -920,7 +960,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                     "Fur Coats", "University", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Church", "Beer", "Variety Theatre", "Rum"},
                 {"Wool", "Clay", "Paper", "Local Mail", "Regional Mail",
-                    "Overseas Mail", "Soccer Balls", "Perfumes", "Scooters"}),
+                    "Overseas Mail", "Soccer Balls", "Perfumes", "Scooters"},
+                progressive_group="Residence", progressive_tier=3),
 
     A1800Unlock("Engineer Residence", DLC.VANILLA, Region.OW, 1010346, (1010346, 130219, 130220),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 1500),
@@ -930,7 +971,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                     "Electricity", "Light Bulbs", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Variety Theatre", "Rum", "Penny Farthings", "Pocket Watches", "Bank"},
                 {"Soap", "Chocolate", "Shampoo", "Local Mail", "Regional Mail",
-                    "Overseas Mail", "Mezcal", "Ice Cream", "Medicine"}),
+                    "Overseas Mail", "Mezcal", "Ice Cream", "Medicine"},
+                progressive_group="Residence", progressive_tier=4),
 
     A1800Unlock("Investor Residence", DLC.VANILLA, Region.OW, 1010347, (1010347, 130224, 130226),
                 TriggerCondition.POPULATION("Engineers", Region.OW, 1750),
@@ -940,7 +982,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                     "Chocolate", "Steam Carriages", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Penny Farthings", "Pocket Watches", "Bank", "Members Club", "Jewellery", "Gramophones"},
                 {"Furs", "Bear Fur", "Tapestries", "Local Mail", "Regional Mail",
-                    "Overseas Mail", "Perfumes", "Fans", "Film Reels"}),
+                    "Overseas Mail", "Perfumes", "Fans", "Film Reels"},
+                progressive_group="Residence", progressive_tier=5),
 
     A1800Unlock("Obrero Residence", DLC.VANILLA, Region.NW, 101255, (101255, 130239, 130291),
                 TriggerCondition.POPULATION("Jornaleros", Region.NW, 200),
@@ -949,7 +992,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                     "Sewing Machines", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Rum", "Chapel", "Boxing Arena", "Beer", "Cigars"},
                 {"Spectacles", "Typewriters", "Illuminated Script", "Local Mail",
-                    "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooters"}),
+                    "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooters"},
+                progressive_group="Residence", progressive_tier=2),
 
     # Factory
     A1800Unlock("Schooner", DLC.VANILLA, ALL_REGIONS, 100438, (100438, 5329, 141003),
@@ -1041,13 +1085,15 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     # Building
     A1800Unlock("Small Trading Post", DLC.THE_PASSAGE, Region.AR, [112659, 112865], [],
-                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
+                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"},
+                progressive_group="Trading Post", progressive_tier=1),
 
     A1800Unlock("Small Sky Trading Post", DLC.THE_PASSAGE, Region.AR, 112726, [],
-                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}),
+                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"},
+                progressive_group="Sky Trading Post", progressive_tier=1),
 
     A1800Unlock("Small Warehouse", DLC.THE_PASSAGE, Region.AR, 112656, (112716, [], 112644),
-                TriggerCondition.SESSION_ENTER(Session.AR), "Timber"),
+                TriggerCondition.SESSION_ENTER(Session.AR), "Timber", progressive_group="Warehouse", progressive_tier=1),
 
     A1800Unlock("Cannon Tower", DLC.THE_PASSAGE, Region.AR, 112671, (112671, [], 112648),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 1), {"Timber", "Steel Beams", "Weapons"}),
@@ -1117,13 +1163,15 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Arctic Airship Hangar: Foundations", DLC.THE_PASSAGE, Region.AR, 112685, (112685, [], 112648),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 1),
                 {"Timber", "Steel Beams"}, {"Explorers", "Heat"},
-                {"Timber", "Cement"}, "Arctic Airship Hangar: Foundations"),
+                {"Timber", "Cement"}, "Arctic Airship Hangar: Foundations",
+                progressive_group="Arctic Airship Hangar", progressive_tier=1),
 
     A1800Unlock("Depot", DLC.THE_PASSAGE, Region.AR, 112670, (112670, [], 112648),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 1), "Timber", output={"Medium Storage", "Large Storage"}),
 
     A1800Unlock("Pier", DLC.THE_PASSAGE, Region.AR, 116030, (116030, [], 112648),
-                TriggerCondition.POPULATION("Technicians", Region.AR, 1), {"Timber", "Steel Beams"}, output="Pier"),
+                TriggerCondition.POPULATION("Technicians", Region.AR, 1), {"Timber", "Steel Beams"}, output="Pier",
+                progressive_group="Pier", progressive_tier=1),
 
     A1800Unlock("Post Office", DLC.THE_PASSAGE, Region.AR, 112684, (112684, 112648, 112649),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 100), {"Timber", "Steel Beams"}, set(), set(), "Post Office"),
@@ -1131,7 +1179,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Arctic Airship Hangar: Structure", DLC.THE_PASSAGE, Region.AR, 112687, (112687, [], 112649),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 100),
                 "Arctic Airship Hangar: Foundations", {"Technicians", "Heat"},
-                {"Steel Beams", "Reinforced Concrete"}, "Arctic Airship Hangar: Structure"),
+                {"Steel Beams", "Reinforced Concrete"}, "Arctic Airship Hangar: Structure",
+                progressive_group="Arctic Airship Hangar", progressive_tier=2),
 
     A1800Unlock("Bear Hunting Cabin", DLC.THE_PASSAGE, Region.AR, 112673, (112719, 112649, 112650),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 300),
@@ -1147,7 +1196,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Arctic Airship Hangar: Roof", DLC.THE_PASSAGE, Region.AR, 112688, (112688, [], 112650),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 300),
                 "Arctic Airship Hangar: Structure", {"Technicians", "Heat"},
-                {"Sails", "Windows", "Steam Motors"}, "Arctic Airship Hangar: Roof"),
+                {"Sails", "Windows", "Steam Motors"}, "Arctic Airship Hangar: Roof",
+                progressive_group="Arctic Airship Hangar", progressive_tier=3),
 
     A1800Unlock("Husky Farm", DLC.THE_PASSAGE, Region.AR, 112682, (112722, 112650, 112651),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 750),
@@ -1174,38 +1224,45 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Arctic Airship Hangar", DLC.THE_PASSAGE, Region.AR, 112689, (112689, [], 112651),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 750),
                 "Arctic Airship Hangar: Roof", {"Technicians", "Heat"},
-                set(), "Arctic Airships"),
+                set(), "Arctic Airships", progressive_group="Arctic Airship Hangar", progressive_tier=4),
 
     # Building, Upgrade
     A1800Unlock("Medium Warehouse", DLC.THE_PASSAGE, Region.AR, 112657, (112723, [], 112647),
-                TriggerCondition.POPULATION("Explorers", Region.AR, 500), "Timber", previous_building="Small Warehouse"),
+                TriggerCondition.POPULATION("Explorers", Region.AR, 500), "Timber",
+                previous_building="Small Warehouse", progressive_group="Warehouse", progressive_tier=2),
 
     A1800Unlock("Large Warehouse", DLC.THE_PASSAGE, Region.AR, 112658, (112724, [], 112649),
-                TriggerCondition.POPULATION("Technicians", Region.AR, 100), "Timber", previous_building="Medium Warehouse"),
+                TriggerCondition.POPULATION("Technicians", Region.AR, 100), "Timber",
+                previous_building="Medium Warehouse", progressive_group="Warehouse", progressive_tier=3),
 
     # Building, Factory, Upgrade
     A1800Unlock("Medium Trading Post", DLC.THE_PASSAGE, Region.AR, [112660, 112866], (112723, [], 112647),
                 TriggerCondition.POPULATION("Explorers", Region.AR, 500),
-                {"Timber", "Steel Beams"}, output="Medium Storage", previous_building="Small Trading Post"),
+                {"Timber", "Steel Beams"}, output="Medium Storage",
+                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2),
 
     A1800Unlock("Medium Sky Trading Post", DLC.THE_PASSAGE, Region.AR, 116003, (112723, [], 112647),
                 TriggerCondition.POPULATION("Explorers", Region.AR, 500),
-                {"Timber", "Steel Beams"}, output="Medium Plateau Storage", previous_building="Small Sky Trading Post"),
+                {"Timber", "Steel Beams"}, output="Medium Plateau Storage",
+                previous_building="Small Sky Trading Post", progressive_group="Sky Trading Post", progressive_tier=2),
 
     A1800Unlock("Large Trading Post", DLC.THE_PASSAGE, Region.AR, [112661, 112867], (112724, [], 112649),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 100),
-                {"Timber", "Steel Beams"}, output="Large Storage", previous_building="Medium Trading Post"),
+                {"Timber", "Steel Beams"}, output="Large Storage",
+                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3),
 
     A1800Unlock("Large Sky Trading Post", DLC.THE_PASSAGE, Region.AR, 116004, (112724, [], 112649),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 100),
-                {"Timber", "Steel Beams", "Windows"}, output="Large Plateau Storage", previous_building="Medium Sky Trading Post"),
+                {"Timber", "Steel Beams", "Windows"}, output="Large Plateau Storage",
+                previous_building="Medium Sky Trading Post", progressive_group="Sky Trading Post", progressive_tier=3),
 
     # Building, Factory, Residence
     A1800Unlock("Explorer Shelter", DLC.THE_PASSAGE, Region.AR, 112091, (112091, [], 112644),
                 TriggerCondition.SESSION_ENTER(Session.AR), "Timber", "Heat", "Canteen", "Explorers",
                 consumption={"Canteen", "Pemmican", "Oil Lamps", "Fire Protection", "Healthcare"},
                 luxury={"Sleeping Bags", "Schnapps"},
-                lifestyle={"Bread", "Tallow", "Local Mail", "Regional Mail", "Overseas Mail", "Hot Sauce"}),
+                lifestyle={"Bread", "Tallow", "Local Mail", "Regional Mail", "Overseas Mail", "Hot Sauce"},
+                progressive_group="Residence", progressive_tier=1),
 
     # Building, Factory, Residence, Upgrade
     A1800Unlock("Technician Shelter", DLC.THE_PASSAGE, Region.AR, 112652, (112652, [], 112647),
@@ -1214,7 +1271,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 consumption={"Canteen", "Pemmican", "Oil Lamps", "Post Office",
                              "Canned Food", "Husky Sleds", "Fire Protection", "Healthcare"},
                 luxury={"Sleeping Bags", "Schnapps", "Parkas", "Coffee"},
-                lifestyle={"Rum", "Dynamite", "Local Mail", "Regional Mail", "Overseas Mail", "Mezcal", "Motor"}),
+                lifestyle={"Rum", "Dynamite", "Local Mail", "Regional Mail", "Overseas Mail", "Mezcal", "Motor"},
+                progressive_group="Residence", progressive_tier=2),
 
     # Factory
     # No arctic gas input to avoid cyclic dependency - Nate will always give you some if you have none and no Boreas
@@ -1266,11 +1324,11 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Grand Oil Harbour", DLC.BRIGHT_HARVEST, Region.OW, 119259, (119259, [], 269882),
                 TriggerCondition.POPULATION("Engineers", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Medium Storage"},
-                previous_building="Large Oil Harbour"),
+                previous_building="Large Oil Harbour", progressive_group="Oil Harbour", progressive_tier=4),
     A1800Unlock("Grand Oil Harbour", DLC.BRIGHT_HARVEST, Region.NW, 119281, (119281, [], 270061),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Medium Storage"},
-                previous_building="Large Oil Harbour"),
+                previous_building="Large Oil Harbour", progressive_group="Oil Harbour", progressive_tier=4),
 
     ################################################################################################################
     ### LAND_OF_LIONS                                                                                            ###
@@ -1329,10 +1387,12 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     # Building
     A1800Unlock("Small Trading Post", DLC.LAND_OF_LIONS, Region.EN, [114626, 114629], [],
-                TriggerCondition.SESSION_ENTER(Session.OW), {"Wanza Timber", "Mud Bricks"}),
+                TriggerCondition.SESSION_ENTER(Session.OW), {"Wanza Timber", "Mud Bricks"},
+                progressive_group="Trading Post", progressive_tier=1),
 
     A1800Unlock("Small Warehouse", DLC.LAND_OF_LIONS, Region.EN, 114509, (114509, [], 114331),
-                TriggerCondition.SESSION_ENTER(Session.EN), "Wanza Timber"),
+                TriggerCondition.SESSION_ENTER(Session.EN), "Wanza Timber",
+                progressive_group="Warehouse", progressive_tier=1),
 
     A1800Unlock("Quay", DLC.LAND_OF_LIONS, Region.EN, 117729, (117918, 114332, 114333),
                 TriggerCondition.POPULATION("Shepherds", Region.EN, 150), "Wanza Timber"),
@@ -1366,16 +1426,19 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Research Institute: Foundations", DLC.LAND_OF_LIONS, Region.OW, 118938, (118938, [], 120063),
                 TriggerCondition.POPULATION("Elders", Region.EN, 300),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Medium Storage"}, "Workers",
-                {"Bricks", "Cement"}, "Research Institute: Foundations"),
+                {"Bricks", "Cement"}, "Research Institute: Foundations",
+                progressive_group="Research Institute", progressive_tier=1),
 
     A1800Unlock("Research Institute: Superstructure", DLC.LAND_OF_LIONS, Region.OW, 118939, (118939, [], 120063),
                 TriggerCondition.POPULATION("Elders", Region.EN, 300),
                 "Research Institute: Foundations", "Engineers",
-                {"Steel Beams", "Windows", "Reinforced Concrete"}, "Research Institute: Superstructure"),
+                {"Steel Beams", "Windows", "Reinforced Concrete"}, "Research Institute: Superstructure",
+                progressive_group="Research Institute", progressive_tier=2),
 
     A1800Unlock("Research Institute", DLC.LAND_OF_LIONS, Region.OW, [118940, 119392], [(118940, [], 120063), (119392, [], 127844)],
                 TriggerCondition.POPULATION("Elders", Region.EN, 300),
-                "Research Institute: Superstructure", {"Engineers", "Electricity"}, set(), "Research"),
+                "Research Institute: Superstructure", {"Engineers", "Electricity"}, set(), "Research",
+                progressive_group="Research Institute", progressive_tier=3),
 
     A1800Unlock("Advanced Coffee Roaster", DLC.LAND_OF_LIONS, Region.OW, 124738, (127612, [], 127844),
                 TriggerCondition.COUNTER("Research Institute", Region.OW, 1),
@@ -1558,39 +1621,45 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Wanza Timber", "Mud Bricks"}, set(), set(), "Monastery"),
 
     A1800Unlock("Pier", DLC.LAND_OF_LIONS, Region.EN, 117871, (117921, 114338, 114339),
-                TriggerCondition.POPULATION("Elders", Region.EN, 1000), {"Wanza Timber", "Mud Bricks"}, output="Pier"),
+                TriggerCondition.POPULATION("Elders", Region.EN, 1000), {"Wanza Timber", "Mud Bricks"}, output="Pier",
+                progressive_group="Pier", progressive_tier=1),
 
     # Building, Upgrade
     A1800Unlock("Advanced Pier", DLC.LAND_OF_LIONS, Region.OW, 125028, (125028, [], 127844),
                 TriggerCondition.COUNTER("Research Institute", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Permit: Advanced Pier"},
-                previous_building="Pier"),
+                previous_building="Pier", progressive_group="Pier", progressive_tier=2),
 
     A1800Unlock("Advanced Pier", DLC.LAND_OF_LIONS, Region.NW, 125191, (125191, [], 127844),
                 TriggerCondition.COUNTER("Research Institute", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Permit: Advanced Pier"},
-                previous_building="Pier"),
+                previous_building="Pier", progressive_group="Pier", progressive_tier=2),
 
     A1800Unlock("Medium Warehouse", DLC.LAND_OF_LIONS, Region.EN, 114537, (114633, [], 114336),
                 TriggerCondition.POPULATION("Elders", Region.EN, 1),
-                {"Wanza Timber", "Mud Bricks"}, previous_building="Small Warehouse"),
+                {"Wanza Timber", "Mud Bricks"},
+                previous_building="Small Warehouse", progressive_group="Warehouse", progressive_tier=2),
 
     A1800Unlock("Large Warehouse", DLC.LAND_OF_LIONS, Region.EN, 114635, (114634, [], 114338),
                 TriggerCondition.POPULATION("Elders", Region.EN, 600),
-                {"Wanza Timber", "Mud Bricks"}, previous_building="Medium Warehouse"),
+                {"Wanza Timber", "Mud Bricks"},
+                previous_building="Medium Warehouse", progressive_group="Warehouse", progressive_tier=3),
 
     A1800Unlock("Advanced Pier", DLC.LAND_OF_LIONS, Region.EN, 125193, (125193, [], 127844),
                 TriggerCondition.COUNTER("Research Institute", Region.OW, 1),
-                {"Wanza Timber", "Mud Bricks", "Permit: Advanced Pier"}, previous_building="Pier"),
+                {"Wanza Timber", "Mud Bricks", "Permit: Advanced Pier"},
+                previous_building="Pier", progressive_group="Pier", progressive_tier=2),
 
     # Building, Factory, Upgrade
     A1800Unlock("Medium Trading Post", DLC.LAND_OF_LIONS, Region.EN, [114627, 114630], (114633, [], 114336),
                 TriggerCondition.POPULATION("Elders", Region.EN, 1),
-                {"Wanza Timber", "Mud Bricks"}, output="Medium Storage", previous_building="Small Trading Post"),
+                {"Wanza Timber", "Mud Bricks"}, output="Medium Storage",
+                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2),
 
     A1800Unlock("Large Trading Post", DLC.LAND_OF_LIONS, Region.EN, [114628, 114631], (114634, [], 114338),
                 TriggerCondition.POPULATION("Elders", Region.EN, 600),
-                {"Wanza Timber", "Mud Bricks"}, output="Large Storage", previous_building="Medium Trading Post"),
+                {"Wanza Timber", "Mud Bricks"}, output="Large Storage",
+                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3),
 
     # Building, Factory, Residence
     # University + Canned Food guarantuee enough scholars to make infinite permits
@@ -1609,7 +1678,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TriggerCondition.SESSION_ENTER(Session.EN), "Wanza Timber", set(), "Market", "Shepherds",
                 consumption={"Market", "Goat Milk", "Finery", "Dried Meat", "Fire Protection"},
                 luxury={"Musicians' Court", "Hibiscus Tea"},
-                lifestyle={"Wanza Timber", "Grain", "Ponchos", "Canned Food", "Hot Sauce", "Jam"}),
+                lifestyle={"Wanza Timber", "Grain", "Ponchos", "Canned Food", "Hot Sauce", "Jam"},
+                progressive_group="Residence", progressive_tier=1),
 
     # Building, Factory, Upgrade, Residence
     A1800Unlock("Elder Residence", DLC.LAND_OF_LIONS, Region.EN, 114437, (114437, [], 114334),
@@ -1618,14 +1688,15 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Market", "Goat Milk", "Finery", "Dried Meat", "Ceramics", "Seafood Stew",
                     "Illuminated Script", "Lanterns", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Musicians' Court", "Hibiscus Tea", "Tapestries", "Clay Pipes", "Spectacles", "Monastery"},
-                {"Cotton Fabric", "Sewing Machines", "Goose Feathers", "Soap", "Herbs", "Orchid"}),
+                {"Cotton Fabric", "Sewing Machines", "Goose Feathers", "Soap", "Herbs", "Orchid"},
+                progressive_group="Residence", progressive_tier=2),
 
     ### Needs The Passage ###
     # Building, Upgrade
     A1800Unlock("Advanced Pier", DLC.THE_PASSAGE | DLC.LAND_OF_LIONS, Region.AR, 125192, (125192, [], 127844),
                 TriggerCondition.COUNTER("Research Institute", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Permit: Advanced Pier"},
-                previous_building="Pier"),
+                previous_building="Pier", progressive_group="Pier", progressive_tier=2),
 
     ### Needs Bright Harvest ###
     # Meta
@@ -1658,20 +1729,24 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Small Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, 119031, (270173, 270170, 270171),
                 TriggerCondition.POPULATION("Elders", Region.EN, 600),
-                {"Wanza Timber", "Mud Bricks"}, set(), set(), "Oil Harbour", "Fuel"),
+                {"Wanza Timber", "Mud Bricks"}, set(), set(), "Oil Harbour", "Fuel",
+                progressive_group="Oil Harbour", progressive_tier=1),
 
     # Building, Factory, Upgrade
     A1800Unlock("Medium Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, 119032, (119032, [], 270171),
                 TriggerCondition.POPULATION("Elders", Region.EN, 600),
-                {"Wanza Timber", "Mud Bricks"}, set(), set(), "Oil Harbour", previous_building="Small Oil Harbour"),
+                {"Wanza Timber", "Mud Bricks"}, set(), set(), "Oil Harbour",
+                previous_building="Small Oil Harbour", progressive_group="Oil Harbour", progressive_tier=2),
 
     A1800Unlock("Large Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, 119033, (119033, [], 270171),
                 TriggerCondition.POPULATION("Elders", Region.EN, 600),
-                {"Wanza Timber", "Mud Bricks"}, set(), set(), "Oil Harbour", previous_building="Medium Oil Harbour"),
+                {"Wanza Timber", "Mud Bricks"}, set(), set(), "Oil Harbour",
+                previous_building="Medium Oil Harbour", progressive_group="Oil Harbour", progressive_tier=3),
 
     A1800Unlock("Grand Oil Harbour", DLC.BRIGHT_HARVEST | DLC.LAND_OF_LIONS, Region.EN, 270172, (270172, [], 270171),
                 TriggerCondition.POPULATION("Elders", Region.EN, 600),
-                {"Wanza Timber", "Mud Bricks", "Medium Storage"}, set(), set(), "Oil Harbour", previous_building="Large Oil Harbour"),
+                {"Wanza Timber", "Mud Bricks", "Medium Storage"}, set(), set(), "Oil Harbour",
+                previous_building="Large Oil Harbour", progressive_group="Oil Harbour", progressive_tier=4),
 
     ################################################################################################################
     ### DOCKLANDS                                                                                                ###
@@ -1809,7 +1884,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("The Iron Tower: Foundations", DLC.TOURIST_SEASON, Region.OW, 132765, (132765, 132816, 134975),
                 TriggerCondition.POPULATION("Tourists", Region.OW, 850),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, "Workers",
-                {"Timber", "Cement"}, "The Iron Tower: Foundations"),
+                {"Timber", "Cement"}, "The Iron Tower: Foundations",
+                progressive_group="The Iron Tower", progressive_tier=1),
 
     A1800Unlock("Orchard: Citrus", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE, DLC.NEW_WORLD_RISING}, Region.NW,
                 [133031, 133029, 133010], [(133031, 137660, []), (134707, [], 134976), (136066, 136116, 136120), (6611, [
@@ -1850,7 +1926,8 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("The Iron Tower: Superstructure", DLC.TOURIST_SEASON, Region.OW, 132766, (132766, [], 132815),
                 TriggerCondition.POPULATION("Tourists", Region.OW, 1500),
                 "The Iron Tower: Foundations", "Artisans",
-                {"Steel Beams", "Reinforced Concrete"}, "The Iron Tower: Superstructure"),
+                {"Steel Beams", "Reinforced Concrete"}, "The Iron Tower: Superstructure",
+                progressive_group="The Iron Tower", progressive_tier=2),
 
     A1800Unlock("Orchard: Camphor Wax", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE, DLC.NEW_WORLD_RISING}, Region.NW,
                 [134614, 134615, 133010], [(134614, 137662, []), (134709, [], 134977), (137840, 136116, 136120),
@@ -1869,7 +1946,8 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("The Iron Tower", DLC.TOURIST_SEASON, Region.OW, 132770, (132770, [], 134249),
                 TriggerCondition.POPULATION("Tourists", Region.OW, 4000),
-                "The Iron Tower: Superstructure", set(), set(), "The Iron Tower (Blank)"),
+                "The Iron Tower: Superstructure", set(), set(), "The Iron Tower (Blank)",
+                progressive_group="The Iron Tower", progressive_tier=3),
 
     A1800Unlock("The Iron Tower: Brioche Royale", DLC.TOURIST_SEASON, Region.OW,
                 [133928, RECIPE_GUIDS["Recipe: Brioche Royale"][0]], (133928, [], 134249),
@@ -1906,7 +1984,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Tourist Mooring", DLC.TOURIST_SEASON, Region.OW, 133890, (133890, [], 132794),
                 TriggerCondition.POPULATION("Engineers", Region.OW, 500),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, set(), set(), "Tourist Mooring",
-                previous_building="Public Mooring"),
+                previous_building="Public Mooring", progressive_group="Public Mooring", progressive_tier=2),
 
     # Building, Factory, Residence
     A1800Unlock("Hotel", DLC.TOURIST_SEASON, Region.OW, 601445, (601445, 132794, 132795),
@@ -2170,19 +2248,19 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TriggerCondition.COUNTER("Investor Skyscraper: Level 5", Region.OW, 25),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators", "Grand Storage"}, "Workers",
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"},
-                "Skyline Tower: Foundations"),
+                "Skyline Tower: Foundations", progressive_group="Skyline Tower", progressive_tier=1),
 
     A1800Unlock("Skyline Tower: Superstructure", DLC.THE_HIGH_LIFE, Region.OW, 404, (404, [], 136608),
                 TriggerCondition.COUNTER("Investor Skyscraper: Level 5", Region.OW, 40),
                 "Skyline Tower: Foundations", "Workers",
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"},
-                "Skyline Tower: Superstructure"),
+                "Skyline Tower: Superstructure", progressive_group="Skyline Tower", progressive_tier=2),
 
     A1800Unlock("Skyline Tower: Glazing", DLC.THE_HIGH_LIFE, Region.OW, 135709, (135709, [], 136609),
                 TriggerCondition.COUNTER("Investor Skyscraper: Level 5", Region.OW, 55),
                 "Skyline Tower: Superstructure", "Workers",
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"},
-                "Skyline Tower: Glazing"),
+                "Skyline Tower: Glazing", progressive_group="Skyline Tower", progressive_tier=3),
 
     # Building, Factory, Residence
     A1800Unlock("Skyline Tower", DLC.THE_HIGH_LIFE, Region.OW, 406, (406, [], 136610),
@@ -2193,50 +2271,67 @@ _a1800_unlocks: list[A1800Unlock] = [
                 luxury={"Penny Farthings", "Pocket Watches", "Bank", "Members Club", "Jewellery", "Gramophones"},
                 lifestyle={"Toasters", "Vacuum Cleaners", "Crockery", "Refrigerators", "Briefcases", "Banker's Lamps",
                            "Vanity Screens", "Writing Desks", "Four-Poster Beds", "Lounge Seating", "Toothpaste",
-                           "Detergent", "Lipstick", "Face Cream", "Pomade"}),
+                           "Detergent", "Lipstick", "Face Cream", "Pomade"},
+                progressive_group="Skyline Tower", progressive_tier=4),
 
     # Building, Factory, Upgrade, Residence
     A1800Unlock("Engineer Skyscraper: Level 1", DLC.THE_HIGH_LIFE, Region.OW, 601888, (601888, 459, 136055),
                 TriggerCondition.POPULATION("Investors", Region.OW, 5000),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Engineers", "", "Engineer Residence", {"Department Store"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)
+                 }, "Engineers", "", "Engineer Residence", {"Department Store"},
+                progressive_group="Engineer Skyscraper", progressive_tier=1),
 
     A1800Unlock("Engineer Skyscraper: Level 2", DLC.THE_HIGH_LIFE, Region.OW, 601889, (601889, [], 136062),
                 TriggerCondition.ANY(TriggerCondition.COUNTER("Engineer Skyscraper: Level 1", Region.OW, 1),
                                      TriggerCondition.COUNTER("Investor Skyscraper: Level 1", Region.OW, 1)),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Engineers", "", "Engineer Skyscraper: Level 1", {"Chewing Gum", "Furniture Store"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Engineers",
+                "", "Engineer Skyscraper: Level 1", {"Chewing Gum", "Furniture Store"},
+                progressive_group="Engineer Skyscraper", progressive_tier=2),
 
     A1800Unlock("Engineer Skyscraper: Level 3", DLC.THE_HIGH_LIFE, Region.OW, 601890, (601890, [], 136123),
                 TriggerCondition.COUNTER("Investor Skyscraper: Level 3", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Engineers", "", "Engineer Skyscraper: Level 2", {"Typewriters", "Drug Store", "Violins"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Engineers",
+                "", "Engineer Skyscraper: Level 2", {"Typewriters", "Drug Store", "Violins"},
+                progressive_group="Engineer Skyscraper", progressive_tier=3),
 
     A1800Unlock("Investor Skyscraper: Level 1", DLC.THE_HIGH_LIFE, Region.OW, 601882, (601882, 459, 136055),
                 TriggerCondition.POPULATION("Investors", Region.OW, 5000),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors", "", "Investor Residence", {"Department Store"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors",
+                "", "Investor Residence", {"Department Store"},
+                progressive_group="Investor Skyscraper", progressive_tier=1),
 
     A1800Unlock("Investor Skyscraper: Level 2", DLC.THE_HIGH_LIFE, Region.OW, 601883, (601883, [], 136062),
                 TriggerCondition.ANY(TriggerCondition.COUNTER("Engineer Skyscraper: Level 1", Region.OW, 1),
                                      TriggerCondition.COUNTER("Investor Skyscraper: Level 1", Region.OW, 1)),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors", "", "Investor Skyscraper: Level 1", {"Chewing Gum", "Biscuits"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors",
+                "", "Investor Skyscraper: Level 1", {"Chewing Gum", "Biscuits"},
+                progressive_group="Investor Skyscraper", progressive_tier=2),
 
     A1800Unlock("Investor Skyscraper: Level 3", DLC.THE_HIGH_LIFE, Region.OW, 601884, (601884, [], 136120),
                 TriggerCondition.COUNTER("Investor Skyscraper: Level 2", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors", "", "Investor Skyscraper: Level 2", {"Cognac", "Furniture Store"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors",
+                "", "Investor Skyscraper: Level 2", {"Cognac", "Furniture Store"},
+                progressive_group="Investor Skyscraper", progressive_tier=3),
 
     A1800Unlock("Investor Skyscraper: Level 4", DLC.THE_HIGH_LIFE, Region.OW, 601886, (601886, [], 136123),
                 TriggerCondition.COUNTER("Investor Skyscraper: Level 3", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors", "", "Investor Skyscraper: Level 3", {"Typewriters", "Billiard Tables"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors",
+                "", "Investor Skyscraper: Level 3", {"Typewriters", "Billiard Tables"},
+                progressive_group="Investor Skyscraper", progressive_tier=4),
 
     A1800Unlock("Investor Skyscraper: Level 5", DLC.THE_HIGH_LIFE, Region.OW, 601891, (601891, [], 136127),
                 TriggerCondition.COUNTER("Investor Skyscraper: Level 4", Region.OW, 15),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete", "Elevators"}, set(),
-                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors", "", "Investor Skyscraper: Level 4", {"Violins", "Drug Store", "Toys"}),
+                {"High-Volume Trade", ("High-Volume Trade", Region.NW)}, "Investors",
+                "", "Investor Skyscraper: Level 4", {"Violins", "Drug Store", "Toys"},
+                progressive_group="Investor Skyscraper", progressive_tier=5),
 
     ### Needs The Passage ###
     # Building, Factory
@@ -2387,7 +2482,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                              "Schnapps", "Hot Sauce", "Fire Protection", "Riot Control"},
                 luxury={"Rum", "Chapel"},
                 lifestyle={"Work Clothes", "Felt", "Teff", "Local Mail",
-                           "Regional Mail", "Overseas Mail", "Soccer Balls", "Beach", "Cinema"}),
+                           "Regional Mail", "Overseas Mail", "Soccer Balls", "Beach", "Cinema"},
+                progressive_group="Hacienda Quarters", progressive_tier=1),
 
     A1800Unlock("Hacienda Obrera Quarters", DLC.SEEDS_OF_CHANGE, Region.NW,
                 HACIENDA_QUARTER_GUIDS["Hacienda Obrera Quarters"][0], [(25055, [], 25059), (24793, [], 16199)],
@@ -2397,7 +2493,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                              "Sewing Machines", "Fire Protection", "Riot Control", "Healthcare"},
                 luxury={"Rum", "Chapel", "Boxing Arena", "Beer", "Cigars"},
                 lifestyle={"Spectacles", "Typewriters", "Illuminated Script", "Local Mail",
-                           "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooters"}),
+                           "Regional Mail", "Overseas Mail", "Beach", "Samba School", "Scooters"},
+                progressive_group="Hacienda Quarters", progressive_tier=2),
 
     ### Needs Land of Lions ###
     # Building, Factory
@@ -2459,22 +2556,26 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Rigid Airship Hangar: Foundations", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 648, (676, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 {"Timber", "Bricks", "Aluminium Profiles"}, "Workers",
-                {"Timber", "Bricks"}, "Rigid Airship Hangar: Foundations"),
+                {"Timber", "Bricks"}, "Rigid Airship Hangar: Foundations",
+                progressive_group="Rigid Airship Hangar", progressive_tier=1),
 
     A1800Unlock("Rigid Airship Hangar: Structure", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 649, (676, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 "Rigid Airship Hangar: Foundations", "Workers",
-                {"Bricks", "Aluminium Profiles"}, "Rigid Airship Hangar: Structure"),
+                {"Bricks", "Aluminium Profiles"}, "Rigid Airship Hangar: Structure",
+                progressive_group="Rigid Airship Hangar", progressive_tier=2),
 
     A1800Unlock("Rigid Airship Hangar: Roof", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 651, (676, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 "Rigid Airship Hangar: Structure", "Workers",
-                {"Aluminium Profiles", "Windows"}, "Rigid Airship Hangar: Roof"),
+                {"Aluminium Profiles", "Windows"}, "Rigid Airship Hangar: Roof",
+                progressive_group="Rigid Airship Hangar", progressive_tier=3),
 
     A1800Unlock("Rigid Airship Hangar", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 636, (676, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 "Rigid Airship Hangar: Roof", "Workers",
-                set(), {"Airships", "Arctic Airships"}),
+                set(), {"Airships", "Arctic Airships"},
+                progressive_group="Rigid Airship Hangar", progressive_tier=4),
 
     A1800Unlock("Airship Platform", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 962, (1989, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks", "Aluminium Profiles"}, output="Airship Platform"),
@@ -2545,22 +2646,26 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Rigid Airship Hangar: Foundations", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 692, (696, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 {"Timber", "Bricks", "Aluminium Profiles"}, "Jornaleros",
-                {"Timber", "Bricks"}, "Rigid Airship Hangar: Foundations"),
+                {"Timber", "Bricks"}, "Rigid Airship Hangar: Foundations",
+                progressive_group="Rigid Airship Hangar", progressive_tier=1),
 
     A1800Unlock("Rigid Airship Hangar: Structure", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 693, (696, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 "Rigid Airship Hangar: Foundations", "Jornaleros",
-                {"Bricks", "Aluminium Profiles"}, "Rigid Airship Hangar: Structure"),
+                {"Bricks", "Aluminium Profiles"}, "Rigid Airship Hangar: Structure",
+                progressive_group="Rigid Airship Hangar", progressive_tier=2),
 
     A1800Unlock("Rigid Airship Hangar: Roof", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 695, (696, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 "Rigid Airship Hangar: Structure", "Obreros",
-                {"Aluminium Profiles", "Sails"}, "Rigid Airship Hangar: Roof"),
+                {"Aluminium Profiles", "Sails"}, "Rigid Airship Hangar: Roof",
+                progressive_group="Rigid Airship Hangar", progressive_tier=3),
 
     A1800Unlock("Rigid Airship Hangar", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 635, (696, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 "Rigid Airship Hangar: Roof", "Obreros",
-                set(), {"Airships", "Arctic Airships"}),
+                set(), {"Airships", "Arctic Airships"},
+                progressive_group="Rigid Airship Hangar", progressive_tier=4),
 
     A1800Unlock("Airship Platform", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 963, (1988, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks", "Aluminium Profiles"}, output="Airship Platform"),
@@ -2742,15 +2847,18 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building, Factory
     A1800Unlock("Fire Department", DLC.NEW_WORLD_RISING, Region.OW, 6354, (7333, 6021, 6022),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 2700),
-                "Timber", set(), "Fire Extinguishers", "Fire Protection", "", "Fire Station"),
+                "Timber", set(), "Fire Extinguishers", "Fire Protection", "", "Fire Station",
+                progressive_group="Fire Station", progressive_tier=2),
 
     A1800Unlock("Police Headquarters", DLC.NEW_WORLD_RISING, Region.OW, 6353, (7336, 6022, 7222),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 4000),
-                {"Timber", "Bricks"}, set(), "Police Equipment", "Riot Control", "", "Police Station"),
+                {"Timber", "Bricks"}, set(), "Police Equipment", "Riot Control", "", "Police Station",
+                progressive_group="Police Station", progressive_tier=2),
 
     A1800Unlock("City Hospital", DLC.NEW_WORLD_RISING, Region.OW, 6355, (7337, 7222, 7224),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 6000),
-                {"Timber", "Bricks", "Steel Beams"}, set(), "Medicine", "Healthcare", "", "Hospital"),
+                {"Timber", "Bricks", "Steel Beams"}, set(), "Medicine", "Healthcare", "", "Hospital",
+                progressive_group="Hospital", progressive_tier=2),
 
     # Charcoal Kiln -> Empire of the Skies
 
@@ -2850,7 +2958,8 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Fire Department", DLC.NEW_WORLD_RISING, Region.NW, 6259, (7333, 6021, 6022),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 2700),
-                "Timber", set(), "Fire Extinguishers", "Fire Protection", "Fire Department", "Fire Station"),
+                "Timber", set(), "Fire Extinguishers", "Fire Protection", "Fire Department", "Fire Station",
+                progressive_group="Fire Station", progressive_tier=2),
 
     # Orchard: Camphor Wax -> Tourist Season or The High Life
 
@@ -2886,18 +2995,23 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Police Headquarters", DLC.NEW_WORLD_RISING, Region.NW, 6258, (7336, 6022, 7222),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 4000),
                 {"Timber", "Bricks"}, set(),
-                "Police Equipment", "Riot Control", "Police Headquarters", "Police Station"),
+                "Police Equipment", "Riot Control", "Police Headquarters", "Police Station",
+                progressive_group="Police Station", progressive_tier=2),
 
     A1800Unlock("Dam: Structure", DLC.NEW_WORLD_RISING, Region.NW, 6004, (6004, [], 8411),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 4000),
-                "Dam: Foundations", "Obreros", {"Bricks", "Steel Beams"}, "Dam: Structure"),
+                "Dam: Foundations", "Obreros", {"Bricks", "Steel Beams"}, "Dam: Structure",
+                progressive_group="Dam", progressive_tier=1),
 
     A1800Unlock("Dam: Engineering", DLC.NEW_WORLD_RISING, Region.NW, 6005, (6005, [], 8411),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 4000),
-                "Dam: Structure", "Obreros", {"Windows", "Reinforced Concrete"}, "Dam: Engineering"),
+                "Dam: Structure", "Obreros", {"Windows", "Reinforced Concrete"}, "Dam: Engineering",
+                progressive_group="Dam", progressive_tier=2),
 
     A1800Unlock("Dam", DLC.NEW_WORLD_RISING, Region.NW, 6006, (6006, [], 8411),
-                TriggerCondition.POPULATION("Artistas", Region.NW, 4000), "Dam: Engineering", "Obreros", set(), "Electricity"),
+                TriggerCondition.POPULATION("Artistas", Region.NW, 4000),
+                "Dam: Engineering", "Obreros", set(), "Electricity",
+                progressive_group="Dam", progressive_tier=3),
 
     A1800Unlock("Scooter Factory", DLC.NEW_WORLD_RISING, Region.NW, 5658, (5824, 7222, 7224),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 6000),
@@ -2912,21 +3026,26 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("City Hospital", DLC.NEW_WORLD_RISING, Region.NW, 6260, (7337, 7222, 7224),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 6000),
                 {"Timber", "Bricks"}, set(),
-                "Medicine", "Healthcare", "City Hospital", "Hospital"),
+                "Medicine", "Healthcare", "City Hospital", "Hospital",
+                progressive_group="Hospital", progressive_tier=2),
 
     A1800Unlock("Grand Stadium: Foundations", DLC.NEW_WORLD_RISING, Region.NW, 6117, (6122, 7222, 7224),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 6000),
                 {"Timber", "Reinforced Concrete", "Grand Storage"}, "Jornaleros",
-                {"Timber", "Reinforced Concrete"}, "Grand Stadium: Foundations"),
+                {"Timber", "Reinforced Concrete"}, "Grand Stadium: Foundations",
+                progressive_group="Grand Stadium", progressive_tier=1),
 
     A1800Unlock("Grand Stadium: Superstructure", DLC.NEW_WORLD_RISING, Region.NW, 6118, (6122, 7222, 7224),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 6000),
                 "Grand Stadium: Foundations", "Obreros",
-                {"Bricks", "Steel Beams", "Reinforced Concrete"}, "Grand Stadium: Superstructure"),
+                {"Bricks", "Steel Beams", "Reinforced Concrete"}, "Grand Stadium: Superstructure",
+                progressive_group="Grand Stadium", progressive_tier=2),
 
     A1800Unlock("Grand Stadium", DLC.NEW_WORLD_RISING, Region.NW, 6121, (6122, 7222, 7224),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 6000),
-                "Grand Stadium: Superstructure", {"Artistas", "Electricity"}, set(), "Grand Stadium: Football Championships"),
+                "Grand Stadium: Superstructure", {"Artistas", "Electricity"},
+                set(), "Grand Stadium: Football Championships",
+                progressive_group="Grand Stadium", progressive_tier=3),
 
     # Building, Factory, Upgrade, Residence
     A1800Unlock("Artista Residence", DLC.NEW_WORLD_RISING, Region.NW, 5405, (5405, [], 5407),
@@ -2937,7 +3056,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                     "Beach", "Perfumes", "Scooters", "Fire Protection", "Riot Control", "Healthcare"},
                 {"Beer", "Boxing Arena", "Cigars", "Ice Cream", "Samba School", "Cinema"},
                 {"Light Bulbs", "Champagne", "Billiard Tables", "Lanterns", "Local Mail",
-                    "Regional Mail", "Overseas Mail", "Jewellery", "Souvenirs"}),
+                    "Regional Mail", "Overseas Mail", "Jewellery", "Souvenirs"},
+                progressive_group="Residence", progressive_tier=3),
 
     ### Needs Tourist Season ###
     # Building, Factory
@@ -2965,8 +3085,26 @@ _a1800_unlocks: list[A1800Unlock] = [
                              "Riot Control", "Healthcare"},
                 luxury={"Beer", "Boxing Arena", "Cigars", "Ice Cream", "Samba School", "Cinema"},
                 lifestyle={"Light Bulbs", "Champagne", "Billiard Tables", "Lanterns", "Local Mail",
-                           "Regional Mail", "Overseas Mail", "Jewellery", "Souvenirs"}),
+                           "Regional Mail", "Overseas Mail", "Jewellery", "Souvenirs"},
+                progressive_group="Hacienda Quarters", progressive_tier=3),
 ]
+
+
+_a1800_progressive_groups: dict[str, tuple[int, list[A1800Unlock]]] = {}
+
+for group, region in {(unlock.progressive_group, unlock.region) for unlock in _a1800_unlocks if unlock.progressive_group}:
+    group_unlocks = [unlock for unlock in _a1800_unlocks if unlock.progressive_group ==
+                     group and unlock.region == region]
+    sorted_group_unlocks = sorted(group_unlocks, key=lambda unlock: unlock.progressive_tier)
+    assert sorted_group_unlocks[0].progressive_ap_code
+
+    ap_code = sorted_group_unlocks[0].progressive_ap_code
+    ap_item_name = sorted_group_unlocks[0].progressive_ap_item_name
+
+    _a1800_progressive_groups[ap_item_name] = (ap_code, list(sorted_group_unlocks))
+    for unlock in sorted_group_unlocks:
+        unlock.progressive_ap_code = ap_code
+        unlock.progressive_ap_item_name = ap_item_name
 
 
 class _Unlocks:
@@ -3014,6 +3152,9 @@ class _Unlocks:
             and region in unlock.region and name in next(zip(*unlock.output))), None)
         assert residence, f"Requested {name} in {region.name}, which does not have a primary residence"
         return residence
+
+    def get_progressive_groups(self) -> dict[str, tuple[int, list[A1800Unlock]]]:
+        return self._a1800_progressive_groups
 
     def _add_guids_to_condition(self, condition: TriggerCondition) -> None:
         if condition.type_ in [TriggerConditionType.ALL, TriggerConditionType.LINEAR, TriggerConditionType.ANY]:
@@ -3177,6 +3318,23 @@ class _Unlocks:
         self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if any(
             dlc in parsed_options.enabled_dlcs for dlc in unlock.dlc)]
 
+        if parsed_options.enable_progressive_unlocks:
+            self._a1800_progressive_groups = {
+                name: (
+                    ap_code,
+                    [unlock for unlock in unlocks if any(dlc in parsed_options.enabled_dlcs for dlc in unlock.dlc)]
+                ) for name, (ap_code, unlocks) in _a1800_progressive_groups.items()
+            }
+            for _, (_, unlocks) in self._a1800_progressive_groups.items():
+                if len(unlocks) == 1:
+                    unlocks[0].progressive_ap_code = None
+                    unlocks[0].progressive_ap_item_name = ""
+            self._a1800_progressive_groups = {
+                name: (ap_code, unlocks) for name, (ap_code, unlocks) in self._a1800_progressive_groups.items() if len(unlocks) > 1
+            }
+        else:
+            self._a1800_progressive_groups = {}
+
         if parsed_options.start_with_flagship:
             self._a1800_unlocks.append(
                 A1800Unlock("Flagship Start", DLC.VANILLA, Region.OW,
@@ -3317,6 +3475,11 @@ class _Unlocks:
             for lifestyle in unlock.lifestyle:
                 assert next(PRODUCTS.find_products(lifestyle, unlock.region), None), \
                     f"Unlock {unlock} references non-existent lifestyle {lifestyle}"
+
+        # Assure all progressive groups are complete
+        for ap_item_name, (_, unlocks) in _a1800_progressive_groups.items():
+            assert [unlock.progressive_tier for unlock in unlocks] == list(range(1, len(unlocks) + 1)), \
+                f"Progressive group {ap_item_name} has incomplete tiers"
 
         # Assure all chain references exist
         for chain in CHAINS.get_chains():

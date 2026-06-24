@@ -189,6 +189,7 @@ _SESSION_REGIONS = {
 class TriggerActionType(IntEnum):
     UNLOCK = auto()
     SIDE_NOTIFICATION = auto()
+    ADD_RESOURCE = auto()
 
 
 class TriggerConditionType(IntEnum):
@@ -197,6 +198,7 @@ class TriggerConditionType(IntEnum):
     POPULATION_HAPPINESS = auto()
     COUNTER = auto()
     COUNTER_GOOD_IN_REGION = auto()
+    COUNTER_GOOD_IN_STOCK = auto()
     COUNTER_EXPEDITION_SOLVED = auto()
     UNLOCK = auto()
     QUEST_COMPLETE = auto()

@@ -18,13 +18,16 @@ from ._Sessions import A1800Session, SESSIONS
 from ._Trigger import Trigger
 from ._TriggerAction import TriggerAction
 from ._TriggerCondition import TriggerCondition
-from ._Unlocks import _a1800_unlocks  # pyright: ignore[reportPrivateUsage]
+from ._Unlocks import _a1800_unlocks, _a1800_progressive_groups  # pyright: ignore[reportPrivateUsage]
 from ._Unlocks import A1800Unlock, UNLOCKS
 
 
 class _A1800Data:
     _item_name_to_ap_code: dict[str, int] = {
-        unlock.ap_item_name: unlock.ap_code for unlock in _a1800_unlocks if unlock.ap_code}
+        unlock.ap_item_name: unlock.ap_code for unlock in _a1800_unlocks if unlock.ap_code
+    } | {
+        ap_item_name: ap_code for ap_item_name, (ap_code, _) in _a1800_progressive_groups.items()
+    }
 
     _location_name_to_ap_code: dict[str, int] = {
         unlock.ap_location_name: unlock.ap_code for unlock in sorted(
@@ -92,6 +95,9 @@ class _A1800Data:
 
     def get_populations(self) -> Sequence[A1800Product]:
         return PRODUCTS.get_populations()
+
+    def get_progressive_groups(self) -> dict[str, tuple[int, list[A1800Unlock]]]:
+        return UNLOCKS.get_progressive_groups()
 
     def get_recipe_unlocks(self) -> dict[str, tuple[int, int, int, int, bool]]:
         return RECIPE_GUIDS

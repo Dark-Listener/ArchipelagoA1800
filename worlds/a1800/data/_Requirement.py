@@ -10,8 +10,10 @@ from ._Unlocks import UNLOCKS
 class A1800Requirement:
     name: str
     region: Region
+    amount: int = 1
     type: RequirementType = RequirementType.NONE
     ap_item_names: frozenset[str] = field(default_factory=lambda: frozenset())
+    progressive_ap_item_name: str = ""
 
     def __post_init__(self) -> None:
         if self.type == RequirementType.NONE:
@@ -27,10 +29,15 @@ class A1800Requirement:
         elif self.type == RequirementType.UNLOCK:
             unlocks = list(UNLOCKS.find_unlocks(self.name, self.region))
             ap_item_names += [unlock.ap_item_name for unlock in unlocks]
+            if unlocks and unlocks[0].progressive_group:
+                assert len(unlocks) == 1
+                object.__setattr__(self, "progressive_ap_item_name", unlocks[0].progressive_ap_item_name)
+                object.__setattr__(self, "amount", unlocks[0].progressive_tier)
+
         object.__setattr__(self, "ap_item_names", frozenset(ap_item_names))
 
     def __repr__(self) -> str:
         return self.__str__()
 
     def __str__(self) -> str:
-        return f"({self.name}, {self.region}, {self.type.name})"
+        return f"({self.name}, {self.region}, {self.type.name}, {self.progressive_ap_item_name}, {self.amount})"

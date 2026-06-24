@@ -16,30 +16,45 @@ if rcv_idx >= ts.Economy.MetaStorage.GetStorageAmount(g_int_receive_index_guid) 
     if not g_running then
         g_running = true
 
-system.start(function ()
+        system.start(function ()
             local received_item = table.remove(g_received_items, 1)
             while received_item ~= nil do
                 local ap_code = received_item["ap_code"]
                 local rcv_idx = received_item["rcv_idx"]
 
                 if rcv_idx == ts.Economy.MetaStorage.GetStorageAmount(g_int_receive_index_guid) then
-    local guids = g_guids_by_ap_code[ap_code]
-    local unlock_guids = guids["unlock_guids"]
-    local location_guid = guids["location_guid"]
-    local feature_guid = guids["feature_guid"]
+                    local guids = g_guids_by_ap_code[ap_code]
+                    local unlock_guids = guids["unlock_guids"]
+                    local location_guid = guids["location_guid"]
+                    local feature_guid = guids["feature_guid"]
+                    local int_local_guid = guids["int_local_guid"]
+                    local int_receive_guid = guids["int_receive_guid"]
 
-    if feature_guid ~= 0 then
-        ts.Unlock.SetRelockNet(feature_guid)
-        coroutine.yield()
-    end
+                    if int_local_guid ~= 0 and int_receive_guid ~= 0 then
+                        if ts.Economy.MetaStorage.GetStorageAmount(int_local_guid) <= ts.Economy.MetaStorage.GetStorageAmount(int_receive_guid) then
+                            if feature_guid ~= 0 then
+                                ts.Unlock.SetRelockNet(feature_guid)
+                                coroutine.yield()
+                            end
 
-    for _, guid in ipairs(unlock_guids) do
-        ts.Unlock.SetUnlockNet(guid)
-    end
+                            ts.Economy.MetaStorage.AddAmount(int_local_guid, 1)
+                        end
 
-    if location_guid ~= 0 then
-        ts.Unlock.SetUnlockNet(location_guid)
-    end
+                        ts.Economy.MetaStorage.AddAmount(int_receive_guid, 1)
+                    else
+                        if feature_guid ~= 0 then
+                            ts.Unlock.SetRelockNet(feature_guid)
+                            coroutine.yield()
+                        end
+                    end
+
+                    for _, guid in ipairs(unlock_guids) do
+                        ts.Unlock.SetUnlockNet(guid)
+                    end
+
+                    if location_guid ~= 0 then
+                        ts.Unlock.SetUnlockNet(location_guid)
+                    end
 
                     ts.Economy.MetaStorage.AddAmount(g_int_receive_index_guid, 1)
                     console.startScript("data/archipelago/scripts/add_receive_index/add_receive_index_1.py")
@@ -50,6 +65,6 @@ system.start(function ()
                 received_item = table.remove(g_received_items, 1)
             end
             g_running = false
-end, "ap-receive-item")
+        end, "ap-receive-item")
     end
 end

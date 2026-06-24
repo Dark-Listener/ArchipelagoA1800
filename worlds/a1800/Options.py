@@ -33,6 +33,18 @@ class EnableDocklandsLogicOption(Toggle):
     display_name = "Enable Docklands Logic"
 
 
+class EnableProgressiveUnlocksOption(DefaultOnToggle):
+    """
+    Per default, all upgradable buildings and monuments are found as progressive unlocks, meaning there are multiple of
+    the same item that progressively unlock the upgrade levels / stages.
+    When this is turned off, it is common that an early upgrade level is placed late in the game while later upgrades
+    are placed early, meaning you can often only upgrade later, but then all at once.
+    For non-tiered residences, this normally will progress the regular upgrade path (e.g. Engineer -> Investor).
+    For tiered residences, this normally will progress the tiered upgrade path (e.g. Skyscraper Level 1 -> Level 2).
+    """
+    display_name = "Enable Progressive Unlocks"
+
+
 class ExcludeRecipeUnlocksOption(Toggle):
     """
     Prevents all special recipe unlocks from having progressive items. 'Special' recipe unlocks are recipes that don't
@@ -231,6 +243,7 @@ class A1800Options(PerGameCommonOptions):
     # Game Options (=> ungrouped)
     enabled_dlcs: EnabledDLCsOption
     enable_docklands_logic: EnableDocklandsLogicOption
+    enable_progressive_unlocks: EnableProgressiveUnlocksOption
     exclude_recipe_unlocks: ExcludeRecipeUnlocksOption
     start_with_flagship: StartWithFlagshipOption
     start_with_trading_post: StartWithTradingPostOption

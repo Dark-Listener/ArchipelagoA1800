@@ -43,6 +43,8 @@ class ParsedOptions:
 
         self.enable_docklands_logic = bool(options.enable_docklands_logic)
 
+        self.enable_progressive_unlocks = bool(options.enable_progressive_unlocks)
+
         self.exclude_recipe_unlocks = bool(options.exclude_recipe_unlocks)
 
         self.start_with_flagship = bool(options.start_with_flagship)

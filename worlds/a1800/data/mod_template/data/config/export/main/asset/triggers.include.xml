@@ -153,6 +153,11 @@
 {%  for trigger in hacienda_quarter_triggers %}
 {{  generate_trigger_asset(trigger) | indent(4, true) }}
 {%  endfor %}
+{%  for triggers in progressive_triggers_by_name.values() %}
+{%  for trigger in triggers %}
+{{  generate_trigger_asset(trigger) | indent(4, true) }}
+{%  endfor %}
+{%  endfor %}
 
     <!-- Notification triggers -->
 {%  for trigger in notification_triggers %}

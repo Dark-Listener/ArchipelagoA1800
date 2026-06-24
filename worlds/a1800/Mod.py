@@ -202,6 +202,10 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     meta_products_by_name = {
         "int_receive_index": A1800_DATA.get_next_anno_guid()
+    } | {
+        f"int_local_{ap_code}": A1800_DATA.get_next_anno_guid() for _, (ap_code, _) in A1800_DATA.get_progressive_groups().items()
+    } | {
+        f"int_receive_{ap_code}": A1800_DATA.get_next_anno_guid() for _, (ap_code, _) in A1800_DATA.get_progressive_groups().items()
     }
 
     def _get_notification_trigger(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> Trigger:
@@ -221,12 +225,20 @@ def generate_mod(world: "A1800World", output_directory: str):
             guid=A1800_DATA.get_next_anno_guid()
         )
 
+    def _get_unlock_trigger(location: A1800Location) -> Trigger:
+        condition = deepcopy(location.data.condition) or TriggerCondition.FALSE()
+        actions = [TriggerAction.UNLOCK([location.data.guid or 0])]
+
+        if location.item and isinstance(location.item, A1800Item) and location.item.player == player:
+            if not location.item.data.is_progressive:
+                actions[0].unlock_guids += location.item.data.unlock_guids
+            else:
+                actions.append(TriggerAction.ADD_RESOURCE(meta_products_by_name[f"int_local_{location.item.code}"]))
+
+        return Trigger(condition, actions)
+
     def _get_unlock_triggers(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> list[Trigger]:
-        return [Trigger(
-            deepcopy(location.data.condition) or TriggerCondition.FALSE(),
-            TriggerAction.UNLOCK([location.data.guid or 0] + (location.item.data.unlock_guids if location.item and isinstance(
-                location.item, A1800Item) and location.item.player == player else []))
-        ) for location in groups[1]]
+        return [_get_unlock_trigger(location) for location in groups[1]]
 
     notification_triggers = list(map(_get_notification_trigger, groupby(
         sorted(locations, key=_get_trigger_key), key=_get_trigger_key)))
@@ -250,6 +262,18 @@ def generate_mod(world: "A1800World", output_directory: str):
         condition.post_init()
         hacienda_quarter_triggers.append(Trigger(condition, TriggerAction.UNLOCK(
             [quarters_guid]), guid=A1800_DATA.get_next_anno_guid()))
+
+    progressive_triggers_by_name = {
+        name: [Trigger(
+            TriggerCondition.COUNTER_GOOD_IN_STOCK(
+                meta_products_by_name[f"int_local_{ap_code}"],
+                i + 1,
+                ap_location_name=f"{name}, Tier {i + 1}"),
+            TriggerAction.UNLOCK(unlocks[i].unlock_guids),
+            guid=A1800_DATA.get_next_anno_guid()
+        ) for i in range(len(unlocks))]
+        for name, (ap_code, unlocks) in A1800_DATA.get_progressive_groups().items()
+    }
 
     incident_feature_guids = {
         "FireIncidents_SA": A1800_DATA.get_next_anno_guid(),
@@ -295,8 +319,12 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     start_trigger = Trigger(
         TriggerCondition.TRUE(ap_location_name="Game Start"),
-        [TriggerAction.UNLOCK(list(set([guid for item in multiworld.precollected_items[player] if isinstance(item, A1800Item)
-                                        for guid in item.data.unlock_guids])))],
+        [
+            TriggerAction.UNLOCK(list(set([guid for item in multiworld.precollected_items[player]
+                                 if isinstance(item, A1800Item) for guid in item.data.unlock_guids])))
+        ] + [
+            TriggerAction.ADD_RESOURCE(meta_products_by_name[f"int_local_{item.code}"]) for item in multiworld.precollected_items[player] if isinstance(item, A1800Item) and item.data.is_progressive
+        ],
         guid=A1800_DATA.get_next_anno_guid()
     )
 
@@ -317,14 +345,23 @@ def generate_mod(world: "A1800World", output_directory: str):
     } | {
         location.item.code: (location.item.data.unlock_guids, location.data.guid) for location in locations
         if location.data.guid and location.item and isinstance(location.item, A1800Item) and location.item.code
+    } | {
+        ap_code: ([], 0)
+        for _, (ap_code, _) in A1800_DATA.get_progressive_groups().items()
     }
+
+    def get_notification_display_name(ap_code: int) -> str:
+        progressive_group = next((name for name, (group_code, _)
+                                  in A1800_DATA.get_progressive_groups().items() if group_code == ap_code), "")
+
+        return progressive_group or next(unlock for unlock in A1800_DATA.get_unlocks() if unlock.ap_code == ap_code).ap_item_name
 
     notifications_by_ap_code = {
         ap_code: (
             unlock_guids[0] if unlock_guids else 0,
             A1800_DATA.get_next_anno_guid(),
             A1800_DATA.get_next_anno_guid(),
-            f"[AssetData({received_guid}) Text] <b>{next(unlock for unlock in A1800_DATA.get_unlocks() if unlock.ap_code == ap_code).ap_item_name}</b>"
+            f"[AssetData({received_guid}) Text] <b>{get_notification_display_name(ap_code)}</b>"
         ) for ap_code, (unlock_guids, _) in guids_by_ap_code.items()
     }
 
@@ -359,6 +396,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "notification_triggers": notification_triggers,
         "notifications_by_ap_code": notifications_by_ap_code,
         "meta_products_by_name": meta_products_by_name,
+        "progressive_triggers_by_name": progressive_triggers_by_name,
         "hacienda_quarter_triggers": hacienda_quarter_triggers,
         "start_trigger": start_trigger,
         "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,

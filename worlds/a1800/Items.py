@@ -18,6 +18,7 @@ class A1800ItemData:
     ap_code: Optional[int] = None
     is_early: bool = False
     is_starting_item: bool = False
+    is_progressive: bool = False
     is_event: bool = False
     event_locations: list[str] = field(default_factory=lambda: [])
 
@@ -38,21 +39,23 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
                  or (obj.condition.type_ == TriggerConditionType.SESSION_ENTER
                      and obj.condition.session.region == START_REGION
                      and not A1800_DATA.find_session(obj.condition.session).requirements))
+        is_progressive = A1800_DATA.get_parsed_options(
+        ).enable_progressive_unlocks and bool(obj.progressive_ap_item_name) and bool(obj.progressive_ap_code)
         return A1800ItemData(
-            obj.ap_item_name,
+            obj.progressive_ap_item_name if is_progressive else obj.ap_item_name,
             IC.progression if obj.is_progression else IC.filler,
             obj.dlc,
             obj.unlock_guids,
-            obj.ap_code,
+            obj.progressive_ap_code if is_progressive else obj.ap_code,
             obj.is_early,
             is_starting_item,
+            is_progressive,
             False)
     elif obj.is_progression:
         return A1800ItemData(
             obj.ap_item_name,
             IC.progression,
             obj.dlc,
-            is_starting_item=False,
             is_event=True,
             event_locations=[event_location.ap_location_name for event_location_name in obj.locations for event_location
                              in A1800_DATA.find_event_locations(event_location_name, obj.name, obj.region)]

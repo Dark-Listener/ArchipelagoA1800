@@ -58,6 +58,15 @@
           </Notification>
         </ActionNotification>
       </Values>
+{%    elif action.type_ == TriggerActionType.ADD_RESOURCE %}
+      <Template>ActionAddResource</Template>
+      <Values>
+        <Action />
+        <ActionAddResource>
+          <Resource>{{ action.guid }}</Resource>
+          <ResourceAmount>{{ action.amount }}</ResourceAmount>
+        </ActionAddResource>
+      </Values>
 {%    endif %}
     </TriggerAction>
   </Item>
@@ -175,6 +184,18 @@
       <CounterScope>Region</CounterScope>
       <CounterScopeUseCurrentContext>0</CounterScopeUseCurrentContext>
       <CounterScopeContext>{{ trigger_condition.region.guids[0] }}</CounterScopeContext>
+    </ConditionPlayerCounter>
+  </Values>
+</TriggerCondition>
+{% elif trigger_condition.type_ == TriggerConditionType.COUNTER_GOOD_IN_STOCK %}
+<TriggerCondition>
+  <Template>ConditionPlayerCounter</Template>
+  <Values>
+    <Condition />
+    <ConditionPlayerCounter>
+      <PlayerCounter>GoodsInStock</PlayerCounter>
+      <Context>{{ trigger_condition.guid }}</Context>
+      <CounterAmount>{{ trigger_condition.amount }}</CounterAmount>
     </ConditionPlayerCounter>
   </Values>
 </TriggerCondition>

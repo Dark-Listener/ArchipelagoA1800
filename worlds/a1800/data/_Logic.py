@@ -77,6 +77,8 @@ def _get_requirements_from_condition(condition: TriggerCondition) -> Optional[se
                 f"Condition {condition.type_.name} {condition.amount} {condition.product_name} in {condition.region.name} "\
                 f"has 0 or multiple regions"
             return {A1800Requirement(condition.product_name, condition.product_region)} | a1800_region.requirements
+        case TriggerConditionType.COUNTER_GOOD_IN_STOCK:
+            assert False, "TriggerConditionType COUNTER_GOOD_IN_STOCK should never be used for unlocks"
         case TriggerConditionType.COUNTER_EXPEDITION_SOLVED:
             return {A1800Requirement(name, region) for name, region in condition.requirements}
         case TriggerConditionType.UNLOCK:

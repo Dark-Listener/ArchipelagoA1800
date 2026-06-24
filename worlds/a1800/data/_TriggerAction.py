@@ -9,6 +9,8 @@ class TriggerAction:
     unhide_guids: list[int]
     text_guid: int
     text: str
+    guid: int
+    amount: int
 
     def __init__(self, type_: TriggerActionType) -> None:
         self.type_ = type_
@@ -25,4 +27,11 @@ class TriggerAction:
         action = cls(TriggerActionType.SIDE_NOTIFICATION)
         action.text_guid = text_guid
         action.text = text
+        return action
+
+    @classmethod
+    def ADD_RESOURCE(cls, guid: int, amount: int = 1) -> Self:
+        action = cls(TriggerActionType.ADD_RESOURCE)
+        action.guid = guid
+        action.amount = amount
         return action

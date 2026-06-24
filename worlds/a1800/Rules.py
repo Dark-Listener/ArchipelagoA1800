@@ -1,6 +1,6 @@
 from typing import Iterable, Optional, TYPE_CHECKING
 
-from rule_builder.rules import And, False_, HasAll, Or, Rule, True_
+from rule_builder.rules import And, False_, HasAll, HasAllCounts, Or, Rule, True_
 
 from .data import A1800Requirement, ALL_REGIONS, A1800_DATA, RequirementType, TriggerCondition, TriggerConditionType
 from .Locations import LOCATIONS
@@ -46,6 +46,8 @@ def _create_rule(data: Iterable[A1800Requirement] | TriggerCondition) -> Optiona
                     f"has 0 or multiple regions"
                 return _create_rule(
                     {A1800Requirement(condition.product_name, condition.product_region)} | a1800_region.requirements)
+            case TriggerConditionType.COUNTER_GOOD_IN_STOCK:
+                assert False, "TriggerConditionType COUNTER_GOOD_IN_STOCK should never be used for rules"
             case TriggerConditionType.COUNTER_EXPEDITION_SOLVED:
                 return _create_rule({A1800Requirement(name, region) for name, region in condition.requirements})
             case TriggerConditionType.UNLOCK:
@@ -71,7 +73,15 @@ def _create_rule(data: Iterable[A1800Requirement] | TriggerCondition) -> Optiona
                 assert False, "TriggerConditionType ACTIVE_DLC should never be used for rules"
     else:
         if data:
-            return HasAll(*set([ap_item_name for requirement in data for ap_item_name in requirement.ap_item_names]))
+            if A1800_DATA.get_parsed_options().enable_progressive_unlocks:
+                required_counts: dict[str, int] = {}
+                for requirement in data:
+                    for ap_item_name in (requirement.ap_item_names if not requirement.progressive_ap_item_name else [requirement.progressive_ap_item_name]):
+                        if not ap_item_name in required_counts or required_counts[ap_item_name] < requirement.amount:
+                            required_counts[ap_item_name] = requirement.amount
+                return HasAllCounts(required_counts)
+            else:
+                return HasAll(*set([ap_item_name for requirement in data for ap_item_name in requirement.ap_item_names]))
         else:
             return None
 
@@ -85,11 +95,17 @@ def _create_and_set_rule(world: "A1800World", location_name: str, data: Iterable
 def set_rules(world: "A1800World") -> None:
     for region in A1800_DATA.get_regions():
         if region.region.full_name != world.origin_region_name:
-            world.set_rule(
-                world.get_entrance(f"{world.origin_region_name} => {region.region.full_name}"),
-                HasAll(*set([ap_item_name for requirement in region.requirements
-                             for ap_item_name in requirement.ap_item_names]))
-            )
+            if A1800_DATA.get_parsed_options().enable_progressive_unlocks:
+                required_counts: dict[str, int] = {}
+                for requirement in region.requirements:
+                    for ap_item_name in (requirement.ap_item_names if not requirement.progressive_ap_item_name else [requirement.progressive_ap_item_name]):
+                        if not ap_item_name in required_counts or required_counts[ap_item_name] < requirement.amount:
+                            required_counts[ap_item_name] = requirement.amount
+                rule = HasAllCounts(required_counts)
+            else:
+                rule = HasAll(*set([ap_item_name for requirement in region.requirements
+                                    for ap_item_name in requirement.ap_item_names]))
+            world.set_rule(world.get_entrance(f"{world.origin_region_name} => {region.region.full_name}"), rule)
 
     for data in LOCATIONS.get_unlock_location_data_list():
         assert data.condition, "Unlock location has no condition"

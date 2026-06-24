@@ -73,6 +73,8 @@ class TriggerCondition:
                 region_prefix = f"{self.product_region.name}: " if self.product_region and self.product_region != ALL_REGIONS else ""
                 out_name = f"Have {self.amount} {'tons' if self.amount > 1 else 'ton'} of "\
                     f"{region_prefix}{self.product_name} in {self.region.full_name} trading posts"
+            case TriggerConditionType.COUNTER_GOOD_IN_STOCK:
+                assert False, "Trigger type COUNTER_GOOD_IN_STOCK should have set ap_location_name already"
             case TriggerConditionType.COUNTER_EXPEDITION_SOLVED:
                 assert False, "Trigger type COUNTER_EXPEDITION_SOLVED should have set ap_location_name already"
             case TriggerConditionType.QUEST_COMPLETE:
@@ -133,6 +135,8 @@ class TriggerCondition:
                 return self.type_, self.guid, self.amount
             case TriggerConditionType.COUNTER_GOOD_IN_REGION:
                 return self.type_, self.guid, self.region.value, self.amount
+            case TriggerConditionType.COUNTER_GOOD_IN_STOCK:
+                return self.type_, self.guid, self.amount
             case TriggerConditionType.COUNTER_EXPEDITION_SOLVED:
                 return self.type_, self.guid, self.amount
             case TriggerConditionType.QUEST_COMPLETE:
@@ -259,6 +263,15 @@ class TriggerCondition:
         condition.product_region = product_region
         condition.amount = amount
         condition.region = region
+        condition.guid = guid
+        condition.ap_location_name = ap_location_name
+        condition.post_init()
+        return condition
+
+    @classmethod
+    def COUNTER_GOOD_IN_STOCK(cls, guid: int, amount: int, ap_location_name: str) -> Self:
+        condition = cls(TriggerConditionType.COUNTER_GOOD_IN_STOCK)
+        condition.amount = amount
         condition.guid = guid
         condition.ap_location_name = ap_location_name
         condition.post_init()

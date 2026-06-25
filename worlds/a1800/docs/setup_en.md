@@ -91,9 +91,15 @@ The host of the Archipelago multiworld should supply you with a zip file name `A
 seed number, `%2` is the slot number, `%3` is the slot name and `%4` is the Archipelago version this mod was created by.
 
 Before installing mods, Anno 1800 must have been started and closed at least once. Then, you can create the following
-folder: `...\Ubisoft Game Launcher\games\Anno 1800\mods` (exact location might be different if you changed the folder
-Ubisoft Connect installs games to). After another game start, there should be a popup about mod use, which must be
-accepted. Now the game can be closed again.
+folder (depending on your launcher):
+* `...\Ubisoft Game Launcher\games\Anno 1800\mods` (Ubisoft Connect and Epic)
+* `...\Steam\steamapps\common\Anno 1800\mods` (Steam)
+
+The exact location might be different if you changed the folder your launcher installs games to, but there should be a
+`Bin` and a `maindata` folder next to your `mods` folder - that means you're in the right spot.
+
+After another game start, there should be a popup about mod use, which must be accepted. Now the game can be closed
+again. If there was no popup, it will appear after you first install a mod.
 
 To install the mod, extract the zip file and move or copy the resulting folder into the folder you created above. The
 resulting folder structure should look like `mods\AP-%1-P%2-%3-%4\modinfo.json`.

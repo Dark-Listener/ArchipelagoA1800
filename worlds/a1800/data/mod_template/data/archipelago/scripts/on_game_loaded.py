@@ -8,6 +8,12 @@ if not src_path in sys.path:
     sys.path.append(str(src_path))
 
 try:
+    from importlib import reload
+    import anno_server
+    import data
+    reload(anno_server)
+    reload(data)
+
     from anno_server import AnnoServer
     from data import g_location_data_by_guid, GUIDS_BY_AP_CODE
 

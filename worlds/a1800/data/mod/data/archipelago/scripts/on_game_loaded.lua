@@ -1,6 +1,4 @@
-if g_location_data_by_guid == nil then
-    console.startScript("data/archipelago/scripts/data.lua")
-end
+console.startScript("data/archipelago/scripts/data.lua")
 
 local receive_index = ts.Economy.MetaStorage.GetStorageAmount(g_int_receive_index_guid)
 while receive_index > 500 do

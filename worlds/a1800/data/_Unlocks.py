@@ -2419,7 +2419,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks"}, set(), set(), "Hacienda"),
 
     A1800Unlock("Hacienda Storeroom", DLC.SEEDS_OF_CHANGE, Region.NW, 24775, (25055, [], 25059),
-                TriggerCondition.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, "Hacienda", output={"Medium Storage", "Large Storage"}),
+                TriggerCondition.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, "Hacienda", output={"Medium Storage", "Large Storage", "Grand Storage"}),
 
     A1800Unlock("Hacienda Sugar Cane Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [24798, 24796, 24794], [(24796, [], 25791), (25055, [], 25059)],
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Sugar Cane"),

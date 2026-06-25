@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+from typing import Any
+
 from Options import Choice, DefaultOnToggle, OptionCounter, OptionGroup, OptionList, PerGameCommonOptions, Toggle
 
 ################
@@ -19,7 +21,7 @@ class EnabledDLCsOption(OptionList):
     display_name = "Enabled DLCs"
     valid_keys = ["sunken-treasures", "botanica", "the-passage", "seat-of-power",
                   "bright-harvest", "land-of-lions", "docklands", "tourist-season",
-                  "the-high-life", "seeds-of-change", 'empire-of-the-skies', 'new-world-rising']
+                  "the-high-life", "seeds-of-change", "empire-of-the-skies", "new-world-rising"]
     default = [key for key in valid_keys if key != "docklands"]
 
 
@@ -271,3 +273,182 @@ a1800_option_groups: list[OptionGroup] = [
         EnableMineSlotUnificationOption,
     ]),
 ]
+
+
+a1800_option_presets: dict[str, dict[str, Any]] = {
+    "Vanilla": {
+        "enabled_dlcs": [],
+        "enable_docklands_logic": False,
+        "enable_progressive_unlocks": True,
+        "exclude_recipe_unlocks": False,
+        "start_with_flagship": False,
+        "start_with_trading_post": True,
+        "required_street_for_settling": 0,
+        "allow_hacienda_residences_upon_unlock": False,
+        "incident_difficulty": 1,
+        "free_goods_and_ships": 1,
+        "required_population": {
+            "00-farmers": 0,
+            "01-workers": 0,
+            "02-artisans": 0,
+            "03-engineers": 0,
+            "04-investors": 5000,
+            "05-jornaleros": 0,
+            "06-obreros": 1500,
+            "07-artistas": 0,
+            "08-explorers": 0,
+            "09-technicians": 0,
+            "10-shepherds": 0,
+            "11-elders": 0,
+            "12-scholars": 0,
+            "13-tourists": 0,
+        },
+        "required_skyscrapers": {
+            "00-engineer-level-1": 0,
+            "01-engineer-level-2": 0,
+            "02-engineer-level-3": 0,
+            "03-investor-level-1": 0,
+            "04-investor-level-2": 0,
+            "05-investor-level-3": 0,
+            "06-investor-level-4": 0,
+            "07-investor-level-5": 0,
+            "08-skyline-tower": 0,
+        },
+        "required_monuments": [],
+        "enable_mine_slot_unification": False,
+    },
+    "Short": {
+        "enabled_dlcs": [
+            "sunken-treasures", "botanica", "seat-of-power", "bright-harvest", "seeds-of-change", "empire-of-the-skies"
+        ],
+        "enable_docklands_logic": False,
+        "enable_progressive_unlocks": True,
+        "exclude_recipe_unlocks": True,
+        "start_with_flagship": True,
+        "start_with_trading_post": True,
+        "required_street_for_settling": 0,
+        "allow_hacienda_residences_upon_unlock": False,
+        "incident_difficulty": 1,
+        "free_goods_and_ships": 2,
+        "required_population": {
+            "00-farmers": 0,
+            "01-workers": 0,
+            "02-artisans": 0,
+            "03-engineers": 0,
+            "04-investors": 1,
+            "05-jornaleros": 0,
+            "06-obreros": 600,
+            "07-artistas": 0,
+            "08-explorers": 0,
+            "09-technicians": 0,
+            "10-shepherds": 0,
+            "11-elders": 0,
+            "12-scholars": 0,
+            "13-tourists": 0,
+        },
+        "required_skyscrapers": {
+            "00-engineer-level-1": 0,
+            "01-engineer-level-2": 0,
+            "02-engineer-level-3": 0,
+            "03-investor-level-1": 0,
+            "04-investor-level-2": 0,
+            "05-investor-level-3": 0,
+            "06-investor-level-4": 0,
+            "07-investor-level-5": 0,
+            "08-skyline-tower": 0,
+        },
+        "required_monuments": [],
+        "enable_mine_slot_unification": False,
+    },
+    "Default": {
+        "enabled_dlcs": [
+            "sunken-treasures", "botanica", "the-passage", "seat-of-power", "bright-harvest", "land-of-lions",
+            "tourist-season", "the-high-life", "seeds-of-change", "empire-of-the-skies", "new-world-rising"
+        ],
+        "enable_docklands_logic": False,
+        "enable_progressive_unlocks": True,
+        "exclude_recipe_unlocks": False,
+        "start_with_flagship": False,
+        "start_with_trading_post": True,
+        "required_street_for_settling": 0,
+        "allow_hacienda_residences_upon_unlock": False,
+        "incident_difficulty": 1,
+        "free_goods_and_ships": 1,
+        "required_population": {
+            "00-farmers": 0,
+            "01-workers": 0,
+            "02-artisans": 0,
+            "03-engineers": 0,
+            "04-investors": 5000,
+            "05-jornaleros": 0,
+            "06-obreros": 1500,
+            "07-artistas": 6000,
+            "08-explorers": 0,
+            "09-technicians": 750,
+            "10-shepherds": 0,
+            "11-elders": 0,
+            "12-scholars": 7000,
+            "13-tourists": 4000,
+        },
+        "required_skyscrapers": {
+            "00-engineer-level-1": 0,
+            "01-engineer-level-2": 0,
+            "02-engineer-level-3": 0,
+            "03-investor-level-1": 0,
+            "04-investor-level-2": 0,
+            "05-investor-level-3": 0,
+            "06-investor-level-4": 0,
+            "07-investor-level-5": 15,
+            "08-skyline-tower": 0,
+        },
+        "required_monuments": [],
+        "enable_mine_slot_unification": False,
+    },
+    "Full": {
+        "enabled_dlcs": [
+            "sunken-treasures", "botanica", "the-passage", "seat-of-power", "bright-harvest", "land-of-lions",
+            "docklands", "tourist-season", "the-high-life", "seeds-of-change", "empire-of-the-skies", "new-world-rising"
+        ],
+        "enable_docklands_logic": False,
+        "enable_progressive_unlocks": True,
+        "exclude_recipe_unlocks": False,
+        "start_with_flagship": False,
+        "start_with_trading_post": True,
+        "required_street_for_settling": 0,
+        "allow_hacienda_residences_upon_unlock": False,
+        "incident_difficulty": 1,
+        "free_goods_and_ships": 1,
+        "required_population": {
+            "00-farmers": 0,
+            "01-workers": 0,
+            "02-artisans": 0,
+            "03-engineers": 0,
+            "04-investors": 5000,
+            "05-jornaleros": 0,
+            "06-obreros": 1500,
+            "07-artistas": 6000,
+            "08-explorers": 0,
+            "09-technicians": 750,
+            "10-shepherds": 0,
+            "11-elders": 0,
+            "12-scholars": 7000,
+            "13-tourists": 4000,
+        },
+        "required_skyscrapers": {
+            "00-engineer-level-1": 0,
+            "01-engineer-level-2": 0,
+            "02-engineer-level-3": 15,
+            "03-investor-level-1": 0,
+            "04-investor-level-2": 0,
+            "05-investor-level-3": 0,
+            "06-investor-level-4": 0,
+            "07-investor-level-5": 75,
+            "08-skyline-tower": 1,
+        },
+        "required_monuments": [
+            "worlds-fair", "research-institute", "arctic-airship-hangar", "the-iron-tower", "ow-rigid-airship-hangar",
+            "nw-rigid-airship-hangar", "dam", "grand-stadium"
+        ],
+        "enable_mine_slot_unification": False,
+    }
+}

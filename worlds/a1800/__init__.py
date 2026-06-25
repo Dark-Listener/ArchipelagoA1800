@@ -10,7 +10,7 @@ from .data import A1800_DATA, START_REGION
 from .Items import create_item, ITEMS
 from .Locations import LOCATIONS
 from .Mod import generate_mod
-from .Options import a1800_option_groups, A1800Options
+from .Options import a1800_option_groups, a1800_option_presets, A1800Options
 from .Regions import create_regions
 from .Rules import set_rules
 from .Settings import A1800Settings
@@ -29,6 +29,7 @@ icon_paths["a1800"] = f"ap:{__name__}/icons/a1800.png"
 class A1800Web(WebWorld):
     bug_report_page = "https://https://github.com/Dark-Listener/ArchipelagoA1800/issues"
     option_groups = a1800_option_groups
+    options_presets = a1800_option_presets
     setup_en = Tutorial(
         "Multiworld Setup Guide",
         "A guide to setting up the Archipelago Anno 1800 randomizer on your computer.",

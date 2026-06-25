@@ -317,6 +317,15 @@ def generate_mod(world: "A1800World", output_directory: str):
         guid=A1800_DATA.get_next_anno_guid()
     )
 
+    release_trigger = Trigger(
+        _get_condition_with_dlc(TriggerCondition.UNLOCK("", Region(0), guid=victory_guid),
+                                {A1800_DATA.get_parsed_options().enabled_dlcs}),
+        TriggerAction.UNLOCK([unlock_guid for unlock in A1800_DATA.get_unlocks()
+                             for unlock_guid in unlock.unlock_guids]),
+        guid=A1800_DATA.get_next_anno_guid()
+    )
+    release_trigger.condition.ap_location_name = "Release Trigger"
+
     start_trigger = Trigger(
         TriggerCondition.TRUE(ap_location_name="Game Start"),
         [
@@ -403,6 +412,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "victory_quest": victory_quest,
         "victory_quest_pool": victory_quest_pool,
         "victory_trigger": victory_trigger,
+        "release_trigger": release_trigger,
         "incident_feature_guids": incident_feature_guids,
         "expedition_unlocks": expedition_unlocks,
         "hacienda_quarter_unlocks": A1800_DATA.get_hacienda_quarter_unlocks(),

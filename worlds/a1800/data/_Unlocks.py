@@ -3137,7 +3137,7 @@ class _Unlocks:
 
     def find_ap_item(self, ap_name: str) -> Optional[A1800Unlock]:
         assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
-        return next((unlock for unlock in self._a1800_unlocks if unlock.ap_item_name == ap_name), None)
+        return next((unlock for unlock in self._a1800_unlocks if unlock.progressive_ap_item_name == ap_name), None) or next((unlock for unlock in self._a1800_unlocks if unlock.ap_item_name == ap_name), None)
 
     def get_unlock_locations(self) -> Sequence[A1800Unlock]:
         assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."

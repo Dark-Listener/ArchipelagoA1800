@@ -86,7 +86,7 @@ class _Items:
                                 for item_data in [_to_item_data(item)] if item_data]
         self._unlock_item_data_list = [
             item_data for item_data in all_unlock_item_data if not item_data.is_starting_item]
-        self._start_item_data_list += [item_data for item_data in all_unlock_item_data if item_data.is_starting_item]
+        self._start_item_data_list = [item_data for item_data in all_unlock_item_data if item_data.is_starting_item]
 
         self._event_item_data_list = [item_data for item in A1800_DATA.get_event_items()
                                       for item_data in [_to_item_data(item)] if item_data]

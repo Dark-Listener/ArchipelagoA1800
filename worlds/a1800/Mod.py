@@ -9,6 +9,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 import jinja2
 
+from BaseClasses import Location
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
@@ -68,6 +69,13 @@ def _get_condition_with_dlc(condition: TriggerCondition, condition_dlc: set[DLC]
             return TriggerCondition.ALL(condition, TriggerCondition.ANY(*new_conditions))
 
 
+def _get_local_item(location: Location, player: int) -> Optional[A1800Item]:
+    if location.item and isinstance(location.item, A1800Item) and location.item.player == player:
+        return location.item
+    else:
+        return None
+
+
 def _get_allowed_goods_and_ships_by_session(world: "A1800World", player: int) -> dict[Session, dict[str, bool]]:
     multiworld = world.multiworld
 
@@ -79,11 +87,11 @@ def _get_allowed_goods_and_ships_by_session(world: "A1800World", player: int) ->
     allowed_goods_and_ships_by_session: dict[Session, dict[str, Any]] = dict()
     for sphere in multiworld.get_spheres():
         for location in sphere:
-            if isinstance(location.item, A1800Item) and location.item.player == player:
-                if "Expedition" in location.item.name:
-                    gathered.add(location.item.name.split(": ")[-2] + ": " + location.item.name.split(": ")[-1])
+            if a1800_item := _get_local_item(location, player):
+                if "Expedition" in a1800_item.name:
+                    gathered.add(a1800_item.name.split(": ")[-2] + ": " + a1800_item.name.split(": ")[-1])
                 else:
-                    gathered.add(location.item.name.split(": ")[-1])
+                    gathered.add(a1800_item.name.split(": ")[-1])
 
         for session in sessions:
             if session == Session.OW:
@@ -229,11 +237,11 @@ def generate_mod(world: "A1800World", output_directory: str):
         condition = deepcopy(location.data.condition) or TriggerCondition.FALSE()
         actions = [TriggerAction.UNLOCK([location.data.guid or 0])]
 
-        if location.item and isinstance(location.item, A1800Item) and location.item.player == player:
-            if not location.item.data.is_progressive:
-                actions[0].unlock_guids += location.item.data.unlock_guids
+        if a1800_item := _get_local_item(location, player):
+            if not a1800_item.data.is_progressive:
+                actions[0].unlock_guids += a1800_item.data.unlock_guids
             else:
-                actions.append(TriggerAction.ADD_RESOURCE(meta_products_by_name[f"int_local_{location.item.code}"]))
+                actions.append(TriggerAction.ADD_RESOURCE(meta_products_by_name[f"int_local_{a1800_item.code}"]))
 
         return Trigger(condition, actions)
 
@@ -244,8 +252,8 @@ def generate_mod(world: "A1800World", output_directory: str):
         sorted(locations, key=_get_trigger_key), key=_get_trigger_key)))
 
     for location in locations:
-        if location.item and isinstance(location.item, A1800Item) and location.data.condition:
-            location.data.condition = _get_condition_with_dlc(location.data.condition, location.item.data.dlc)
+        if (a1800_item := _get_local_item(location, player)) and location.data.condition:
+            location.data.condition = _get_condition_with_dlc(location.data.condition, a1800_item.data.dlc)
 
     triggers_grouped_by_condition_and_dlc = list(map(_get_unlock_triggers, groupby(
         sorted(locations, key=_get_trigger_key), key=_get_trigger_key)))
@@ -352,10 +360,10 @@ def generate_mod(world: "A1800World", output_directory: str):
     guids_by_ap_code = {
         unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in A1800_DATA.get_unlocks() if unlock.ap_code
     } | {
-        location.item.code: (location.item.data.unlock_guids, location.data.guid) for location in locations
-        if location.data.guid and location.item and isinstance(location.item, A1800Item) and location.item.code
+        a1800_item.code: (a1800_item.data.unlock_guids, location.data.guid) for location in locations
+        if location.data.guid and (a1800_item := _get_local_item(location, player)) and a1800_item.code
     } | {
-        ap_code: ([], 0)
+        ap_code: (list[int](), 0)
         for _, (ap_code, _) in A1800_DATA.get_progressive_groups().items()
     }
 

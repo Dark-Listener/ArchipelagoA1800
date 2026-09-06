@@ -12,10 +12,13 @@ from typing import Callable, Optional
 from CommonClient import ClientCommandProcessor, CommonContext, logger, server_loop, gui_enabled, get_base_parser
 from NetUtils import ClientStatus, NetworkItem
 from settings import get_settings
-from Utils import Version, __version__
+from Utils import Version, __version__, tuplize_version
 
 from .Settings import A1800Settings
 from .rcon.rcon_mmap_client import RCONMMapClient, RCONTimeout
+
+
+CLIENT_VERSION = Version(1, 3, 1)
 
 
 class A1800Context(CommonContext):
@@ -161,6 +164,7 @@ async def get_info(ctx: A1800Context):
     info = json.loads(ctx.rcon_mmap_client.send_command("/ap-rcon-info") or "")
     ctx.auth = info.get("slot_name")
     ctx.seed_name = info.get("seed_name")
+    ctx.mod_version = tuplize_version(info.get("mod_version", "0.0.0"))
 
 
 async def a1800_spinup(ctx: A1800Context) -> bool:

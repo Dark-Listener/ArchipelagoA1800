@@ -10,12 +10,13 @@ from rcon.rcon_packet import RCONPacket
 
 
 class AnnoServer(RCONMMapServer):
-    def __init__(self, env: Dict[str, Any], file_path: Path, script_path: Path, slot_name: str, seed_name: str) -> None:
+    def __init__(self, env: Dict[str, Any], file_path: Path, script_path: Path, slot_name: str, seed_name: str, mod_version: str) -> None:
         super().__init__(file_path)
         self.env = env
         self.script_path = script_path
         self.slot_name = slot_name
         self.seed_name = seed_name
+        self.mod_version = mod_version
 
         self._ap_receive_item_args_file_path = self.script_path / "ap_receive_item_args.lua"
         self._ap_receive_item_args_file_obj = self._ap_receive_item_args_file_path.open(mode="rb+")
@@ -45,6 +46,7 @@ def _handle_ap_rcon_info(server: RCONMMapServer, packet: RCONPacket, _body: str)
     info = {
         "slot_name": server.slot_name,
         "seed_name": server.seed_name,
+        "mod_version": server.mod_version,
     }
 
     server.send_message(packet.id, RCONPacket.SERVERDATA_RESPONSE_VALUE, json.dumps(info))

@@ -30,7 +30,7 @@ try:
         pass
 
     g_anno_server = AnnoServer(globals(), mod_path / "A1800APCommunication.dat",
-                               src_path, "{{ slot_name }}", "{{ seed_name }}")
+                               src_path, "{{ slot_name }}", "{{ seed_name }}", "{{ mod_version }}")
 
     console.startScript(str(src_path / "polling.lua"))
 except Exception as e:

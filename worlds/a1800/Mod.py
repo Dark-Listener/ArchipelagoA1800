@@ -432,6 +432,7 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     anno_mod_data: dict[str, Any] = {
         "mod_name": versioned_mod_name,
+        "mod_version": world.world_version.as_simple_string(),
         "slot_name": world.player_name,
         "seed_name": multiworld.seed_name,
         "ap_version": __version__,

@@ -21,6 +21,9 @@ if TYPE_CHECKING:
     from . import A1800World
 
 
+STR_SANITY = str.maketrans({"[": "|", "]": "|"})
+
+
 @dataclass
 class _Quest:
     guid: int
@@ -219,14 +222,14 @@ def generate_mod(world: "A1800World", output_directory: str):
     def _get_notification_trigger(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> Trigger:
         locations = list(groups[1])
         condition = locations[0].data.condition or TriggerCondition.FALSE()
-        text = f"[AssetData({items_found_guid}) Text] <b>{condition.ap_location_name}</b>:<br/>"
+        text = f"<b>{condition.ap_location_name}</b>:<br/>"
         for location in locations:
             if location.item:
                 if location.item.player == player:
                     text += f"- <b>{location.item.name}</b><br/>"
                 else:
                     text += f"- {multiworld.get_player_name(location.item.player)}'s <b>{location.item.name}</b><br/>"
-        text = text[:-5]
+        text = f"[AssetData({items_found_guid}) Text] " + text[:-5].translate(STR_SANITY)
         return Trigger(
             condition,
             TriggerAction.SIDE_NOTIFICATION(A1800_DATA.get_next_anno_guid(), text),

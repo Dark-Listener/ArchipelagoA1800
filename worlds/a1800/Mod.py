@@ -196,7 +196,8 @@ def generate_mod(world: "A1800World", output_directory: str):
     texts_russian_template = template_env.get_template("data/config/gui/texts_russian.xml")
     texts_spanish_template = template_env.get_template("data/config/gui/texts_spanish.xml")
     texts_taiwanese_template = template_env.get_template("data/config/gui/texts_taiwanese.xml")
-    set_is_unlocked_template = template_env.get_template("data/archipelago/scripts/set_is_unlocked/set_is_unlocked.py")
+    set_location_unlocked_template = template_env.get_template(
+        "data/archipelago/scripts/set_location_unlocked/set_location_unlocked.py")
 
     # get data for templates
     mod_name = f"AP-{multiworld.seed_name}-P{player}-{multiworld.get_file_safe_player_name(player)}"
@@ -505,19 +506,19 @@ def generate_mod(world: "A1800World", output_directory: str):
     ]
 
     for location_guid in location_data_by_guid.keys():
-        set_is_unlocked_data: dict[str, Any] = {
+        set_location_unlocked_data: dict[str, Any] = {
             "unlocked_guid": location_guid,
             "victory": False,
         }
-        mod.writing_tasks.append(lambda location_guid=location_guid, set_is_unlocked_data=set_is_unlocked_data: (
-            f"data/archipelago/scripts/set_is_unlocked/set_is_unlocked_{location_guid}.py", set_is_unlocked_template.render(**set_is_unlocked_data)))
+        mod.writing_tasks.append(lambda location_guid=location_guid, set_location_unlocked_data=set_location_unlocked_data: (
+            f"data/archipelago/scripts/set_location_unlocked/set_location_unlocked_{location_guid}.py", set_location_unlocked_template.render(**set_location_unlocked_data)))
 
-    set_is_unlocked_data: dict[str, Any] = {
+    set_location_unlocked_data: dict[str, Any] = {
         "unlocked_guid": victory_guid,
         "victory": True,
     }
-    mod.writing_tasks.append(lambda victory_guid=victory_guid, set_is_unlocked_data=set_is_unlocked_data: (
-        f"data/archipelago/scripts/set_is_unlocked/set_is_unlocked_{victory_guid}.py", set_is_unlocked_template.render(**set_is_unlocked_data)))
+    mod.writing_tasks.append(lambda victory_guid=victory_guid, set_location_unlocked_data=set_location_unlocked_data: (
+        f"data/archipelago/scripts/set_location_unlocked/set_location_unlocked_{victory_guid}.py", set_location_unlocked_template.render(**set_location_unlocked_data)))
 
     # write the mod file
     mod.write()

@@ -9,6 +9,40 @@ from ._Products import PRODUCTS
 from ._TriggerCondition import TriggerCondition
 
 
+_a1800_item_name_groups: dict[str, set[str]] = {
+}
+
+_a1800_location_name_groups: dict[str, set[str]] = {
+    "Farmers": set(),
+    "Workers": set(),
+    "Artisans": set(),
+    "Engineers": set(),
+    "Investors": set(),
+    "Tourists": set(),
+    "Jornaleros": set(),
+    "Obreros": set(),
+    "Artistas": set(),
+    "Explorers": set(),
+    "Technicians": set(),
+    "Shepherds": set(),
+    "Elders": set(),
+    "Scholars": set(),
+    "Skyscrapers": set(),
+    "Skyscrapers: Level 5": set(),
+    "Enter: New World": set(),
+    "Enter: The Arctic": set(),
+    "Enter: Enbesa": set(),
+    "Recipes": set(),
+    "Restaurant Recipes": set(),
+    "Cafe Recipes": set(),
+    "Bar Recipes": set(),
+    "The Iron Tower Recipes": set(),
+    "Department Store Recipes": set(),
+    "Furniture Store Recipes": set(),
+    "Drug Store Recipes": set(),
+}
+
+
 def create_unlock_name(name: str, region: Region, prefix: str = "", postfix: str = "") -> str:
     if not region or region == ALL_REGIONS:
         return prefix + name + postfix
@@ -128,6 +162,8 @@ class A1800Unlock:
 
         self.hints = []
 
+        self.apply_location_groups()
+
     def post_init(self) -> None:
         if self.type_ == UnlockType.UNLOCK:
             if self.cost or self.maintenance or self.unlock_chain:
@@ -153,6 +189,21 @@ class A1800Unlock:
                 output_guid = next(PRODUCTS.find_products(name, region)).guid
                 if output_guid and not output_guid in self.unlock_guids:
                     self.unlock_guids.append(output_guid)
+
+    def apply_location_groups(self) -> None:
+        for location_group in _a1800_location_name_groups.keys():
+            if location_group[:-1] in self.condition.ap_location_name and ("Skyscrapers" in location_group or not "Skyscraper" in self.condition.ap_location_name):
+                _a1800_location_name_groups[location_group].add(self.ap_location_name)
+
+        if "Level 5" in self.condition.ap_location_name:
+            _a1800_location_name_groups["Skyscrapers: Level 5"].add(self.ap_location_name)
+
+        split_name = self.name.split(":")
+        if len(split_name) > 1 and ("Recipe:" + split_name[1]) in RECIPE_GUIDS:
+            _a1800_location_name_groups["Recipes"].add(self.ap_location_name)
+            for location_group in _a1800_location_name_groups.keys():
+                if location_group.endswith(" Recipes") and split_name[0] == location_group[:-8]:
+                    _a1800_location_name_groups[location_group].add(self.ap_location_name)
 
     def __str__(self) -> str:
         return f"(Unlock: {self.name}, {self.region})"
@@ -3446,11 +3497,6 @@ class _Unlocks:
                     unlock.consumption.remove("Riot Control")
                 if "Healthcare" in unlock.consumption:
                     unlock.consumption.remove("Healthcare")
-
-        if parsed_options.exclude_recipe_unlocks:
-            for unlock in self._a1800_unlocks:
-                if any(recipe.split(": ")[1] in unlock.name for recipe in RECIPE_GUIDS.keys()) and unlock.condition.type_ == TriggerConditionType.LINEAR:
-                    unlock.is_excluded = True
 
         ### Mod Support ###
         if parsed_options.enable_mine_slot_unification:

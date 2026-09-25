@@ -18,11 +18,16 @@ from ._Sessions import A1800Session, SESSIONS
 from ._Trigger import Trigger
 from ._TriggerAction import TriggerAction
 from ._TriggerCondition import TriggerCondition
+from ._Unlocks import _a1800_item_name_groups, _a1800_location_name_groups  # pyright: ignore[reportPrivateUsage]
 from ._Unlocks import _a1800_unlocks, _a1800_progressive_groups  # pyright: ignore[reportPrivateUsage]
 from ._Unlocks import A1800Unlock, UNLOCKS
 
 
 class _A1800Data:
+    _item_name_groups = _a1800_item_name_groups
+
+    _location_name_groups = _a1800_location_name_groups
+
     _item_name_to_ap_code: dict[str, int] = {
         unlock.ap_item_name: unlock.ap_code for unlock in _a1800_unlocks if unlock.ap_code
     } | {
@@ -78,8 +83,14 @@ class _A1800Data:
     def get_hacienda_quarter_unlocks(self) -> dict[str, tuple[int, int, str, int]]:
         return HACIENDA_QUARTER_GUIDS
 
+    def get_item_name_groups(self) -> dict[str, set[str]]:
+        return self._item_name_groups
+
     def get_item_name_to_ap_code(self) -> dict[str, int]:
         return self._item_name_to_ap_code
+
+    def get_location_name_groups(self) -> dict[str, set[str]]:
+        return self._location_name_groups
 
     def get_location_name_to_ap_code(self) -> dict[str, int]:
         return self._location_name_to_ap_code

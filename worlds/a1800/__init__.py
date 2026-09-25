@@ -50,7 +50,9 @@ class A1800World(World):
     """
 
     game = "Anno 1800"
+    item_name_groups = A1800_DATA.get_item_name_groups()
     item_name_to_id = A1800_DATA.get_item_name_to_ap_code()
+    location_name_groups = A1800_DATA.get_location_name_groups()
     location_name_to_id = A1800_DATA.get_location_name_to_ap_code()
     options_dataclass = A1800Options
     options: A1800Options

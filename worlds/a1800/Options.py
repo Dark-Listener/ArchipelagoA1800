@@ -88,15 +88,6 @@ class HintModeOption(Choice):
     default = 1
 
 
-class ExcludeRecipeUnlocksOption(Toggle):
-    """
-    Prevents all special recipe unlocks from having progressive items. 'Special' recipe unlocks are recipes that don't
-    simply unlock by unlocking/building the base building or reaching a certain population.
-    Has no effect unless at least one of Tourist Season and The High Life DLCs is enabled.
-    """
-    display_name = "Exclude Recipe Unlocks"
-
-
 class StartWithFlagshipOption(Toggle):
     """
     Per default, the starting flagship will not be included in the randomizer logic. If you intend to start with a
@@ -290,7 +281,6 @@ class A1800Options(PerGameCommonOptions):
     enforce_cape_trelawney: EnforceCapeTrelawneyOption
     enable_progressive_unlocks: EnableProgressiveUnlocksOption
     hint_mode: HintModeOption
-    exclude_recipe_unlocks: ExcludeRecipeUnlocksOption
     start_with_flagship: StartWithFlagshipOption
     start_with_trading_post: StartWithTradingPostOption
     required_street_for_settling: RequiredStreetForSettlingOption
@@ -326,7 +316,6 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         "enforce_cape_trelawney": 0,
         "enable_progressive_unlocks": True,
         "hint_mode": 1,
-        "exclude_recipe_unlocks": False,
         "start_with_flagship": False,
         "start_with_trading_post": True,
         "required_street_for_settling": 0,
@@ -371,7 +360,6 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         "enforce_cape_trelawney": 0,
         "enable_progressive_unlocks": True,
         "hint_mode": 1,
-        "exclude_recipe_unlocks": True,
         "start_with_flagship": True,
         "start_with_trading_post": True,
         "required_street_for_settling": 0,
@@ -417,7 +405,6 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         "enforce_cape_trelawney": 0,
         "enable_progressive_unlocks": True,
         "hint_mode": 1,
-        "exclude_recipe_unlocks": False,
         "start_with_flagship": False,
         "start_with_trading_post": True,
         "required_street_for_settling": 0,
@@ -463,7 +450,6 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         "enforce_cape_trelawney": 0,
         "enable_progressive_unlocks": True,
         "hint_mode": 1,
-        "exclude_recipe_unlocks": False,
         "start_with_flagship": False,
         "start_with_trading_post": True,
         "required_street_for_settling": 0,

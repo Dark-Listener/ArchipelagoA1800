@@ -60,8 +60,6 @@ class ParsedOptions:
 
         self.hint_mode = ParsedOptions.HintMode(int(options.hint_mode.value))
 
-        self.exclude_recipe_unlocks = bool(options.exclude_recipe_unlocks)
-
         self.start_with_flagship = bool(options.start_with_flagship)
         self.start_with_trading_post = bool(options.start_with_trading_post)
 

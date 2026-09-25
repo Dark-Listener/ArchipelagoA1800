@@ -44,7 +44,7 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
         ).enable_progressive_unlocks and bool(obj.progressive_ap_item_name) and bool(obj.progressive_ap_code)
         return A1800ItemData(
             obj.progressive_ap_item_name if is_progressive else obj.ap_item_name,
-            IC.progression if obj.is_progression else IC.filler,
+            IC.progression if obj.is_progression else (IC.useful if obj.is_useful else IC.filler),
             obj.dlc,
             obj.unlock_guids,
             obj.hints,

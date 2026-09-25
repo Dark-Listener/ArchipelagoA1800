@@ -70,6 +70,7 @@ class A1800Unlock:
         type_: UnlockType = UnlockType.UNLOCK,
         ap_region: Region = NO_REGION,
         is_early: bool = False,
+        is_useful: bool = False,
         is_excluded: bool = False,
         progressive_group: str = "",
         progressive_tier: int = 0,
@@ -103,6 +104,7 @@ class A1800Unlock:
         self.type_ = type_
         self.ap_region = ap_region
         self.is_early = is_early
+        self.is_useful = is_useful
         self.is_excluded = is_excluded
         self.progressive_group = progressive_group
         self.progressive_tier = progressive_tier
@@ -196,13 +198,13 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     # Building
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.OW, [1010517, 1010540], [],
-                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}, progressive_group="Trading Post", progressive_tier=1),
+                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}, progressive_group="Trading Post", progressive_tier=1, is_useful=True),
 
     A1800Unlock("Small Warehouse", DLC.VANILLA, Region.OW, 1010371, (130040, [], 130248),
                 TriggerCondition.SESSION_ENTER(Session.OW), "Timber", progressive_group="Warehouse", progressive_tier=1),
 
     A1800Unlock("Trade Union", DLC.VANILLA, Region.OW, 1010516, (1010516, [], 130252),
-                TriggerCondition.POPULATION("Workers", Region.OW, 1), {"Timber", "Bricks"}),
+                TriggerCondition.POPULATION("Workers", Region.OW, 1), {"Timber", "Bricks"}, is_useful=True),
 
     A1800Unlock("Mounted Guns", DLC.VANILLA, Region.OW, 1010522, (1010522, 130252, 130253),
                 TriggerCondition.POPULATION("Workers", Region.OW, 150), {"Timber", "Bricks", "Weapons"}),
@@ -217,7 +219,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TriggerCondition.POPULATION("Workers", Region.OW, 300), {"Timber", "Bricks", "Steel Beams", "Weapons"}),
 
     A1800Unlock("Town Hall", DLC.VANILLA, Region.OW, 100415, (100415, [], 130216),
-                TriggerCondition.POPULATION("Artisans", Region.OW, 1), {"Timber", "Bricks", "Steel Beams", "Windows"}),
+                TriggerCondition.POPULATION("Artisans", Region.OW, 1),
+                {"Timber", "Bricks", "Steel Beams", "Windows"}, is_useful=True),
 
     A1800Unlock("Flame Tower", DLC.VANILLA, Region.OW, 625, (625, [], 1795),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 1), {"Timber", "Bricks", "Steel Beams", "Weapons"}),
@@ -235,7 +238,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, unlock_chain="Electricity"),
 
     A1800Unlock("Commuter Pier", DLC.VANILLA, Region.OW, 101642, (130120, [], 130221),
-                TriggerCondition.POPULATION("Engineers", Region.OW, 1), {"Steel Beams", "Windows", "Reinforced Concrete"}),
+                TriggerCondition.POPULATION("Engineers", Region.OW, 1),
+                {"Steel Beams", "Windows", "Reinforced Concrete"}, is_useful=True),
 
     A1800Unlock("Big Betty", DLC.VANILLA, Region.OW, 1010524, (1010524, 130221, 130222),
                 TriggerCondition.POPULATION("Engineers", Region.OW, 500),
@@ -246,13 +250,13 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Bricks", "Steel Beams", "Reinforced Concrete", "Advanced Weapons"}),
 
     A1800Unlock("Small Trading Post", DLC.VANILLA, Region.NW, [101290, 101293], [],
-                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}, progressive_group="Trading Post", progressive_tier=1),
+                TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"}, progressive_group="Trading Post", progressive_tier=1, is_useful=True),
 
     A1800Unlock("Small Warehouse", DLC.VANILLA, Region.NW, 101323, (130095, [], 130236),
                 TriggerCondition.SESSION_ENTER(Session.NW), "Timber", progressive_group="Warehouse", progressive_tier=1),
 
     A1800Unlock("Trade Union", DLC.VANILLA, Region.NW, 101284, (101284, 130236, 130237),
-                TriggerCondition.POPULATION("Jornaleros", Region.NW, 50), {"Timber", "Bricks"}),
+                TriggerCondition.POPULATION("Jornaleros", Region.NW, 50), {"Timber", "Bricks"}, is_useful=True),
 
     A1800Unlock("Quay", DLC.VANILLA, Region.NW, 101339, (130106, 130237, 130238),
                 TriggerCondition.POPULATION("Jornaleros", Region.NW, 100), type_=UnlockType.BUILDING),
@@ -267,7 +271,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TriggerCondition.POPULATION("Jornaleros", Region.NW, 200), {"Timber", "Bricks", "Weapons"}),
 
     A1800Unlock("Town Hall", DLC.VANILLA, Region.NW, 101285, (101285, [], 130241),
-                TriggerCondition.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}),
+                TriggerCondition.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, is_useful=True),
 
     A1800Unlock("Cannon Tower", DLC.VANILLA, Region.NW, 101570, (130123, 130241, 130242),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 300), {"Timber", "Bricks", "Weapons"}),
@@ -333,7 +337,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TriggerCondition.POPULATION("Farmers", Region.OW, 150), "Timber", set(), set(), "Pub"),
 
     A1800Unlock("Paved Street", DLC.VANILLA, Region.OW, 1010035, (1010035, [], 130252),
-                TriggerCondition.POPULATION("Workers", Region.OW, 1), "Bricks", output="Road Network"),
+                TriggerCondition.POPULATION("Workers", Region.OW, 1), "Bricks", output="Road Network", is_useful=True),
 
     A1800Unlock("Clay Pit", DLC.VANILLA, Region.OW, 100416, (140031, [], 130252),
                 TriggerCondition.POPULATION("Workers", Region.OW, 1), "Timber", "Workers", set(), "Clay", "Bricks"),
@@ -370,7 +374,8 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {"Timber", "Bricks"}, "Workers", set(), "Sailing Ships"),
 
     A1800Unlock("Depot", DLC.VANILLA, Region.OW, 1010519, (130121, 130252, 130253),
-                TriggerCondition.POPULATION("Workers", Region.OW, 150), {"Timber", "Bricks"}, output={"Medium Storage", "Large Storage", "Grand Storage"}),
+                TriggerCondition.POPULATION("Workers", Region.OW, 150), {"Timber", "Bricks"},
+                output={"Medium Storage", "Large Storage", "Grand Storage"}, is_useful=True),
 
     A1800Unlock("Charcoal Kiln", DLC.VANILLA, Region.OW, 1010298, (140034, 130253, 130254),
                 TriggerCondition.POPULATION("Workers", Region.OW, 300),
@@ -740,7 +745,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Depot", DLC.VANILLA, Region.NW, 101278, (130106, 130237, 130238),
                 TriggerCondition.POPULATION("Jornaleros", Region.NW, 100),
-                {"Timber", "Bricks"}, output={"Medium Storage", "Large Storage", "Grand Storage"}),
+                {"Timber", "Bricks"}, output={"Medium Storage", "Large Storage", "Grand Storage"}, is_useful=True),
 
     A1800Unlock("Alpaca Farm", DLC.VANILLA, Region.NW, 101272, (130097, 130238, 130239),
                 TriggerCondition.POPULATION("Jornaleros", Region.NW, 200),
@@ -768,7 +773,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TriggerCondition.POPULATION("Jornaleros", Region.NW, 300), "Timber", "Jornaleros", set(), "Pearls"),
 
     A1800Unlock("Paved Street", DLC.VANILLA, Region.NW, 101309, (130100, [], 130241),
-                TriggerCondition.POPULATION("Obreros", Region.NW, 1), "Bricks"),
+                TriggerCondition.POPULATION("Obreros", Region.NW, 1), "Bricks", is_useful=True),
 
     A1800Unlock("Clay Pit", DLC.VANILLA, Region.NW, 101267, (130100, [], 130241),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1), "Timber", "Obreros", set(), "Clay", "Bricks"),
@@ -907,26 +912,26 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building, Factory, Upgrade
     A1800Unlock("Medium Trading Post", DLC.VANILLA, Region.OW, [100510, 100514], (130053, [], 130252),
                 TriggerCondition.POPULATION("Workers", Region.OW, 1), {"Timber", "Bricks"}, output="Medium Storage",
-                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2),
+                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2, is_useful=True),
 
     A1800Unlock("Large Trading Post", DLC.VANILLA, Region.OW, [100511, 100515], (130054, [], 130216),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, output="Large Storage",
-                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3),
+                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3, is_useful=True),
 
     A1800Unlock("Grand Trading Post", DLC.VANILLA, Region.OW, [269867, 269879], [(269867, [], 270049), (269879, [], 270049)],
                 TriggerCondition.POPULATION("Engineers", Region.OW, 1),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Reinforced Concrete"}, output="Grand Storage",
-                previous_building="Large Trading Post", progressive_group="Trading Post", progressive_tier=4),
+                previous_building="Large Trading Post", progressive_group="Trading Post", progressive_tier=4, is_useful=True),
 
     A1800Unlock("Medium Trading Post", DLC.VANILLA, Region.NW, [101291, 101294], (130104, [], 130241),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, output="Medium Storage",
-                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2),
+                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2, is_useful=True),
 
     A1800Unlock("Large Trading Post", DLC.VANILLA, Region.NW, [101292, 101295], (130105, 130244, 130246),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1500),
                 {"Timber", "Bricks", "Steel Beams", "Windows"}, output="Large Storage",
-                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3),
+                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3, is_useful=True),
 
     # Building, Factory, Residence
     A1800Unlock("Farmer Residence", DLC.VANILLA, Region.OW, 1010343, (1010343, [], 130248),
@@ -1013,7 +1018,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Clipper", DLC.VANILLA, ALL_REGIONS, 100441, (100441, 5329, 141005),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 750),
-                input={"Sailing Ships", "Timber", "Sails"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
+                input={"Sailing Ships", "Timber", "Sails"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW, is_useful=True),
 
     A1800Unlock("Ship-of-the-line", DLC.VANILLA, ALL_REGIONS, 100440, (100440, 5329, 141006),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 750),
@@ -1025,7 +1030,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Cargo Ship", DLC.VANILLA, ALL_REGIONS, 1010062, (1010062, 5329, 141007),
                 TriggerCondition.UNLOCK("Steam Shipyard", Region.OW),
-                input={"Steam Ships", "Steel Beams", "Steam Motors"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Expeditions: Level 3", "Low-Volume Trade", "Medium-Volume Transport", "High-Volume Transport"}, ap_region=Region.OW),
+                input={"Steam Ships", "Steel Beams", "Steam Motors"}, output={"Seafaring", "Expeditions: Level 1", "Expeditions: Level 2", "Expeditions: Level 3", "Low-Volume Trade", "Medium-Volume Transport", "High-Volume Transport"}, ap_region=Region.OW, is_useful=True),
 
     A1800Unlock("Battle Cruiser", DLC.VANILLA, ALL_REGIONS, 100442, (100442, 5329, 141007),
                 TriggerCondition.UNLOCK("Steam Shipyard", Region.OW),
@@ -1044,7 +1049,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     # Unlock
     A1800Unlock("Expedition: Cape Trelawney", DLC.SUNKEN_TREASURES, ALL_REGIONS, Session.CT.expedition_unlock_guid, [],
-                TriggerCondition.POPULATION("Artisans", Region.OW, 700)),
+                TriggerCondition.POPULATION("Artisans", Region.OW, 700), is_useful=True),
 
     ################################################################################################################
     ### BOTANICA                                                                                                 ###
@@ -1089,7 +1094,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building
     A1800Unlock("Small Trading Post", DLC.THE_PASSAGE, Region.AR, [112659, 112865], [],
                 TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"},
-                progressive_group="Trading Post", progressive_tier=1),
+                progressive_group="Trading Post", progressive_tier=1, is_useful=True),
 
     A1800Unlock("Small Sky Trading Post", DLC.THE_PASSAGE, Region.AR, 112726, [],
                 TriggerCondition.SESSION_ENTER(Session.OW), {"Timber", "Steel Beams"},
@@ -1105,7 +1110,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TriggerCondition.POPULATION("Technicians", Region.AR, 1), {"Timber", "Bricks", "Weapons"}),
 
     A1800Unlock("Arctic Lodge", DLC.THE_PASSAGE, Region.AR, 112678, (112678, 112648, 112649),
-                TriggerCondition.POPULATION("Technicians", Region.AR, 100), {"Timber", "Steel Beams"}),
+                TriggerCondition.POPULATION("Technicians", Region.AR, 100), {"Timber", "Steel Beams"}, is_useful=True),
 
     # Building, Factory
     A1800Unlock("Gas-Fired Power Plant", DLC.THE_PASSAGE, Region.OW, 117547, (117562, [], 117553),
@@ -1170,7 +1175,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 progressive_group="Arctic Airship Hangar", progressive_tier=1),
 
     A1800Unlock("Depot", DLC.THE_PASSAGE, Region.AR, 112670, (112670, [], 112648),
-                TriggerCondition.POPULATION("Technicians", Region.AR, 1), "Timber", output={"Medium Storage", "Large Storage"}),
+                TriggerCondition.POPULATION("Technicians", Region.AR, 1), "Timber", output={"Medium Storage", "Large Storage"}, is_useful=True),
 
     A1800Unlock("Pier", DLC.THE_PASSAGE, Region.AR, 116030, (116030, [], 112648),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 1), {"Timber", "Steel Beams"}, output="Pier",
@@ -1242,7 +1247,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Medium Trading Post", DLC.THE_PASSAGE, Region.AR, [112660, 112866], (112723, [], 112647),
                 TriggerCondition.POPULATION("Explorers", Region.AR, 500),
                 {"Timber", "Steel Beams"}, output="Medium Storage",
-                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2),
+                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2, is_useful=True),
 
     A1800Unlock("Medium Sky Trading Post", DLC.THE_PASSAGE, Region.AR, 116003, (112723, [], 112647),
                 TriggerCondition.POPULATION("Explorers", Region.AR, 500),
@@ -1252,7 +1257,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Large Trading Post", DLC.THE_PASSAGE, Region.AR, [112661, 112867], (112724, [], 112649),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 100),
                 {"Timber", "Steel Beams"}, output="Large Storage",
-                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3),
+                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3, is_useful=True),
 
     A1800Unlock("Large Sky Trading Post", DLC.THE_PASSAGE, Region.AR, 116004, (112724, [], 112649),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 100),
@@ -1302,13 +1307,13 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building
     A1800Unlock("Silo", DLC.BRIGHT_HARVEST, Region.OW, [269957, 269999], [(269957, [], 270011), (269999, [], [270169, 270046, 270011])],
                 TriggerCondition.POPULATION("Workers", Region.OW, 300),
-                {"Timber", "Bricks"}, "Grain"),
+                {"Timber", "Bricks"}, "Grain", is_useful=True),
     A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST, Region.OW, [269837, 269839, 269832], [(269755, 269882, 269757), (269832, [], 269757)],
                 TriggerCondition.POPULATION("Engineers", Region.OW, 500),
                 {"Steel Beams", "Steam Motors"}, "Fuel"),
     A1800Unlock("Silo", DLC.BRIGHT_HARVEST, Region.NW, [269958, 269999], [(269958, [], 270046), (269999, [], [270169, 270046, 270011])],
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1),
-                {"Timber", "Bricks"}, "Corn"),
+                {"Timber", "Bricks"}, "Corn", is_useful=True),
     A1800Unlock("Tractor Barn", DLC.BRIGHT_HARVEST, Region.NW, [269848, 269849, 269832], [(270062, 270051, 270061), (269832, [], 269757)],
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
                 {"Steel Beams", "Steam Motors"}, "Fuel"),
@@ -1391,7 +1396,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     # Building
     A1800Unlock("Small Trading Post", DLC.LAND_OF_LIONS, Region.EN, [114626, 114629], [],
                 TriggerCondition.SESSION_ENTER(Session.OW), {"Wanza Timber", "Mud Bricks"},
-                progressive_group="Trading Post", progressive_tier=1),
+                progressive_group="Trading Post", progressive_tier=1, is_useful=True),
 
     A1800Unlock("Small Warehouse", DLC.LAND_OF_LIONS, Region.EN, 114509, (114509, [], 114331),
                 TriggerCondition.SESSION_ENTER(Session.EN), "Wanza Timber",
@@ -1508,7 +1513,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 "Wanza Timber", {"Shepherds", "Irrigation"}, "Linen", "Finery", "Finery"),
 
     A1800Unlock("Depot", DLC.LAND_OF_LIONS, Region.EN, 117870, (117918, 114332, 114333),
-                TriggerCondition.POPULATION("Shepherds", Region.EN, 150), "Wanza Timber", output={"Medium Storage", "Large Storage"}),
+                TriggerCondition.POPULATION("Shepherds", Region.EN, 150), "Wanza Timber", output={"Medium Storage", "Large Storage"}, is_useful=True),
 
     A1800Unlock("Musicians' Court", DLC.LAND_OF_LIONS, Region.EN, 114519, (114519, 114332, 114333),
                 TriggerCondition.POPULATION("Shepherds", Region.EN, 150), "Wanza Timber", set(), set(), "Musicians' Court"),
@@ -1539,7 +1544,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 {("Hibiscus Tea", Region.EN), ("Hibiscus Tea", Region.OW)}),
 
     A1800Unlock("Paved Street", DLC.LAND_OF_LIONS, Region.EN, 119029, (119029, [], 114336),
-                TriggerCondition.POPULATION("Elders", Region.EN, 1), "Mud Bricks", output="Road Network", ap_region=Region.OW),
+                TriggerCondition.POPULATION("Elders", Region.EN, 1), "Mud Bricks", output="Road Network", ap_region=Region.OW, is_useful=True),
 
     A1800Unlock("Clay Collector", DLC.LAND_OF_LIONS, Region.EN, 117743, (114528, [], 114336),
                 TriggerCondition.POPULATION("Elders", Region.EN, 1),
@@ -1657,12 +1662,12 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Medium Trading Post", DLC.LAND_OF_LIONS, Region.EN, [114627, 114630], (114633, [], 114336),
                 TriggerCondition.POPULATION("Elders", Region.EN, 1),
                 {"Wanza Timber", "Mud Bricks"}, output="Medium Storage",
-                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2),
+                previous_building="Small Trading Post", progressive_group="Trading Post", progressive_tier=2, is_useful=True),
 
     A1800Unlock("Large Trading Post", DLC.LAND_OF_LIONS, Region.EN, [114628, 114631], (114634, [], 114338),
                 TriggerCondition.POPULATION("Elders", Region.EN, 600),
                 {"Wanza Timber", "Mud Bricks"}, output="Large Storage",
-                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3),
+                previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3, is_useful=True),
 
     # Building, Factory, Residence
     # University + Canned Food guarantuee enough scholars to make infinite permits
@@ -2419,10 +2424,10 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Hacienda", DLC.SEEDS_OF_CHANGE, Region.NW, 24768, (25055, [], 25059),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1),
-                {"Timber", "Bricks"}, set(), set(), "Hacienda"),
+                {"Timber", "Bricks"}, set(), set(), "Hacienda", is_useful=True),
 
     A1800Unlock("Hacienda Storeroom", DLC.SEEDS_OF_CHANGE, Region.NW, 24775, (25055, [], 25059),
-                TriggerCondition.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, "Hacienda", output={"Medium Storage", "Large Storage", "Grand Storage"}),
+                TriggerCondition.POPULATION("Obreros", Region.NW, 1), {"Timber", "Bricks"}, "Hacienda", output={"Medium Storage", "Large Storage", "Grand Storage"}, is_useful=True),
 
     A1800Unlock("Hacienda Sugar Cane Farm", DLC.SEEDS_OF_CHANGE, Region.NW, [24798, 24796, 24794], [(24796, [], 25791), (25055, [], 25059)],
                 TriggerCondition.POPULATION("Obreros", Region.NW, 1), "Timber", {"Jornaleros", "Hacienda"}, output="Sugar Cane"),
@@ -2545,7 +2550,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks"}),
 
     A1800Unlock("Commuter Station", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 967, (1988, 2005, 2006),
-                TriggerCondition.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks"}),
+                TriggerCondition.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks"}, is_useful=True),
 
     # Building, Factory
     A1800Unlock("Post Box", DLC.EMPIRE_OF_THE_SKIES, Region.OW, 538, (4320, 4318, 4319),
@@ -2628,13 +2633,13 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Bauxite Mine", {DLC.EMPIRE_OF_THE_SKIES, DLC.NEW_WORLD_RISING}, Region.NW, 1308, [(1352, 6614, [4317, 5799]), (7221, [], 5799)],
                 TriggerCondition.ANY(TriggerCondition.POPULATION("Obreros", Region.NW, 250),
                                      TriggerCondition.POPULATION("Artistas", Region.NW, 1)),
-                {"Timber", "Bricks"}, "Jornaleros", set(), "Bauxite", {"Aluminium Profiles", "Sewing Machines"}),
+                {"Timber", "Bricks"}, "Jornaleros", set(), "Bauxite", {"Aluminium Profiles", "Sewing Machines"}, is_useful=True),
 
     A1800Unlock("Aluminium Smelter", {DLC.EMPIRE_OF_THE_SKIES, DLC.NEW_WORLD_RISING}, Region.NW, 835, [(1352, 6614, [4317, 5799]), (7221, [], 5799)],
                 TriggerCondition.ANY(TriggerCondition.POPULATION("Obreros", Region.NW, 250),
                                      TriggerCondition.POPULATION("Artistas", Region.NW, 1)),
                 "Timber", "Obreros", {"Coal", "Bauxite"},
-                "Aluminium Profiles", {"Aluminium Profiles", "Sewing Machines"}),
+                "Aluminium Profiles", {"Aluminium Profiles", "Sewing Machines"}, is_useful=True),
 
     A1800Unlock("Industrial Oil Press", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 1418, (1355, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
@@ -2671,7 +2676,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 progressive_group="Rigid Airship Hangar", progressive_tier=4),
 
     A1800Unlock("Airship Platform", DLC.EMPIRE_OF_THE_SKIES, Region.NW, 963, (1988, 2005, 2006),
-                TriggerCondition.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks", "Aluminium Profiles"}, output="Airship Platform"),
+                TriggerCondition.POPULATION("Obreros", Region.NW, 600), {"Timber", "Bricks", "Aluminium Profiles"}, output="Airship Platform", is_useful=True),
 
     A1800Unlock("Bomb Factory", DLC.EMPIRE_OF_THE_SKIES, Region.NW, [906, 868, 905], (2041, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
@@ -2708,7 +2713,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Colibri", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1654, (2011, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
-                input={"Airships", "Aluminium Profiles", "Sails", "Helium"}, output={"Aviation", "Low-Volume Trade"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Sails", "Helium"}, output={"Aviation", "Low-Volume Trade"}, ap_region=Region.OW, is_useful=True),
 
     A1800Unlock("Colibri (Armed)", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1054, (2011, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
@@ -2716,7 +2721,7 @@ _a1800_unlocks: list[A1800Unlock] = [
 
     A1800Unlock("Atotolin", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1058, (2011, 2005, 2006),
                 TriggerCondition.POPULATION("Obreros", Region.NW, 600),
-                input={"Airships", "Aluminium Profiles", "Sails", "Helium"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Sails", "Helium"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW, is_useful=True),
 
     A1800Unlock("Alicanto", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1655, (2012, 2006, 2014),
                 TriggerCondition.ALL(TriggerCondition.POPULATION("Obreros", Region.NW, 1500),
@@ -2736,7 +2741,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Quetzalcoatl", DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1060, (2012, 2006, 2014),
                 TriggerCondition.ALL(TriggerCondition.POPULATION("Obreros", Region.NW, 1500),
                                      TriggerCondition.POPULATION("Engineers", Region.OW, 500)),
-                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport", "High-Volume Transport"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Helium"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport", "High-Volume Transport"}, ap_region=Region.OW, is_useful=True),
 
     ### Needs The Passage ###
     # Meta
@@ -2789,7 +2794,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Harpy", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1733, (3369, 2852, 3372),
                 TriggerCondition.ALL(TriggerCondition.COUNTER("Arctic Airship Hangar", Region.AR, 1),
                                      TriggerCondition.POPULATION("Obreros", Region.NW, 600)),
-                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas"}, output={"Aviation", "Low-Volume Trade"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas"}, output={"Aviation", "Low-Volume Trade"}, ap_region=Region.OW, is_useful=True),
 
     A1800Unlock("Harpy (Armed)", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1731, (3369, 2852, 3372),
                 TriggerCondition.ALL(TriggerCondition.COUNTER("Arctic Airship Hangar", Region.AR, 1),
@@ -2799,7 +2804,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Hermes", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1735, (3369, 2852, 3372),
                 TriggerCondition.ALL(TriggerCondition.COUNTER("Arctic Airship Hangar", Region.AR, 1),
                                      TriggerCondition.POPULATION("Obreros", Region.NW, 600)),
-                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Sails", "Arctic Gas"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW, is_useful=True),
 
     A1800Unlock("Manticore", DLC.THE_PASSAGE | DLC.EMPIRE_OF_THE_SKIES, ALL_REGIONS, 1734, (3370, 3373, 3376),
                 TriggerCondition.ALL(TriggerCondition.COUNTER("Arctic Airship Hangar", Region.AR, 1),
@@ -2823,7 +2828,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 TriggerCondition.ALL(TriggerCondition.COUNTER("Arctic Airship Hangar", Region.AR, 1),
                                      TriggerCondition.POPULATION("Obreros", Region.NW, 1500),
                                      TriggerCondition.POPULATION("Engineers", Region.OW, 500)),
-                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport", "High-Volume Transport"}, ap_region=Region.OW),
+                input={"Airships", "Aluminium Profiles", "Steam Motors", "Arctic Gas"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport", "High-Volume Transport"}, ap_region=Region.OW, is_useful=True),
 
     ### Needs Land of Lions ###
     # Building
@@ -3004,17 +3009,17 @@ _a1800_unlocks: list[A1800Unlock] = [
     A1800Unlock("Dam: Structure", DLC.NEW_WORLD_RISING, Region.NW, 6004, (6004, [], 8411),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 4000),
                 "Dam: Foundations", "Obreros", {"Bricks", "Steel Beams"}, "Dam: Structure",
-                progressive_group="Dam", progressive_tier=1),
+                progressive_group="Dam", progressive_tier=1, is_useful=True),
 
     A1800Unlock("Dam: Engineering", DLC.NEW_WORLD_RISING, Region.NW, 6005, (6005, [], 8411),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 4000),
                 "Dam: Structure", "Obreros", {"Windows", "Reinforced Concrete"}, "Dam: Engineering",
-                progressive_group="Dam", progressive_tier=2),
+                progressive_group="Dam", progressive_tier=2, is_useful=True),
 
     A1800Unlock("Dam", DLC.NEW_WORLD_RISING, Region.NW, 6006, (6006, [], 8411),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 4000),
                 "Dam: Engineering", "Obreros", set(), "Electricity",
-                progressive_group="Dam", progressive_tier=3),
+                progressive_group="Dam", progressive_tier=3, is_useful=True),
 
     A1800Unlock("Scooter Factory", DLC.NEW_WORLD_RISING, Region.NW, 5658, (5824, 7222, 7224),
                 TriggerCondition.POPULATION("Artistas", Region.NW, 6000),

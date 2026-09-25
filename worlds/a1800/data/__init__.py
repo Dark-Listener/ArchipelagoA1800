@@ -134,6 +134,7 @@ __all__ = [
     "ALL_REGIONS",
     "A1800_DATA",
     "DLC",
+    "ParsedOptions",
     "Region",
     "RequirementType",
     "START_REGION",

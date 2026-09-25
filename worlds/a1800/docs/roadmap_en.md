@@ -9,8 +9,6 @@ The following features are planned to be added at some point (in no specific ord
 * Create some filler items
 * More options for victory conditions
 * More options in general!
-* Option to send hints for unlocks visible in chains
-  * Fix incorrect recipe description hints?
 
 ## Potential Features | Considerations
 
@@ -32,3 +30,4 @@ obreros if 1 was chosen as victory condition
 * Require Elders to be fully supplied before unlocking Scholars? Otherwise most of Enbesa can be skipped - see 128474
 * Instead of grouped triggers and unlockable assets, use feature unlocks?
 * Find a way to make Docklands DLC work meaningfully? Somehow all the unlocks would have to be redone
+* Fix incorrect recipe description hints?

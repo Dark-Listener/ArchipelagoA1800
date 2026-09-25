@@ -15,7 +15,7 @@ try:
     reload(data)
 
     from anno_server import AnnoServer
-    from data import g_location_data_by_guid, GUIDS_BY_AP_CODE
+    from data import g_location_data_by_guid, g_settled_region_by_guid, g_fixed_hints, GUIDS_BY_AP_CODE
 
     g_victory = False
     g_lua_init = False

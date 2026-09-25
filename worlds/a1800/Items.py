@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional
 
 from BaseClasses import Item, ItemClassification as IC
 
-from .data import A1800_DATA, A1800EventItem, A1800Unlock, DLC, START_REGION, TriggerConditionType, UnlockType
+from .data import A1800_DATA, A1800EventItem, A1800Unlock, DLC, Region, START_REGION, TriggerConditionType, UnlockType
 
 if TYPE_CHECKING:
     from . import A1800World
@@ -15,6 +15,7 @@ class A1800ItemData:
     ICification: IC
     dlc: set[DLC]
     unlock_guids: list[int] = field(default_factory=lambda: [])
+    hints: list[tuple[str, Region]] = field(default_factory=lambda: [])
     ap_code: Optional[int] = None
     is_early: bool = False
     is_starting_item: bool = False
@@ -46,6 +47,7 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
             IC.progression if obj.is_progression else IC.filler,
             obj.dlc,
             obj.unlock_guids,
+            obj.hints,
             obj.progressive_ap_code if is_progressive else obj.ap_code,
             obj.is_early,
             is_starting_item,
@@ -76,7 +78,7 @@ def create_item(world: "A1800World", item: str | A1800ItemData) -> Item:
 
 
 class _Items:
-    _start_item_data_list: list[A1800ItemData] = []
+    start_item_data_list: list[A1800ItemData] = []
     _unlock_item_data_list: list[A1800ItemData] = []
     _event_item_data_list: list[A1800ItemData] = []
     _item_data_list: list[A1800ItemData] = []
@@ -86,11 +88,11 @@ class _Items:
                                 for item_data in [_to_item_data(item)] if item_data]
         self._unlock_item_data_list = [
             item_data for item_data in all_unlock_item_data if not item_data.is_starting_item]
-        self._start_item_data_list = [item_data for item_data in all_unlock_item_data if item_data.is_starting_item]
+        self.start_item_data_list = [item_data for item_data in all_unlock_item_data if item_data.is_starting_item]
 
         self._event_item_data_list = [item_data for item in A1800_DATA.get_event_items()
                                       for item_data in [_to_item_data(item)] if item_data]
-        self._start_item_data_list += [item_data for item_data in self._event_item_data_list if item_data.is_starting_item]
+        self.start_item_data_list += [item_data for item_data in self._event_item_data_list if item_data.is_starting_item]
 
         self._item_data_list = [
             *self._unlock_item_data_list,
@@ -98,7 +100,7 @@ class _Items:
         ]
 
     def create_and_push_start_items(self, world: "A1800World") -> None:
-        for item in self._start_item_data_list:
+        for item in self.start_item_data_list:
             world.multiworld.push_precollected(create_item(world, item))
 
     def create_itempool(self, world: "A1800World") -> list[Item]:

@@ -47,6 +47,26 @@ class EnableProgressiveUnlocksOption(DefaultOnToggle):
     display_name = "Enable Progressive Unlocks"
 
 
+class HintModeOption(Choice):
+    """
+    Determines the kind of hints Anno 1800 will send out. Hints will be shown for all items for which the game would
+    usually display an unlock requirement - that means visible, but not unlocked buildings in the build menu as well as
+    upgrades to any buildings.
+    Per default, send hints about local items only since those are shown ingame anyways.
+
+    Off: Don't send any hints
+
+    Local: Send hints only for items that are available to unlock in Anno 1800.
+
+    Global: Send hints for all items that are visible, but not unlocked.
+    """
+    display_name = "Hint Mode"
+    option_off = 0
+    option_local = 1
+    option_global = 2
+    default = 1
+
+
 class ExcludeRecipeUnlocksOption(Toggle):
     """
     Prevents all special recipe unlocks from having progressive items. 'Special' recipe unlocks are recipes that don't
@@ -246,6 +266,7 @@ class A1800Options(PerGameCommonOptions):
     enabled_dlcs: EnabledDLCsOption
     enable_docklands_logic: EnableDocklandsLogicOption
     enable_progressive_unlocks: EnableProgressiveUnlocksOption
+    hint_mode: HintModeOption
     exclude_recipe_unlocks: ExcludeRecipeUnlocksOption
     start_with_flagship: StartWithFlagshipOption
     start_with_trading_post: StartWithTradingPostOption
@@ -280,6 +301,7 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         "enabled_dlcs": [],
         "enable_docklands_logic": False,
         "enable_progressive_unlocks": True,
+        "hint_mode": 1,
         "exclude_recipe_unlocks": False,
         "start_with_flagship": False,
         "start_with_trading_post": True,
@@ -323,6 +345,7 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         ],
         "enable_docklands_logic": False,
         "enable_progressive_unlocks": True,
+        "hint_mode": 1,
         "exclude_recipe_unlocks": True,
         "start_with_flagship": True,
         "start_with_trading_post": True,
@@ -367,6 +390,7 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         ],
         "enable_docklands_logic": False,
         "enable_progressive_unlocks": True,
+        "hint_mode": 1,
         "exclude_recipe_unlocks": False,
         "start_with_flagship": False,
         "start_with_trading_post": True,
@@ -411,6 +435,7 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         ],
         "enable_docklands_logic": False,
         "enable_progressive_unlocks": True,
+        "hint_mode": 1,
         "exclude_recipe_unlocks": False,
         "start_with_flagship": False,
         "start_with_trading_post": True,

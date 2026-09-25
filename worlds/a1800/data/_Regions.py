@@ -49,9 +49,11 @@ class A1800Region:
     entry_requirements: set[A1800Requirement] = field(default_factory=lambda: set())
     build_requirements: set[A1800Requirement] = field(default_factory=lambda: set())
     requirements: set[A1800Requirement] = field(default_factory=lambda: set())
+    trading_post_guids: list[int] = field(default_factory=lambda: list())
 
     def __post_init__(self) -> None:
         self.requirements = self.entry_requirements | self.build_requirements
+        self.trading_post_guids = next(UNLOCKS.find_unlocks("Small Trading Post", self.region)).guids
 
 
 class _Regions:

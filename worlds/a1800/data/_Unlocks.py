@@ -40,6 +40,7 @@ class A1800Unlock:
     is_excluded: bool = False
     progressive_group: str = ""
     progressive_tier: int = 0
+    hints: list[tuple[str, Region]]
     ap_code: Optional[int] = None
     ap_item_name: str = ""
     ap_location_name: str = ""
@@ -122,6 +123,8 @@ class A1800Unlock:
 
             self.progressive_ap_item_name = create_unlock_name(
                 self.progressive_group, self.region, prefix="Progressive ")
+
+        self.hints = []
 
     def post_init(self) -> None:
         if self.type_ == UnlockType.UNLOCK:
@@ -1262,7 +1265,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                 consumption={"Canteen", "Pemmican", "Oil Lamps", "Fire Protection", "Healthcare"},
                 luxury={"Sleeping Bags", "Schnapps"},
                 lifestyle={"Bread", "Tallow", "Local Mail", "Regional Mail", "Overseas Mail", "Hot Sauce"},
-                progressive_group="Residence", progressive_tier=1),
+                progressive_group="Shelter", progressive_tier=1),
 
     # Building, Factory, Residence, Upgrade
     A1800Unlock("Technician Shelter", DLC.THE_PASSAGE, Region.AR, 112652, (112652, [], 112647),
@@ -1272,7 +1275,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                              "Canned Food", "Husky Sleds", "Fire Protection", "Healthcare"},
                 luxury={"Sleeping Bags", "Schnapps", "Parkas", "Coffee"},
                 lifestyle={"Rum", "Dynamite", "Local Mail", "Regional Mail", "Overseas Mail", "Mezcal", "Motor"},
-                progressive_group="Residence", progressive_tier=2),
+                progressive_group="Shelter", progressive_tier=2),
 
     # Factory
     # No arctic gas input to avoid cyclic dependency - Nate will always give you some if you have none and no Boreas
@@ -3118,6 +3121,7 @@ class _Unlocks:
             a1800_unlock.post_init()
             self._add_guids_to_condition(a1800_unlock.condition)
             self._regenerate_condition_ap_location_name(a1800_unlock.condition)
+            self._add_hints(a1800_unlock)
 
         self._a1800_unlock_locations = sorted(
             [unlock for unlock in self._a1800_unlocks if not UnlockType.META in unlock.type_],
@@ -3229,6 +3233,23 @@ class _Unlocks:
             condition.ap_location_name = ""
             condition.post_init()
 
+    def _add_hints(self, unlock: A1800Unlock) -> None:
+        if UnlockType.BUILDING in unlock.type_:
+            for chain_name, region in unlock.unlock_chain:
+                chain = next(CHAINS.find_chains(chain_name, unlock.name, unlock.region, region))
+                for name, region in chain.elements:
+                    if chain_unlock := next((chain_unlock for chain_unlock in self._a1800_unlocks
+                                            if chain_unlock.name == name and region in chain_unlock.region), None):
+                        if (hint_ap_item_name := chain_unlock.progressive_ap_item_name or chain_unlock.ap_item_name) and hint_ap_item_name != unlock.ap_item_name:
+                            unlock.hints.append((hint_ap_item_name, region))
+
+        if UnlockType.UPGRADE in unlock.type_:
+            previous_unlock = next((previous_unlock for previous_unlock in self._a1800_unlocks
+                                    if previous_unlock.name == unlock.previous_building and unlock.region in previous_unlock.region), None)
+            hint_ap_item_name = unlock.progressive_ap_item_name or unlock.ap_item_name
+            if previous_unlock and hint_ap_item_name:
+                previous_unlock.hints.append((hint_ap_item_name, unlock.region))
+
     def _clean_dlc_condition(self, enabled_dlcs: DLC, condition: TriggerCondition) -> TriggerCondition:
         if condition.type_ in [TriggerConditionType.ALL, TriggerConditionType.LINEAR]:
             condition.conditions = [clean_condition for subcondition in condition.conditions for clean_condition in [
@@ -3333,6 +3354,10 @@ class _Unlocks:
                 name: (ap_code, unlocks) for name, (ap_code, unlocks) in self._a1800_progressive_groups.items() if len(unlocks) > 1
             }
         else:
+            for _, (_, unlocks) in self._a1800_progressive_groups.items():
+                for unlock in unlocks:
+                    unlock.progressive_ap_code = None
+                    unlock.progressive_ap_item_name = ""
             self._a1800_progressive_groups = {}
 
         if parsed_options.start_with_flagship:

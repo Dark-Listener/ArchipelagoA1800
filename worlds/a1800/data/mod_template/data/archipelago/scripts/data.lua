@@ -1,8 +1,14 @@
 g_location_data_by_guid = {
-{% for location_guid, (_, is_unlocked) in location_data_by_guid.items() %}
+{% for location_guid, (_, _, is_unlocked) in location_data_by_guid.items() %}
     { {{ location_guid }}, {{ is_unlocked }} },
 {% endfor %}
     { {{ victory_guid }}, False },
+}
+
+g_settled_region_by_guid = {
+{% for region_settled_guid, (_, is_settled) in settled_region_by_guid.items() %}
+    { {{ region_settled_guid }}, {{ is_settled }} },
+{% endfor %}
 }
 
 g_guids_by_ap_code = {

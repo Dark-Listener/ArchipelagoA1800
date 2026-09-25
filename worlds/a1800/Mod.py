@@ -13,8 +13,8 @@ from BaseClasses import Location
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .data import A1800_DATA, DLC, Region, Session, Trigger, TriggerAction, TriggerActionType, TriggerCondition, TriggerConditionType
-from .Items import A1800Item
+from .data import A1800_DATA, DLC, ParsedOptions, Region, Session, Trigger, TriggerAction, TriggerActionType, TriggerCondition, TriggerConditionType
+from .Items import A1800Item, ITEMS
 from .Locations import A1800Location
 
 if TYPE_CHECKING:
@@ -198,6 +198,8 @@ def generate_mod(world: "A1800World", output_directory: str):
     texts_taiwanese_template = template_env.get_template("data/config/gui/texts_taiwanese.xml")
     set_location_unlocked_template = template_env.get_template(
         "data/archipelago/scripts/set_location_unlocked/set_location_unlocked.py")
+    set_region_settled_template = template_env.get_template(
+        "data/archipelago/scripts/set_region_settled/set_region_settled.py")
 
     # get data for templates
     mod_name = f"AP-{multiworld.seed_name}-P{player}-{multiworld.get_file_safe_player_name(player)}"
@@ -287,6 +289,32 @@ def generate_mod(world: "A1800World", output_directory: str):
         for name, (ap_code, unlocks) in A1800_DATA.get_progressive_groups().items()
     }
 
+    settled_unlocks = {
+        "Settled: Old World": A1800_DATA.get_next_anno_guid(),
+        "Settled: New World": A1800_DATA.get_next_anno_guid(),
+        "Settled: The Arctic": A1800_DATA.get_next_anno_guid(),
+        "Settled: Enbesa": A1800_DATA.get_next_anno_guid(),
+    }
+
+    settled_region_by_guid = {
+        settled_unlocks["Settled: Old World"]: (Region.OW.value, False),
+        settled_unlocks["Settled: New World"]: (Region.NW.value, False),
+        settled_unlocks["Settled: The Arctic"]: (Region.AR.value, False),
+        settled_unlocks["Settled: Enbesa"]: (Region.EN.value, False)
+    }
+
+    settled_triggers = [
+        Trigger(
+            TriggerCondition.ANY(
+                *[TriggerCondition.COUNTER("", region.region, 1, guid=guid) for guid in region.trading_post_guids],
+                ap_location_name=f"Settle {region.region.name}"
+            ),
+            TriggerAction.UNLOCK([settled_guid]),
+            guid=A1800_DATA.get_next_anno_guid()
+        )
+        for region, settled_guid in zip(A1800_DATA.get_regions(), settled_unlocks.values())
+    ]
+
     incident_feature_guids = {
         "FireIncidents_SA": A1800_DATA.get_next_anno_guid(),
         "RiotIncidents_SA": A1800_DATA.get_next_anno_guid(),
@@ -358,8 +386,49 @@ def generate_mod(world: "A1800World", output_directory: str):
         guid=A1800_DATA.get_next_anno_guid()
     )
 
-    location_data_by_guid = {location.data.guid: (location.address, False)
-                             for location in locations if location.data.guid}
+    def get_hints(hints: list[tuple[str, Region]], player: int) -> list[tuple[tuple[int, int], int]]:
+        hint_mode = A1800_DATA.get_parsed_options().hint_mode
+        if hint_mode != ParsedOptions.HintMode.OFF:
+            return [
+                ((hint_location.address, hint_location.player), hint_region.value)
+                for hint_ap_item_name, hint_region in hints
+                for hint_location in multiworld.find_item_locations(hint_ap_item_name, player)
+                if hint_location.address and (hint_mode == ParsedOptions.HintMode.GLOBAL or hint_location.player == player)
+            ]
+        return []
+
+    def get_location_hints(location: Location, player: int) -> list[tuple[tuple[int, int], int]]:
+        if a1800_item := _get_local_item(location, player):
+            return get_hints(a1800_item.data.hints, player)
+        else:
+            return []
+
+    location_data_by_guid = {location.data.guid: (
+        location.address,
+        get_location_hints(location, player),
+        False
+    ) for location in locations if location.data.guid and location.address}
+
+    fixed_hints = [
+        hint for a1800_item_data in ITEMS.start_item_data_list for hint in get_hints(a1800_item_data.hints, player)
+    ] + get_hints([
+        ("OW: Dirt Road", Region.OW),
+        ("NW: Dirt Road", Region.NW),
+        ("AR: Road", Region.AR),
+        ("EN: Desert Road", Region.EN),
+        ("EN: Water Pump", Region.EN),
+        ("EN: Canal", Region.EN),
+    ], player) + (get_hints([
+        ("Progressive OW: Residence", Region.OW),
+        ("Progressive NW: Residence", Region.NW),
+        ("Progressive AR: Shelter", Region.AR),
+        ("Progressive EN: Residence", Region.EN),
+    ], player) if A1800_DATA.get_parsed_options().enable_progressive_unlocks else get_hints([
+        ("OW: Farmer Residence", Region.OW),
+        ("NW: Jornalero Residence", Region.NW),
+        ("AR: Explorer Shelter", Region.AR),
+        ("EN: Shepherd Residence", Region.EN),
+    ], player))
 
     guids_by_ap_code = {
         unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in A1800_DATA.get_unlocks() if unlock.ap_code
@@ -419,12 +488,14 @@ def generate_mod(world: "A1800World", output_directory: str):
         "meta_products_by_name": meta_products_by_name,
         "progressive_triggers_by_name": progressive_triggers_by_name,
         "hacienda_quarter_triggers": hacienda_quarter_triggers,
+        "settled_triggers": settled_triggers,
         "start_trigger": start_trigger,
         "palace_ministry_unhide_trigger": palace_ministry_unhide_trigger,
         "victory_quest": victory_quest,
         "victory_quest_pool": victory_quest_pool,
         "victory_trigger": victory_trigger,
         "release_trigger": release_trigger,
+        "settled_unlocks": settled_unlocks,
         "incident_feature_guids": incident_feature_guids,
         "expedition_unlocks": expedition_unlocks,
         "hacienda_quarter_unlocks": A1800_DATA.get_hacienda_quarter_unlocks(),
@@ -457,6 +528,8 @@ def generate_mod(world: "A1800World", output_directory: str):
         "guids_by_ap_code": guids_by_ap_code,
         "notifications_by_ap_code": notifications_by_ap_code,
         "meta_products_by_name": meta_products_by_name,
+        "settled_region_by_guid": settled_region_by_guid,
+        "fixed_hints": fixed_hints,
     }
 
     zipfile_path = join(output_directory, versioned_mod_name + ".zip")
@@ -504,6 +577,13 @@ def generate_mod(world: "A1800World", output_directory: str):
         _get_writing_task(texts_spanish_template, text_data),
         _get_writing_task(texts_taiwanese_template, text_data),
     ]
+
+    for region_settled_guid in settled_region_by_guid.keys():
+        set_region_settled_data: dict[str, Any] = {
+            "region_settled_guid": region_settled_guid,
+        }
+        mod.writing_tasks.append(lambda region_settled_guid=region_settled_guid, set_region_settled_data=set_region_settled_data: (
+            f"data/archipelago/scripts/set_region_settled/set_region_settled_{region_settled_guid}.py", set_region_settled_template.render(**set_region_settled_data)))
 
     for location_guid in location_data_by_guid.keys():
         set_location_unlocked_data: dict[str, Any] = {

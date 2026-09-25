@@ -105,6 +105,8 @@ async def a1800_game_watcher(ctx: A1800Context):
                 else:
                     locations_checked: set[int] = {int(location_id)
                                                    for location_id in data.get("locations_checked", [])}
+                    hints_found: set[tuple[int, int]] = {(int(location_id), int(player))
+                                                         for (location_id, player) in data.get("hints_found", [])}
                     victory = data.get("victory")
 
                     if not ctx.finished_game and victory:
@@ -114,6 +116,15 @@ async def a1800_game_watcher(ctx: A1800Context):
                     if ctx.locations_checked != locations_checked:
                         ctx.locations_checked = locations_checked
                         await ctx.check_locations(ctx.locations_checked)
+
+                    if hints_found:
+                        hints_by_player: dict[int, list[int]] = {}
+                        for hint_location, hint_player in hints_found:
+                            if not hint_player in hints_by_player:
+                                hints_by_player[hint_player] = []
+                            if (hint_player != ctx.slot) or (hint_location not in ctx.locations_checked):
+                                hints_by_player[hint_player].append(hint_location)
+                        await ctx.send_msgs([{"cmd": "CreateHints", "locations": locations, "player": hint_player} for hint_player, locations in hints_by_player.items()])
 
             if ctx.rcon_mmap_client and (not ctx.rcon_mmap_client.connected or not ctx.auth) and time.perf_counter() > next_connect:
                 ctx.rcon_mmap_client.connect()

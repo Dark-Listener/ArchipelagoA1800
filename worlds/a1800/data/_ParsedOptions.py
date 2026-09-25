@@ -17,6 +17,11 @@ class ParsedOptions:
     required_skyscrapers: dict[str, int]
     required_monuments: list[tuple[str, Region]]
 
+    class HintMode(Enum):
+        OFF = 0
+        LOCAL = 1
+        GLOBAL = 2
+
     class IncidentDifficulty(Enum):
         EASY = 0
         NORMAL = 1
@@ -44,6 +49,8 @@ class ParsedOptions:
         self.enable_docklands_logic = bool(options.enable_docklands_logic)
 
         self.enable_progressive_unlocks = bool(options.enable_progressive_unlocks)
+
+        self.hint_mode = ParsedOptions.HintMode(int(options.hint_mode.value))
 
         self.exclude_recipe_unlocks = bool(options.exclude_recipe_unlocks)
 

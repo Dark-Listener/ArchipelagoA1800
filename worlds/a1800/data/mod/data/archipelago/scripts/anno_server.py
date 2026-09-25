@@ -55,18 +55,30 @@ def _handle_ap_rcon_info(server: RCONMMapServer, packet: RCONPacket, _body: str)
 def _handle_ap_sync(server: RCONMMapServer, packet: RCONPacket, _body: str) -> None:
     assert isinstance(server, AnnoServer)
 
+    settled_regions = 0
+    for (region, is_settled) in server.env["g_settled_region_by_guid"].values():
+        if is_settled:
+            settled_regions |= region
+
     locations_checked = set()  # type: set[int] # pyright: ignore[reportTypeCommentUsage]
+    hints_found = set()  # type: set[tuple[int, int]] # pyright: ignore[reportTypeCommentUsage]
+
+    hints_found |= {
+        hint for hint, hint_region in server.env["g_fixed_hints"] if hint_region & settled_regions
+    }
 
     server.env["console"].startScript(str(server.script_path / "ap_sync.lua"))
 
-    for _, (ap_code, is_unlocked) in server.env["g_location_data_by_guid"].items():
+    for (ap_code, hints, is_unlocked) in server.env["g_location_data_by_guid"].values():
         if is_unlocked:
             locations_checked.add(ap_code)
+            hints_found |= {hint for hint, hint_region in hints if hint_region & settled_regions}
 
     data = {
         "slot_name": server.slot_name,
         "seed_name": server.seed_name,
         "locations_checked": list(locations_checked),
+        "hints_found": list(hints_found),
         "victory": server.env["g_victory"],
     }  # type: dict[str, Any] # pyright: ignore[reportTypeCommentUsage]
 
@@ -92,8 +104,8 @@ def _handle_ap_receive_item(server: RCONMMapServer, _packet: RCONPacket, body: s
 
 
 @contextmanager
-def open_anno_server(env: Dict[str, Any], file_path: Path, script_path: Path, slot_name: str, seed_name: str) -> Generator[AnnoServer, Any, None]:
-    anno_server = AnnoServer(env, file_path, script_path, slot_name, seed_name)
+def open_anno_server(env: Dict[str, Any], file_path: Path, script_path: Path, slot_name: str, seed_name: str, mod_version: str) -> Generator[AnnoServer, Any, None]:
+    anno_server = AnnoServer(env, file_path, script_path, slot_name, seed_name, mod_version)
     try:
         yield anno_server
     finally:

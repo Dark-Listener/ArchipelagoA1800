@@ -162,7 +162,7 @@ _a1800_unlocks: list[A1800Unlock] = [
     ################################################################################################################
     # Meta
     A1800Unlock("Starting Goods", DLC.VANILLA, Region.OW,  # Resolves circular dependency at game start
-                output="Timber", type_=UnlockType.META | UnlockType.FACTORY),
+                output={"Road Network", "Wood", "Timber", "Market", "Farmers"}, type_=UnlockType.META | UnlockType.FACTORY),
 
     A1800Unlock("Trading Post Materials and Seafaring", DLC.VANILLA, Region.OW | Region.NW,
                 input={"Timber", "Steel Beams", "Seafaring"}, output="Settling",

@@ -54,13 +54,17 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
             is_progressive,
             False)
     elif obj.is_progression:
+        event_locations = [event_location.ap_location_name for event_location_name in obj.locations for event_location
+                           in A1800_DATA.find_event_locations(event_location_name, obj.name, obj.region)]
+        is_starting_item: bool = any(
+            map(lambda ap_location_name: "Starting Goods" in ap_location_name, event_locations))
         return A1800ItemData(
             obj.ap_item_name,
             IC.progression,
             obj.dlc,
+            is_starting_item=is_starting_item,
             is_event=True,
-            event_locations=[event_location.ap_location_name for event_location_name in obj.locations for event_location
-                             in A1800_DATA.find_event_locations(event_location_name, obj.name, obj.region)]
+            event_locations=event_locations
         )
     else:
         return None

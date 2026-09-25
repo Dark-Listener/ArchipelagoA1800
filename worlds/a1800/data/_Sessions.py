@@ -13,7 +13,11 @@ from ._Unlocks import UNLOCKS
 _a1800_sessions: dict[Session, tuple[DLC, set[tuple[str, Region]]]] = {
     Session.OW: (DLC.VANILLA, set()),
     Session.NW: (DLC.VANILLA, set()),
-    Session.CT: (DLC.SUNKEN_TREASURES, {("Expedition: Cape Trelawney", ALL_REGIONS)}),
+    Session.CT: (DLC.SUNKEN_TREASURES, {
+        ("Expedition: Cape Trelawney", ALL_REGIONS),
+        ("Seafaring", ALL_REGIONS),
+        ("Expeditions: Level 1", ALL_REGIONS),
+    }),
     Session.AR: (DLC.THE_PASSAGE, set()),
     Session.EN: (DLC.LAND_OF_LIONS, set()),
 }
@@ -42,6 +46,17 @@ class _Sessions:
             session: A1800Session(session, dlc, {A1800Requirement(name, region) for name, region in requirements})
             for session, (dlc, requirements) in _a1800_sessions.items() if dlc in parsed_options.enabled_dlcs
         }
+
+        if Session.CT in self._a1800_sessions:
+            unlock = None
+            if parsed_options.enforce_cape_trelawney == ParsedOptions.EnforceCapeTrelawney.BY_ARTISANS:
+                unlock = next(UNLOCKS.find_unlocks("Artisan Residence", Region.OW))
+            if parsed_options.enforce_cape_trelawney == ParsedOptions.EnforceCapeTrelawney.BY_ENGINEERS:
+                unlock = next(UNLOCKS.find_unlocks("Engineer Residence", Region.OW))
+            if parsed_options.enforce_cape_trelawney == ParsedOptions.EnforceCapeTrelawney.BY_INVESTORS:
+                unlock = next(UNLOCKS.find_unlocks("Investor Residence", Region.OW))
+            if unlock:
+                unlock.cost |= {requirement.name for requirement in self._a1800_sessions[Session.CT].requirements}
 
         for unlock in UNLOCKS.get_unlocks():
             unlock.condition = self._clean_dlc_condition(parsed_options.enabled_dlcs, unlock.condition)

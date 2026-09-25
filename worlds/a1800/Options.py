@@ -35,6 +35,27 @@ class EnableDocklandsLogicOption(Toggle):
     display_name = "Enable Docklands Logic"
 
 
+class EnforceCapeTrelawneyOption(Choice):
+    """
+    Select whether Cape Trelawney should be enforced at a certain point in the game or not.
+    Has no effect unless the Sunken Treasures DLC is enabled.
+
+    Off: Cape Trelawney is fully optional. You might never reach it.
+
+    By Artisans: The Cape Trelawney expedition will be completable before you require artisans.
+
+    By Engineers: The Cape Trelawney expedition will be completable before you require engineers.
+
+    By Investors: The Cape Trelawney expedition will be completable before you require investors.
+    """
+    display_name = "Enforce Cape Trelawney"
+    option_off = 0
+    option_by_artisans = 1
+    option_by_engineers = 2
+    option_by_investors = 3
+    default = 0
+
+
 class EnableProgressiveUnlocksOption(DefaultOnToggle):
     """
     Per default, all upgradable buildings and monuments are found as progressive unlocks, meaning there are multiple of
@@ -266,6 +287,7 @@ class A1800Options(PerGameCommonOptions):
     # Game Options (=> ungrouped)
     enabled_dlcs: EnabledDLCsOption
     enable_docklands_logic: EnableDocklandsLogicOption
+    enforce_cape_trelawney: EnforceCapeTrelawneyOption
     enable_progressive_unlocks: EnableProgressiveUnlocksOption
     hint_mode: HintModeOption
     exclude_recipe_unlocks: ExcludeRecipeUnlocksOption
@@ -301,6 +323,7 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
     "Vanilla": {
         "enabled_dlcs": [],
         "enable_docklands_logic": False,
+        "enforce_cape_trelawney": 0,
         "enable_progressive_unlocks": True,
         "hint_mode": 1,
         "exclude_recipe_unlocks": False,
@@ -345,6 +368,7 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
             "sunken-treasures", "botanica", "seat-of-power", "bright-harvest", "seeds-of-change", "empire-of-the-skies"
         ],
         "enable_docklands_logic": False,
+        "enforce_cape_trelawney": 0,
         "enable_progressive_unlocks": True,
         "hint_mode": 1,
         "exclude_recipe_unlocks": True,
@@ -390,6 +414,7 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
             "tourist-season", "the-high-life", "seeds-of-change", "empire-of-the-skies", "new-world-rising"
         ],
         "enable_docklands_logic": False,
+        "enforce_cape_trelawney": 0,
         "enable_progressive_unlocks": True,
         "hint_mode": 1,
         "exclude_recipe_unlocks": False,
@@ -435,6 +460,7 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
             "docklands", "tourist-season", "the-high-life", "seeds-of-change", "empire-of-the-skies", "new-world-rising"
         ],
         "enable_docklands_logic": False,
+        "enforce_cape_trelawney": 0,
         "enable_progressive_unlocks": True,
         "hint_mode": 1,
         "exclude_recipe_unlocks": False,

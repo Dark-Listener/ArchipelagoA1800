@@ -17,6 +17,12 @@ class ParsedOptions:
     required_skyscrapers: dict[str, int]
     required_monuments: list[tuple[str, Region]]
 
+    class EnforceCapeTrelawney(Enum):
+        OFF = 0
+        BY_ARTISANS = 1
+        BY_ENGINEERS = 2
+        BY_INVESTORS = 3
+
     class HintMode(Enum):
         OFF = 0
         LOCAL = 1
@@ -47,6 +53,8 @@ class ParsedOptions:
             ))
 
         self.enable_docklands_logic = bool(options.enable_docklands_logic)
+
+        self.enforce_cape_trelawney = ParsedOptions.EnforceCapeTrelawney(int(options.enforce_cape_trelawney.value))
 
         self.enable_progressive_unlocks = bool(options.enable_progressive_unlocks)
 

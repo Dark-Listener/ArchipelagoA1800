@@ -77,6 +77,7 @@ def _handle_ap_sync(server: RCONMMapServer, packet: RCONPacket, _body: str) -> N
     data = {
         "slot_name": server.slot_name,
         "seed_name": server.seed_name,
+        "mod_version": server.mod_version,
         "locations_checked": list(locations_checked),
         "hints_found": list(hints_found),
         "victory": server.env["g_victory"],

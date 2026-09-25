@@ -14,43 +14,87 @@ from NetUtils import ClientStatus, NetworkItem
 from settings import get_settings
 from Utils import Version, __version__, tuplize_version
 
+from . import A1800World
 from .Settings import A1800Settings
 from .rcon.rcon_mmap_client import RCONMMapClient, RCONTimeout
 
-
-CLIENT_VERSION = Version(1, 3, 1)
+VERSION_COMPATIBILITY = (Version(1, 3, 1), A1800World.world_version)
 
 
 class A1800Context(CommonContext):
     command_processor = ClientCommandProcessor
     game = "Anno 1800"
     items_handling = 0b111  # full remote
-
-    # updated by spinup server
     mod_version: Version = Version(0, 0, 0)
 
-    def __init__(self, server_address: Optional[str], password: Optional[str], mmap_file_path: Path):
+    def __init__(self, server_address: Optional[str], password: Optional[str], a1800_mods_folder_path: Path):
         super(A1800Context, self).__init__(server_address, password)
         self.send_index: int = 0
-        self.rcon_mmap_client: Optional[RCONMMapClient] = None
-        self.mmap_file_path = mmap_file_path
-        self.awaiting_bridge = False
-        self.write_data_path = None
+        self.rcon_mmap_client: RCONMMapClient = RCONMMapClient()
+        self.a1800_mods_folder_path = a1800_mods_folder_path
+
+    async def game_auth(self) -> bool:
+        if not self.rcon_mmap_client.connected:
+            try:
+                self.rcon_mmap_client.connect()
+            except FileNotFoundError:
+                logger.warning(f"Could not find communication file: {self.rcon_mmap_client.file_path}")
+                logger.warning("Please create/load into an Anno 1800 savegame to create it and unpause to connect.")
+                self.auth = None
+                return False
+        if not self.rcon_mmap_client.connected:
+            self.auth = None
+            logger.warning(
+                "Couldn't connect to Anno 1800. Please create/load into an Anno 1800 savegame and unpause to connect.")
+            return False
+
+        if self.auth:
+            return True
+
+        try:
+            info = json.loads(self.rcon_mmap_client.send_command("/ap-rcon-info") or "{}")
+        except RCONTimeout:
+            logger.warning(
+                "Couldn't retrieve session info. Please create/load into an Anno 1800 savegame and unpause to connect.")
+            self.rcon_mmap_client.close()
+            self.auth = None
+            return False
+
+        if not self.rcon_mmap_client.connected or not info:
+            logger.warning(
+                "Couldn't retrieve session info. Please create/load into an Anno 1800 savegame and unpause to connect.")
+            self.rcon_mmap_client.close()
+            self.auth = None
+            return False
+
+        self.auth = info.get("slot_name", None)
+        self.seed_name = info.get("seed_name", None)
+        self.mod_version = tuplize_version(info.get("mod_version", "0.0.0"))
+
+        if not self.auth:
+            logger.warning(
+                "Couldn't retrieve session info. Please create/load into an Anno 1800 savegame and unpause to connect.")
+            self.rcon_mmap_client.close()
+            self.auth = None
+            return False
+
+        if not (VERSION_COMPATIBILITY[0] <= self.mod_version <= VERSION_COMPATIBILITY[1]):
+            logger.warning(
+                f"Connected Mod Version {self.mod_version.as_simple_string()} is not compatible with the current client version {A1800World.world_version.as_simple_string()}.")
+            logger.warning(
+                f"Current client is compatible with mod versions {VERSION_COMPATIBILITY[0].as_simple_string()} - {VERSION_COMPATIBILITY[1].as_simple_string()}")
+            self.rcon_mmap_client.close()
+            self.auth = None
+            return False
+
+        return True
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
             await super(A1800Context, self).server_auth(password_requested)
 
         if not self.auth:
-            unkown_identity_exception = Exception("Cannot connect to a server with unknown own identity, "
-                                                  "please connect to Anno 1800 before connecting to the server.")
-            if self.rcon_mmap_client and self.rcon_mmap_client.connected:
-                try:
-                    await get_info(self)  # retrieve current auth code
-                except TimeoutError:
-                    raise unkown_identity_exception
-            else:
-                raise unkown_identity_exception
+            raise Exception("Please connect to Anno 1800 before connecting to the Archipelago server.")
 
         await self.send_connect()
 
@@ -79,29 +123,43 @@ class A1800Context(CommonContext):
 
 
 async def a1800_game_watcher(ctx: A1800Context):
-    next_bridge = time.perf_counter() + 1
+    next_sync = time.perf_counter() + 1
     next_connect = time.perf_counter()
     try:
         while not ctx.exit_event.is_set():
-            # TODO: restore on-demand refresh
-            if ctx.rcon_mmap_client and ctx.rcon_mmap_client.connected and ctx.auth and time.perf_counter() > next_bridge:
-                next_bridge = time.perf_counter() + 1
-                ctx.awaiting_bridge = False
+            await asyncio.sleep(0.1)
 
+            if not ctx.auth and time.perf_counter() > next_connect:
+                await ctx.game_auth()
+                if not ctx.auth:
+                    logger.info("Retrying in 5s...")
+                    next_connect = time.perf_counter() + 5
+                else:
+                    logger.info(f"Successfully reconnected to Anno 1800.")
+
+            if ctx.auth and time.perf_counter() > next_sync:
+                next_sync = time.perf_counter() + 1
+                data = None
                 try:
-                    data = json.loads(ctx.rcon_mmap_client.send_command("/ap-sync") or "")
+                    data = json.loads(ctx.rcon_mmap_client.send_command("/ap-sync") or "{}")
                 except RCONTimeout:
-                    ctx.rcon_mmap_client.connected = False
-                    logger.warning("Anno 1800 Client has lost connection. Did you pause or quit the game?")
-                    continue
+                    logger.warning(
+                        "Anno 1800 Client has lost connection. Did you open an expedition, pause or quit the game?")
+                    logger.info("Attempting to reconnect...")
+                    ctx.auth = None
                 if not ctx.rcon_mmap_client.connected or not ctx.auth:
                     pass  # not connected or auth failed, wait for new attempt
+                elif not data:
+                    logger.warning("No data received for /ap-sync. Something went very wrong!")
                 elif data.get("slot_name") != ctx.auth:
                     logger.warning(
-                        f"Connected World is not the expected one {data.get('slot_name', 'None')} != {ctx.auth}")
+                        f"Connected World is not the expected one: {data.get('slot_name', 'None')} != {ctx.auth}")
                 elif data.get("seed_name") != ctx.seed_name:
                     logger.warning(
-                        f"Connected Multiworld is not the expected one {data.get('seed_name', 'None')} != {ctx.seed_name}")
+                        f"Connected Multiworld is not the expected one: {data.get('seed_name', 'None')} != {ctx.seed_name}")
+                elif tuplize_version(data.get("mod_version", "0.0.0")) != ctx.mod_version:
+                    logger.warning(
+                        f"Connected Mod Version is not the expected one: {data.get('mod_version', '0.0.0')} != {ctx.mod_version.as_simple_string()}")
                 else:
                     locations_checked: set[int] = {int(location_id)
                                                    for location_id in data.get("locations_checked", [])}
@@ -126,110 +184,96 @@ async def a1800_game_watcher(ctx: A1800Context):
                                 hints_by_player[hint_player].append(hint_location)
                         await ctx.send_msgs([{"cmd": "CreateHints", "locations": locations, "player": hint_player} for hint_player, locations in hints_by_player.items()])
 
-            if ctx.rcon_mmap_client and (not ctx.rcon_mmap_client.connected or not ctx.auth) and time.perf_counter() > next_connect:
-                ctx.rcon_mmap_client.connect()
-                if ctx.rcon_mmap_client.connected:
-                    await get_info(ctx)
-                if not ctx.rcon_mmap_client.connected or not ctx.auth:
-                    ctx.rcon_mmap_client.connected = False
-                    logger.info(
-                        "Couldn't connect to Anno 1800. Please unpause and/or load into an Anno 1800 savegame to reconnect.")
-                    logger.info("Retrying in 5s...")
-                    next_connect = time.perf_counter() + 5
-                else:
-                    logger.info(f"Successfully reconnected to Anno 1800.")
-
-            await asyncio.sleep(0.1)
-
     except Exception as e:
         logging.exception(e)
-        logging.error("Aborted Anno 1800 Bridge")
+        logging.fatal("Aborted Anno 1800 Game Watcher")
+        ctx.exit_event.set()
 
 
 async def a1800_server_watcher(ctx: A1800Context):
     try:
         while not ctx.exit_event.is_set():
-            if ctx.rcon_mmap_client and ctx.rcon_mmap_client.connected and ctx.auth:
+            if ctx.auth:
                 while ctx.send_index < len(ctx.items_received):
                     transfer_item: NetworkItem = ctx.items_received[ctx.send_index]
                     item_id = transfer_item.item
                     try:
                         ctx.rcon_mmap_client.send_command(f"/ap-receive-item {item_id} {ctx.send_index}")
-                    except:
-                        ctx.rcon_mmap_client.connected = False
-                        logger.warning("Anno 1800 Client has lost connection. Did you pause or quit the game?")
+                    except RCONTimeout:
+                        logger.warning(
+                            "Anno 1800 Client has lost connection. Did you open an expedition, pause or quit the game?")
+                        logger.info("Attempting to reconnect...")
+                        ctx.auth = None
                         break
                     ctx.send_index += 1
             await asyncio.sleep(0.1)
 
-    except Exception:
+    except Exception as e:
+        logging.exception(e)
+        logging.fatal("Aborted Anno 1800 Server Watcher")
         ctx.exit_event.set()
 
-    finally:
-        if ctx.rcon_mmap_client:
-            ctx.rcon_mmap_client.close()
-            ctx.rcon_mmap_client = None
 
-
-async def get_info(ctx: A1800Context):
-    info = json.loads(ctx.rcon_mmap_client.send_command("/ap-rcon-info") or "")
-    ctx.auth = info.get("slot_name")
-    ctx.seed_name = info.get("seed_name")
-    ctx.mod_version = tuplize_version(info.get("mod_version", "0.0.0"))
-
-
-async def a1800_spinup(ctx: A1800Context) -> bool:
-    if ctx.mmap_file_path.name != "A1800APCommunication.dat":
-        logger.fatal(
-            f"Could not find an active Anno 1800 Archipelago mod in supplied mods folder: {ctx.mmap_file_path}")
-        logger.fatal("If this folder is incorrect, please correct it in your host.yaml under a1800_options.")
-        logger.fatal("If this folder is correct, you have not installed an Archipelago mod or it is inactive.")
-        logger.fatal("Please install one or activate it by removing the - in front.")
-        logger.fatal("Then restart this client.")
+async def a1800_init(ctx: A1800Context) -> bool:
+    if not ctx.a1800_mods_folder_path.exists():
+        ctx.gui_error(
+            "Fatal Error", f"Path {ctx.a1800_mods_folder_path} does not exist or could not be accessed.")
+        ctx.exit_event.set()
         return False
+    if not ctx.a1800_mods_folder_path.is_dir():
+        ctx.gui_error("Fatal Error", f"Path {ctx.a1800_mods_folder_path} is not a folder.")
+        ctx.exit_event.set()
+        return False
+
+    mods = [mod for mod in ctx.a1800_mods_folder_path.iterdir()]
+
+    mod_regex = re.compile(fr"AP-(\d*)-P(\d*)-(.*)-.*")
+    mod_path = None
+    for mod in mods:
+        if mod.name.startswith("-"):
+            continue
+        modinfo_path = (mod / "modinfo.json")
+        if modinfo_path.exists() and modinfo_path.is_file():
+            data = {}
+            with modinfo_path.open("r", encoding="utf-8") as modinfo_file:
+                data = json.load(modinfo_file)
+            if data and "ModID" in data and mod_regex.search(data["ModID"]):
+                mod_path = mod
+
+    if not mod_path:
+        logger.warning(
+            f"Could not find an enabled Anno 1800 Archipelago mod in mods folder {ctx.a1800_mods_folder_path}.")
+        logger.warning(
+            f"Make sure the mod folder name does not start with '-'.")
+        return False
+    else:
+        logger.info(f"Found Anno 1800 Archipelago mod at {mod_path}.")
+
+    ctx.rcon_mmap_client.file_path = mod_path / "A1800APCommunication.dat"
+    if ctx.rcon_mmap_client.file_path.exists() and ctx.rcon_mmap_client.file_path.is_file():
+        logger.info(f"Found communication file at {ctx.rcon_mmap_client.file_path}.")
 
     try:
         next_connect = time.perf_counter()
         while not ctx.auth and not ctx.exit_event.is_set():
-            if not ctx.rcon_mmap_client and time.perf_counter() > next_connect:
-                try:
-                    ctx.rcon_mmap_client = RCONMMapClient(ctx.mmap_file_path)
-                except FileNotFoundError:
-                    logger.info(f"FileNotFound: {ctx.mmap_file_path}")
-                    logger.info("Couldn't connect to Anno 1800. Please load into an Anno 1800 savegame and unpause to connect.")
+            if time.perf_counter() > next_connect:
+                await ctx.game_auth()
+                if not ctx.auth:
                     logger.info("Retrying in 5s...")
                     next_connect = time.perf_counter() + 5
-                    pass
-
-            if ctx.rcon_mmap_client and time.perf_counter() > next_connect:
-                ctx.rcon_mmap_client.connect()
-                if ctx.rcon_mmap_client.connected:
-                    await get_info(ctx)
-                if not ctx.rcon_mmap_client.connected or not ctx.auth:
-                    ctx.rcon_mmap_client.connected = False
-                    ctx.auth = None
-                    logger.info("Couldn't connect to Anno 1800. Please load into an Anno 1800 savegame and unpause to connect.")
-                    logger.info("Retrying in 5s...")
-                    next_connect = time.perf_counter() + 5
-                else:
-                    logger.info(f"Successfully connected to Anno 1800. Slot name is {ctx.auth}.")
-                    logger.info("Ready to connect to the Archipelago server via the Connect button or /connect.")
             await asyncio.sleep(0.1)
 
     except Exception as e:
         logger.exception(e, extra={"compact_gui": True})
-        msg = "Aborted Anno 1800 Bridge"
+        msg = "Aborted Anno 1800 Init"
         logger.error(msg)
         ctx.gui_error(msg, e)
         ctx.exit_event.set()
+        return False
 
-    else:
-        if ctx.auth:
-            logger.info(
-                f"Got World Information from Anno 1800 Archipelago Mod for seed {ctx.seed_name} in slot {ctx.auth}")
-        return True
-
-    return False
+    logger.info(f"Successfully connected to Anno 1800. Slot name is {ctx.auth}.")
+    logger.info("Ready to connect to the Archipelago server via the Connect button or /connect.")
+    return True
 
 
 async def main(make_context: Callable[[], A1800Context]):
@@ -240,8 +284,7 @@ async def main(make_context: Callable[[], A1800Context]):
         ctx.run_gui()
     ctx.run_cli()
 
-    a1800_server_task = asyncio.create_task(a1800_spinup(ctx), name="A1800Spinup")
-    successful_launch = await a1800_server_task
+    successful_launch = await asyncio.create_task(a1800_init(ctx), name="A1800Spinup")
     if successful_launch:
         a1800_server_watch_task = asyncio.create_task(a1800_server_watcher(ctx), name="A1800ServerWatcher")
         a1800_game_watch_task = asyncio.create_task(a1800_game_watcher(ctx), name="A1800GameWatcher")
@@ -252,6 +295,8 @@ async def main(make_context: Callable[[], A1800Context]):
         await a1800_game_watch_task
         await a1800_server_watch_task
 
+    if ctx.rcon_mmap_client:
+        ctx.rcon_mmap_client.close()
     await ctx.shutdown()
 
 
@@ -268,31 +313,6 @@ def launch():
 
     a1800_mods_folder_path = Path(settings.a1800_mods_folder_path)
 
-    if not a1800_mods_folder_path.exists():
-        print(f"Path {a1800_mods_folder_path} does not exist or could not be accessed.")
-    if not a1800_mods_folder_path.is_dir():
-        print(f"Path {a1800_mods_folder_path} is not a folder.")
-
-    mods = [mod for mod in a1800_mods_folder_path.iterdir()]
-
-    mod_regex = re.compile(fr"AP-(\d*)-P(\d*)-(.*)-.*")
-    mod_path = None
-    for mod in mods:
-        if mod.name.startswith("-"):
-            continue
-        modinfo_path = (mod / "modinfo.json")
-        if modinfo_path.exists() and modinfo_path.is_file():
-            data = {}
-            with modinfo_path.open("r", encoding="utf-8") as modinfo_file:
-                data = json.load(modinfo_file)
-            if data and "ModID" in data:
-                if mod_regex.search(data["ModID"]):
-                    mod_path = mod
-
-    if not mod_path:
-        print(f"Could not find Anno 1800 archipelago mod in mods folder.")
-
-    asyncio.run(main(lambda: A1800Context(args.connect, args.password,
-                mod_path / "A1800APCommunication.dat" if mod_path else a1800_mods_folder_path)))
+    asyncio.run(main(lambda: A1800Context(args.connect, args.password, a1800_mods_folder_path)))
 
     colorama.deinit()

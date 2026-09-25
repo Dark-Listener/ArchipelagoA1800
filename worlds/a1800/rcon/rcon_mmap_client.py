@@ -1,5 +1,6 @@
 from collections import deque
 from contextlib import contextmanager
+from io import BufferedRandom
 from mmap import mmap
 from pathlib import Path
 from time import perf_counter, sleep
@@ -16,13 +17,12 @@ class RCONTimeout(Exception):
 
 
 class RCONMMapClient:
-    def __init__(self, file_path: Path) -> None:
-        self._file_path = file_path
+    _file_obj: Optional[BufferedRandom] = None
+    _file_access: Optional[RCONMMapFileAccess] = None
+
+    def __init__(self, file_path: Path = Path()) -> None:
+        self.file_path = file_path
         self._id_seq = 0
-
-        self._file_obj = self._file_path.open(mode="rb+")
-
-        self._file_access = RCONMMapFileAccess(mmap(self._file_obj.fileno(), length=FILE_SIZE))
 
         self._send_queue: deque[RCONPacket] = deque()
 
@@ -38,14 +38,21 @@ class RCONMMapClient:
     def connect(self) -> bool:
         if self.connected:
             return True
-        else:
-            if self._file_obj.closed:
-                self._file_obj = self._file_path.open(mode="rb+")
 
-            if self._file_access.closed:
-                self._file_access = RCONMMapFileAccess(mmap(self._file_obj.fileno(), length=FILE_SIZE))
+        if self._file_access and not self._file_access.closed:
+            self._file_access.close()
 
+        if self._file_obj and not self._file_obj.closed:
+            self._file_obj.close()
+
+        self._file_obj = self.file_path.open(mode="rb+")
+        self._file_access = RCONMMapFileAccess(mmap(self._file_obj.fileno(), length=FILE_SIZE))
+
+        start = perf_counter()
+        while self._file_access.ring_buffer_client.has_request() and (perf_counter() - start < 1):
+            sleep(0.05)
         if self._file_access.ring_buffer_client.has_request():
+            self.close()
             return False
 
         while self._file_access.ring_buffer_server.get_request():
@@ -59,18 +66,23 @@ class RCONMMapClient:
         try:
             response = self._receive_packet()
         except RCONTimeout:
+            self.close()
             return False
 
         if response.type != RCONPacket.SERVERDATA_RESPONSE_VALUE or response.id != auth_id:
+            self.close()
             return False
 
         try:
             response = self._receive_packet()
         except RCONTimeout:
+            self.close()
             return False
 
         if response.type == RCONPacket.SERVERDATA_AUTH_RESPONSE and response.id == auth_id:
             self.connected = True
+        else:
+            self.close()
         return self.connected
 
     def _send_packet(self, send_id: int, send_type: int, send_body: str) -> None:
@@ -97,14 +109,15 @@ class RCONMMapClient:
         if not request:
             self.close()
             raise RCONTimeout()
-        p = RCONPacket.from_buffer(request)
-        return p
-        # return RCONPacket.from_buffer(request)
+        return RCONPacket.from_buffer(request)
 
     def send_command(self, command: str, timeout: int = 1) -> Optional[str]:
         return self.send_commands({"command": command}, timeout)["command"]
 
     def send_commands(self, commands: dict[T, str], timeout: int = 1) -> dict[T, Optional[str]]:
+        if not self.connected:
+            return {key: None for key in commands.keys()}
+
         id_map: dict[int, T] = {}
         check_id_map: dict[int, tuple[T, int]] = {}
         results: dict[T, Optional[str]] = {}
@@ -141,10 +154,10 @@ class RCONMMapClient:
     def close(self):
         self.connected = False
 
-        if not self._file_access.closed:
+        if self._file_access and not self._file_access.closed:
             self._file_access.close()
 
-        if not self._file_obj.closed:
+        if self._file_obj and not self._file_obj.closed:
             self._file_obj.close()
 
 

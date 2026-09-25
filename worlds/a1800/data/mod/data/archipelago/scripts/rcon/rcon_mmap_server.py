@@ -87,11 +87,6 @@ class RCONMMapServer:
         if not self._file_obj.closed:
             self._file_obj.close()
 
-        try:
-            self._file_path.unlink()
-        except FileNotFoundError:
-            pass
-
 
 def _handle_print(_server: RCONMMapServer, _packet: RCONPacket, body: str) -> None:
     if body:

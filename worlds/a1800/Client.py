@@ -98,17 +98,6 @@ class A1800Context(CommonContext):
 
         await self.send_connect()
 
-    def print_to_game(self, text: str):
-        self.rcon_mmap_client.send_command(f"/print {text}")
-
-    def on_package(self, cmd: str, args: dict):  # type: ignore
-        if cmd in {"Connected", "RoomUpdate"}:
-            # catch up sync anything that is already cleared.
-            # if "checked_locations" in args and args["checked_locations"]:
-            #     self.rcon_mmap_client.send_commands({item_name: f'/ap-receive-item {item_name}' for
-            #                                          item_name in args["checked_locations"]})
-            pass  # TODO ?
-
     def run_gui(self):
         from kvui import GameManager
 
@@ -175,14 +164,19 @@ async def a1800_game_watcher(ctx: A1800Context):
                         ctx.locations_checked = locations_checked
                         await ctx.check_locations(ctx.locations_checked)
 
-                    if hints_found:
+                    hints_sent = {(int(hint["location"]), int(hint["finding_player"]))
+                                  for hint in ctx.stored_data.get(f"_read_hints_{ctx.team}_{ctx.slot}", [])}
+
+                    if hints_found - hints_sent:
+                        new_hints = hints_found - hints_sent
                         hints_by_player: dict[int, list[int]] = {}
-                        for hint_location, hint_player in hints_found:
-                            if not hint_player in hints_by_player:
-                                hints_by_player[hint_player] = []
+                        for hint_location, hint_player in new_hints:
                             if (hint_player != ctx.slot) or (hint_location not in ctx.locations_checked):
+                                if not hint_player in hints_by_player:
+                                    hints_by_player[hint_player] = []
                                 hints_by_player[hint_player].append(hint_location)
-                        await ctx.send_msgs([{"cmd": "CreateHints", "locations": locations, "player": hint_player} for hint_player, locations in hints_by_player.items()])
+                        if hints_by_player:
+                            await ctx.send_msgs([{"cmd": "CreateHints", "locations": locations, "player": hint_player} for hint_player, locations in hints_by_player.items()])
 
     except Exception as e:
         logging.exception(e)

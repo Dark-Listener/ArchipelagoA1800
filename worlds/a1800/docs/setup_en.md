@@ -80,11 +80,6 @@ Alternatively, you can use the `Options Creator` from the Archipelago Launcher f
 it can't enter 0 as an amount in the lists for required population and required skyscrapers, so you have to remove the
 ones you don't want if you intend to change any from the default.
 
-#### Verifying Your Config File
-
-If you would like to validate your config file to make sure it works, you may do so on the
-[Yaml Validation Page](https://archipelago.gg/check)<!--(/check)-->.
-
 ### Installing the Archipelago Mod
 
 The host of the Archipelago multiworld should supply you with a zip file name `AP-%1-P%2-%3-%4.zip`, where `%1` is the
@@ -148,7 +143,8 @@ it to the folder you installed the mod to [above](#installing-the-archipelago-mo
 a protected folder, it may be necessary to start the client as administrator.
 
 If you ever need to change this path, you can find it in your Archipelago folder in the `host.yaml` file under
-`a1800_options`, named `a1800_mods_folder_path`.
+`a1800_options`, named `a1800_mods_folder_path`. Note that you must use normal slashes `/` in this path, backslashes do
+not work.
 
 Due to the way Anno 1800 simulates game ticks, the client will only be able to connect to the game while the game is
 running and not paused (neither gamespeed pause nor menu pause). If you pause, it will disconnect. This not a problem

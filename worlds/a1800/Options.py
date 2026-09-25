@@ -130,8 +130,9 @@ class AllowHaciendaResidencesUponUnlockOption(Toggle):
 
 class IncidentDifficultyOption(Choice):
     """
-    Select how challenging incidents (fire, riots, illness) should be. Can be combined indepoendently with the ingame
-    setting to adjust difficulty to your liking.
+    Select how challenging incidents (fire, riots, illness) should be. Can be combined independently with the ingame
+    setting to adjust difficulty to your liking. If you intend to disable incidents, use the brutal option below to
+    remove the responder buildings from logic alltogether.
 
     Easy: Incidents unlock once you have unlocked the responder building and had enough materials to build them in 
     storage at least once. They are guaranteed to be available before upgrading to the tier of population after the

@@ -18,7 +18,7 @@ from . import A1800World
 from .Settings import A1800Settings
 from .rcon.rcon_mmap_client import RCONMMapClient, RCONTimeout
 
-VERSION_COMPATIBILITY = (Version(1, 3, 1), A1800World.world_version)
+VERSION_COMPATIBILITY = (Version(1, 4, 0), A1800World.world_version)
 
 
 class A1800Context(CommonContext):

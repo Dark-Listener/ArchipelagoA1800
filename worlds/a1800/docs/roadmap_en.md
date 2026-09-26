@@ -7,8 +7,13 @@
 The following features are planned to be added at some point (in no specific order):
 
 * Create some filler items
+  * Money, luxury goods, ...?
+  * Extra locations to always include some filler items?
+* Create traps
+  * Incidents, money loss, rats, ...?
+  * Extra locations to always include some trap items?
 * More options for victory conditions
-* More options in general!
+* Expand mod support
 
 ## Potential Features | Considerations
 
@@ -23,11 +28,12 @@ The following features are being considered, but it's unclear whether they are r
   * Cosmetic DLC should probably be avoided due to issues with compatibility
 * Handle NPC shops and item pools
 * Improve spoiler logs
+* Create convenience groups for items
 * Improve notifications for progressive items?
 * If possible, try to not place items "later" than any chosen victory condition, e.g. don't require items at 600
 obreros if 1 was chosen as victory condition
-* Add traps (e.g. cause incidents)
 * Require Elders to be fully supplied before unlocking Scholars? Otherwise most of Enbesa can be skipped - see 128474
 * Instead of grouped triggers and unlockable assets, use feature unlocks?
 * Find a way to make Docklands DLC work meaningfully? Somehow all the unlocks would have to be redone
 * Fix incorrect recipe description hints?
+* Ingame tracker?

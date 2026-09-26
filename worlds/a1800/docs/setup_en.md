@@ -187,6 +187,8 @@ Find other mods mostly on [mod.io](https://mod.io/g/anno-1800), with some on nex
 always refer to the name on mod.io. Please make sure to use the exact versions listed here, otherwise compatibility
 is not guaranteed. Also note that many mods assume the player has all DLCs.
 
+If you have issues with the mods while using Archipelago, please don't contact the mod authors, contact me first.
+
 ### Supported Mods
 
 The following mods are supported, but must be enabled in the config yaml:

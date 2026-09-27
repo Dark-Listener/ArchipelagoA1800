@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from BaseClasses import Location, LocationProgressType, Region as APRegion
+from BaseClasses import Location, Region as APRegion
 
 from .data import A1800_DATA, Region, START_REGION, TriggerCondition, TriggerConditionType, UnlockType
 
@@ -13,7 +13,6 @@ class A1800LocationData:
     guid: Optional[int] = None
     condition: Optional[TriggerCondition] = None
     ap_code: Optional[int] = None
-    is_excluded: bool = False
     is_event: bool = False
 
 
@@ -24,7 +23,6 @@ class A1800Location(Location):
     def __init__(self, player: int, data: A1800LocationData, parent: APRegion):
         super().__init__(player, data.name, None if data.is_event else data.ap_code, parent)
         self.show_in_spoiler = not data.is_event
-        self.progress_type = LocationProgressType.EXCLUDED if data.is_excluded else LocationProgressType.DEFAULT
         self.data = data
 
 
@@ -41,7 +39,6 @@ class _Locations:
                 A1800_DATA.get_next_anno_guid(),
                 location.condition,
                 location.ap_code,
-                location.is_excluded,
                 False
             ) for location in A1800_DATA.get_unlock_locations()
             if not UnlockType.META in location.type_

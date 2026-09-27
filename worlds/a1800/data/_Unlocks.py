@@ -71,7 +71,6 @@ class A1800Unlock:
     type_: UnlockType
     ap_region: Region
     is_early: bool
-    is_excluded: bool = False
     progressive_group: str = ""
     progressive_tier: int = 0
     hints: list[tuple[str, Region]]
@@ -105,7 +104,6 @@ class A1800Unlock:
         ap_region: Region = NO_REGION,
         is_early: bool = False,
         is_useful: bool = False,
-        is_excluded: bool = False,
         progressive_group: str = "",
         progressive_tier: int = 0,
     ) -> None:
@@ -139,7 +137,6 @@ class A1800Unlock:
         self.ap_region = ap_region
         self.is_early = is_early
         self.is_useful = is_useful
-        self.is_excluded = is_excluded
         self.progressive_group = progressive_group
         self.progressive_tier = progressive_tier
         assert bool(progressive_group) == bool(
@@ -1913,7 +1910,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         ap_location_name="Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)"
                     )
                 ),
-                "Cafe (Blank)", "Tourists", {"Flour", "Tallow", "Cinnamon"}, "Cafe", is_excluded=True),
+                "Cafe (Blank)", "Tourists", {"Flour", "Tallow", "Cinnamon"}, "Cafe"),
 
     A1800Unlock("Orchard: Coconut Oil", {DLC.TOURIST_SEASON, DLC.THE_HIGH_LIFE, DLC.NEW_WORLD_RISING}, Region.NW,
                 [133004, 133005, 133010], [(133004, 137659, []), (134710, [], 134975), (137179, [
@@ -2093,7 +2090,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     )
                 ),
                 "The Iron Tower (Blank)", {"Tourists", "Electricity"},
-                {"Arctic Gas", "Potatoes", "Red Peppers", "Beef"}, "The Iron Tower", is_excluded=True),
+                {"Arctic Gas", "Potatoes", "Red Peppers", "Beef"}, "The Iron Tower"),
 
     ### Needs Land of Lions ###
     # Building, Factory
@@ -2132,7 +2129,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                     )
                 ),
                 "The Iron Tower (Blank)", {"Tourists", "Electricity"},
-                {"Lobster", "Sanga Cow", "Potatoes", "Spices"}, "The Iron Tower", is_excluded=True),
+                {"Lobster", "Sanga Cow", "Potatoes", "Spices"}, "The Iron Tower"),
 
     ################################################################################################################
     ### THE_HIGH_LIFE                                                                                            ###
@@ -2240,7 +2237,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         191120, {("Expeditions: Level 2", Region.OW)}),
                 ),
                 "Furniture Store (Blank)", {"Artisans", "Electricity"},
-                {"Cotton Fabric", "Cherry Wood", "Lacquer"}, {"Furniture Store", "Vanity Screens"}, is_excluded=True),
+                {"Cotton Fabric", "Cherry Wood", "Lacquer"}, {"Furniture Store", "Vanity Screens"}),
 
     A1800Unlock("Furniture Store: Writing Desks", DLC.THE_HIGH_LIFE, Region.OW,
                 [135120, RECIPE_GUIDS["Recipe: Writing Desks"][0]], [(135121, [], 137745), (137603, 137745, [])],
@@ -2430,7 +2427,7 @@ _a1800_unlocks: list[A1800Unlock] = [
                         193776, {("Expeditions: Level 3", Region.OW)}),
                 ),
                 "Drug Store (Blank)", {"Artisans", "Electricity"},
-                {"Whale Oil", "Coconut Oil", "Citrus"}, {"Drug Store", "Face Cream"}, is_excluded=True),
+                {"Whale Oil", "Coconut Oil", "Citrus"}, {"Drug Store", "Face Cream"}),
 
     ### Needs Land of Lions ###
     # Building, Factory

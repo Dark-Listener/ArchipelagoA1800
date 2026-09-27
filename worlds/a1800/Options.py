@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
-from Options import Choice, DefaultOnToggle, OptionCounter, OptionGroup, OptionList, PerGameCommonOptions, Toggle
+from Options import Choice, DefaultOnToggle, ExcludeLocations, OptionCounter, OptionGroup, OptionList, PerGameCommonOptions, Toggle
 
 ################
 # Game Options #
@@ -272,6 +272,21 @@ class EnableMineSlotUnificationOption(Toggle):
     """
     display_name = "Enable Mine Slot Unification (Taludas)"
 
+###########################
+# Item & Location Options #
+###########################
+
+
+class A1800ExcludeLocations(ExcludeLocations):
+    """Prevent these locations from having an important item."""
+    default = frozenset({
+        "(Build 1 OW: Cafe) THEN (Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)) (OW: Cafe: Palmier Biscuit)",
+        "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)) (OW: The Iron Tower: Age of Exploration)",
+        "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa) (OW: The Iron Tower: Homard Lit de Terroir)",
+        "(Build 1 OW: Furniture Store) THEN (Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)) (OW: Furniture Store: Vanity Screens)",
+        "(Build 1 OW: Drug Store) THEN (Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)) (OW: Drug Store: Face Cream)",
+    })
+
 
 @dataclass
 class A1800Options(PerGameCommonOptions):
@@ -296,6 +311,9 @@ class A1800Options(PerGameCommonOptions):
     # Mod Support
     enable_mine_slot_unification: EnableMineSlotUnificationOption
 
+    # Item & Location Options
+    exclude_locations: A1800ExcludeLocations
+
 
 a1800_option_groups: list[OptionGroup] = [
     OptionGroup("Victory Conditions", [
@@ -306,6 +324,9 @@ a1800_option_groups: list[OptionGroup] = [
     OptionGroup("Mod Support", [
         EnableMineSlotUnificationOption,
     ]),
+    OptionGroup("Item & Location Options", [
+        A1800ExcludeLocations,
+    ])
 ]
 
 
@@ -351,6 +372,13 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         },
         "required_monuments": [],
         "enable_mine_slot_unification": False,
+        "exclude_locations": [
+            "(Build 1 OW: Cafe) THEN (Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)) (OW: Cafe: Palmier Biscuit)",
+            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)) (OW: The Iron Tower: Age of Exploration)",
+            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa) (OW: The Iron Tower: Homard Lit de Terroir)",
+            "(Build 1 OW: Furniture Store) THEN (Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)) (OW: Furniture Store: Vanity Screens)",
+            "(Build 1 OW: Drug Store) THEN (Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)) (OW: Drug Store: Face Cream)",
+        ],
     },
     "Short": {
         "enabled_dlcs": [
@@ -395,6 +423,13 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         },
         "required_monuments": [],
         "enable_mine_slot_unification": False,
+        "exclude_locations": [
+            "(Build 1 OW: Cafe) THEN (Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)) (OW: Cafe: Palmier Biscuit)",
+            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)) (OW: The Iron Tower: Age of Exploration)",
+            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa) (OW: The Iron Tower: Homard Lit de Terroir)",
+            "(Build 1 OW: Furniture Store) THEN (Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)) (OW: Furniture Store: Vanity Screens)",
+            "(Build 1 OW: Drug Store) THEN (Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)) (OW: Drug Store: Face Cream)",
+        ],
     },
     "Default": {
         "enabled_dlcs": [
@@ -440,6 +475,13 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         },
         "required_monuments": [],
         "enable_mine_slot_unification": False,
+        "exclude_locations": [
+            "(Build 1 OW: Cafe) THEN (Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)) (OW: Cafe: Palmier Biscuit)",
+            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)) (OW: The Iron Tower: Age of Exploration)",
+            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa) (OW: The Iron Tower: Homard Lit de Terroir)",
+            "(Build 1 OW: Furniture Store) THEN (Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)) (OW: Furniture Store: Vanity Screens)",
+            "(Build 1 OW: Drug Store) THEN (Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)) (OW: Drug Store: Face Cream)",
+        ],
     },
     "Full": {
         "enabled_dlcs": [
@@ -488,5 +530,12 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
             "nw-rigid-airship-hangar", "dam", "grand-stadium"
         ],
         "enable_mine_slot_unification": False,
+        "exclude_locations": [
+            "(Build 1 OW: Cafe) THEN (Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)) (OW: Cafe: Palmier Biscuit)",
+            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)) (OW: The Iron Tower: Age of Exploration)",
+            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa) (OW: The Iron Tower: Homard Lit de Terroir)",
+            "(Build 1 OW: Furniture Store) THEN (Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)) (OW: Furniture Store: Vanity Screens)",
+            "(Build 1 OW: Drug Store) THEN (Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)) (OW: Drug Store: Face Cream)",
+        ],
     }
 }

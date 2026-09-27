@@ -35,9 +35,10 @@ Also, any ship unlocks are also location checks, which can then be used to go on
 ... And if they would unlock a new session, receiving them is also a location check. Expedition difficulty is taken
 into account against your unlocked ships to check if you can complete it.
 
-Certain recipe buildings also have location checks for their recipe unlocks (specifically Restaurant, Cafe, Bar and
-The Iron Tower). These have various interesting requirements and become available with the Tourist Season DLC.
-RNG-heavy recipe unlocks are excluded from having progression items.
+Certain recipe buildings also have location checks for their recipe unlocks (specifically Restaurant, Cafe, Bar, The
+Iron Tower, Department Store, Furniture Store and Drug Store). These have various interesting requirements and become
+available with the Tourist Season DLC or High Life DLC. RNG-heavy recipe unlocks are excluded from having progression
+items per default.
 
 For further information, check [the locations page](locations_en.md)<!--(/tutorial/Anno%201800/locations/en)-->.
 

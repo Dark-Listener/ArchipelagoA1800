@@ -209,9 +209,9 @@ class RequiredPopulationOption(OptionCounter):
     _populations = ["farmers", "workers", "artisans", "engineers", "investors", "jornaleros",
                     "obreros", "artistas", "explorers", "technicians", "shepherds", "elders", "scholars", "tourists"]
     _default_required_population = {
-        f"{idx:02}-{population}": 5000 if population == "investors" else 1500 if population == "obreros" else
-        4000 if population == "artistas" else 750 if population == "technicians" else
-        1000 if population == "scholars" else 1500 if population == "tourists" else 0
+        f"{idx:02}-{population}": 5000 if population == "investors" else 4000 if population == "artistas"
+        else 750 if population == "technicians" else 1000 if population == "scholars"
+        else 1500 if population == "tourists" else 0
         for idx, population in enumerate(_populations)
     }
 
@@ -479,7 +479,7 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
             "03-engineers": 0,
             "04-investors": 5000,
             "05-jornaleros": 0,
-            "06-obreros": 1500,
+            "06-obreros": 0,
             "07-artistas": 4000,
             "08-explorers": 0,
             "09-technicians": 750,
@@ -547,7 +547,7 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
             "03-engineers": 0,
             "04-investors": 5000,
             "05-jornaleros": 0,
-            "06-obreros": 1500,
+            "06-obreros": 0,
             "07-artistas": 6000,
             "08-explorers": 0,
             "09-technicians": 750,

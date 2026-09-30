@@ -13,8 +13,8 @@ from BaseClasses import Location
 from Utils import __version__, get_text_after
 from worlds.Files import APPlayerContainer
 
-from .data import A1800_DATA, DLC, ParsedOptions, Region, Session, Trigger, TriggerAction, TriggerActionType, TriggerCondition, TriggerConditionType
-from .Items import A1800Item, ITEMS
+from .data import DLC, ParsedOptions, Region, Session, Trigger, TriggerAction, TriggerActionType, TriggerCondition, TriggerConditionType
+from .Items import A1800Item
 from .Locations import A1800Location
 
 if TYPE_CHECKING:
@@ -82,9 +82,9 @@ def _get_local_item(location: Location, player: int) -> Optional[A1800Item]:
 def _get_allowed_goods_and_ships_by_session(world: "A1800World", player: int) -> dict[Session, dict[str, bool]]:
     multiworld = world.multiworld
 
-    sessions = {session.session for session in A1800_DATA.get_sessions()}
+    sessions = {session.session for session in world.A1800_DATA.get_sessions()}
     session_requirements = {session.session: {requirement.name for requirement in session.requirements}
-                            for session in A1800_DATA.get_sessions() if session.session != Session.OW}
+                            for session in world.A1800_DATA.get_sessions() if session.session != Session.OW}
 
     gathered: set[str] = set()
     allowed_goods_and_ships_by_session: dict[Session, dict[str, Any]] = dict()
@@ -211,15 +211,15 @@ def generate_mod(world: "A1800World", output_directory: str):
     def _get_trigger_key(location: A1800Location) -> tuple[Any, ...]:
         return (location.data.condition or TriggerCondition.FALSE()).get_sort_key()
 
-    items_found_guid = A1800_DATA.get_next_anno_guid()
-    received_guid = A1800_DATA.get_next_anno_guid()
+    items_found_guid = world.A1800_DATA.get_next_anno_guid()
+    received_guid = world.A1800_DATA.get_next_anno_guid()
 
     meta_products_by_name = {
-        "int_receive_index": A1800_DATA.get_next_anno_guid()
+        "int_receive_index": world.A1800_DATA.get_next_anno_guid()
     } | {
-        f"int_local_{ap_code}": A1800_DATA.get_next_anno_guid() for _, (ap_code, _) in A1800_DATA.get_progressive_groups().items()
+        f"int_local_{ap_code}": world.A1800_DATA.get_next_anno_guid() for _, (ap_code, _) in world.A1800_DATA.get_progressive_groups().items()
     } | {
-        f"int_receive_{ap_code}": A1800_DATA.get_next_anno_guid() for _, (ap_code, _) in A1800_DATA.get_progressive_groups().items()
+        f"int_receive_{ap_code}": world.A1800_DATA.get_next_anno_guid() for _, (ap_code, _) in world.A1800_DATA.get_progressive_groups().items()
     }
 
     def _get_notification_trigger(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> Trigger:
@@ -235,8 +235,8 @@ def generate_mod(world: "A1800World", output_directory: str):
         text = f"[AssetData({items_found_guid}) Text] " + text[:-5].translate(STR_SANITY)
         return Trigger(
             condition,
-            TriggerAction.SIDE_NOTIFICATION(A1800_DATA.get_next_anno_guid(), text),
-            guid=A1800_DATA.get_next_anno_guid()
+            TriggerAction.SIDE_NOTIFICATION(world.A1800_DATA.get_next_anno_guid(), text),
+            guid=world.A1800_DATA.get_next_anno_guid()
         )
 
     def _get_unlock_trigger(location: A1800Location) -> Trigger:
@@ -264,18 +264,18 @@ def generate_mod(world: "A1800World", output_directory: str):
     triggers_grouped_by_condition_and_dlc = list(map(_get_unlock_triggers, groupby(
         sorted(locations, key=_get_trigger_key), key=_get_trigger_key)))
 
-    location_triggers = [Trigger.from_list([trigger for trigger in triggers], guid=A1800_DATA.get_next_anno_guid())
+    location_triggers = [Trigger.from_list([trigger for trigger in triggers], guid=world.A1800_DATA.get_next_anno_guid())
                          for triggers in triggers_grouped_by_condition_and_dlc]
 
     hacienda_quarter_triggers: list[Trigger] = []
-    for name, (unlock_guid, residence_guid, residence_name, quarters_guid) in A1800_DATA.get_hacienda_quarter_unlocks().items():
+    for name, (unlock_guid, residence_guid, residence_name, quarters_guid) in world.A1800_DATA.get_hacienda_quarter_unlocks().items():
         condition = TriggerCondition.UNLOCK(name, Region.NW, guid=unlock_guid)
-        if not A1800_DATA.get_parsed_options().allow_hacienda_residences_upon_unlock:
+        if not world.A1800_DATA.get_parsed_options().allow_hacienda_residences_upon_unlock:
             condition = TriggerCondition.ALL(condition, TriggerCondition.COUNTER(
                 residence_name, Region.NW, 1, guid=residence_guid))
         condition.post_init()
         hacienda_quarter_triggers.append(Trigger(condition, TriggerAction.UNLOCK(
-            [quarters_guid]), guid=A1800_DATA.get_next_anno_guid()))
+            [quarters_guid]), guid=world.A1800_DATA.get_next_anno_guid()))
 
     progressive_triggers_by_name = {
         name: [Trigger(
@@ -284,16 +284,16 @@ def generate_mod(world: "A1800World", output_directory: str):
                 i + 1,
                 ap_location_name=f"{name}, Tier {i + 1}"),
             TriggerAction.UNLOCK(unlocks[i].unlock_guids),
-            guid=A1800_DATA.get_next_anno_guid()
+            guid=world.A1800_DATA.get_next_anno_guid()
         ) for i in range(len(unlocks))]
-        for name, (ap_code, unlocks) in A1800_DATA.get_progressive_groups().items()
+        for name, (ap_code, unlocks) in world.A1800_DATA.get_progressive_groups().items()
     }
 
     settled_unlocks = {
-        "Settled: Old World": A1800_DATA.get_next_anno_guid(),
-        "Settled: New World": A1800_DATA.get_next_anno_guid(),
-        "Settled: The Arctic": A1800_DATA.get_next_anno_guid(),
-        "Settled: Enbesa": A1800_DATA.get_next_anno_guid(),
+        "Settled: Old World": world.A1800_DATA.get_next_anno_guid(),
+        "Settled: New World": world.A1800_DATA.get_next_anno_guid(),
+        "Settled: The Arctic": world.A1800_DATA.get_next_anno_guid(),
+        "Settled: Enbesa": world.A1800_DATA.get_next_anno_guid(),
     }
 
     settled_region_by_guid = {
@@ -310,16 +310,16 @@ def generate_mod(world: "A1800World", output_directory: str):
                 ap_location_name=f"Settle {region.region.name}"
             ),
             TriggerAction.UNLOCK([settled_guid]),
-            guid=A1800_DATA.get_next_anno_guid()
+            guid=world.A1800_DATA.get_next_anno_guid()
         )
-        for region, settled_guid in zip(A1800_DATA.get_regions(), settled_unlocks.values())
+        for region, settled_guid in zip(world.A1800_DATA.get_regions(), settled_unlocks.values())
     ]
 
     incident_feature_guids = {
-        "FireIncidents_SA": A1800_DATA.get_next_anno_guid(),
-        "RiotIncidents_SA": A1800_DATA.get_next_anno_guid(),
-        "IllnessIncidents_SA": A1800_DATA.get_next_anno_guid(),
-        "ExplosionIncidents_SA": A1800_DATA.get_next_anno_guid(),
+        "FireIncidents_SA": world.A1800_DATA.get_next_anno_guid(),
+        "RiotIncidents_SA": world.A1800_DATA.get_next_anno_guid(),
+        "IllnessIncidents_SA": world.A1800_DATA.get_next_anno_guid(),
+        "ExplosionIncidents_SA": world.A1800_DATA.get_next_anno_guid(),
     }
 
     expedition_unlocks = {
@@ -330,39 +330,39 @@ def generate_mod(world: "A1800World", output_directory: str):
     }
 
     victory_quest = _Quest(
-        A1800_DATA.get_next_anno_guid(),
+        world.A1800_DATA.get_next_anno_guid(),
         "Victory Quest",
-        A1800_DATA.get_next_anno_guid(),
+        world.A1800_DATA.get_next_anno_guid(),
         75,
         1,
         5000,
         True,
-        A1800_DATA.get_victory_condition(),
+        world.A1800_DATA.get_victory_condition(),
         None
     )
 
     victory_quest_pool = _QuestPool(
-        A1800_DATA.get_next_anno_guid(),
+        world.A1800_DATA.get_next_anno_guid(),
         "Victory QuestPool",
         [(victory_quest.guid, 10)],
         1,
-        TriggerCondition.ACTIVE_DLC(A1800_DATA.get_victory_dlcs())
+        TriggerCondition.ACTIVE_DLC(world.A1800_DATA.get_victory_dlcs())
     )
 
-    victory_guid = A1800_DATA.get_next_anno_guid()
+    victory_guid = world.A1800_DATA.get_next_anno_guid()
     victory_trigger = Trigger(
         TriggerCondition.QUEST_COMPLETE(
-            A1800_DATA.get_victory_condition().ap_location_name, victory_quest.guid, set()),
+            world.A1800_DATA.get_victory_condition().ap_location_name, victory_quest.guid, set()),
         [TriggerAction.UNLOCK([victory_guid])],
-        guid=A1800_DATA.get_next_anno_guid()
+        guid=world.A1800_DATA.get_next_anno_guid()
     )
 
     release_trigger = Trigger(
         _get_condition_with_dlc(TriggerCondition.UNLOCK("", Region(0), guid=victory_guid),
-                                {A1800_DATA.get_parsed_options().enabled_dlcs}),
-        TriggerAction.UNLOCK([unlock_guid for unlock in A1800_DATA.get_unlocks()
+                                {world.A1800_DATA.get_parsed_options().enabled_dlcs}),
+        TriggerAction.UNLOCK([unlock_guid for unlock in world.A1800_DATA.get_unlocks()
                              for unlock_guid in unlock.unlock_guids]),
-        guid=A1800_DATA.get_next_anno_guid()
+        guid=world.A1800_DATA.get_next_anno_guid()
     )
     release_trigger.condition.ap_location_name = "Release Trigger"
 
@@ -374,7 +374,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         ] + [
             TriggerAction.ADD_RESOURCE(meta_products_by_name[f"int_local_{item.code}"]) for item in multiworld.precollected_items[player] if isinstance(item, A1800Item) and item.data.is_progressive
         ],
-        guid=A1800_DATA.get_next_anno_guid()
+        guid=world.A1800_DATA.get_next_anno_guid()
     )
 
     palace_ministry_unhide_trigger = Trigger(
@@ -383,11 +383,11 @@ def generate_mod(world: "A1800World", output_directory: str):
             TriggerCondition.ACTIVE_DLC(DLC.SEAT_OF_POWER)
         ),
         TriggerAction.UNLOCK([], [269602]),
-        guid=A1800_DATA.get_next_anno_guid()
+        guid=world.A1800_DATA.get_next_anno_guid()
     )
 
     def get_hints(hints: list[tuple[str, Region]], player: int) -> list[tuple[tuple[int, int], int]]:
-        hint_mode = A1800_DATA.get_parsed_options().hint_mode
+        hint_mode = world.A1800_DATA.get_parsed_options().hint_mode
         if hint_mode != ParsedOptions.HintMode.OFF:
             return [
                 ((hint_location.address, hint_location.player), hint_region.value)
@@ -410,7 +410,7 @@ def generate_mod(world: "A1800World", output_directory: str):
     ) for location in locations if location.data.guid and location.address}
 
     fixed_hints = [
-        hint for a1800_item_data in ITEMS.start_item_data_list for hint in get_hints(a1800_item_data.hints, player)
+        hint for a1800_item_data in world.ITEMS.start_item_data_list for hint in get_hints(a1800_item_data.hints, player)
     ] + get_hints([
         ("OW: Dirt Road", Region.OW),
         ("NW: Dirt Road", Region.NW),
@@ -423,7 +423,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         ("Progressive NW: Residence", Region.NW),
         ("Progressive AR: Shelter", Region.AR),
         ("Progressive EN: Residence", Region.EN),
-    ], player) if A1800_DATA.get_parsed_options().enable_progressive_unlocks else get_hints([
+    ], player) if world.A1800_DATA.get_parsed_options().enable_progressive_unlocks else get_hints([
         ("OW: Farmer Residence", Region.OW),
         ("NW: Jornalero Residence", Region.NW),
         ("AR: Explorer Shelter", Region.AR),
@@ -431,32 +431,32 @@ def generate_mod(world: "A1800World", output_directory: str):
     ], player))
 
     guids_by_ap_code = {
-        unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in A1800_DATA.get_unlocks() if unlock.ap_code
+        unlock.ap_code: (list(unlock.unlock_guids), 0) for unlock in world.A1800_DATA.get_unlocks() if unlock.ap_code
     } | {
         a1800_item.code: (a1800_item.data.unlock_guids, location.data.guid) for location in locations
         if location.data.guid and (a1800_item := _get_local_item(location, player)) and a1800_item.code
     } | {
         ap_code: (list[int](), 0)
-        for _, (ap_code, _) in A1800_DATA.get_progressive_groups().items()
+        for _, (ap_code, _) in world.A1800_DATA.get_progressive_groups().items()
     }
 
     def get_notification_display_name(ap_code: int) -> str:
         progressive_group = next((name for name, (group_code, _)
-                                  in A1800_DATA.get_progressive_groups().items() if group_code == ap_code), "")
+                                  in world.A1800_DATA.get_progressive_groups().items() if group_code == ap_code), "")
 
-        return progressive_group or next(unlock for unlock in A1800_DATA.get_unlocks() if unlock.ap_code == ap_code).ap_item_name
+        return progressive_group or next(unlock for unlock in world.A1800_DATA.get_unlocks() if unlock.ap_code == ap_code).ap_item_name
 
     notifications_by_ap_code = {
         ap_code: (
             unlock_guids[0] if unlock_guids else 0,
-            A1800_DATA.get_next_anno_guid(),
-            A1800_DATA.get_next_anno_guid(),
+            world.A1800_DATA.get_next_anno_guid(),
+            world.A1800_DATA.get_next_anno_guid(),
             f"[AssetData({received_guid}) Text] <b>{get_notification_display_name(ap_code)}</b>"
         ) for ap_code, (unlock_guids, _) in guids_by_ap_code.items()
     }
 
     lock_guids_by_trigger: dict[int, tuple[list[int], list[int]]] = {}
-    for unlock in A1800_DATA.get_unlocks():
+    for unlock in world.A1800_DATA.get_unlocks():
         for lock_guid, unhide_trigger_guids, unlock_trigger_guids in unlock.lock_guids:
             for unhide_trigger_guid in unhide_trigger_guids:
                 if not unhide_trigger_guid in lock_guids_by_trigger:
@@ -479,7 +479,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "TriggerActionType": TriggerActionType,
         "TriggerCondition": TriggerCondition,
         "TriggerConditionType": TriggerConditionType,
-        "parsed_options": A1800_DATA.get_parsed_options(),
+        "parsed_options": world.A1800_DATA.get_parsed_options(),
         "lock_guids_by_trigger": {k: v for k, v in sorted(lock_guids_by_trigger.items(), key=lambda item: item[0])},
         "locations": locations,
         "location_triggers": location_triggers,
@@ -498,11 +498,11 @@ def generate_mod(world: "A1800World", output_directory: str):
         "settled_unlocks": settled_unlocks,
         "incident_feature_guids": incident_feature_guids,
         "expedition_unlocks": expedition_unlocks,
-        "hacienda_quarter_unlocks": A1800_DATA.get_hacienda_quarter_unlocks(),
-        "recipe_unlocks": A1800_DATA.get_recipe_unlocks(),
+        "hacienda_quarter_unlocks": world.A1800_DATA.get_hacienda_quarter_unlocks(),
+        "recipe_unlocks": world.A1800_DATA.get_recipe_unlocks(),
         "allowed_goods_and_ships_by_session": _get_allowed_goods_and_ships_by_session(world, player),
-        "cape_trelawney_free_clipper_guid": A1800_DATA.get_next_anno_guid(),
-        "enbesa_second_clipper_guid": A1800_DATA.get_next_anno_guid(),
+        "cape_trelawney_free_clipper_guid": world.A1800_DATA.get_next_anno_guid(),
+        "enbesa_second_clipper_guid": world.A1800_DATA.get_next_anno_guid(),
     }
 
     anno_mod_data: dict[str, Any] = {

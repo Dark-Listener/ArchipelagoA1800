@@ -6,9 +6,9 @@ from worlds.AutoWorld import CollectionState, World, WebWorld
 from worlds.LauncherComponents import Component, components, Type, icon_paths
 from worlds.LauncherComponents import launch as launch_component  # pyright: ignore[reportUnknownVariableType]
 
-from .data import A1800_DATA, START_REGION
-from .Items import create_item, ITEMS
-from .Locations import LOCATIONS
+from .data import A1800Data, ITEM_NAME_GROUPS, ITEM_NAME_TO_AP_CODE, LOCATION_NAME_GROUPS, LOCATION_NAME_TO_AP_CODE, START_REGION
+from .Items import create_item, Items
+from .Locations import Locations
 from .Mod import generate_mod
 from .Options import a1800_option_groups, a1800_option_presets, A1800Options
 from .Regions import create_regions
@@ -50,10 +50,10 @@ class A1800World(World):
     """
 
     game = "Anno 1800"
-    item_name_groups = A1800_DATA.get_item_name_groups()
-    item_name_to_id = A1800_DATA.get_item_name_to_ap_code()
-    location_name_groups = A1800_DATA.get_location_name_groups()
-    location_name_to_id = A1800_DATA.get_location_name_to_ap_code()
+    item_name_groups = ITEM_NAME_GROUPS
+    item_name_to_id = ITEM_NAME_TO_AP_CODE
+    location_name_groups = LOCATION_NAME_GROUPS
+    location_name_to_id = LOCATION_NAME_TO_AP_CODE
     options_dataclass = A1800Options
     options: A1800Options
     origin_region_name = START_REGION.full_name
@@ -66,10 +66,10 @@ class A1800World(World):
 
     @override
     def generate_early(self) -> None:
-        A1800_DATA.init(self.options)
-        LOCATIONS.init()
-        ITEMS.init()
-        ITEMS.create_and_push_start_items(self)
+        self.A1800_DATA = A1800Data(self.options)
+        self.LOCATIONS = Locations(self)
+        self.ITEMS = Items(self)
+        self.ITEMS.create_and_push_start_items(self)
 
     @override
     def create_regions(self) -> None:
@@ -77,7 +77,7 @@ class A1800World(World):
 
     @override
     def create_items(self) -> None:
-        self.multiworld.itempool += ITEMS.create_itempool(self)
+        self.multiworld.itempool += self.ITEMS.create_itempool(self)
 
     @override
     def create_item(self, name: str) -> Item:

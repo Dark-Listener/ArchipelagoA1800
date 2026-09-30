@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Optional
+from typing import Optional, TYPE_CHECKING
 
 from BaseClasses import Item, ItemClassification as IC
 
-from .data import A1800_DATA, A1800EventItem, A1800Unlock, DLC, Region, START_REGION, TriggerConditionType, UnlockType
+from .data import A1800EventItem, A1800Unlock, DLC, Region, START_REGION, TriggerConditionType, UnlockType
 
 if TYPE_CHECKING:
     from . import A1800World
@@ -33,14 +33,14 @@ class A1800Item(Item):
         self.data = data
 
 
-def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
+def _to_item_data(world: "A1800World", obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
     if isinstance(obj, A1800Unlock):
         is_starting_item: bool = not obj.is_early \
             and (UnlockType.META in obj.type_
                  or (obj.condition.type_ == TriggerConditionType.SESSION_ENTER
                      and obj.condition.session.region == START_REGION
-                     and not A1800_DATA.find_session(obj.condition.session).requirements))
-        is_progressive = A1800_DATA.get_parsed_options(
+                     and not world.A1800_DATA.find_session(obj.condition.session).requirements))
+        is_progressive = world.A1800_DATA.get_parsed_options(
         ).enable_progressive_unlocks and bool(obj.progressive_ap_item_name) and bool(obj.progressive_ap_code)
         return A1800ItemData(
             obj.progressive_ap_item_name if is_progressive else obj.ap_item_name,
@@ -55,7 +55,7 @@ def _to_item_data(obj: A1800EventItem | A1800Unlock) -> Optional[A1800ItemData]:
             False)
     elif obj.is_progression:
         event_locations = [event_location.ap_location_name for event_location_name in obj.locations for event_location
-                           in A1800_DATA.find_event_locations(event_location_name, obj.name, obj.region)]
+                           in world.A1800_DATA.find_event_locations(event_location_name, obj.name, obj.region)]
         is_starting_item: bool = any(
             map(lambda ap_location_name: "Starting Goods" in ap_location_name, event_locations))
         return A1800ItemData(
@@ -74,28 +74,28 @@ def create_item(world: "A1800World", item: str | A1800ItemData) -> Item:
     if isinstance(item, A1800ItemData):
         data = item
     else:
-        ap_item = A1800_DATA.find_ap_item(item)
+        ap_item = world.A1800_DATA.find_ap_item(item)
         assert ap_item, f"Couldn't find item for string {item}"
-        data = _to_item_data(ap_item)
+        data = _to_item_data(world, ap_item)
         assert data, f"Couldn't create item data for item {ap_item}"
     return A1800Item(world.player, data)
 
 
-class _Items:
-    start_item_data_list: list[A1800ItemData] = []
-    _unlock_item_data_list: list[A1800ItemData] = []
-    _event_item_data_list: list[A1800ItemData] = []
-    _item_data_list: list[A1800ItemData] = []
+class Items:
+    start_item_data_list: list[A1800ItemData]
+    _unlock_item_data_list: list[A1800ItemData]
+    _event_item_data_list: list[A1800ItemData]
+    _item_data_list: list[A1800ItemData]
 
-    def init(self) -> None:
-        all_unlock_item_data = [item_data for item in A1800_DATA.get_unlock_locations()
-                                for item_data in [_to_item_data(item)] if item_data]
+    def __init__(self, world: "A1800World") -> None:
+        all_unlock_item_data = [item_data for item in world.A1800_DATA.get_unlock_locations()
+                                for item_data in [_to_item_data(world, item)] if item_data]
         self._unlock_item_data_list = [
             item_data for item_data in all_unlock_item_data if not item_data.is_starting_item]
         self.start_item_data_list = [item_data for item_data in all_unlock_item_data if item_data.is_starting_item]
 
-        self._event_item_data_list = [item_data for item in A1800_DATA.get_event_items()
-                                      for item_data in [_to_item_data(item)] if item_data]
+        self._event_item_data_list = [item_data for item in world.A1800_DATA.get_event_items()
+                                      for item_data in [_to_item_data(world, item)] if item_data]
         self.start_item_data_list += [item_data for item_data in self._event_item_data_list if item_data.is_starting_item]
 
         self._item_data_list = [
@@ -123,6 +123,3 @@ class _Items:
                 world.multiworld.local_early_items[world.player][data.name] = 1
 
         return itempool
-
-
-ITEMS = _Items()

@@ -1,18 +1,20 @@
 from collections.abc import Sequence
-from typing import ClassVar, Iterator, Optional
+from copy import deepcopy
+from typing import ClassVar, Iterator, Optional, TYPE_CHECKING
 
-from ._Chains import CHAINS
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, Session, TriggerConditionType, UnlockType
 from ._Guid import HACIENDA_QUARTER_GUIDS, RECIPE_GUIDS
 from ._ParsedOptions import ParsedOptions
-from ._Products import PRODUCTS
 from ._TriggerCondition import TriggerCondition
 
+if TYPE_CHECKING:
+    from . import A1800Data
 
-_a1800_item_name_groups: dict[str, set[str]] = {
+
+A1800_ITEM_NAME_GROUPS: dict[str, set[str]] = {
 }
 
-_a1800_location_name_groups: dict[str, set[str]] = {
+A1800_LOCATION_NAME_GROUPS: dict[str, set[str]] = {
     "Farmers": set(),
     "Workers": set(),
     "Artisans": set(),
@@ -161,7 +163,7 @@ class A1800Unlock:
 
         self.apply_location_groups()
 
-    def post_init(self) -> None:
+    def post_init(self, A1800_DATA: "A1800Data") -> None:
         if self.type_ == UnlockType.UNLOCK:
             if self.cost or self.maintenance or self.unlock_chain:
                 self.type_ |= UnlockType.BUILDING
@@ -177,36 +179,36 @@ class A1800Unlock:
 
         if UnlockType.BUILDING in self.type_:
             for chain, region in self.unlock_chain:
-                chain_guid = next(CHAINS.find_chains(chain, self.name, self.region, region)).guid
+                chain_guid = next(A1800_DATA.find_chains(chain, self.name, self.region, region)).guid
                 if not chain_guid in self.unlock_guids:
                     self.unlock_guids.append(chain_guid)
 
         if UnlockType.FACTORY in self.type_:
             for name, region in self.output:
-                output_guid = next(PRODUCTS.find_products(name, region)).guid
+                output_guid = next(A1800_DATA.find_products(name, region)).guid
                 if output_guid and not output_guid in self.unlock_guids:
                     self.unlock_guids.append(output_guid)
 
     def apply_location_groups(self) -> None:
-        for location_group in _a1800_location_name_groups.keys():
+        for location_group in A1800_LOCATION_NAME_GROUPS.keys():
             if location_group[:-1] in self.condition.ap_location_name and ("Skyscrapers" in location_group or not "Skyscraper" in self.condition.ap_location_name):
-                _a1800_location_name_groups[location_group].add(self.ap_location_name)
+                A1800_LOCATION_NAME_GROUPS[location_group].add(self.ap_location_name)
 
         if "Level 5" in self.condition.ap_location_name:
-            _a1800_location_name_groups["Skyscrapers: Level 5"].add(self.ap_location_name)
+            A1800_LOCATION_NAME_GROUPS["Skyscrapers: Level 5"].add(self.ap_location_name)
 
         split_name = self.name.split(":")
         if len(split_name) > 1 and ("Recipe:" + split_name[1]) in RECIPE_GUIDS:
-            _a1800_location_name_groups["Recipes"].add(self.ap_location_name)
-            for location_group in _a1800_location_name_groups.keys():
+            A1800_LOCATION_NAME_GROUPS["Recipes"].add(self.ap_location_name)
+            for location_group in A1800_LOCATION_NAME_GROUPS.keys():
                 if location_group.endswith(" Recipes") and split_name[0] == location_group[:-8]:
-                    _a1800_location_name_groups[location_group].add(self.ap_location_name)
+                    A1800_LOCATION_NAME_GROUPS[location_group].add(self.ap_location_name)
 
     def __str__(self) -> str:
         return f"(Unlock: {self.name}, {self.region})"
 
 
-_a1800_unlocks: list[A1800Unlock] = [
+A1800_UNLOCKS: list[A1800Unlock] = [
     ################################################################################################################
     ### VANILLA                                                                                                  ###
     ################################################################################################################
@@ -3146,32 +3148,43 @@ _a1800_unlocks: list[A1800Unlock] = [
 ]
 
 
-_a1800_progressive_groups: dict[str, tuple[int, list[A1800Unlock]]] = {}
+def _make_progressive_groups(unlocks: list[A1800Unlock]) -> dict[str, tuple[int, list[A1800Unlock]]]:
+    a1800_progressive_groups: dict[str, tuple[int, list[A1800Unlock]]] = {}
 
-for group, region in {(unlock.progressive_group, unlock.region) for unlock in _a1800_unlocks if unlock.progressive_group}:
-    group_unlocks = [unlock for unlock in _a1800_unlocks if unlock.progressive_group ==
-                     group and unlock.region == region]
-    sorted_group_unlocks = sorted(group_unlocks, key=lambda unlock: unlock.progressive_tier)
-    assert sorted_group_unlocks[0].progressive_ap_code
+    for group, region in {(unlock.progressive_group, unlock.region) for unlock in unlocks if unlock.progressive_group}:
+        group_unlocks = [unlock for unlock in unlocks if unlock.progressive_group ==
+                         group and unlock.region == region]
+        sorted_group_unlocks = sorted(group_unlocks, key=lambda unlock: unlock.progressive_tier)
+        assert sorted_group_unlocks[0].progressive_ap_code
 
-    ap_code = sorted_group_unlocks[0].progressive_ap_code
-    ap_item_name = sorted_group_unlocks[0].progressive_ap_item_name
+        ap_code = sorted_group_unlocks[0].progressive_ap_code
+        ap_item_name = sorted_group_unlocks[0].progressive_ap_item_name
 
-    _a1800_progressive_groups[ap_item_name] = (ap_code, list(sorted_group_unlocks))
-    for unlock in sorted_group_unlocks:
-        unlock.progressive_ap_code = ap_code
-        unlock.progressive_ap_item_name = ap_item_name
+        a1800_progressive_groups[ap_item_name] = (ap_code, list(sorted_group_unlocks))
+        for unlock in sorted_group_unlocks:
+            unlock.progressive_ap_code = ap_code
+            unlock.progressive_ap_item_name = ap_item_name
+
+    return a1800_progressive_groups
 
 
-class _Unlocks:
-    _initialized: bool = False
+A1800_PROGRESSIVE_GROUPS = _make_progressive_groups(A1800_UNLOCKS)
 
-    def init(self, parsed_options: ParsedOptions) -> None:
-        self._apply_options(parsed_options)
+
+class Unlocks:
+    def __init__(self, A1800_DATA: "A1800Data") -> None:
+        self._A1800_DATA = A1800_DATA
+
+        global A1800_UNLOCKS
+
+        self._a1800_unlocks = deepcopy(A1800_UNLOCKS)
+        self._a1800_progressive_groups = _make_progressive_groups(self._a1800_unlocks)
+
+        self._apply_options()
 
         for a1800_unlock in self._a1800_unlocks:
             a1800_unlock.condition = self._flatten_condition(a1800_unlock.condition)
-            a1800_unlock.post_init()
+            a1800_unlock.post_init(self._A1800_DATA)
             self._add_guids_to_condition(a1800_unlock.condition)
             self._regenerate_condition_ap_location_name(a1800_unlock.condition)
             self._add_hints(a1800_unlock)
@@ -3181,27 +3194,21 @@ class _Unlocks:
             key=lambda location: location.condition.get_sort_key()
         )
 
-        self._initialized = True
         self._verify_data()
 
     def get_unlocks(self) -> Sequence[A1800Unlock]:
-        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
         return self._a1800_unlocks
 
     def find_unlocks(self, name: str, region: Region = NO_REGION) -> Iterator[A1800Unlock]:
-        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
         return (unlock for unlock in self._a1800_unlocks if unlock.name == name and region in unlock.region)
 
     def find_ap_item(self, ap_name: str) -> Optional[A1800Unlock]:
-        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
         return next((unlock for unlock in self._a1800_unlocks if unlock.progressive_ap_item_name == ap_name), None) or next((unlock for unlock in self._a1800_unlocks if unlock.ap_item_name == ap_name), None)
 
     def get_unlock_locations(self) -> Sequence[A1800Unlock]:
-        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
         return self._a1800_unlock_locations
 
     def get_primary_residence(self, name: str, region: Region) -> A1800Unlock:
-        assert self._initialized, "The Anno 1800 unlocks module was used before it was initialized."
         # Pick residence, but avoid skyscrapers and the Skyline Tower
         residence = next((
             unlock for unlock in self._a1800_unlocks
@@ -3228,7 +3235,7 @@ class _Unlocks:
                 f"Condition references unlock {references[0].name}, which has no guids"
             condition.guid = references[0].unlock_guids[0]
         elif (condition.type_ == TriggerConditionType.COUNTER_GOOD_IN_REGION) and condition.guid == 0:
-            references = list(PRODUCTS.find_products(condition.product_name, condition.product_region))
+            references = list(self._A1800_DATA.find_products(condition.product_name, condition.product_region))
             assert references, f"Condition references unknown product {condition.product_name}"
             assert len(references) == 1, \
                 f"Condition references multiple products {[reference.name for reference in references]}"
@@ -3236,7 +3243,7 @@ class _Unlocks:
                 f"Condition references product without guid {references[0].name}"
             condition.guid = references[0].guid
         elif (condition.type_ == TriggerConditionType.EVENT_ACTIVE) and condition.guid == 0:
-            references = list(PRODUCTS.find_products(condition.product_name, condition.region))
+            references = list(self._A1800_DATA.find_products(condition.product_name, condition.region))
             assert references, f"Condition references unknown product {condition.product_name}"
             assert len(references) == 1, \
                 f"Condition references multiple products {[reference.name for reference in references]}"
@@ -3244,7 +3251,7 @@ class _Unlocks:
                 f"Condition references product without guid {references[0].name}"
             condition.guid = references[0].guid
         elif (condition.type_ in [TriggerConditionType.POPULATION, TriggerConditionType.POPULATION_HAPPINESS]) and condition.guid == 0:
-            references = list(PRODUCTS.find_products(condition.population_name, condition.region))
+            references = list(self._A1800_DATA.find_products(condition.population_name, condition.region))
             assert references, f"Condition references unknown population {condition.population_name}"
             assert len(references) == 1, \
                 f"Condition references multiple populations {[reference.name for reference in references]}"
@@ -3289,7 +3296,7 @@ class _Unlocks:
     def _add_hints(self, unlock: A1800Unlock) -> None:
         if UnlockType.BUILDING in unlock.type_:
             for chain_name, region in unlock.unlock_chain:
-                chain = next(CHAINS.find_chains(chain_name, unlock.name, unlock.region, region))
+                chain = next(self._A1800_DATA.find_chains(chain_name, unlock.name, unlock.region, region))
                 for name, region in chain.elements:
                     if chain_unlock := next((chain_unlock for chain_unlock in self._a1800_unlocks
                                             if chain_unlock.name == name and region in chain_unlock.region), None):
@@ -3329,19 +3336,19 @@ class _Unlocks:
             else:
                 return condition
         elif condition.type_ in [TriggerConditionType.POPULATION, TriggerConditionType.POPULATION_HAPPINESS]:
-            return TriggerCondition.FALSE() if not next(PRODUCTS.find_populations(condition.population_name, condition.region), None) else condition
+            return TriggerCondition.FALSE() if not next(self._A1800_DATA.find_populations(condition.population_name, condition.region), None) else condition
         elif condition.type_ in [TriggerConditionType.UNLOCK, TriggerConditionType.COUNTER, TriggerConditionType.ITEM_SET_ACTIVE, TriggerConditionType.FACTORY_PRODUCTIVITY]:
             return TriggerCondition.FALSE() if not len([unlock for unlock in self._a1800_unlocks if unlock.name == condition.unlock_name
                                                         and condition.region in unlock.region]) else condition
         elif condition.type_ == TriggerConditionType.COUNTER_GOOD_IN_REGION:
             return TriggerCondition.FALSE() if not next(
-                PRODUCTS.find_products(condition.product_name, condition.product_region), None) else condition
+                self._A1800_DATA.find_products(condition.product_name, condition.product_region), None) else condition
         elif condition.type_ == TriggerConditionType.EVENT_ACTIVE:
             return TriggerCondition.FALSE() if not next(
-                PRODUCTS.find_products(condition.product_name, condition.region), None) else condition
+                self._A1800_DATA.find_products(condition.product_name, condition.region), None) else condition
         elif condition.type_ in [TriggerConditionType.COUNTER_EXPEDITION_SOLVED, TriggerConditionType.QUEST_COMPLETE]:
             return TriggerCondition.FALSE() if any(
-                [not next(PRODUCTS.find_products(name, region), None) and
+                [not next(self._A1800_DATA.find_products(name, region), None) and
                  (len([unlock for unlock in self._a1800_unlocks if unlock.name == name and region in unlock.region]) == 0)
                     for name, region in condition.requirements]
             ) else condition
@@ -3358,14 +3365,14 @@ class _Unlocks:
 
             missing_outputs: set[tuple[str, Region]] = set()
             for output in unlock.output:
-                if not next(PRODUCTS.find_products(output[0], output[1]), None):
+                if not next(self._A1800_DATA.find_products(output[0], output[1]), None):
                     missing_outputs.add(output)
             if missing_outputs:
                 unlock.output -= missing_outputs
 
             missing_chains: set[tuple[str, Region]] = set()
             for chain in unlock.unlock_chain:
-                if not next(CHAINS.find_chains(chain[0], unlock.name, unlock.region, chain[1]), None):
+                if not next(self._A1800_DATA.find_chains(chain[0], unlock.name, unlock.region, chain[1]), None):
                     missing_chains.add(chain)
             if missing_chains:
                 unlock.unlock_chain -= missing_chains
@@ -3373,23 +3380,23 @@ class _Unlocks:
             if unlock.name == "Hotel":  # Turning off DLC can remove tourist luxury needs
                 missing_luxuries: set[str] = set()
                 for luxury in unlock.luxury:
-                    if not next(PRODUCTS.find_products(luxury, unlock.region), None):
+                    if not next(self._A1800_DATA.find_products(luxury, unlock.region), None):
                         missing_luxuries.add(luxury)
                 if missing_luxuries:
                     unlock.luxury -= missing_luxuries
 
             missing_lifestyles: set[str] = set()
             for lifestyle in unlock.lifestyle:
-                if not next(PRODUCTS.find_products(lifestyle, unlock.region), None):
+                if not next(self._A1800_DATA.find_products(lifestyle, unlock.region), None):
                     missing_lifestyles.add(lifestyle)
             if missing_lifestyles:
                 unlock.lifestyle -= missing_lifestyles
 
-    def _apply_options(self, parsed_options: ParsedOptions) -> None:
-        global _a1800_unlocks
+    def _apply_options(self) -> None:
+        parsed_options = self._A1800_DATA.get_parsed_options()
 
         ### Game Options ###
-        self._a1800_unlocks = [unlock for unlock in _a1800_unlocks if any(
+        self._a1800_unlocks = [unlock for unlock in self._a1800_unlocks if any(
             dlc in parsed_options.enabled_dlcs for dlc in unlock.dlc)]
 
         if parsed_options.enable_progressive_unlocks:
@@ -3397,7 +3404,7 @@ class _Unlocks:
                 name: (
                     ap_code,
                     [unlock for unlock in unlocks if any(dlc in parsed_options.enabled_dlcs for dlc in unlock.dlc)]
-                ) for name, (ap_code, unlocks) in _a1800_progressive_groups.items()
+                ) for name, (ap_code, unlocks) in self._a1800_progressive_groups.items()
             }
             for _, (_, unlocks) in self._a1800_progressive_groups.items():
                 if len(unlocks) == 1:
@@ -3505,32 +3512,32 @@ class _Unlocks:
 
     def _verify_data(self) -> None:
         # Assure all references exist
-        for unlock in self._a1800_unlocks:
+        for unlock in self.get_unlocks():
             assert unlock.region, f"Unlock {unlock.name} has no region"
 
             if unlock.condition.type_ == TriggerConditionType.POPULATION:
-                assert next(PRODUCTS.find_populations(unlock.condition.population_name, unlock.condition.region), None), \
+                assert next(self._A1800_DATA.find_populations(unlock.condition.population_name, unlock.condition.region), None), \
                     f"Unlock {unlock} condition references non-existent population {unlock.condition.population_name}, " \
                     f"{unlock.condition.region}"
 
             for cost in unlock.cost:
-                assert next(PRODUCTS.find_products(cost, unlock.region), None), \
+                assert next(self._A1800_DATA.find_products(cost, unlock.region), None), \
                     f"Unlock {unlock} references non-existent cost {cost}"
 
             for maintenance in unlock.maintenance:
-                assert next(PRODUCTS.find_products(maintenance, unlock.region), None), \
+                assert next(self._A1800_DATA.find_products(maintenance, unlock.region), None), \
                     f"Unlock {unlock} references non-existent maintenance {maintenance}"
 
             for name, region in unlock.input:
-                assert next(PRODUCTS.find_products(name, region), None), \
+                assert next(self._A1800_DATA.find_products(name, region), None), \
                     f"Unlock {unlock} references non-existent input {name}"
 
             for name, region in unlock.output:
-                assert next(PRODUCTS.find_products(name, region), None), \
+                assert next(self._A1800_DATA.find_products(name, region), None), \
                     f"Unlock {unlock} references non-existent output {name}"
 
             for chain, region in unlock.unlock_chain:
-                assert next(CHAINS.find_chains(chain, unlock.name, unlock.region, region), None), \
+                assert next(self._A1800_DATA.find_chains(chain, unlock.name, unlock.region, region), None), \
                     f"Unlock {unlock} references non-existent chain {chain}"
 
             if unlock.previous_building:
@@ -3538,24 +3545,24 @@ class _Unlocks:
                     f"Unlock {unlock} references non-existent previous building {unlock.previous_building}"
 
             for consumption in unlock.consumption:
-                assert next(PRODUCTS.find_products(consumption, unlock.region), None), \
+                assert next(self._A1800_DATA.find_products(consumption, unlock.region), None), \
                     f"Unlock {unlock} references non-existent consumption {consumption}"
 
             for luxury in unlock.luxury:
-                assert next(PRODUCTS.find_products(luxury, unlock.region), None), \
+                assert next(self._A1800_DATA.find_products(luxury, unlock.region), None), \
                     f"Unlock {unlock} references non-existent luxury {luxury}"
 
             for lifestyle in unlock.lifestyle:
-                assert next(PRODUCTS.find_products(lifestyle, unlock.region), None), \
+                assert next(self._A1800_DATA.find_products(lifestyle, unlock.region), None), \
                     f"Unlock {unlock} references non-existent lifestyle {lifestyle}"
 
         # Assure all progressive groups are complete
-        for ap_item_name, (_, unlocks) in _a1800_progressive_groups.items():
+        for ap_item_name, (_, unlocks) in self.get_progressive_groups().items():
             assert [unlock.progressive_tier for unlock in unlocks] == list(range(1, len(unlocks) + 1)), \
                 f"Progressive group {ap_item_name} has incomplete tiers"
 
         # Assure all chain references exist
-        for chain in CHAINS.get_chains():
+        for chain in self._A1800_DATA.get_chains():
             assert chain.region, f"Chain {chain.name} has no region"
 
             for name, region in chain.elements:
@@ -3565,10 +3572,7 @@ class _Unlocks:
         # Assure all trigger references exist
         for unlock in self.get_unlocks():
             if unlock.condition.type_ == TriggerConditionType.POPULATION:
-                population = next(PRODUCTS.find_populations(
+                population = next(self._A1800_DATA.find_populations(
                     unlock.condition.population_name, unlock.condition.region), None)
                 assert population, f"Population {unlock.condition.population_name} referenced in {unlock} was filtered "\
                     "during init and no longer is available!"
-
-
-UNLOCKS = _Unlocks()

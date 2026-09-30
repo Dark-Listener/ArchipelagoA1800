@@ -2,18 +2,18 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Region
 
-from .data import A1800Region, A1800_DATA, START_REGION
-from .Locations import A1800Location, LOCATIONS
+from .data import A1800Region, START_REGION
+from .Locations import A1800Location
 
 if TYPE_CHECKING:
     from . import A1800World
 
 
 def create_regions(world: "A1800World") -> None:
-    for region in A1800_DATA.get_regions():
+    for region in world.A1800_DATA.get_regions():
         _create_region(world, region)
 
-    for region in A1800_DATA.get_regions():
+    for region in world.A1800_DATA.get_regions():
         if region.region.full_name != world.origin_region_name:
             world.create_entrance(
                 world.get_region(world.origin_region_name),
@@ -25,7 +25,7 @@ def create_regions(world: "A1800World") -> None:
 def _create_region(world: "A1800World", a1800_region: A1800Region) -> Region:
     region = Region(a1800_region.region.full_name, world.player, world.multiworld)
 
-    for data in LOCATIONS.get_location_data_list():
+    for data in world.LOCATIONS.get_location_data_list():
         if data.region == a1800_region.region:
             location = A1800Location(world.player, data, region)
             region.locations.append(location)

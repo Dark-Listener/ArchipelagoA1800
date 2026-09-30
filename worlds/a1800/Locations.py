@@ -1,9 +1,12 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from BaseClasses import Location, Region as APRegion
 
-from .data import A1800_DATA, Region, START_REGION, TriggerCondition, TriggerConditionType, UnlockType
+from .data import Region, START_REGION, TriggerCondition, TriggerConditionType, UnlockType
+
+if TYPE_CHECKING:
+    from . import A1800World
 
 
 @dataclass
@@ -26,25 +29,25 @@ class A1800Location(Location):
         self.data = data
 
 
-class _Locations:
-    _unlock_location_data_list: list[A1800LocationData] = []
-    _event_location_data_list: list[A1800LocationData] = []
-    _location_data_list: list[A1800LocationData] = []
+class Locations:
+    _unlock_location_data_list: list[A1800LocationData]
+    _event_location_data_list: list[A1800LocationData]
+    _location_data_list: list[A1800LocationData]
 
-    def init(self):
+    def __init__(self, world: "A1800World"):
         self._unlock_location_data_list = [
             A1800LocationData(
                 location.ap_location_name,
                 location.ap_region or location.condition.region,
-                A1800_DATA.get_next_anno_guid(),
+                world.A1800_DATA.get_next_anno_guid(),
                 location.condition,
                 location.ap_code,
                 False
-            ) for location in A1800_DATA.get_unlock_locations()
+            ) for location in world.A1800_DATA.get_unlock_locations()
             if not UnlockType.META in location.type_
             and (location.condition.type_ != TriggerConditionType.SESSION_ENTER
                  or location.condition.session.region != START_REGION
-                 or A1800_DATA.find_session(location.condition.session).requirements)
+                 or world.A1800_DATA.find_session(location.condition.session).requirements)
         ]
 
         self._event_location_data_list = [
@@ -52,7 +55,7 @@ class _Locations:
                 location.ap_location_name,
                 location.ap_region or location.region,
                 is_event=True
-            ) for location in A1800_DATA.get_event_locations() if location.is_progression
+            ) for location in world.A1800_DATA.get_event_locations() if location.is_progression
         ]
 
         self._location_data_list = [
@@ -68,6 +71,3 @@ class _Locations:
 
     def get_location_data_list(self) -> list[A1800LocationData]:
         return self._location_data_list
-
-
-LOCATIONS = _Locations()

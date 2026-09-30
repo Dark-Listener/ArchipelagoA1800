@@ -1,15 +1,15 @@
 from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from ._Enums import ALL_REGIONS, DLC, Region, START_REGION
-from ._ParsedOptions import ParsedOptions
-from ._Products import PRODUCTS
 from ._Requirement import A1800Requirement
-from ._Unlocks import UNLOCKS
+
+if TYPE_CHECKING:
+    from . import A1800Data
 
 
-_a1800_regions: dict[Region, tuple[DLC, set[tuple[str, Region]], set[tuple[str, Region]]]] = {
+A1800_REGIONS: dict[Region, tuple[DLC, set[tuple[str, Region]], set[tuple[str, Region]]]] = {
     Region.OW: (DLC.VANILLA, set(), set()),
     Region.NW: (DLC.VANILLA, {
         ("Expedition: New World", ALL_REGIONS),
@@ -51,27 +51,28 @@ class A1800Region:
     requirements: set[A1800Requirement] = field(default_factory=lambda: set())
     trading_post_guids: list[int] = field(default_factory=lambda: list())
 
-    def __post_init__(self) -> None:
+    def post_init(self, A1800_DATA: "A1800Data") -> None:
         self.requirements = self.entry_requirements | self.build_requirements
-        self.trading_post_guids = next(UNLOCKS.find_unlocks("Small Trading Post", self.region)).guids
+        self.trading_post_guids = next(A1800_DATA.find_unlocks("Small Trading Post", self.region)).guids
 
 
-class _Regions:
-    _initialized: bool = False
+class Regions:
+    def __init__(self, A1800_DATA: "A1800Data") -> None:
+        self._A1800_DATA = A1800_DATA
 
-    def init(self, parsed_options: ParsedOptions) -> None:
-        global _a1800_regions
+        global A1800_REGIONS
 
         self._a1800_regions = {
             region: A1800Region(
                 region,
                 dlc,
-                {A1800Requirement(name, region) for name, region in entry_requirements},
-                {A1800Requirement(name, region) for name, region in build_requirements}
-            ) for region, (dlc, entry_requirements, build_requirements) in _a1800_regions.items() if dlc in parsed_options.enabled_dlcs
+                {self._A1800_DATA.make_requirement(name, region)
+                 for name, region in entry_requirements},
+                {self._A1800_DATA.make_requirement(name, region) for name, region in build_requirements}
+            ) for region, (dlc, entry_requirements, build_requirements) in A1800_REGIONS.items() if dlc in self._A1800_DATA.get_parsed_options().enabled_dlcs
         }
-
-        self._initialized = True
+        for a1800_region in self._a1800_regions.values():
+            a1800_region.post_init(self._A1800_DATA)
 
         # Assure START_REGION has no requirements
         assert not self._a1800_regions[START_REGION].requirements, \
@@ -80,17 +81,12 @@ class _Regions:
         # Assure all references exist
         for region in self._a1800_regions.values():
             for requirement in region.requirements:
-                assert next(PRODUCTS.find_products(requirement.name, requirement.region), None) \
-                    or next(UNLOCKS.find_unlocks(requirement.name, requirement.region), None), \
+                assert next(self._A1800_DATA.find_products(requirement.name, requirement.region), None) \
+                    or next(self._A1800_DATA.find_unlocks(requirement.name, requirement.region), None), \
                     f"Region {region.region.full_name} references non-existent requirement {requirement}"
 
     def get_regions(self) -> Sequence[A1800Region]:
-        assert self._initialized, "The Anno 1800 regions module was used before it was initialized."
         return list(self._a1800_regions.values())
 
     def find_region(self, region: Region) -> Optional[A1800Region]:
-        assert self._initialized, "The Anno 1800 regions module was used before it was initialized."
         return self._a1800_regions[region] if region in self._a1800_regions else None
-
-
-REGIONS = _Regions()

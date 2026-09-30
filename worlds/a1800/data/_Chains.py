@@ -1,8 +1,11 @@
 from collections.abc import Sequence
-from typing import Iterator, Optional
+from copy import deepcopy
+from typing import Iterator, Optional, TYPE_CHECKING
 
 from ._Enums import DLC, NO_REGION, Region
-from ._ParsedOptions import ParsedOptions
+
+if TYPE_CHECKING:
+    from . import A1800Data
 
 
 class A1800Chain:
@@ -23,7 +26,7 @@ class A1800Chain:
         return f"(Chain: {self.name}, {self.region})"
 
 
-_a1800_chains: list[A1800Chain] = [
+A1800_CHAINS: list[A1800Chain] = [
     ################################################################################################################
     ### VANILLA                                                                                                  ###
     ################################################################################################################
@@ -396,32 +399,26 @@ _a1800_chains: list[A1800Chain] = [
 
 
 # Assure uniqueness
-assert len(_a1800_chains) == len({chain.guid for chain in _a1800_chains}), "Duplicate guid in chains"
-assert len(_a1800_chains) == len({(chain.name, chain.region) for chain in _a1800_chains}), \
+assert len(A1800_CHAINS) == len({chain.guid for chain in A1800_CHAINS}), "Duplicate guid in chains"
+assert len(A1800_CHAINS) == len({(chain.name, chain.region) for chain in A1800_CHAINS}), \
     "Duplicate name/region pair in chains"
 
 
-class _Chains:
-    _initialized: bool = False
+class Chains:
+    def __init__(self, A1800_DATA: "A1800Data") -> None:
+        self._A1800_DATA = A1800_DATA
 
-    def init(self, parsed_options: ParsedOptions) -> None:
-        global _a1800_chains
+        global A1800_CHAINS
+        self._a1800_chains = deepcopy(A1800_CHAINS)
 
-        self._a1800_chains = [chain for chain in _a1800_chains if any(
-            dlc in parsed_options.enabled_dlcs for dlc in chain.dlc)]
-
-        self._initialized = True
+        self._a1800_chains = [chain for chain in self._a1800_chains if any(
+            dlc in self._A1800_DATA.get_parsed_options().enabled_dlcs for dlc in chain.dlc)]
 
     def get_chains(self) -> Sequence[A1800Chain]:
-        assert self._initialized, "The Anno 1800 chains module was used before it was initialized."
         return self._a1800_chains
 
     def find_chains(self, name: str, unlock_name: str, unlock_region: Region, region: Optional[Region] = None) -> Iterator[A1800Chain]:
-        assert self._initialized, "The Anno 1800 chains module was used before it was initialized."
         return (chain for chain in self._a1800_chains if chain.name == name and
                 next((element_name for element_name, element_region in chain.elements
                       if element_name == unlock_name and element_region == unlock_region), None)
                 and (region in chain.region if region else chain.region & unlock_region != NO_REGION))
-
-
-CHAINS = _Chains()

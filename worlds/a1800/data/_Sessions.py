@@ -1,16 +1,17 @@
 from collections.abc import Sequence
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from ._Enums import ALL_REGIONS, DLC, Region, Session, TriggerConditionType
 from ._ParsedOptions import ParsedOptions
-from ._Products import PRODUCTS
-from ._Regions import REGIONS
 from ._Requirement import A1800Requirement
 from ._TriggerCondition import TriggerCondition
-from ._Unlocks import UNLOCKS
+
+if TYPE_CHECKING:
+    from . import A1800Data
 
 
-_a1800_sessions: dict[Session, tuple[DLC, set[tuple[str, Region]]]] = {
+A1800_SESSIONS: dict[Session, tuple[DLC, set[tuple[str, Region]]]] = {
     Session.OW: (DLC.VANILLA, set()),
     Session.NW: (DLC.VANILLA, set()),
     Session.CT: (DLC.SUNKEN_TREASURES, {
@@ -29,53 +30,53 @@ class A1800Session:
     dlc: DLC
     requirements: set[A1800Requirement]
 
-    def __post_init__(self) -> None:
-        anno_region = REGIONS.find_region(self.session.region)
+    def post_init(self, A1800_DATA: "A1800Data") -> None:
+        anno_region = A1800_DATA.find_region(self.session.region)
         assert anno_region, \
             f"Trying to create session {self.session.name} for non-existent region {self.session.region}"
         self.requirements |= anno_region.entry_requirements
 
 
-class _Sessions:
-    _initialized: bool = False
+class Sessions:
+    def __init__(self, A1800_DATA: "A1800Data") -> None:
+        self._A1800_DATA = A1800_DATA
 
-    def init(self, parsed_options: ParsedOptions) -> None:
-        global _a1800_sessions
+        global A1800_SESSIONS
 
         self._a1800_sessions = {
-            session: A1800Session(session, dlc, {A1800Requirement(name, region) for name, region in requirements})
-            for session, (dlc, requirements) in _a1800_sessions.items() if dlc in parsed_options.enabled_dlcs
+            session: A1800Session(session, dlc, {self._A1800_DATA.make_requirement(
+                name, region) for name, region in requirements})
+            for session, (dlc, requirements) in A1800_SESSIONS.items() if dlc in self._A1800_DATA.get_parsed_options().enabled_dlcs
         }
+        for a1800_session in self._a1800_sessions.values():
+            a1800_session.post_init(self._A1800_DATA)
 
         if Session.CT in self._a1800_sessions:
             unlock = None
-            if parsed_options.enforce_cape_trelawney == ParsedOptions.EnforceCapeTrelawney.BY_ARTISANS:
-                unlock = next(UNLOCKS.find_unlocks("Artisan Residence", Region.OW))
-            if parsed_options.enforce_cape_trelawney == ParsedOptions.EnforceCapeTrelawney.BY_ENGINEERS:
-                unlock = next(UNLOCKS.find_unlocks("Engineer Residence", Region.OW))
-            if parsed_options.enforce_cape_trelawney == ParsedOptions.EnforceCapeTrelawney.BY_INVESTORS:
-                unlock = next(UNLOCKS.find_unlocks("Investor Residence", Region.OW))
+            if self._A1800_DATA.get_parsed_options().enforce_cape_trelawney == ParsedOptions.EnforceCapeTrelawney.BY_ARTISANS:
+                unlock = next(self._A1800_DATA.find_unlocks("Artisan Residence", Region.OW))
+            if self._A1800_DATA.get_parsed_options().enforce_cape_trelawney == ParsedOptions.EnforceCapeTrelawney.BY_ENGINEERS:
+                unlock = next(self._A1800_DATA.find_unlocks("Engineer Residence", Region.OW))
+            if self._A1800_DATA.get_parsed_options().enforce_cape_trelawney == ParsedOptions.EnforceCapeTrelawney.BY_INVESTORS:
+                unlock = next(self._A1800_DATA.find_unlocks("Investor Residence", Region.OW))
             if unlock:
                 unlock.cost |= {requirement.name for requirement in self._a1800_sessions[Session.CT].requirements}
 
-        for unlock in UNLOCKS.get_unlocks():
-            unlock.condition = self._clean_dlc_condition(parsed_options.enabled_dlcs, unlock.condition)
-
-        self._initialized = True
+        for unlock in self._A1800_DATA.get_unlocks():
+            unlock.condition = self._clean_dlc_condition(
+                self._A1800_DATA.get_parsed_options().enabled_dlcs, unlock.condition)
 
         # Assure all references exist
         for session in self._a1800_sessions.values():
             for requirement in session.requirements:
-                assert next(PRODUCTS.find_products(requirement.name, requirement.region), None) \
-                    or next(UNLOCKS.find_unlocks(requirement.name, requirement.region), None), \
+                assert next(self._A1800_DATA.find_products(requirement.name, requirement.region), None) \
+                    or next(self._A1800_DATA.find_unlocks(requirement.name, requirement.region), None), \
                     f"Session {session.session.full_name} references non-existent requirement {requirement}"
 
     def get_sessions(self) -> Sequence[A1800Session]:
-        assert self._initialized, "The Anno 1800 sessions module was used before it was initialized."
         return list(self._a1800_sessions.values())
 
     def find_session(self, session: Session) -> A1800Session:
-        assert self._initialized, "The Anno 1800 sessions module was used before it was initialized."
         return self._a1800_sessions[session]
 
     def _clean_dlc_condition(self, enabled_dlcs: DLC, condition: TriggerCondition) -> TriggerCondition:
@@ -107,6 +108,3 @@ class _Sessions:
             return TriggerCondition.FALSE() if not condition.session in self._a1800_sessions else condition
         else:
             return condition
-
-
-SESSIONS = _Sessions()

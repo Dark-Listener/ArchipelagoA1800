@@ -276,9 +276,9 @@ A1800_UNLOCKS: list[A1800Unlock] = [
                 TriggerCondition.POPULATION("Artisans", Region.OW, 1), {"Timber", "Bricks", "Steel Beams", "Weapons"}),
 
     A1800Unlock("Public Mooring", DLC.VANILLA, Region.OW, 100429, (130052, 130216, 130217),
-                TriggerCondition.POPULATION("Artisans", Region.OW, 250), {
-        "Timber", "Bricks", "Steel Beams", "Windows"},
-        progressive_group="Public Mooring", progressive_tier=1),
+                TriggerCondition.POPULATION("Artisans", Region.OW, 250),
+                {"Timber", "Bricks", "Steel Beams", "Windows"},
+                progressive_group="Public Mooring", progressive_tier=1),
 
     A1800Unlock("Repair Crane", DLC.VANILLA, Region.OW, 1010525, (1010525, 130216, 130217),
                 TriggerCondition.POPULATION("Artisans", Region.OW, 250), {"Timber", "Bricks", "Steel Beams"}),

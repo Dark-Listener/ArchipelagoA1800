@@ -22,7 +22,7 @@ Note: Ornaments are currently excluded.
 
 ## What's the goal?
 
-By default, the goal is to reach 5000 investors, 1500 obreros, 6000 artistas, 750 technicians, 7000 scholars, 4000
+By default, the goal is to reach 5000 investors, 1500 obreros, 4000 artistas, 750 technicians, 1000 scholars, 1500
 tourists and 15 level 5 investor skyscrapers. This is, of course, configurable.
 
 ## What are locations?

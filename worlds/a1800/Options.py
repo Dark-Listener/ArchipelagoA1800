@@ -210,8 +210,8 @@ class RequiredPopulationOption(OptionCounter):
                     "obreros", "artistas", "explorers", "technicians", "shepherds", "elders", "scholars", "tourists"]
     _default_required_population = {
         f"{idx:02}-{population}": 5000 if population == "investors" else 1500 if population == "obreros" else
-        6000 if population == "artistas" else 750 if population == "technicians" else
-        7000 if population == "scholars" else 4000 if population == "tourists" else 0
+        4000 if population == "artistas" else 750 if population == "technicians" else
+        1000 if population == "scholars" else 1500 if population == "tourists" else 0
         for idx, population in enumerate(_populations)
     }
 
@@ -285,6 +285,22 @@ class A1800ExcludeLocations(ExcludeLocations):
         "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa) (OW: The Iron Tower: Homard Lit de Terroir)",
         "(Build 1 OW: Furniture Store) THEN (Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)) (OW: Furniture Store: Vanity Screens)",
         "(Build 1 OW: Drug Store) THEN (Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)) (OW: Drug Store: Face Cream)",
+        "4000 Scholars (OW: Telephone Manufacturer)",
+        "7000 Scholars (OW: Radio Tower)",
+        "2000 Tourists (OW: Chemical Plant: Souvenirs)",
+        "4000 Tourists (OW: The Iron Tower)",
+        "6000 Artistas (OW: City Hospital)",
+        "6000 Artistas (NW: Scooter Factory)",
+        "6000 Artistas (NW: Laboratory: Medicine)",
+        "6000 Artistas (NW: City Hospital)",
+        "6000 Artistas (NW: Grand Stadium: Foundations)",
+        "6000 Artistas (NW: Grand Stadium: Superstructure)",
+        "6000 Artistas (NW: Grand Stadium)",
+        "Build 25 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower: Foundations)",
+        "Build 40 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower: Superstructure)",
+        "Build 55 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower: Glazing)",
+        "Build 75 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower)",
+        "(Build 1 OW: Drug Store) THEN (Build 40 OW: Investor Skyscraper: Level 5) (OW: Drug Store: Detergent)",
     })
 
 
@@ -372,13 +388,7 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         },
         "required_monuments": [],
         "enable_mine_slot_unification": False,
-        "exclude_locations": [
-            "(Build 1 OW: Cafe) THEN (Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)) (OW: Cafe: Palmier Biscuit)",
-            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)) (OW: The Iron Tower: Age of Exploration)",
-            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa) (OW: The Iron Tower: Homard Lit de Terroir)",
-            "(Build 1 OW: Furniture Store) THEN (Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)) (OW: Furniture Store: Vanity Screens)",
-            "(Build 1 OW: Drug Store) THEN (Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)) (OW: Drug Store: Face Cream)",
-        ],
+        "exclude_locations": [],
     },
     "Short": {
         "enabled_dlcs": [
@@ -424,11 +434,27 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
         "required_monuments": [],
         "enable_mine_slot_unification": False,
         "exclude_locations": [
-            "(Build 1 OW: Cafe) THEN (Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)) (OW: Cafe: Palmier Biscuit)",
-            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)) (OW: The Iron Tower: Age of Exploration)",
-            "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa) (OW: The Iron Tower: Homard Lit de Terroir)",
-            "(Build 1 OW: Furniture Store) THEN (Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)) (OW: Furniture Store: Vanity Screens)",
-            "(Build 1 OW: Drug Store) THEN (Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)) (OW: Drug Store: Face Cream)",
+            "Investors",
+            "(1500 Obreros) AND (500 Engineers) (Alicanto)",
+            "(1500 Obreros) AND (500 Engineers) (Alicanto (Armed))",
+            "(1500 Obreros) AND (500 Engineers) (Dtundtuncan)",
+            "(1500 Obreros) AND (500 Engineers) (Quetzalcoatl)",
+            "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Manticore)",
+            "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Manticore (Armed))",
+            "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Pegasus)",
+            "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Zephyr)",
+            "1000 Obreros (NW: Zoo)",
+            "1000 Obreros (NW: Tobacco Plantation)",
+            "1000 Obreros (NW: Marquetry Workshop)",
+            "1000 Obreros (NW: Cigar Factory)",
+            "1500 Obreros (NW: Museum)",
+            "1500 Obreros (NW: Anti-Armour Gun)",
+            "1500 Obreros (NW: Sugar Refinery)",
+            "1500 Obreros (NW: Cocoa Plantation)",
+            "1500 Obreros (NW: Chocolate Factory)",
+            "1500 Obreros (NW: Large Warehouse)",
+            "1500 Obreros (NW: Large Trading Post)",
+            "1500 Obreros (NW: Botanical Garden)",
         ],
     },
     "Default": {
@@ -454,13 +480,13 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
             "04-investors": 5000,
             "05-jornaleros": 0,
             "06-obreros": 1500,
-            "07-artistas": 6000,
+            "07-artistas": 4000,
             "08-explorers": 0,
             "09-technicians": 750,
             "10-shepherds": 0,
             "11-elders": 0,
-            "12-scholars": 7000,
-            "13-tourists": 4000,
+            "12-scholars": 1000,
+            "13-tourists": 1500,
         },
         "required_skyscrapers": {
             "00-engineer-level-1": 0,
@@ -481,6 +507,22 @@ a1800_option_presets: dict[str, dict[str, Any]] = {
             "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa) (OW: The Iron Tower: Homard Lit de Terroir)",
             "(Build 1 OW: Furniture Store) THEN (Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)) (OW: Furniture Store: Vanity Screens)",
             "(Build 1 OW: Drug Store) THEN (Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)) (OW: Drug Store: Face Cream)",
+            "4000 Scholars (OW: Telephone Manufacturer)",
+            "7000 Scholars (OW: Radio Tower)",
+            "2000 Tourists (OW: Chemical Plant: Souvenirs)",
+            "4000 Tourists (OW: The Iron Tower)",
+            "6000 Artistas (OW: City Hospital)",
+            "6000 Artistas (NW: Scooter Factory)",
+            "6000 Artistas (NW: Laboratory: Medicine)",
+            "6000 Artistas (NW: City Hospital)",
+            "6000 Artistas (NW: Grand Stadium: Foundations)",
+            "6000 Artistas (NW: Grand Stadium: Superstructure)",
+            "6000 Artistas (NW: Grand Stadium)",
+            "Build 25 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower: Foundations)",
+            "Build 40 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower: Superstructure)",
+            "Build 55 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower: Glazing)",
+            "Build 75 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower)",
+            "(Build 1 OW: Drug Store) THEN (Build 40 OW: Investor Skyscraper: Level 5) (OW: Drug Store: Detergent)",
         ],
     },
     "Full": {

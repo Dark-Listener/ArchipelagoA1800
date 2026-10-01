@@ -219,11 +219,9 @@ async def a1800_init(ctx: A1800Context) -> bool:
         ctx.exit_event.set()
         return False
 
-    mods = [mod for mod in ctx.a1800_mods_folder_path.iterdir()]
-
     mod_regex = re.compile(fr"AP-(\d*)-P(\d*)-(.*)-.*")
     mod_path = None
-    for mod in mods:
+    for mod in ctx.a1800_mods_folder_path.iterdir():
         if mod.name.startswith("-"):
             continue
         modinfo_path = (mod / "modinfo.json")

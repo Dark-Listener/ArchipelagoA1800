@@ -1,7 +1,23 @@
+import json
+import re
 import sys
 from pathlib import Path
 
-mod_path = Path.cwd() / "mods" / "{{ mod_name }}"
+mods_path = Path.cwd() / "mods"
+
+mod_regex = re.compile(r"AP-(\d*)-P(\d*)-(.*)-.*")
+mod_path = Path()
+for mod in mods_path.iterdir():
+    if mod.name.startswith("-"):
+        continue
+    modinfo_path = (mod / "modinfo.json")
+    if modinfo_path.exists() and modinfo_path.is_file():
+        data = {}
+        with modinfo_path.open("r", encoding="utf-8") as modinfo_file:
+            data = json.load(modinfo_file)
+        if data and "ModID" in data and mod_regex.search(data["ModID"]):
+            mod_path = mod
+
 src_path = mod_path / "data" / "archipelago" / "scripts"
 
 if not src_path in sys.path:

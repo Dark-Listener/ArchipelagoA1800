@@ -1720,7 +1720,7 @@ A1800_UNLOCKS: list[A1800Unlock] = [
                 previous_building="Medium Trading Post", progressive_group="Trading Post", progressive_tier=3, is_useful=True),
 
     # Building, Factory, Residence
-    # University + Canned Food guarantuee enough scholars to make infinite permits
+    # University + Canned Food guarantee enough scholars to make infinite permits
     A1800Unlock("Scholar Residence", DLC.LAND_OF_LIONS, Region.OW, 114445, (114445, 120063, 128534),
                 TriggerCondition.POPULATION("Elders", Region.EN, 1500),
                 {"Timber", "Bricks", "Steel Beams", "Windows", "Permit: Scholar Residence"}, set(),

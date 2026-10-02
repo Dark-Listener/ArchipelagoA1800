@@ -8,7 +8,7 @@ from ._Chains import A1800Chain, Chains
 from ._Enums import ALL_REGIONS, DLC, NO_REGION, Region, RequirementType, Session, START_REGION, TriggerActionType, TriggerConditionType, UnlockType
 from ._EventItems import A1800EventItem, EventItems
 from ._EventLocations import A1800EventLocation, EventLocations
-from ._Guid import get_next_anno_guid, HACIENDA_QUARTER_GUIDS, RECIPE_GUIDS
+from ._Guid import get_next_anno_guid, HACIENDA_QUARTER_GUIDS, RECIPE_GUIDS, reset_anno_guids
 from ._Logic import Logic
 from ._ParsedOptions import ParsedOptions
 from ._Products import A1800Product, Products
@@ -37,8 +37,9 @@ LOCATION_NAME_TO_AP_CODE: dict[str, int] = {
 
 
 class A1800Data:
-
     def __init__(self, options: "A1800Options") -> None:
+        reset_anno_guids()
+
         self._parsed_options = ParsedOptions(options)
 
         self._chains = Chains(self)

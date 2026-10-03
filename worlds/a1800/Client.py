@@ -7,9 +7,9 @@ import logging
 import re
 import time
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable, Optional, TYPE_CHECKING
 
-from CommonClient import ClientCommandProcessor, CommonContext, logger, server_loop, gui_enabled, get_base_parser
+from CommonClient import ClientCommandProcessor, logger, server_loop, gui_enabled, get_base_parser
 from NetUtils import ClientStatus, NetworkItem
 from settings import get_settings
 from Utils import Version, __version__, tuplize_version
@@ -18,14 +18,41 @@ from . import A1800World
 from .Settings import A1800Settings
 from .rcon.rcon_mmap_client import RCONMMapClient, RCONTimeout
 
+if TYPE_CHECKING:
+    import kvui
+
+try:
+    from worlds.tracker.TrackerClient import TrackerGameContext  # pyright: ignore[reportAssignmentType]
+    from worlds.tracker.TrackerClient import TrackerCommandProcessor as ClientCommandProcessor, UT_VERSION
+
+    tracker_loaded = True
+except ModuleNotFoundError as e:
+    tracker_loaded = False
+    UT_VERSION = ""  # pyright: ignore[reportConstantRedefinition]
+
+    from CommonClient import CommonContext, ClientCommandProcessor
+
+    class TrackerGameContextMixin:
+        """Expecting the TrackerGameContext to have these methods."""
+
+        def make_gui(self) -> "type[kvui.GameManager]":
+            ...
+
+        def run_generator(self):
+            ...
+
+    class TrackerGameContext(CommonContext, TrackerGameContextMixin):
+        pass
+
 VERSION_COMPATIBILITY = (Version(1, 4, 0), A1800World.world_version)
 
 
-class A1800Context(CommonContext):
+class A1800Context(TrackerGameContext):
     command_processor = ClientCommandProcessor
     game = "Anno 1800"
     items_handling = 0b111  # full remote
     mod_version: Version = Version(0, 0, 0)
+    tags = {"AP"}
 
     def __init__(self, server_address: Optional[str], password: Optional[str], a1800_mods_folder_path: Path):
         super(A1800Context, self).__init__(server_address, password)
@@ -98,17 +125,10 @@ class A1800Context(CommonContext):
 
         await self.send_connect()
 
-    def run_gui(self):
-        from kvui import GameManager
-
-        class A1800Manager(GameManager):
-            logging_pairs = [
-                ("Client", "Archipelago"),
-            ]
-            base_title = "Archipelago Anno 1800 Client"
-
-        self.ui = A1800Manager(self)
-        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+    def make_gui(self) -> "type[kvui.GameManager]":
+        ui = super().make_gui()
+        ui.base_title = f"Archipelago Anno 1800 Client{f" with UT {UT_VERSION}" if tracker_loaded else ""} - AP Version"
+        return ui
 
 
 async def a1800_game_watcher(ctx: A1800Context):
@@ -272,6 +292,8 @@ async def main(make_context: Callable[[], A1800Context]):
     ctx = make_context()
     ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
 
+    if tracker_loaded:
+        ctx.run_generator()
     if gui_enabled:
         ctx.run_gui()
     ctx.run_cli()

@@ -38,9 +38,6 @@ class Logic:
         victory_dlcs: DLC = DLC.VANILLA
         for required_population in self._required_population.values():
             population, amount = required_population
-            supplied = False
-            luxury = False
-            lifestyle = False
 
             victory_required_items.add(self._A1800_DATA.make_requirement(population.name, population.region))
             victory_conditions.append(TriggerCondition.POPULATION(
@@ -48,19 +45,6 @@ class Logic:
             assert len(population.dlc) == 1, \
                 f"Victory condition requested population {population.name} which was introduced in more than one DLC"
             victory_dlcs |= next(iter(population.dlc))
-
-            if supplied or luxury or lifestyle:
-                residence = self._A1800_DATA.get_primary_residence(population.name, population.region)
-
-                if supplied:
-                    victory_required_items |= set(self._A1800_DATA.make_requirement(consumption, population.region)
-                                                  for consumption in residence.consumption)
-                if luxury:
-                    victory_required_items |= set(self._A1800_DATA.make_requirement(luxury, population.region)
-                                                  for luxury in residence.luxury)
-                if lifestyle:
-                    victory_required_items |= set(self._A1800_DATA.make_requirement(lifestyle, population.region)
-                                                  for lifestyle in residence.lifestyle)
 
         for required_building in self._required_buildings.values():
             unlock, amount = required_building

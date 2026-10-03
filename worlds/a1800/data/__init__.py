@@ -116,9 +116,6 @@ class A1800Data:
     def get_populations(self) -> Sequence[A1800Product]:
         return self._products.get_populations()
 
-    def get_primary_residence(self, name: str, region: Region) -> A1800Unlock:
-        return self._unlocks.get_primary_residence(name, region)
-
     def get_progressive_groups(self) -> dict[str, tuple[int, list[A1800Unlock]]]:
         return self._unlocks.get_progressive_groups()
 

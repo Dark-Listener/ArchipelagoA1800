@@ -3208,15 +3208,6 @@ class Unlocks:
     def get_unlock_locations(self) -> Sequence[A1800Unlock]:
         return self._a1800_unlock_locations
 
-    def get_primary_residence(self, name: str, region: Region) -> A1800Unlock:
-        # Pick residence, but avoid skyscrapers and the Skyline Tower
-        residence = next((
-            unlock for unlock in self._a1800_unlocks
-            if UnlockType.RESIDENCE in unlock.type_ and not "Level" in unlock.name and not "Tower" in unlock.name
-            and region in unlock.region and name in next(zip(*unlock.output))), None)
-        assert residence, f"Requested {name} in {region.name}, which does not have a primary residence"
-        return residence
-
     def get_progressive_groups(self) -> dict[str, tuple[int, list[A1800Unlock]]]:
         return self._a1800_progressive_groups
 

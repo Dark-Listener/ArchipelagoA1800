@@ -200,5 +200,6 @@ _speedups.html
 Thumbs.db
 [Dd]esktop.ini
 
-# UT support
-worlds/tracker/
+# Tools & UT support
+submodules
+worlds/tracker

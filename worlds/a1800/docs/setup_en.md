@@ -12,7 +12,8 @@
 
 ## Optional Software
 
-* For tracking, use the Universal Tracker, which you can find on the Archipelago discord.
+* For tracking, use the Universal Tracker, which you can find on
+[Github](https://github.com/FarisTheAncient/Archipelago/releases).
 
 ## Overview
 
@@ -54,7 +55,7 @@ Install Archipelago as described in its [setup guide](https://archipelago.gg/tut
 
 ### Installing the Anno 1800 Custom APWorld
 
-Open the Archipelago Launcher,  select `Install APWorld` and point it to the `.apworld`-file in the download.
+Open the Archipelago Launcher, select `Install APWorld` and point it to the `.apworld`-file in the download.
 
 Alternatively, take the `.apworld`-file in the download and put it into the `custom_worlds`folder in your Archipelago
 installation. If you don't have this folder, create an empty one with the name first.
@@ -79,6 +80,17 @@ download. Afterwards, pass it to the host of your game. If that's you, check out
 Alternatively, you can use the `Options Creator` from the Archipelago Launcher for a visual yaml creator. Unfortunately,
 it can't enter 0 as an amount in the lists for required population and required skyscrapers, so you have to remove the
 ones you don't want if you intend to change any from the default.
+
+### Installing the Universal Tracker (Optional)
+
+If you wish to use the Universal Tracker with Anno 1800, first download the `tracker.apworld` from their release page
+listed [above](#optional-software).
+
+Open the Archipelago Launcher, select `Install APWorld` and point it to the downloaded `tracker.apworld`-file.
+
+In order to use the Universal Tracker, place your config (.yaml) file in the `Players` folder of your Archipelago
+installation. Now, a `Tracker Page` tab will be automatically added to the Archipelago Client, where you can find live
+tracking information once you connect to the Archipelago Server.
 
 ### Installing the Archipelago Mod
 
@@ -196,7 +208,7 @@ The following mods are supported, but must be enabled in the config yaml:
 
 ### Compatible Mods
 
-The following mods are compatible with the randomizer and should not cause any issues.:
+The following mods are compatible with the randomizer and should not cause any issues:
 * Adjustments for HighLife Goods (Taludas) - v1.1
 * Attractiveness Rebalancing \[Spice It Up\] - v1.0.2
 * Bigger Gas Pump Radius \[Spice It Up\] - v1.0.1

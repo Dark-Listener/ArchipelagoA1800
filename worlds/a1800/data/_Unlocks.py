@@ -3294,12 +3294,13 @@ class Unlocks:
                         if (hint_ap_item_name := chain_unlock.progressive_ap_item_name or chain_unlock.ap_item_name) and hint_ap_item_name != unlock.ap_item_name:
                             unlock.hints.append((hint_ap_item_name, region))
 
-        if UnlockType.UPGRADE in unlock.type_:
+        if unlock.progressive_ap_item_name:
+            unlock.hints.append((unlock.progressive_ap_item_name, unlock.region))
+        elif UnlockType.UPGRADE in unlock.type_:
             previous_unlock = next((previous_unlock for previous_unlock in self._a1800_unlocks
                                     if previous_unlock.name == unlock.previous_building and unlock.region in previous_unlock.region), None)
-            hint_ap_item_name = unlock.progressive_ap_item_name or unlock.ap_item_name
-            if previous_unlock and hint_ap_item_name:
-                previous_unlock.hints.append((hint_ap_item_name, unlock.region))
+            if previous_unlock:
+                previous_unlock.hints.append((unlock.ap_item_name, unlock.region))
 
     def _clean_dlc_condition(self, enabled_dlcs: DLC, condition: TriggerCondition) -> TriggerCondition:
         if condition.type_ in [TriggerConditionType.ALL, TriggerConditionType.LINEAR]:

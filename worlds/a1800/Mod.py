@@ -128,7 +128,7 @@ def _get_allowed_goods_and_ships_by_session(world: "A1800World", player: int) ->
 
 
 class A1800ModFile(APPlayerContainer):
-    game = "A1800"
+    game = "Anno 1800"
     compression_method = ZIP_DEFLATED
     writing_tasks: list[Callable[[], tuple[str, str | bytes]]]
     patch_file_ending = ".zip"
@@ -203,7 +203,7 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     # get data for templates
     mod_name = f"AP-{multiworld.seed_name}-P{player}-{multiworld.get_file_safe_player_name(player)}"
-    versioned_mod_name = mod_name + "-" + __version__
+    versioned_mod_name = mod_name + "_" + __version__
 
     locations = [location for location in multiworld.get_filled_locations(
         player) if isinstance(location, A1800Location) and not location.is_event]

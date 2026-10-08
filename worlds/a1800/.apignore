@@ -1,3 +1,5 @@
 docs/
 icons/
 !icons/a1800.png
+tracker/images
+!tracker/images/background_main.png

@@ -34,4 +34,3 @@ The following features are being considered, but it's unclear whether they are r
 * Instead of grouped triggers and unlockable assets, use feature unlocks?
 * Find a way to make Docklands DLC work meaningfully? Somehow all the unlocks would have to be redone
 * Fix incorrect recipe description hints?
-* Ingame tracker?

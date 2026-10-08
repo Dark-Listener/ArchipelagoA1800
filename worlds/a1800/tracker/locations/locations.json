@@ -1,0 +1,4131 @@
+[
+  {
+    "name": "50 Farmers",
+    "sections": [
+      {
+        "name": "50 Farmers (OW: Fishery)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 60,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "100 Farmers",
+    "sections": [
+      {
+        "name": "(100 Farmers) OR (500 Explorers) (OW: Potato Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "(100 Farmers) OR (500 Explorers) (OW: Schnapps Distillery)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Farmers (OW: Framework Knitters)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Farmers (OW: Sheep Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Farmers (OW: Worker Residence)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 81,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "150 Farmers",
+    "sections": [
+      {
+        "name": "150 Farmers (OW: Fire Station)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Farmers (OW: Pub)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 102,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Worker",
+    "sections": [
+      {
+        "name": "1 Worker (OW: Brick Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Worker (OW: Clay Pit)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Worker (OW: Medium Trading Post)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Worker (OW: Medium Warehouse)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Worker (OW: Paved Street)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Worker (OW: Pig Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Worker (OW: Slaughterhouse)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Worker (OW: Trade Union)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 60,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "150 Workers",
+    "sections": [
+      {
+        "name": "150 Workers (OW: Bakery)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Workers (OW: Church)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Workers (OW: Depot)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Workers (OW: Flour Mill)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Workers (OW: Grain Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Workers (OW: Harbourmaster's Office)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Workers (OW: Mounted Guns)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Workers (OW: Quay)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Workers (OW: Sailing Shipyard)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Workers (OW: Sailmakers)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 81,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "300 Workers",
+    "sections": [
+      {
+        "name": "300 Workers (OW: Cannon Tower)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Workers (OW: Charcoal Kiln)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Workers (OW: Flak Emplacement)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Workers (OW: Furnace)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Workers (OW: Iron Mine)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Workers (OW: Rendering Works)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Workers (OW: Silo)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Workers (OW: Soap Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Workers (OW: Steelworks)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Workers (OW: Weapon Factory)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 102,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "500 Workers",
+    "sections": [
+      {
+        "name": "(500 Workers) OR (600 Obreros) (OW: Brewery)",
+        "item_count": 1
+      },
+      {
+        "name": "(500 Workers) OR (600 Obreros) (OW: Hop Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "(500 Workers) OR (600 Obreros) (OW: Malthouse)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Workers (OW: Police Station)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 123,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "750 Workers",
+    "sections": [
+      {
+        "name": "750 Workers (OW: Artisan Residence)",
+        "item_count": 1
+      },
+      {
+        "name": "750 Workers (OW: School)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 144,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Artisan",
+    "sections": [
+      {
+        "name": "(1 Artisan) OR (300 Technicians) (OW: Artisanal Kitchen)",
+        "item_count": 1
+      },
+      {
+        "name": "(1 Artisan) OR (300 Technicians) (OW: Cannery)",
+        "item_count": 1
+      },
+      {
+        "name": "(1 Artisan) OR (300 Technicians) (OW: Cattle Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "(1 Artisan) OR (300 Technicians) (OW: Red Pepper Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artisan (Expedition: New World)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artisan (Frigate)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artisan (OW: Flame Tower)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artisan (OW: Glassmakers)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artisan (OW: Large Trading Post)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artisan (OW: Large Warehouse)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artisan (OW: Sand Mine)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artisan (OW: Town Hall)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artisan (OW: Window Makers)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 60,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "100 Artisans",
+    "sections": [
+      {
+        "name": "100 Artisans (Expedition: Enbesa)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 81,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "250 Artisans",
+    "sections": [
+      {
+        "name": "250 Artisans (OW: Coal Mine)",
+        "item_count": 1
+      },
+      {
+        "name": "250 Artisans (OW: Docklands Main Wharf)",
+        "item_count": 1
+      },
+      {
+        "name": "250 Artisans (OW: Pier)",
+        "item_count": 1
+      },
+      {
+        "name": "250 Artisans (OW: Public Mooring)",
+        "item_count": 1
+      },
+      {
+        "name": "250 Artisans (OW: Repair Crane)",
+        "item_count": 1
+      },
+      {
+        "name": "250 Artisans (OW: Sewing Machine Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "250 Artisans (OW: Variety Theatre)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 102,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "500 Artisans",
+    "sections": [
+      {
+        "name": "500 Artisans (OW: Post Box)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Artisans (OW: Post Office)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Artisans (OW: Zoo)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 123,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "700 Artisans",
+    "sections": [
+      {
+        "name": "700 Artisans (Expedition: Cape Trelawney)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 144,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "750 Artisans",
+    "sections": [
+      {
+        "name": "750 Artisans (Clipper)",
+        "item_count": 1
+      },
+      {
+        "name": "750 Artisans (Ship-of-the-line)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 165,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "900 Artisans",
+    "sections": [
+      {
+        "name": "(900 Artisans) OR (100 Jornaleros) (NW: Cotton Mill)",
+        "item_count": 1
+      },
+      {
+        "name": "(900 Artisans) OR (100 Jornaleros) (NW: Cotton Plantation)",
+        "item_count": 1
+      },
+      {
+        "name": "(900 Artisans) OR (100 Jornaleros) (OW: Fur Dealer)",
+        "item_count": 1
+      },
+      {
+        "name": "(900 Artisans) OR (100 Jornaleros) (OW: Hunting Cabin)",
+        "item_count": 1
+      },
+      {
+        "name": "900 Artisans (OW: Hospital)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 186,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1500 Artisans",
+    "sections": [
+      {
+        "name": "1500 Artisans (OW: Engineer Residence)",
+        "item_count": 1
+      },
+      {
+        "name": "1500 Artisans (OW: Museum)",
+        "item_count": 1
+      },
+      {
+        "name": "1500 Artisans (OW: University)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 207,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Engineer",
+    "sections": [
+      {
+        "name": "(1 Engineer) OR (600 Obreros) (OW|NW: Rails)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (Expedition: The Arctic)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (Flak Monitor)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Brass Smeltery)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Commuter Pier)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Concrete Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Copper Mine)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Grand Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Grand Trading Post)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Grand Warehouse)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Large Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Limestone Quarry)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Medium Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Oil Power Plant)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Oil Refinery)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Oil Store)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Oil Well)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Small Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Spectacle Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Engineer (OW: Zinc Mine)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 60,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "500 Engineers",
+    "sections": [
+      {
+        "name": "500 Engineers (OW: Anti-Armour Gun)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Engineers (OW: Bicycle Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Engineers (OW: Big Betty)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Engineers (OW: Dynamite Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Engineers (OW: Fuel Station)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Engineers (OW: Heavy Weapons Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Engineers (OW: Motor Assembly Line)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Engineers (OW: Saltpetre Works)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Engineers (OW: Steam Shipyard)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Engineers (OW: Tourist Mooring)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Engineers (OW: Tractor Barn)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 81,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "500 Engineers and 1500 Obreros",
+    "sections": [
+      {
+        "name": "(1500 Obreros) AND (500 Engineers) (Alicanto (Armed))",
+        "item_count": 1
+      },
+      {
+        "name": "(1500 Obreros) AND (500 Engineers) (Alicanto)",
+        "item_count": 1
+      },
+      {
+        "name": "(1500 Obreros) AND (500 Engineers) (Dtundtuncan)",
+        "item_count": 1
+      },
+      {
+        "name": "(1500 Obreros) AND (500 Engineers) (Quetzalcoatl)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1257,
+        "y": 81,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "500 Engineers, 1500 Obreros and an Arctic Airship Hangar",
+    "sections": [
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Manticore (Armed))",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Manticore)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Pegasus)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Zephyr)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1278,
+        "y": 81,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1000 Engineers",
+    "sections": [
+      {
+        "name": "1000 Engineers (OW: Botanical Garden)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Engineers (OW: Clockmakers)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Engineers (OW: Goldsmiths)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 102,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1750 Engineers",
+    "sections": [
+      {
+        "name": "1750 Engineers (OW: Filament Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "1750 Engineers (OW: Investor Residence)",
+        "item_count": 1
+      },
+      {
+        "name": "1750 Engineers (OW: Light Bulb Factory)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 123,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "3000 Engineers",
+    "sections": [
+      {
+        "name": "3000 Engineers (OW: Bank)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 144,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Engineer Skyscraper: Level 1",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Engineer Skyscraper: Level 1) OR (Build 1 OW: Investor Skyscraper: Level 1) (OW: Department Store)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 OW: Engineer Skyscraper: Level 1) OR (Build 1 OW: Investor Skyscraper: Level 1) (OW: Engineer Skyscraper: Level 2)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 OW: Engineer Skyscraper: Level 1) OR (Build 1 OW: Investor Skyscraper: Level 1) (OW: Investor Skyscraper: Level 2)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 165,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Engineer Skyscraper: Level 2",
+    "sections": [
+      {
+        "name": "(850 Tourists) OR ((Build 1 OW: Engineer Skyscraper: Level 2) OR (Build 1 OW: Investor Skyscraper: Level 2)) (NW: Orchard: Cinnamon)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 OW: Engineer Skyscraper: Level 2) OR (Build 1 OW: Investor Skyscraper: Level 2) (NW: Chemical Plant: Chewing Gum)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 186,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Engineer Skyscraper: Level 3",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Engineer Skyscraper: Level 3) OR (Build 1 OW: Investor Skyscraper: Level 4) (OW: Assembly Line: Typewriters)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 207,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "250 Tourists",
+    "sections": [
+      {
+        "name": "250 Tourists (OW: Restaurant)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 60,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "300 Tourists",
+    "sections": [
+      {
+        "name": "300 Tourists (OW: Orchard: Jam)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 81,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "550 Tourists",
+    "sections": [
+      {
+        "name": "550 Tourists (OW: Cafe)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 102,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "850 Tourists",
+    "sections": [
+      {
+        "name": "(850 Tourists) OR ((Build 1 OW: Engineer Skyscraper: Level 2) OR (Build 1 OW: Investor Skyscraper: Level 2)) (NW: Orchard: Cinnamon)",
+        "item_count": 1
+      },
+      {
+        "name": "(850 Tourists) OR (Build 10 OW: Investor Skyscraper: Level 5) OR (2700 Artistas) (NW: Orchard: Coconut Oil)",
+        "item_count": 1
+      },
+      {
+        "name": "850 Tourists (OW: Chemical Plant: Shampoo)",
+        "item_count": 1
+      },
+      {
+        "name": "850 Tourists (OW: The Iron Tower: Foundations)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 123,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1250 Tourists",
+    "sections": [
+      {
+        "name": "(1250 Tourists) OR (Build 15 OW: Investor Skyscraper: Level 2) OR (1 Artista) (NW: Orchard: Citrus)",
+        "item_count": 1
+      },
+      {
+        "name": "1250 Tourists (OW: Chemical Plant: Lemonade)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 144,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1500 Tourists",
+    "sections": [
+      {
+        "name": "1500 Tourists (OW: Bar)",
+        "item_count": 1
+      },
+      {
+        "name": "1500 Tourists (OW: The Iron Tower: Superstructure)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 165,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "2000 Tourists",
+    "sections": [
+      {
+        "name": "(2000 Tourists) OR (Build 15 OW: Investor Skyscraper: Level 2) OR (4000 Artistas) (NW: Orchard: Camphor Wax)",
+        "item_count": 1
+      },
+      {
+        "name": "2000 Tourists (OW: Chemical Plant: Souvenirs)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 186,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "4000 Tourists",
+    "sections": [
+      {
+        "name": "4000 Tourists (OW: The Iron Tower)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 207,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Investor",
+    "sections": [
+      {
+        "name": "1 Investor (Flamethrower Monitor)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Investor (Monitor)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Investor (OW: Champagne Cellar)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Investor (OW: Gas-Fired Power Plant)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Investor (OW: Palace)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Investor (OW: Vineyard)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Investor (OW: World's Fair: Foundations)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 60,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Investor and 750 Technicians",
+    "sections": [
+      {
+        "name": "(750 Technicians) AND (1 Investor) (Blue Flamethrower Monitor)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1817,
+        "y": 60,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "750 Investors",
+    "sections": [
+      {
+        "name": "750 Investors (OW: Marquetry Workshop)",
+        "item_count": 1
+      },
+      {
+        "name": "750 Investors (OW: Members Club)",
+        "item_count": 1
+      },
+      {
+        "name": "750 Investors (OW: World's Fair: Superstructure)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 81,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1750 Investors",
+    "sections": [
+      {
+        "name": "1750 Investors (OW: Jewellers)",
+        "item_count": 1
+      },
+      {
+        "name": "1750 Investors (OW: World's Fair: Glazing)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 102,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "3000 Investors",
+    "sections": [
+      {
+        "name": "3000 Investors (OW: Gramophone Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "3000 Investors (OW: World's Fair: Infrastructure)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 123,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "5000 Investors",
+    "sections": [
+      {
+        "name": "5000 Investors (OW: Assembly Line: Elevators)",
+        "item_count": 1
+      },
+      {
+        "name": "5000 Investors (OW: Cab Assembly Line)",
+        "item_count": 1
+      },
+      {
+        "name": "5000 Investors (OW: Coachmakers)",
+        "item_count": 1
+      },
+      {
+        "name": "5000 Investors (OW: Engineer Skyscraper: Level 1)",
+        "item_count": 1
+      },
+      {
+        "name": "5000 Investors (OW: Investor Skyscraper: Level 1)",
+        "item_count": 1
+      },
+      {
+        "name": "5000 Investors (OW: World's Fair)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 144,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Investor Skyscraper: Level 1",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Engineer Skyscraper: Level 1) OR (Build 1 OW: Investor Skyscraper: Level 1) (OW: Department Store)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 OW: Engineer Skyscraper: Level 1) OR (Build 1 OW: Investor Skyscraper: Level 1) (OW: Engineer Skyscraper: Level 2)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 OW: Engineer Skyscraper: Level 1) OR (Build 1 OW: Investor Skyscraper: Level 1) (OW: Investor Skyscraper: Level 2)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 165,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Investor Skyscraper: Level 2",
+    "sections": [
+      {
+        "name": "(850 Tourists) OR ((Build 1 OW: Engineer Skyscraper: Level 2) OR (Build 1 OW: Investor Skyscraper: Level 2)) (NW: Orchard: Cinnamon)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 OW: Engineer Skyscraper: Level 2) OR (Build 1 OW: Investor Skyscraper: Level 2) (NW: Chemical Plant: Chewing Gum)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 186,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "15 Investor Skyscraper: Level 2",
+    "sections": [
+      {
+        "name": "(1250 Tourists) OR (Build 15 OW: Investor Skyscraper: Level 2) OR (1 Artista) (NW: Orchard: Citrus)",
+        "item_count": 1
+      },
+      {
+        "name": "(2000 Tourists) OR (Build 15 OW: Investor Skyscraper: Level 2) OR (4000 Artistas) (NW: Orchard: Camphor Wax)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 15 OW: Investor Skyscraper: Level 2) OR (2700 Artistas) (NW: Chemical Plant: Ethanol)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 15 OW: Investor Skyscraper: Level 2) OR (4000 Artistas) (NW: Chemical Plant: Celluloid)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 15 OW: Investor Skyscraper: Level 2 (OW: Assembly Line: Biscuits)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 15 OW: Investor Skyscraper: Level 2 (OW: Investor Skyscraper: Level 3)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 207,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Investor Skyscraper: Level 3",
+    "sections": [
+      {
+        "name": "Build 1 OW: Investor Skyscraper: Level 3 (OW: Artisan's Workshop: Cognac)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 1 OW: Investor Skyscraper: Level 3 (OW: Orchard: Cherry Wood)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 228,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "15 Investor Skyscraper: Level 3",
+    "sections": [
+      {
+        "name": "Build 15 OW: Investor Skyscraper: Level 3 (OW: Artisan's Workshop: Lacquer)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 15 OW: Investor Skyscraper: Level 3 (OW: Engineer Skyscraper: Level 3)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 15 OW: Investor Skyscraper: Level 3 (OW: Furniture Store)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 15 OW: Investor Skyscraper: Level 3 (OW: Investor Skyscraper: Level 4)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 15 OW: Investor Skyscraper: Level 3 (OW: Orchard: Resin)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 249,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Investor Skyscraper: Level 4",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Engineer Skyscraper: Level 3) OR (Build 1 OW: Investor Skyscraper: Level 4) (OW: Assembly Line: Typewriters)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 270,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "15 Investor Skyscraper: Level 4",
+    "sections": [
+      {
+        "name": "Build 15 OW: Investor Skyscraper: Level 4 (OW: Artisan's Workshop: Billiard Tables)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 15 OW: Investor Skyscraper: Level 4 (OW: Investor Skyscraper: Level 5)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 291,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Investor Skyscraper: Level 5",
+    "sections": [
+      {
+        "name": "Build 1 OW: Investor Skyscraper: Level 5 (OW: Artisan's Workshop: Violins)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 312,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "10 Investor Skyscraper: Level 5",
+    "sections": [
+      {
+        "name": "(850 Tourists) OR (Build 10 OW: Investor Skyscraper: Level 5) OR (2700 Artistas) (NW: Orchard: Coconut Oil)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 10 OW: Investor Skyscraper: Level 5 (OW: Drug Store)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 333,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "15 Investor Skyscraper: Level 5",
+    "sections": [
+      {
+        "name": "Build 15 OW: Investor Skyscraper: Level 5 (OW: Artisan's Workshop: Toys)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 354,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "25 Investor Skyscraper: Level 5",
+    "sections": [
+      {
+        "name": "Build 25 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower: Foundations)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 375,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "40 Investor Skyscraper: Level 5",
+    "sections": [
+      {
+        "name": "Build 40 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower: Superstructure)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 396,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "55 Investor Skyscraper: Level 5",
+    "sections": [
+      {
+        "name": "Build 55 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower: Glazing)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 417,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "75 Investor Skyscraper: Level 5",
+    "sections": [
+      {
+        "name": "Build 75 OW: Investor Skyscraper: Level 5 (OW: Skyline Tower)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1796,
+        "y": 438,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Unlock OW: Sailing Shipyard",
+    "sections": [
+      {
+        "name": "Unlock: OW: Sailing Shipyard (Gunboat)",
+        "item_count": 1
+      },
+      {
+        "name": "Unlock: OW: Sailing Shipyard (Schooner)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 167,
+        "y": 219,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Build 1 OW: Tourist Mooring",
+    "sections": [
+      {
+        "name": "Build 1 OW: Tourist Mooring (OW: Bus Stop)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 1 OW: Tourist Mooring (OW: Hotel)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 167,
+        "y": 283,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Unlock OW: Oil Power Plant",
+    "sections": [
+      {
+        "name": "Unlock: OW: Oil Power Plant (Oil Tanker)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 167,
+        "y": 378,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Unlock OW: Steam Shipyard",
+    "sections": [
+      {
+        "name": "Unlock: OW: Steam Shipyard (Battle Cruiser)",
+        "item_count": 1
+      },
+      {
+        "name": "Unlock: OW: Steam Shipyard (Cargo Ship)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 167,
+        "y": 442,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Unlock: OW: Restaurant (OW: Restaurant: Archduke's Schnitzel)",
+    "sections": [
+      {
+        "name": "Unlock: OW: Restaurant (OW: Restaurant: Archduke's Schnitzel)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 225,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Restaurant) THEN (Have 1 ton of Corn in Old World trading posts) (OW: Restaurant: Stroggof Goulash)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Restaurant) THEN (Have 1 ton of Corn in Old World trading posts) (OW: Restaurant: Stroggof Goulash)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 250,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Restaurant) THEN (Build 1 NW: Orchard: Citrus) (OW: Restaurant: Fish and Frites)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Restaurant) THEN (Build 1 NW: Orchard: Citrus) (OW: Restaurant: Fish and Frites)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 275,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Restaurant) THEN (Build 1 AR: Boreas) (OW: Restaurant: Venison en Croute)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Restaurant) THEN (Build 1 AR: Boreas) (OW: Restaurant: Venison en Croute)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 300,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Restaurant) THEN (Hidden quest: Supply Scholars with Clay Pipes (5 min)) (OW: Restaurant: Lobster Cheminee)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Restaurant) THEN (Hidden quest: Supply Scholars with Clay Pipes (5 min)) (OW: Restaurant: Lobster Cheminee)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 325,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Unlock: OW: Cafe (OW: Cafe: Donut Fourre)",
+    "sections": [
+      {
+        "name": "Unlock: OW: Cafe (OW: Cafe: Donut Fourre)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 225,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Cafe) THEN (Hidden quest: Supply Tourists with any Cafe (5 min)) (OW: Cafe: Eclair)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Cafe) THEN (Hidden quest: Supply Tourists with any Cafe (5 min)) (OW: Cafe: Eclair)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 250,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Cafe) THEN (Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)) (OW: Cafe: Palmier Biscuit)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Cafe) THEN (Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)) (OW: Cafe: Palmier Biscuit)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 275,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Cafe) THEN (Build 1 AR: Post Office) (OW: Cafe: Venison Tartare)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Cafe) THEN (Build 1 AR: Post Office) (OW: Cafe: Venison Tartare)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 300,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Cafe) THEN (Have 1 ton of Plantains in Enbesa trading posts) (OW: Cafe: Banana Surprise)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Cafe) THEN (Have 1 ton of Plantains in Enbesa trading posts) (OW: Cafe: Banana Surprise)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 325,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Unlock: OW: Bar (OW: Bar: Daiquiri Tropic)",
+    "sections": [
+      {
+        "name": "Unlock: OW: Bar (OW: Bar: Daiquiri Tropic)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 384,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Bar) THEN (Build 1 OW: Members Club) (OW: Bar: Black Muscovy)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Bar) THEN (Build 1 OW: Members Club) (OW: Bar: Black Muscovy)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 409,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Bar) THEN (Have a OW: World's Fair: Exhibition active) (OW: Bar: Montmartre '75')",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Bar) THEN (Have a OW: World's Fair: Exhibition active) (OW: Bar: Montmartre '75')",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 434,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Bar) THEN (Complete 1 expedition in the Arctic) (OW: Bar: Glogg)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Bar) THEN (Complete 1 expedition in the Arctic) (OW: Bar: Glogg)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 459,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Bar) THEN (30 happiness with Elders) (OW: Bar: Enbesa Sunrise)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Bar) THEN (30 happiness with Elders) (OW: Bar: Enbesa Sunrise)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 484,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Build 1 OW: The Iron Tower (OW: The Iron Tower: Brioche Royale)",
+    "sections": [
+      {
+        "name": "Build 1 OW: The Iron Tower (OW: The Iron Tower: Brioche Royale)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 384,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Supply Tourists with The Iron Tower (5 min)) (OW: The Iron Tower: Trifle Tower)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Supply Tourists with The Iron Tower (5 min)) (OW: The Iron Tower: Trifle Tower)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 409,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: The Iron Tower) THEN ((Build 3 OW: Variety Theatre) AND (Build 1 OW: Chemical Plant: Lemonade)) (OW: The Iron Tower: Lady Marmelade)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: The Iron Tower) THEN ((Build 3 OW: Variety Theatre) AND (Build 1 OW: Chemical Plant: Lemonade)) (OW: The Iron Tower: Lady Marmelade)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 434,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)) (OW: The Iron Tower: Age of Exploration)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)) (OW: The Iron Tower: Age of Exploration)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 459,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa) (OW: The Iron Tower: Homard Lit de Terroir)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Socket a 'Lobsterman' in a Harbourmaster's Office in Enbesa) (OW: The Iron Tower: Homard Lit de Terroir)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 484,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Unlock: OW: Department Store (OW: Department Store: Toasters)",
+    "sections": [
+      {
+        "name": "Unlock: OW: Department Store (OW: Department Store: Toasters)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 384,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Department Store) THEN (Build 5 OW: Investor Skyscraper: Level 3) (OW: Department Store: Vacuum Cleaners)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Department Store) THEN (Build 5 OW: Investor Skyscraper: Level 3) (OW: Department Store: Vacuum Cleaners)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 409,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Department Store) THEN (Build a OW: Pub within 10 squares of a OW: Members Club) (OW: Department Store: Crockery)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Department Store) THEN (Build a OW: Pub within 10 squares of a OW: Members Club) (OW: Department Store: Crockery)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 434,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Department Store) THEN (Hidden quest: Socket 'The \"Magnificone\" Ice Cream Maker' in an OW: Town Hall (see Arctic Nate)) (OW: Department Store: Refrigerators)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Department Store) THEN (Hidden quest: Socket 'The \"Magnificone\" Ice Cream Maker' in an OW: Town Hall (see Arctic Nate)) (OW: Department Store: Refrigerators)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 459,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Department Store) THEN (Build a OW: Department Store within 8 squares of a OW: Scholar Residence) (OW: Department Store: Briefcases)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Department Store) THEN (Build a OW: Department Store within 8 squares of a OW: Scholar Residence) (OW: Department Store: Briefcases)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 484,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Unlock: OW: Furniture Store (OW: Furniture Store: Banker's Lamps)",
+    "sections": [
+      {
+        "name": "Unlock: OW: Furniture Store (OW: Furniture Store: Banker's Lamps)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 384,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Furniture Store) THEN (Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)) (OW: Furniture Store: Vanity Screens)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Furniture Store) THEN (Complete the set 'Eastern Jungle' in an OW: Zoo (Eastern Elephant, Chital, Eastern Water Buffalo, Crocodile, Peacock, Tiger)) (OW: Furniture Store: Vanity Screens)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 409,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Furniture Store) THEN (Reach 100% productivity in a OW: Furniture Store: Banker's Lamps) (OW: Furniture Store: Writing Desks)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Furniture Store) THEN (Reach 100% productivity in a OW: Furniture Store: Banker's Lamps) (OW: Furniture Store: Writing Desks)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 434,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Furniture Store) THEN ((Have 1 ton of Bear Fur in Old World trading posts) AND (Have 1 ton of Goose Feathers in Old World trading posts)) (OW: Furniture Store: Four-Poster Beds)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Furniture Store) THEN ((Have 1 ton of Bear Fur in Old World trading posts) AND (Have 1 ton of Goose Feathers in Old World trading posts)) (OW: Furniture Store: Four-Poster Beds)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 459,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Furniture Store) THEN (Build 2 OW: Radio Tower) (OW: Furniture Store: Lounge Seating)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Furniture Store) THEN (Build 2 OW: Radio Tower) (OW: Furniture Store: Lounge Seating)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1236,
+        "y": 484,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Unlock: OW: Drug Store (OW: Drug Store: Toothpaste)",
+    "sections": [
+      {
+        "name": "Unlock: OW: Drug Store (OW: Drug Store: Toothpaste)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 384,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Drug Store) THEN (Build 40 OW: Investor Skyscraper: Level 5) (OW: Drug Store: Detergent)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Drug Store) THEN (Build 40 OW: Investor Skyscraper: Level 5) (OW: Drug Store: Detergent)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 409,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Drug Store) THEN (Build a OW: Variety Theatre within 8 squares of a OW: Investor Skyscraper: Level 5) (OW: Drug Store: Lipstick)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Drug Store) THEN (Build a OW: Variety Theatre within 8 squares of a OW: Investor Skyscraper: Level 5) (OW: Drug Store: Lipstick)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 434,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Drug Store) THEN (Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)) (OW: Drug Store: Face Cream)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Drug Store) THEN (Complete the set 'Icebound' in an OW: Museum (Collection Of Lost Expedition Relics, Frozen Woolly Mammoth, Wolf Pup Mummy)) (OW: Drug Store: Face Cream)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 459,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "(Build 1 OW: Drug Store) THEN (Build a EN: Hibiscus Farm within 8 squares of a EN: Apiary) (OW: Drug Store: Pomade)",
+    "sections": [
+      {
+        "name": "(Build 1 OW: Drug Store) THEN (Build a EN: Hibiscus Farm within 8 squares of a EN: Apiary) (OW: Drug Store: Pomade)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1516,
+        "y": 484,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Enter the New World",
+    "sections": [
+      {
+        "name": "Enter: New World (NW: Dirt Road)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: New World (NW: Jornalero Residence)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: New World (NW: Lumberjack's Hut)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: New World (NW: Marketplace)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: New World (NW: Sawmill)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: New World (NW: Small Warehouse)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 167,
+        "y": 556,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "50 Jornaleros",
+    "sections": [
+      {
+        "name": "50 Jornaleros (NW: Fish Oil Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "50 Jornaleros (NW: Fried Plantain Kitchen)",
+        "item_count": 1
+      },
+      {
+        "name": "50 Jornaleros (NW: Plantain Plantation)",
+        "item_count": 1
+      },
+      {
+        "name": "50 Jornaleros (NW: Trade Union)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 556,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "100 Jornaleros",
+    "sections": [
+      {
+        "name": "(900 Artisans) OR (100 Jornaleros) (NW: Cotton Mill)",
+        "item_count": 1
+      },
+      {
+        "name": "(900 Artisans) OR (100 Jornaleros) (NW: Cotton Plantation)",
+        "item_count": 1
+      },
+      {
+        "name": "(900 Artisans) OR (100 Jornaleros) (OW: Fur Dealer)",
+        "item_count": 1
+      },
+      {
+        "name": "(900 Artisans) OR (100 Jornaleros) (OW: Hunting Cabin)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Jornaleros (NW: Depot)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Jornaleros (NW: Harbourmaster's Office)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Jornaleros (NW: Quay)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Jornaleros (NW: Rum Distillery)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Jornaleros (NW: Sailing Shipyard)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Jornaleros (NW: Sailmakers)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Jornaleros (NW: Sugar Cane Plantation)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 577,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "200 Jornaleros",
+    "sections": [
+      {
+        "name": "200 Jornaleros (NW: Alpaca Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "200 Jornaleros (NW: Caoutchouc Plantation)",
+        "item_count": 1
+      },
+      {
+        "name": "200 Jornaleros (NW: Fire Station)",
+        "item_count": 1
+      },
+      {
+        "name": "200 Jornaleros (NW: Flak Emplacement)",
+        "item_count": 1
+      },
+      {
+        "name": "200 Jornaleros (NW: Mounted Guns)",
+        "item_count": 1
+      },
+      {
+        "name": "200 Jornaleros (NW: Obrero Residence)",
+        "item_count": 1
+      },
+      {
+        "name": "200 Jornaleros (NW: Poncho Darner)",
+        "item_count": 1
+      },
+      {
+        "name": "200 Jornaleros (NW: Repair Crane)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 598,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "300 Jornaleros",
+    "sections": [
+      {
+        "name": "300 Jornaleros (NW: Chapel)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Jornaleros (NW: Pearl Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Jornaleros (NW: Police Station)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 619,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Obrero #1",
+    "sections": [
+      {
+        "name": "1 Obrero (EN: Fertiliser Silo)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Brick Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Cattle Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Clay Pit)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Corn Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Fertiliser Silo)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Atole Maker)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Caoutchouc Plantation)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Corn Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Fertiliser Works)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Grain Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Hot Sauce Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Jornalero Quarters)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Obrera Quarters)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Pathway)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Paving)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Potato Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Rum Distillery)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Schnapps Distillery)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Spice Farm)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 556,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Obrero #2",
+    "sections": [
+      {
+        "name": "1 Obrero (NW: Hacienda Storeroom)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda Sugar Cane Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Hacienda)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Medium Trading Post)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Medium Warehouse)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Paved Street)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Silo)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Tortilla Maker)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (NW: Town Hall)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Obrero (OW: Fertiliser Silo)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 697,
+        "y": 556,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "250 Obreros",
+    "sections": [
+      {
+        "name": "(250 Obreros) OR (1 Artista) (NW: Aluminium Smelter)",
+        "item_count": 1
+      },
+      {
+        "name": "(250 Obreros) OR (1 Artista) (NW: Bauxite Mine)",
+        "item_count": 1
+      },
+      {
+        "name": "(250 Obreros) OR (1 Artista) (NW: Charcoal Kiln)",
+        "item_count": 1
+      },
+      {
+        "name": "250 Obreros (NW: Post Box)",
+        "item_count": 1
+      },
+      {
+        "name": "250 Obreros (NW: Post Office)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 577,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "300 Obreros",
+    "sections": [
+      {
+        "name": "300 Obreros (NW: Boxing Arena)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Obreros (NW: Cannon Tower)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Obreros (NW: Coffee Plantation)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Obreros (NW: Coffee Roaster)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Obreros (NW: Flame Tower)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Obreros (NW: Gold Mine)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Obreros (NW: Hacienda Coffee Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Obreros (NW: Pier)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Obreros (NW: Public Mooring)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 598,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "600 Obreros #1",
+    "sections": [
+      {
+        "name": "(1 Engineer) OR (600 Obreros) (OW|NW: Rails)",
+        "item_count": 1
+      },
+      {
+        "name": "(500 Workers) OR (600 Obreros) (OW: Brewery)",
+        "item_count": 1
+      },
+      {
+        "name": "(500 Workers) OR (600 Obreros) (OW: Hop Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "(500 Workers) OR (600 Obreros) (OW: Malthouse)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (Atotolin)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (Colibri (Armed))",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (Colibri)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Airship Platform)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Bomb Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Bombin Weaver)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Care Package Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Commuter Station)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Felt Producer)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Fuel Station)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Grand Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Hacienda Beer Brewery)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Hacienda Cocoa Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Helium Extractor)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Hospital)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Industrial Oil Press)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 619,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "600 Obreros #2",
+    "sections": [
+      {
+        "name": "600 Obreros (NW: Item Transfer Depot)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Large Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Medium Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Oil Refinery)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Oil Store)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Oil Well)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Pamphlet Printer)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Rigid Airship Hangar)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Rigid Airship Hangar: Foundations)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Rigid Airship Hangar: Roof)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Rigid Airship Hangar: Structure)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Sea Mine Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Small Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Tractor Barn)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (NW: Water Drop Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (OW: Airship Platform)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (OW: Bomb Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (OW: Care Package Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (OW: Item Transfer Depot)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (OW: Pamphlet Printer)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 697,
+        "y": 619,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "600 Obreros #3",
+    "sections": [
+      {
+        "name": "600 Obreros (OW: Rigid Airship Hangar)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (OW: Rigid Airship Hangar: Foundations)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (OW: Rigid Airship Hangar: Roof)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (OW: Rigid Airship Hangar: Structure)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (OW: Sea Mine Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Obreros (OW: Water Drop Factory)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 718,
+        "y": 619,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "600 Obreros and build 1 Arctic Airship Hangar",
+    "sections": [
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (600 Obreros) (Harpy (Armed))",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (600 Obreros) (Harpy)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (600 Obreros) (Hermes)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (600 Obreros) (Mapinguari)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 739,
+        "y": 619,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1000 Obreros",
+    "sections": [
+      {
+        "name": "1000 Obreros (NW: Airmail Sorting Office)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Obreros (NW: Artista Residence)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Obreros (NW: Cigar Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Obreros (NW: Marquetry Workshop)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Obreros (NW: Tobacco Plantation)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Obreros (NW: Zoo)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Obreros (OW: Airmail Sorting Office)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 640,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1500 Obreros",
+    "sections": [
+      {
+        "name": "1500 Obreros (NW: Anti-Armour Gun)",
+        "item_count": 1
+      },
+      {
+        "name": "1500 Obreros (NW: Botanical Garden)",
+        "item_count": 1
+      },
+      {
+        "name": "1500 Obreros (NW: Chocolate Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "1500 Obreros (NW: Cocoa Plantation)",
+        "item_count": 1
+      },
+      {
+        "name": "1500 Obreros (NW: Large Trading Post)",
+        "item_count": 1
+      },
+      {
+        "name": "1500 Obreros (NW: Large Warehouse)",
+        "item_count": 1
+      },
+      {
+        "name": "1500 Obreros (NW: Museum)",
+        "item_count": 1
+      },
+      {
+        "name": "1500 Obreros (NW: Sugar Refinery)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 661,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1500 Obreros and 500 Engineers",
+    "sections": [
+      {
+        "name": "(1500 Obreros) AND (500 Engineers) (Alicanto (Armed))",
+        "item_count": 1
+      },
+      {
+        "name": "(1500 Obreros) AND (500 Engineers) (Alicanto)",
+        "item_count": 1
+      },
+      {
+        "name": "(1500 Obreros) AND (500 Engineers) (Dtundtuncan)",
+        "item_count": 1
+      },
+      {
+        "name": "(1500 Obreros) AND (500 Engineers) (Quetzalcoatl)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 697,
+        "y": 661,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1500 Obreros, 500 Engineers and build 1 Arctic Airship Hangar",
+    "sections": [
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Manticore (Armed))",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Manticore)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Pegasus)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Zephyr)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 718,
+        "y": 661,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Artista",
+    "sections": [
+      {
+        "name": "(1250 Tourists) OR (Build 15 OW: Investor Skyscraper: Level 2) OR (1 Artista) (NW: Orchard: Citrus)",
+        "item_count": 1
+      },
+      {
+        "name": "(250 Obreros) OR (1 Artista) (NW: Aluminium Smelter)",
+        "item_count": 1
+      },
+      {
+        "name": "(250 Obreros) OR (1 Artista) (NW: Bauxite Mine)",
+        "item_count": 1
+      },
+      {
+        "name": "(250 Obreros) OR (1 Artista) (NW: Charcoal Kiln)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artista (NW: Ball Manufactory)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artista (NW: Hacienda Artista Quarters)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artista (NW: Herb Garden)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artista (NW: Mezcal Bar)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artista (NW: Nandu Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Artista (NW: Sewing Machine Factory)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 556,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "900 Artistas",
+    "sections": [
+      {
+        "name": "900 Artistas (NW: Calamari Fishery)",
+        "item_count": 1
+      },
+      {
+        "name": "900 Artistas (NW: Jalea Kitchen)",
+        "item_count": 1
+      },
+      {
+        "name": "900 Artistas (NW: Power Station)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 577,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1800 Artistas",
+    "sections": [
+      {
+        "name": "1800 Artistas (NW: Beach)",
+        "item_count": 1
+      },
+      {
+        "name": "1800 Artistas (NW: Ice Cream Factory)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 598,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "2700 Artistas",
+    "sections": [
+      {
+        "name": "(850 Tourists) OR (Build 10 OW: Investor Skyscraper: Level 5) OR (2700 Artistas) (NW: Orchard: Coconut Oil)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 15 OW: Investor Skyscraper: Level 2) OR (2700 Artistas) (NW: Chemical Plant: Ethanol)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (NW: Costume Shop)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (NW: Fire Department)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (NW: Furnace)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (NW: Iron Mine)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (NW: Laboratory: Fire Extinguishers)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (NW: Laboratory: Pigments)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (NW: Mineral Mine)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (NW: Orchid Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (NW: Perfume Mixer)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (NW: Samba School)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (OW: Bar: Absinthe)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (OW: Cafe: Cone O'Copia)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (OW: Fire Department)",
+        "item_count": 1
+      },
+      {
+        "name": "2700 Artistas (OW: Restaurant: Empanadas)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 619,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "4000 Artistas",
+    "sections": [
+      {
+        "name": "(2000 Tourists) OR (Build 15 OW: Investor Skyscraper: Level 2) OR (4000 Artistas) (NW: Orchard: Camphor Wax)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 15 OW: Investor Skyscraper: Level 2) OR (4000 Artistas) (NW: Chemical Plant: Celluloid)",
+        "item_count": 1
+      },
+      {
+        "name": "4000 Artistas (NW: Arsenal: Police Equipment)",
+        "item_count": 1
+      },
+      {
+        "name": "4000 Artistas (NW: Cable Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "4000 Artistas (NW: Chemical Plant: Film Reels)",
+        "item_count": 1
+      },
+      {
+        "name": "4000 Artistas (NW: Cinema)",
+        "item_count": 1
+      },
+      {
+        "name": "4000 Artistas (NW: Dam)",
+        "item_count": 1
+      },
+      {
+        "name": "4000 Artistas (NW: Dam: Engineering)",
+        "item_count": 1
+      },
+      {
+        "name": "4000 Artistas (NW: Dam: Structure)",
+        "item_count": 1
+      },
+      {
+        "name": "4000 Artistas (NW: Fan Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "4000 Artistas (NW: Motor Assembly Plant)",
+        "item_count": 1
+      },
+      {
+        "name": "4000 Artistas (NW: Police Headquarters)",
+        "item_count": 1
+      },
+      {
+        "name": "4000 Artistas (OW: Police Headquarters)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 640,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "6000 Artistas",
+    "sections": [
+      {
+        "name": "6000 Artistas (NW: City Hospital)",
+        "item_count": 1
+      },
+      {
+        "name": "6000 Artistas (NW: Grand Stadium)",
+        "item_count": 1
+      },
+      {
+        "name": "6000 Artistas (NW: Grand Stadium: Foundations)",
+        "item_count": 1
+      },
+      {
+        "name": "6000 Artistas (NW: Grand Stadium: Superstructure)",
+        "item_count": 1
+      },
+      {
+        "name": "6000 Artistas (NW: Laboratory: Medicine)",
+        "item_count": 1
+      },
+      {
+        "name": "6000 Artistas (NW: Scooter Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "6000 Artistas (OW: City Hospital)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 661,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Enter the Arctic",
+    "sections": [
+      {
+        "name": "Enter: The Arctic (AR: Canteen)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: The Arctic (AR: Charcoal Kiln)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: The Arctic (AR: Explorer Shelter)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: The Arctic (AR: Heater)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: The Arctic (AR: Lumberjack's Hut)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: The Arctic (AR: Road)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: The Arctic (AR: Sawmill)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: The Arctic (AR: Small Warehouse)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 167,
+        "y": 734,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "100 Explorers",
+    "sections": [
+      {
+        "name": "100 Explorers (AR: Caribou Hunting Cabin)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Explorers (AR: Pemmican Cookhouse)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Explorers (AR: Whaling Station)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 734,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "250 Explorers",
+    "sections": [
+      {
+        "name": "250 Explorers (AR: Goose Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "250 Explorers (AR: Ranger Station)",
+        "item_count": 1
+      },
+      {
+        "name": "250 Explorers (AR: Seal Hunting Docks)",
+        "item_count": 1
+      },
+      {
+        "name": "250 Explorers (AR: Sleeping Bag Factory)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 755,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "500 Explorers",
+    "sections": [
+      {
+        "name": "(100 Farmers) OR (500 Explorers) (OW: Potato Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "(100 Farmers) OR (500 Explorers) (OW: Schnapps Distillery)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Explorers (AR: Medium Sky Trading Post)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Explorers (AR: Medium Trading Post)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Explorers (AR: Medium Warehouse)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Explorers (AR: Oil Lamp Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "500 Explorers (AR: Technician Shelter)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 776,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Technician",
+    "sections": [
+      {
+        "name": "1 Technician (AR: Arctic Airship Hangar: Foundations)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Technician (AR: Cannon Tower)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Technician (AR: Depot)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Technician (AR: Flak Emplacement)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Technician (AR: Flame Tower)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Technician (AR: Pier)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 734,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "100 Technicians",
+    "sections": [
+      {
+        "name": "100 Technicians (AR: Airmail Sorting Office)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Technicians (AR: Airship Platform)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Technicians (AR: Arctic Airship Hangar: Structure)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Technicians (AR: Arctic Lodge)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Technicians (AR: Large Sky Trading Post)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Technicians (AR: Large Trading Post)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Technicians (AR: Large Warehouse)",
+        "item_count": 1
+      },
+      {
+        "name": "100 Technicians (AR: Post Office)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 755,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "300 Technicians",
+    "sections": [
+      {
+        "name": "(1 Artisan) OR (300 Technicians) (OW: Artisanal Kitchen)",
+        "item_count": 1
+      },
+      {
+        "name": "(1 Artisan) OR (300 Technicians) (OW: Cannery)",
+        "item_count": 1
+      },
+      {
+        "name": "(1 Artisan) OR (300 Technicians) (OW: Cattle Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "(1 Artisan) OR (300 Technicians) (OW: Red Pepper Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Technicians (AR: Arctic Airship Hangar: Roof)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Technicians (AR: Bear Hunting Cabin)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Technicians (AR: Parka Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Technicians (AR: Prime Hunting Cabin)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 776,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "750 Technicians",
+    "sections": [
+      {
+        "name": "750 Technicians (AR: Arctic Airship Hangar)",
+        "item_count": 1
+      },
+      {
+        "name": "750 Technicians (AR: Arctic Gas Mine)",
+        "item_count": 1
+      },
+      {
+        "name": "750 Technicians (AR: Deep Gold Mine)",
+        "item_count": 1
+      },
+      {
+        "name": "750 Technicians (AR: Husky Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "750 Technicians (AR: Husky Sled Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "750 Technicians (AR: Sled Frame Factory)",
+        "item_count": 1
+      },
+      {
+        "name": "750 Technicians (Boreas)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 797,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "750 Technicians and 1 Investor",
+    "sections": [
+      {
+        "name": "(750 Technicians) AND (1 Investor) (Blue Flamethrower Monitor)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 697,
+        "y": 797,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Build 1 Arctic Airship Hangar and 600 Obreros",
+    "sections": [
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (600 Obreros) (Harpy (Armed))",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (600 Obreros) (Harpy)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (600 Obreros) (Hermes)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (600 Obreros) (Mapinguari)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 867,
+        "y": 734,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Build 1 Arctic Airship Hangar, 1500 Obreros and 500 Engineers",
+    "sections": [
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Manticore (Armed))",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Manticore)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Pegasus)",
+        "item_count": 1
+      },
+      {
+        "name": "(Build 1 AR: Arctic Airship Hangar) AND (1500 Obreros) AND (500 Engineers) (Zephyr)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 867,
+        "y": 755,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Enter Enbesa",
+    "sections": [
+      {
+        "name": "Enter: Enbesa (EN: Canal)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: Enbesa (EN: Desert Road)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: Enbesa (EN: Marketplace)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: Enbesa (EN: Shepherd Residence)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: Enbesa (EN: Small Warehouse)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: Enbesa (EN: Wanza Woodcutter)",
+        "item_count": 1
+      },
+      {
+        "name": "Enter: Enbesa (EN: Water Pump)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 167,
+        "y": 912,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "50 Shepherds",
+    "sections": [
+      {
+        "name": "50 Shepherds (EN: Flak Emplacement)",
+        "item_count": 1
+      },
+      {
+        "name": "50 Shepherds (EN: Goat Farm)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 912,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "150 Shepherds",
+    "sections": [
+      {
+        "name": "150 Shepherds (EN: Depot)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Shepherds (EN: Embroiderer)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Shepherds (EN: Fire Station)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Shepherds (EN: Harbourmaster's Office)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Shepherds (EN: Linen Mill)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Shepherds (EN: Linseed Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Shepherds (EN: Mounted Guns)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Shepherds (EN: Musicians' Court)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Shepherds (EN: Quay)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Shepherds (EN: Repair Crane)",
+        "item_count": 1
+      },
+      {
+        "name": "150 Shepherds (EN: Trade Union)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 933,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "300 Shepherds",
+    "sections": [
+      {
+        "name": "300 Shepherds (EN: Dry-House)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Shepherds (EN: Elder Residence)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Shepherds (EN: Hibiscus Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Shepherds (EN: Salt Works)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Shepherds (EN: Sanga Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Shepherds (EN: Tea Spicer)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 396,
+        "y": 954,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Elder",
+    "sections": [
+      {
+        "name": "1 Elder (EN: Brick Dry-House)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Elder (EN: Ceramics Workshop)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Elder (EN: Clay Collector)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Elder (EN: Indigo Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Elder (EN: Medium Trading Post)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Elder (EN: Medium Warehouse)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Elder (EN: Paved Street)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Elder (EN: Police Station)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Elder (EN: Silo)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Elder (EN: Tapestry Looms)",
+        "item_count": 1
+      },
+      {
+        "name": "1 Elder (EN: Teff Farm)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 912,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "300 Elders",
+    "sections": [
+      {
+        "name": "300 Elders (EN: Lobster Fishery)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Elders (EN: Pipe Maker)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Elders (EN: Spice Farm)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Elders (EN: Teff Mill)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Elders (EN: Town Hall)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Elders (EN: Wat Kitchen)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Elders (OW: Research Institute)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Elders (OW: Research Institute: Foundations)",
+        "item_count": 1
+      },
+      {
+        "name": "300 Elders (OW: Research Institute: Superstructure)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 933,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "600 Elders",
+    "sections": [
+      {
+        "name": "600 Elders (EN: Fuel Station)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Grand Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Hospital)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Large Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Large Trading Post)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Large Warehouse)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Luminer)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Medium Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Oil Store)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Paper Mill)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Rails)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Small Oil Harbour)",
+        "item_count": 1
+      },
+      {
+        "name": "600 Elders (EN: Tractor Barn)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 954,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1000 Elders",
+    "sections": [
+      {
+        "name": "1000 Elders (EN: Anti-Armour Gun)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Elders (EN: Apiary)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Elders (EN: Cannon Tower)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Elders (EN: Chandler)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Elders (EN: Flame Tower)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Elders (EN: Lanternsmith)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Elders (EN: Monastery)",
+        "item_count": 1
+      },
+      {
+        "name": "1000 Elders (EN: Pier)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 975,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1500 Elders",
+    "sections": [
+      {
+        "name": "1500 Elders (OW: Scholar Residence)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 676,
+        "y": 996,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "1 Scholar",
+    "sections": [
+      {
+        "name": "1 Scholar (OW: Bootmakers)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 912,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "300 Scholars",
+    "sections": [
+      {
+        "name": "300 Scholars (OW: Tailor's Shop)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 933,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "4000 Scholars",
+    "sections": [
+      {
+        "name": "4000 Scholars (OW: Telephone Manufacturer)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 954,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "7000 Scholars",
+    "sections": [
+      {
+        "name": "7000 Scholars (OW: Radio Tower)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 956,
+        "y": 975,
+        "size": 21
+      }
+    ]
+  },
+  {
+    "name": "Build 1 OW: Research Institute",
+    "sections": [
+      {
+        "name": "Build 1 OW: Research Institute (AR: Advanced Pier)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 1 OW: Research Institute (EN: Advanced Pier)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 1 OW: Research Institute (NW: Advanced Pier)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 1 OW: Research Institute (OW: Advanced Coffee Roaster)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 1 OW: Research Institute (OW: Advanced Cotton Mill)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 1 OW: Research Institute (OW: Advanced Pier)",
+        "item_count": 1
+      },
+      {
+        "name": "Build 1 OW: Research Institute (OW: Advanced Rum Distillery)",
+        "item_count": 1
+      }
+    ],
+    "map_locations": [
+      {
+        "map": "main",
+        "x": 1147,
+        "y": 912,
+        "size": 21
+      }
+    ]
+  }
+]

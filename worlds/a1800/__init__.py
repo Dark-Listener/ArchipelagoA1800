@@ -1,4 +1,4 @@
-from typing import ClassVar
+from typing import Any, ClassVar
 from typing_extensions import override
 
 from BaseClasses import Item, MultiWorld, Tutorial
@@ -60,6 +60,12 @@ class A1800World(World):
     topology_present = True
     web = A1800Web()
     settings: ClassVar[A1800Settings]
+    tracker_world: ClassVar[dict[str, Any]] = {
+        "map_page_folder": "tracker",
+        "map_page_maps": "maps/maps.json",
+        "map_page_locations": "locations/locations.json",
+        "map_page_groups": [('Main', ['main'])],
+    }
 
     def __init__(self, multiworld: MultiWorld, player: int) -> None:
         super().__init__(multiworld, player)

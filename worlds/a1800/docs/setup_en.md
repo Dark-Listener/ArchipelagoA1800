@@ -1,21 +1,10 @@
-# Anno 1800 Randomizer Setup Guide
+# Anno 1800 Archipelago Setup Guide
 
 [Game Page](en_Anno%201800.md)<!--(/tutorial/Anno%201800/info/en)--> | Setup | [Items](items_en.md)<!--(/tutorial/Anno%201800/items/en)--> | [Locations](locations_en.md)<!--(/tutorial/Anno%201800/locations/en)--> | [Roadmap](roadmap_en.md)<!--(/tutorial/Anno%201800/roadmap/en)-->
 
-## Required Software
-
-* Anno 1800, any one of
-  * [Steam](https://store.steampowered.com/app/916440/Anno_1800/)
-  * [Ubisoft Connect](https://store.ubisoft.com/us/anno-1800/5b647010ef3aa548048c5958.html?lang=en_US)
-  * [Epic](https://www.epicgames.com/store/en-US/product/anno-1800/home)
-* Archipelago: [Archipelago Releases Page](https://github.com/ArchipelagoMW/Archipelago/releases)
-
-## Optional Software
-
-* For tracking, use the Universal Tracker, which you can find on
-[Github](https://github.com/FarisTheAncient/Archipelago/releases).
-
 ## Overview
+
+Randomization of Anno 1800 works by having Archipelago generate a custom mod, which then randomizes your game.
 
 This guide walks you through installing the Anno 1800 Archipelago mod, configuring an Archipelago slot for Anno 1800,
 and playing the game with an Anno 1800 client.
@@ -37,28 +26,87 @@ This guide uses the following terms to refer to the software:
 ### What a Playable State Looks Like
 
 * An Archipelago Server
+* A running modded Anno 1800 instance
 * An Archipelago client, connected to both the Archipelago Server and a modded Anno 1800 instance
-* One running modded Anno 1800 instance
 
-## Preparing to Play Anno 1800 Archipelago
+## Required Software
+
+* Anno 1800, any one of
+  * [Steam](https://store.steampowered.com/app/916440/Anno_1800/)
+  * [Ubisoft Connect](https://store.ubisoft.com/us/anno-1800/5b647010ef3aa548048c5958.html?lang=en_US)
+  * [Epic](https://www.epicgames.com/store/en-US/product/anno-1800/home)
+* Archipelago: [Archipelago Release Page](https://github.com/ArchipelagoMW/Archipelago/releases)
+* Anno 1800 Archipelago custom apworld:
+[Anno 1800 Archipelago Release Page](https://github.com/Dark-Listener/ArchipelagoA1800/releases)
+
+## Optional Software
+
+* Anno 1800 Archipelago template config files:
+[Anno 1800 Archipelago Release Page](https://github.com/Dark-Listener/ArchipelagoA1800/releases)
+* Universal Tracker: [Universal Tracker Release Page](https://github.com/FarisTheAncient/Archipelago/releases)
+
+## First-Time Setup of Anno 1800 Archipelago
+
+All of the below only has to be done once. If you've done it before, you can skip this section.
+
+<details>
+<summary>Click to expand...</summary>
 
 ### Installing Anno 1800
 
 Purchase and install Anno 1800 via one the sources linked [above](#required-software). You could also purchase some or
 all of the DLCs as you desire.
 
-Install Archipelago via the link [above](#required-software).
+### Modding Anno 1800 for the First Time
+
+If you've never modded Anno 1800 before, the following steps will guide you to enabling its modding features.
+
+Before installing any mods, you must launch and close Anno 1800 at least once. Then, you can create the following
+folder (depending on your launcher):
+* `...\Ubisoft Game Launcher\games\Anno 1800\mods` (Ubisoft Connect and Epic)
+* `...\Steam\steamapps\common\Anno 1800\mods` (Steam)
+
+The exact location might be different if you changed the folder your launcher installs games to, but there should be a
+`Bin` and a `maindata` folder next to your `mods` folder - that means you're in the right spot.
+
+After another game start, there should be a popup about mod use, which must be accepted. Now the game can be closed
+again. If there was no popup, it will appear after you first install a mod.
 
 ### Installing Archipelago
 
-Install Archipelago as described in its [setup guide](https://archipelago.gg/tutorial/Archipelago/setup_en).
+Download Archipelago from the link [above](#required-software) and install it as described in its
+[setup guide](https://archipelago.gg/tutorial/Archipelago/setup_en).
 
 ### Installing the Anno 1800 Custom APWorld
 
-Open the Archipelago Launcher, select `Install APWorld` and point it to the `.apworld`-file in the download.
+Download the Anno 1800 Archipelago custom apworld from the link [above](#required-software).
 
-Alternatively, take the `.apworld`-file in the download and put it into the `custom_worlds`folder in your Archipelago
+Open the Archipelago Launcher, select `Install APWorld` and point it to the downloaded `a1800.apworld` file.
+
+Alternatively, take the downloaded `a1800.apworld` file and put it into the `custom_worlds` folder in your Archipelago
 installation. If you don't have this folder, create an empty one with the name first.
+
+### Preparing the Archipelago Client
+
+Start the Archipelago Client. On your first time launching, it will ask for the Anno 1800 mods folder. Point it to the
+folder you installed the mod to [above](#installing-the-archipelago-mod). On Windows, if Anno 1800 is located in a
+protected folder, it may be necessary to start the client as administrator.
+
+If you ever need to change this path, you can find it in your Archipelago folder in the `host.yaml` file under
+`a1800_options`, named `a1800_mods_folder_path`. Note that you must use normal slashes `/` or double backslashes `\\` in
+this path, single backslashes do not work. You can also delete the entry in order to have the client ask with the usual
+file browser again.
+
+### Installing the Universal Tracker (Optional)
+
+If you wish to have (visual) tracking for Anno 1800, download the Universal Tracker apworld from the link
+[above](#optional-software).
+
+Then install the `tracker.apworld` file the same way you install the Anno 1800 Archipelago apworld in the previous
+section.
+</details>
+
+## Preparing to Play Anno 1800 Archipelago
 
 ### Creating a Config (.yaml) File
 
@@ -73,54 +121,32 @@ options.
 
 Usually, the Player Options page on the website would allow you to configure your personal options and export them into
 a config file. However, this is a custom apworld, so either start your Achipelago Launcher and select
-`Generate Template Options` to find a template yaml in your `Players/Templates` subfolder or use the one in the
-download. Afterwards, pass it to the host of your game. If that's you, check out the hosting instructions
-[below](#hosting-your-own-anno-1800-game).
+`Generate Template Options` to find a template yaml in your `Players/Templates` subfolder or download one from the link
+[above](#optional-software). Afterwards, pass it to the host of your game. If that's you, check out the hosting
+instructions [below](#hosting-your-own-anno-1800-game).
 
 Alternatively, you can use the `Options Creator` from the Archipelago Launcher for a visual yaml creator. Unfortunately,
 it can't enter 0 as an amount in the lists for required population and required skyscrapers, so you have to remove the
 ones you don't want if you intend to change any from the default.
 
-### Installing the Universal Tracker (Optional)
+### Installing the Anno 1800 Archipelago Mod
 
-If you wish to use the Universal Tracker with Anno 1800, first download the `tracker.apworld` from their release page
-listed [above](#optional-software).
-
-Open the Archipelago Launcher, select `Install APWorld` and point it to the downloaded `tracker.apworld`-file.
-
-In order to use the Universal Tracker, place your config (.yaml) file in the `Players` folder of your Archipelago
-installation. Now, a `Tracker Page` tab will be automatically added to the Archipelago Client, where you can find live
-tracking information once you connect to the Archipelago Server.
-
-### Installing the Archipelago Mod
-
-The host of the Archipelago multiworld should supply you with a zip file name `AP-%1-P%2-%3-%4.zip`, where `%1` is the
+The host of the Archipelago multiworld should supply you with a zip file name `AP-%1-P%2-%3_%4.zip`, where `%1` is the
 seed number, `%2` is the slot number, `%3` is the slot name and `%4` is the Archipelago version this mod was created by.
 
-Before installing mods, Anno 1800 must have been started and closed at least once. Then, you can create the following
-folder (depending on your launcher):
-* `...\Ubisoft Game Launcher\games\Anno 1800\mods` (Ubisoft Connect and Epic)
-* `...\Steam\steamapps\common\Anno 1800\mods` (Steam)
-
-The exact location might be different if you changed the folder your launcher installs games to, but there should be a
-`Bin` and a `maindata` folder next to your `mods` folder - that means you're in the right spot.
-
-After another game start, there should be a popup about mod use, which must be accepted. Now the game can be closed
-again. If there was no popup, it will appear after you first install a mod.
-
-To install the mod, extract the zip file and move or copy the resulting folder into the folder you created above. The
-resulting folder structure should look like `mods\AP-%1-P%2-%3-%4\modinfo.json`.
+To install the mod, extract the zip file and move or copy the resulting folder into the folder you created
+[above](#modding-anno-1800-for-the-first-time). You can change the name of the folder if you want. The resulting folder
+structure should look like `...\mods\<mod folder>\modinfo.json`.
 
 **Important**: Do **NOT** install the mod in your `...\Documents\Anno 1800\mods` folder - the game will not find this
 path.
 
-If this worked, then Anno 1800 should display a gear next to the main menu point `Mod Browser`. If you hover over it,
-it should display `[Gameplay] AP-%1-P%2-%3-%4` (might be cut off due to length) like so:
+If everything is setup correctly, Anno 1800 should display a gear next to the main menu point `Mod Browser`. If you
+hover over it, it should display `[Gameplay] AP-%1-P%2-%3_%4`.
 
-![Active Mod](images/active_mod.png "Active Mod")
-
-There should only ever be one Anno 1800 Archipelago mod installed at a time - otherwise, the Archipelago Client will
-connect to the first one it finds while the game will try to load all of them.
+**Important**: There should only ever be **one** Anno 1800 Archipelago mod installed at a time - otherwise, the
+Archipelago Client will connect to the first one it finds while the game will try to load all of them, creating a mess
+of unlocks.
 
 ### Installing Additional Mods
 
@@ -130,9 +156,18 @@ be modified and work as usual though they may break the logic.
 
 For a list of supported and compatible mods, see [below](#other-mods).
 
-## Running and Connecting the Game
-Start a new Anno 1800 free play game or load into your existing savegame. Singleplayer or multiplayer should both
-work the same, none of the standard singleplayer questlines will trigger. The campaign and scenarios won't work.
+### Uninstalling or Deactivating Mods
+
+To uninstall a mod from your game, you can simply delete the folder. If you'd rather keep it, but want to use a
+different mod, you can deactivate any mod by changing its folder name to start with `-`, e.g `-AP-%1-P%2-%3_%4.zip`.
+
+## Running and Connecting to the Game and Server
+
+### Running the Game
+
+Start a new Anno 1800 free play game or load into your existing savegame. A singleplayer or
+[multiplayer](#multiplayer-or-allowing-other-people-to-join-your-game) session should both work the same, none of the
+standard singleplayer questlines will trigger. The campaign and scenarios won't work.
 
 For the starting conditions, make sure to turn on all DLCs that were selected in the player options for your world.
 Also, for all game settings available as player options in your yaml file, match them during game setup.
@@ -148,27 +183,51 @@ Archipelago victory has not been achieved yet
 
 Be careful not to load into vanilla savegames or those from other modding setups as this mod will likely trigger some
 irreversible unlocks. Once loaded into the savegame, the client should print that it is connected to the game within a
-few seconds. 
+few seconds.
 
-In parallel, start the Archipelago Client. If it's your first time launching, it will ask for the Anno 1800 mods
-folder. Point it to the folder you installed the mod to [above](#installing-the-archipelago-mod). On Windows, if Anno
-1800 is located in a protected folder, it may be necessary to start the client as administrator.
+#### Running the Game without Archipelago
 
-If you ever need to change this path, you can find it in your Archipelago folder in the `host.yaml` file under
-`a1800_options`, named `a1800_mods_folder_path`. Note that you must use normal slashes `/` in this path, backslashes do
-not work. You can also delete it in order to have the client ask with the usual file browser again.
+It's possible to play the game asynchronously without server or client. In this case, everything will be synced once
+you connect the next time. If Anno 1800 is the only slot in the multiworld, you can even forgo the client and server
+entirely and just locally play a randomized game - all unlocks will happen standalone.
 
-Due to the way Anno 1800 simulates game ticks, the client will only be able to connect to the game while the game is
-running and not paused (neither gamespeed pause nor menu pause; some expedition screen also pause the game). If you
-pause, it will disconnect. This not a problem and the client will reconnect briefly after unpausing the game.
+#### Multiplayer or Allowing Other People to Join Your Game
 
-Once the client has successfully connected to Anno 1800, you can connect to the Archipelago Server by entering the
-server's ip and port and clicking `Connect` or typing `/connect <ip>:<port>` in the client. If you haven't connected
-the client to Anno 1800 during this session yet, you will receive an error telling you to do so first.
+Additional players can join your game using the game's built-in multiplayer functionality if you start a multiplayer
+session. Co-op play works as normal, but if you join as separate players, all unlocks will be shared - whoever reaches
+unlocks an unlock first, triggers the location check and all players will receive all unlocks.
 
-It's also possible to play the game asynchronously without server or client. In this case, everything will be synced
-once you connect the next time. If Anno 1800 is the only slot in the multiworld, you can even forgo the client and
-server entirely and just locally play a randomized game - all unlocks will happen standalone.
+**Important**: All players of a multiplayer session must have the exact same mods installed!
+
+However, only **one** player should connect to the Archipelago client.
+
+Note: Co-op was successfully tested, but multiplayer with separate players is as of yet untested.
+
+### Running the Client
+
+Start the Archipelago Client. Now you can connect to both the Archieplago Server and Anno 1800
+
+#### Connecting to Anno 1800
+
+The client will automatically connect to any running Anno 1800 game. Due to the way Anno 1800 simulates game ticks,
+the client will only be able to connect to the game while the game is running and not paused (neither gamespeed pause
+nor menu pause; some expedition screens also pause the game). If you pause, it will temporarily disconnect. The client
+will reconnect shortly after unpausing the game.
+
+#### Connecting to the Archipelago Server
+
+You can connect at any time to the Archipelago Server by entering the server's ip and port and clicking `Connect` or
+typing `/connect <ip>:<port>` in the client. If you haven't connected the client to Anno 1800 during this session yet,
+you will be asked for a slot name, otherwise it will automatically use the slot name for which the connected Anno 1800
+Archipelago mod was generated.
+
+#### Tracking your Game Progress
+
+In order to track your game progress, you need to
+[install the Universal Tracker](#installing-the-universal-tracker-optional). Then, place your config (.yaml) file in
+the `Players` folder of your Archipelago installation. This will automatically add a `Tracker Page` tab to the client
+the next time you start it. Once you connect to a Archipelago Server, a `Map Page` tab will also be added. In these
+tabs, you can then find live tracking information.
 
 ## Hosting Your Own Anno 1800 Game
 
@@ -178,20 +237,6 @@ If you're hosting your own Anno 1800 game, you will need to configure and genera
 
 Generating a game and hosting an Archipelago server is explained in the
 [Archipelago Setup Guide](https://archipelago.gg/tutorial/Archipelago/setup/en)<!--(/tutorial/Archipelago/setup/en)-->.
-
-## Allowing Other People to Join Your Game
-
-Additional players can join your game using the game's built-in multiplayer functionality if you start a multiplayer
-session. Co-op play works as normal, but if you join as separate players, all unlocks will be shared - whoever reaches
-unlocks an unlock first, triggers the location check and all players will receive all unlocks.
-
-Have anyone you want to join follow the 
-[Preparing to Play Anno 1800 Archipelago](#preparing-to-play-anno-1800-archipelago) section above. If you're using any
-additional mods, all other players need to use the same mods as you.
-
-However, only one player should to use the Archipelago client.
-
-Note: Co-op was successfully tested, but multiplayer with separate players is as of yet untested.
 
 ## Other Mods
 
@@ -233,6 +278,8 @@ discord and I will take a look.
 ## Frequently Asked Questions
 
 ### Does this work with Proton/Linux?
+
+Yes!
 
 If you managed to get your Anno 1800 running under Linux, the mods folder in the user directory will be inside Anno
 1800's wine prefix. Everything else should behave the same as under Windows. The Archipelago client will expect a Linux

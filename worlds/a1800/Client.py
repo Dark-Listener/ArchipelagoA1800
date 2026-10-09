@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+from enum import IntEnum, auto
 import json
 import logging
 import re
@@ -48,80 +49,180 @@ VERSION_COMPATIBILITY = (Version(1, 4, 0), A1800World.world_version)
 
 
 class A1800Context(TrackerGameContext):
+    class State(IntEnum):
+        INIT = auto()
+        ERROR_NO_MOD_FOLDER = auto()
+        ERROR_NO_COMMUNICATION_FILE = auto()
+        ERROR_NO_AUTH_RESPONSE = auto()
+        ERROR_NO_INFO_RESPONSE = auto()
+        ERROR_VERSION_INCOMPATIBLE = auto()
+        ERROR_SERVER_TIMEOUT = auto()
+        ERROR_NO_DATA = auto()
+        ERROR_AUTH_MISMATCH = auto()
+        CONNECTED = auto()
+
     command_processor = ClientCommandProcessor
     game = "Anno 1800"
     items_handling = 0b111  # full remote
     mod_version: Version = Version(0, 0, 0)
     tags = {"AP"}
+    state: State = State.INIT
 
-    def __init__(self, server_address: Optional[str], password: Optional[str], a1800_mods_folder_path: Path):
+    def __init__(self, server_address: Optional[str], password: Optional[str]):
         super(A1800Context, self).__init__(server_address, password)
         self.send_index: int = 0
         self.rcon_mmap_client: RCONMMapClient = RCONMMapClient()
-        self.a1800_mods_folder_path = a1800_mods_folder_path
+        self.a1800_mods_folder_path: Optional[Path] = None
+        # Pattern to exclude last '-' once support for 1.4.x is dropped
+        self.mod_regex: re.Pattern[str] = re.compile(fr"AP-(\d*)-P(\d*)-(.*)[-_].*")
+        self.mod_path: Optional[Path] = None
+        self.seed: Optional[str] = None
+        self.failed_connects = 0
 
-    async def game_auth(self) -> bool:
-        if not self.rcon_mmap_client.connected:
-            try:
-                self.rcon_mmap_client.connect()
-            except FileNotFoundError:
-                logger.warning(f"Could not find communication file: {self.rcon_mmap_client.file_path}")
-                logger.warning("Please create/load into an Anno 1800 savegame to create it and unpause to connect.")
-                self.auth = None
-                return False
-        if not self.rcon_mmap_client.connected:
-            self.auth = None
-            logger.warning(
-                "Couldn't connect to Anno 1800. Please create/load into an Anno 1800 savegame and unpause to connect.")
-            return False
+    def find_a1800_mod(self):
+        self.mod_path = None
+        self.rcon_mmap_client.close()
+        self.rcon_mmap_client.file_path = None
+        for mod in self.a1800_mods_folder_path.iterdir():
+            if mod.name.startswith("-"):
+                continue
+            modinfo_path = (mod / "modinfo.json")
+            if modinfo_path.exists() and modinfo_path.is_file():
+                modinfo = {}
+                with modinfo_path.open("r", encoding="utf-8") as modinfo_file:
+                    modinfo = json.load(modinfo_file)
+                if modinfo and "ModID" in modinfo and self.mod_regex.search(modinfo["ModID"]):
+                    self.mod_path = mod
 
-        if self.auth:
-            return True
+        if self.mod_path:
+            logger.info(f"Found Anno 1800 Archipelago mod at {self.mod_path}.")
 
+    async def read_auth(self):
+        assert self.mod_path
+
+        apinfo_path = (self.mod_path / "apinfo.json")
+        if apinfo_path.exists() and apinfo_path.is_file():
+            apinfo = {}
+            with apinfo_path.open("r", encoding="utf-8") as modinfo_file:
+                apinfo = json.load(modinfo_file)
+            if apinfo:
+                new_auth = apinfo.get("slot_name", None)
+                self.seed = apinfo.get("seed_name", None)
+                self.mod_version = tuplize_version(apinfo.get("mod_version", "0.0.0"))
+                logger.info(
+                    f"Mod offers slot {new_auth} on seed {self.seed} on mod version {self.mod_version.as_simple_string()}.")
+                if self.auth and self.auth != new_auth:
+                    logger.warning(f"Slot offered by mod will override previously used slot {self.auth}.")
+                    logger.warning(
+                        "Disconnecting from Archipelago server. Please reconnect to use the updated slot name.")
+                    await self.disconnect()
+                    self.seed_name = None
+                self.auth = new_auth
+
+    # Function to be removed once support for 1.4.x is dropped
+    async def retrieve_auth(self):
         try:
-            info = json.loads(self.rcon_mmap_client.send_command("/ap-rcon-info") or "{}")
+            ap_rcon_info = self.rcon_mmap_client.send_command("/ap-rcon-info")
         except RCONTimeout:
-            logger.warning(
-                "Couldn't retrieve session info. Please create/load into an Anno 1800 savegame and unpause to connect.")
-            self.rcon_mmap_client.close()
-            self.auth = None
-            return False
+            return
 
-        if not self.rcon_mmap_client.connected or not info:
-            logger.warning(
-                "Couldn't retrieve session info. Please create/load into an Anno 1800 savegame and unpause to connect.")
-            self.rcon_mmap_client.close()
-            self.auth = None
-            return False
+        if not ap_rcon_info:
+            return
 
-        self.auth = info.get("slot_name", None)
-        self.seed_name = info.get("seed_name", None)
+        info = json.loads(ap_rcon_info)
+
+        if not info:
+            return
+
+        new_auth = info.get("slot_name", None)
+        self.seed = info.get("seed_name", None)
         self.mod_version = tuplize_version(info.get("mod_version", "0.0.0"))
 
-        if not self.auth:
-            logger.warning(
-                "Couldn't retrieve session info. Please create/load into an Anno 1800 savegame and unpause to connect.")
-            self.rcon_mmap_client.close()
-            self.auth = None
-            return False
+        logger.info(
+            f"Mod offers slot {new_auth} on seed {self.seed} on mod version {self.mod_version.as_simple_string()}.")
+        if self.auth and self.auth != new_auth:
+            logger.warning(f"Slot offered by mod will override previously used slot {self.auth}.")
+            logger.warning("Disconnecting from Archipelago server. Please reconnect to use the updated slot name.")
+            await self.disconnect()
+            self.seed_name = None
+        self.auth = new_auth
 
+    async def connect_to_game(self) -> None:
+        if not self.mod_path or not self.mod_path.exists() or not self.mod_path.is_dir():
+            self.find_a1800_mod()
+            if not self.mod_path:
+                if self.state != self.State.ERROR_NO_MOD_FOLDER:
+                    self.state = self.State.ERROR_NO_MOD_FOLDER
+                    logger.warning(
+                        f"Could not find an enabled Anno 1800 Archipelago mod in mods folder {self.a1800_mods_folder_path}.")
+                    logger.info(
+                        f"To connect, please install a mod and make sure the mod folder name does not start with '-'.")
+                    self.failed_connects = 0
+                return
+
+        if not self.auth or not self.seed or not self.mod_version or self.mod_version.as_simple_string() == "0.0.0":
+            await self.read_auth()
+
+            # Add error handling here after support for 1.4.x is dropped
+
+        if not self.rcon_mmap_client.file_path:
+            self.rcon_mmap_client.file_path = self.mod_path / "A1800APCommunication.dat"
+
+            if not self.rcon_mmap_client.file_path.exists() or not self.rcon_mmap_client.file_path.is_file():
+                if self.state != self.State.ERROR_NO_COMMUNICATION_FILE:
+                    self.state = self.State.ERROR_NO_COMMUNICATION_FILE
+                    logger.warning(f"Could not find communication file: {self.rcon_mmap_client.file_path}")
+                    logger.info("To create it, please create/load into an Anno 1800 savegame and unpause.")
+                    self.failed_connects = 0
+                self.rcon_mmap_client.file_path = None
+                return
+            else:
+                logger.info(f"Found communication file at {self.rcon_mmap_client.file_path}.")
+
+        if not self.rcon_mmap_client.connected:
+            self.rcon_mmap_client.connect()
+
+            if not self.rcon_mmap_client.connected:
+                if self.state != self.State.ERROR_NO_AUTH_RESPONSE:
+                    self.state = self.State.ERROR_NO_AUTH_RESPONSE
+                    logger.warning("No response attempting to connect to Anno 1800.")
+                    logger.info("To connect, please create/load into an Anno 1800 savegame and unpause.")
+                    self.failed_connects = 0
+                return
+            else:
+                logger.info("Successfully authenticated with Anno 1800.")
+
+        # Section to be removed once support for 1.4.x is dropped
+        if not self.auth or not self.seed or not self.mod_version or self.mod_version.as_simple_string() == "0.0.0":
+            await self.retrieve_auth()
+
+            if not self.auth or not self.seed or not self.mod_version:
+                if self.state != self.State.ERROR_NO_INFO_RESPONSE:
+                    self.state = self.State.ERROR_NO_INFO_RESPONSE
+                    logger.warning("Couldn't retrieve slot name or seed name or mod version.")
+                    logger.info("To retrieve, please create/load into an Anno 1800 savegame and unpause.")
+                    self.failed_connects = 0
+                return
+
+        # Section to be moved to right after mod_path once support for 1.4.x is dropped
         if not (VERSION_COMPATIBILITY[0] <= self.mod_version <= VERSION_COMPATIBILITY[1]):
-            logger.warning(
-                f"Connected Mod Version {self.mod_version.as_simple_string()} is not compatible with the current client version {A1800World.world_version.as_simple_string()}.")
-            logger.warning(
-                f"Current client is compatible with mod versions {VERSION_COMPATIBILITY[0].as_simple_string()} - {VERSION_COMPATIBILITY[1].as_simple_string()}")
-            self.rcon_mmap_client.close()
-            self.auth = None
-            return False
+            if self.state != self.State.ERROR_VERSION_INCOMPATIBLE:
+                self.state = self.State.ERROR_VERSION_INCOMPATIBLE
+                logger.warning(
+                    f"Connected Mod Version {self.mod_version.as_simple_string()} is not compatible with the current client version {A1800World.world_version.as_simple_string()}.")
+                logger.warning(
+                    f"Current client is only compatible with mod versions {VERSION_COMPATIBILITY[0].as_simple_string()} - {VERSION_COMPATIBILITY[1].as_simple_string()}")
+                self.failed_connects = 0
+            return
 
-        return True
+        self.state = self.State.CONNECTED
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
             await super(A1800Context, self).server_auth(password_requested)
 
         if not self.auth:
-            raise Exception("Please connect to Anno 1800 before connecting to the Archipelago server.")
+            await self.get_username()
 
         await self.send_connect()
 
@@ -138,15 +239,27 @@ async def a1800_game_watcher(ctx: A1800Context):
         while not ctx.exit_event.is_set():
             await asyncio.sleep(0.1)
 
-            if not ctx.auth and time.perf_counter() > next_connect:
-                await ctx.game_auth()
-                if not ctx.auth:
-                    logger.info("Retrying in 5s...")
+            if ctx.state != ctx.State.CONNECTED and time.perf_counter() > next_connect:
+                if ctx.state == ctx.State.INIT:
+                    logger.info("Attempting to connect to Anno 1800...")
+                if ctx.state in [ctx.State.ERROR_SERVER_TIMEOUT, ctx.State.ERROR_AUTH_MISMATCH]:
+                    logger.warning("Lost connection to Anno 1800. Attempting to reconnect...")
+
+                await ctx.connect_to_game()
+
+                if ctx.state != ctx.State.CONNECTED:
+                    ctx.failed_connects += 1
+                    if ctx.failed_connects == 1:
+                        logger.info("Connection attempt failed. Retrying every 5s...")
+                    elif (ctx.failed_connects % 10) == 0:
+                        logger.info(
+                            f"Still failing to connect ({ctx.failed_connects} total attempts). Retrying every 5s...")
                     next_connect = time.perf_counter() + 5
                 else:
-                    logger.info(f"Successfully reconnected to Anno 1800.")
+                    ctx.failed_connects = 0
+                    logger.info(f"Successfully connected to Anno 1800.")
 
-            if ctx.auth and time.perf_counter() > next_sync:
+            if ctx.state == ctx.State.CONNECTED and time.perf_counter() > next_sync:
                 next_sync = time.perf_counter() + 1
                 data = None
                 try:
@@ -154,21 +267,34 @@ async def a1800_game_watcher(ctx: A1800Context):
                 except RCONTimeout:
                     logger.warning(
                         "Anno 1800 Client has lost connection. Did you open an expedition, pause or quit the game?")
-                    logger.info("Attempting to reconnect...")
-                    ctx.auth = None
-                if not ctx.rcon_mmap_client.connected or not ctx.auth:
-                    pass  # not connected or auth failed, wait for new attempt
-                elif not data:
-                    logger.warning("No data received for /ap-sync. Something went very wrong!")
-                elif data.get("slot_name") != ctx.auth:
+                    ctx.state = ctx.State.ERROR_SERVER_TIMEOUT
+                if ctx.state != ctx.State.CONNECTED:
+                    pass  # lost connection, wait for new attempt
+                elif not data or "slot_name" not in data or "seed_name" not in data or "mod_version" not in data:
+                    logger.warning("No/missing data received for /ap-sync. Something went very wrong!")
+                    ctx.state = ctx.State.ERROR_NO_DATA
+                    next_connect = time.perf_counter() + 1
+                elif data["slot_name"] != ctx.auth:
                     logger.warning(
-                        f"Connected World is not the expected one: {data.get('slot_name', 'None')} != {ctx.auth}")
-                elif data.get("seed_name") != ctx.seed_name:
+                        f"Connected slot {data["slot_name"]} is not the expected one: {ctx.auth}")
+                    logger.warning("Prioritizing connected game slot over previous slot.")
+                    logger.warning("If you were connected to an Archipelago server already, this will disconnect you.")
+                    ctx.state = ctx.State.ERROR_AUTH_MISMATCH
+                    ctx.auth = data["slot_name"]
+                    ctx.seed_name = None
+                    await ctx.disconnect()
+                elif data["seed_name"] != ctx.seed:
                     logger.warning(
-                        f"Connected Multiworld is not the expected one: {data.get('seed_name', 'None')} != {ctx.seed_name}")
-                elif tuplize_version(data.get("mod_version", "0.0.0")) != ctx.mod_version:
+                        f"Connected seed {data["seed_name"]} is not the expected one: {ctx.seed}")
+                    logger.warning("Prioritizing connected game seed over previous seed.")
+                    ctx.state = ctx.State.ERROR_AUTH_MISMATCH
+                    ctx.seed = data["seed_name"]
+                elif tuplize_version(data["mod_version"]) != ctx.mod_version:
                     logger.warning(
-                        f"Connected Mod Version is not the expected one: {data.get('mod_version', '0.0.0')} != {ctx.mod_version.as_simple_string()}")
+                        f"Connected mod version {data["mod_version"]} is not the expected one: {ctx.mod_version.as_simple_string()}")
+                    logger.warning("Prioritizing connected game mod version over previous mod version.")
+                    ctx.state = ctx.State.ERROR_AUTH_MISMATCH
+                    ctx.mod_version = tuplize_version(data["mod_version"])
                 else:
                     locations_checked: set[int] = {int(location_id)
                                                    for location_id in data.get("locations_checked", [])}
@@ -207,7 +333,7 @@ async def a1800_game_watcher(ctx: A1800Context):
 async def a1800_server_watcher(ctx: A1800Context):
     try:
         while not ctx.exit_event.is_set():
-            if ctx.auth:
+            if ctx.state == ctx.State.CONNECTED:
                 while ctx.send_index < len(ctx.items_received):
                     transfer_item: NetworkItem = ctx.items_received[ctx.send_index]
                     item_id = transfer_item.item
@@ -216,8 +342,7 @@ async def a1800_server_watcher(ctx: A1800Context):
                     except RCONTimeout:
                         logger.warning(
                             "Anno 1800 Client has lost connection. Did you open an expedition, pause or quit the game?")
-                        logger.info("Attempting to reconnect...")
-                        ctx.auth = None
+                        ctx.state = ctx.State.ERROR_SERVER_TIMEOUT
                         break
                     ctx.send_index += 1
             await asyncio.sleep(0.1)
@@ -229,61 +354,33 @@ async def a1800_server_watcher(ctx: A1800Context):
 
 
 async def a1800_init(ctx: A1800Context) -> bool:
-    if not ctx.a1800_mods_folder_path.exists():
-        ctx.gui_error(
-            "Fatal Error", f"Path {ctx.a1800_mods_folder_path} does not exist or could not be accessed.")
-        ctx.exit_event.set()
-        return False
-    if not ctx.a1800_mods_folder_path.is_dir():
-        ctx.gui_error("Fatal Error", f"Path {ctx.a1800_mods_folder_path} is not a folder.")
-        ctx.exit_event.set()
-        return False
+    while not ctx.a1800_mods_folder_path:
+        a1800_mods_folder_path = Path(settings.a1800_mods_folder_path)
 
-    mod_regex = re.compile(fr"AP-(\d*)-P(\d*)-(.*)-.*")
-    mod_path = None
-    for mod in ctx.a1800_mods_folder_path.iterdir():
-        if mod.name.startswith("-"):
+        if not a1800_mods_folder_path.exists():
+            error_popup = ctx.gui_error(
+                "Fatal Error", f"Path {a1800_mods_folder_path} does not exist or could not be accessed.")
+            while error_popup and error_popup._is_open:  # type: ignore
+                await asyncio.sleep(0.1)
+            delattr(settings, "a1800_mods_folder_path")
             continue
-        modinfo_path = (mod / "modinfo.json")
-        if modinfo_path.exists() and modinfo_path.is_file():
-            data = {}
-            with modinfo_path.open("r", encoding="utf-8") as modinfo_file:
-                data = json.load(modinfo_file)
-            if data and "ModID" in data and mod_regex.search(data["ModID"]):
-                mod_path = mod
+        if not a1800_mods_folder_path.is_dir():
+            error_popup = ctx.gui_error("Fatal Error", f"Path {a1800_mods_folder_path} is not a folder.")
+            while error_popup and error_popup._is_open:  # type: ignore
+                await asyncio.sleep(0.1)
+            delattr(settings, "a1800_mods_folder_path")
+            continue
+        a1800_exe_path = a1800_mods_folder_path.parent / "Bin" / "Win64" / "Anno1800.exe"
+        if not a1800_exe_path.exists() or not a1800_exe_path.is_file():
+            error_popup = ctx.gui_error(
+                "Fatal Error", f"Path {a1800_mods_folder_path} is not located in your Anno 1800 installation folder.{"\nDon't use the mods folder in your Documents!" if a1800_mods_folder_path.parent.parent.name == "Documents" else ""}")
+            while error_popup and error_popup._is_open:  # type: ignore
+                await asyncio.sleep(0.1)
+            delattr(settings, "a1800_mods_folder_path")
+            continue
 
-    if not mod_path:
-        logger.warning(
-            f"Could not find an enabled Anno 1800 Archipelago mod in mods folder {ctx.a1800_mods_folder_path}.")
-        logger.warning(
-            f"Make sure the mod folder name does not start with '-'.")
-        return False
-    else:
-        logger.info(f"Found Anno 1800 Archipelago mod at {mod_path}.")
+        ctx.a1800_mods_folder_path = a1800_mods_folder_path
 
-    ctx.rcon_mmap_client.file_path = mod_path / "A1800APCommunication.dat"
-    if ctx.rcon_mmap_client.file_path.exists() and ctx.rcon_mmap_client.file_path.is_file():
-        logger.info(f"Found communication file at {ctx.rcon_mmap_client.file_path}.")
-
-    try:
-        next_connect = time.perf_counter()
-        while not ctx.auth and not ctx.exit_event.is_set():
-            if time.perf_counter() > next_connect:
-                await ctx.game_auth()
-                if not ctx.auth:
-                    logger.info("Retrying in 5s...")
-                    next_connect = time.perf_counter() + 5
-            await asyncio.sleep(0.1)
-
-    except Exception as e:
-        logger.exception(e, extra={"compact_gui": True})
-        msg = "Aborted Anno 1800 Init"
-        logger.error(msg)
-        ctx.gui_error(msg, e)
-        ctx.exit_event.set()
-        return False
-
-    logger.info(f"Successfully connected to Anno 1800. Slot name is {ctx.auth}.")
     logger.info("Ready to connect to the Archipelago server via the Connect button or /connect.")
     return True
 
@@ -325,8 +422,6 @@ def launch():
     parser = get_base_parser()
     args = parser.parse_args()
 
-    a1800_mods_folder_path = Path(settings.a1800_mods_folder_path)
-
-    asyncio.run(main(lambda: A1800Context(args.connect, args.password, a1800_mods_folder_path)))
+    asyncio.run(main(lambda: A1800Context(args.connect, args.password)))
 
     colorama.deinit()

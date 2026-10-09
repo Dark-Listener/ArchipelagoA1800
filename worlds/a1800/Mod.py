@@ -173,6 +173,7 @@ def generate_mod(world: "A1800World", output_directory: str):
     template_env.lstrip_blocks = True
 
     modinfo_template = template_env.get_template("modinfo.json")
+    apinfo_template = template_env.get_template("apinfo.json")
     readme_en_template = template_env.get_template("readme_en.md")
     readme_de_template = template_env.get_template("readme_de.md")
     data_py_template = template_env.get_template("data/archipelago/scripts/data.py")
@@ -554,6 +555,7 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     mod.writing_tasks += [
         _get_writing_task(modinfo_template, anno_mod_data),
+        _get_writing_task(apinfo_template, anno_mod_data),
         _get_writing_task(readme_en_template, anno_mod_data),
         _get_writing_task(readme_de_template, anno_mod_data),
         _get_writing_task(on_game_loaded_template, anno_mod_data),

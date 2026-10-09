@@ -20,7 +20,7 @@ class RCONMMapClient:
     _file_obj: Optional[BufferedRandom] = None
     _file_access: Optional[RCONMMapFileAccess] = None
 
-    def __init__(self, file_path: Path = Path()) -> None:
+    def __init__(self, file_path: Optional[Path] = None) -> None:
         self.file_path = file_path
         self._id_seq = 0
 
@@ -45,6 +45,9 @@ class RCONMMapClient:
         if self._file_obj and not self._file_obj.closed:
             self._file_obj.close()
 
+        if not self.file_path:
+            return False
+
         self._file_obj = self.file_path.open(mode="rb+")
         self._file_access = RCONMMapFileAccess(mmap(self._file_obj.fileno(), length=FILE_SIZE))
 
@@ -66,7 +69,6 @@ class RCONMMapClient:
         try:
             response = self._receive_packet()
         except RCONTimeout:
-            self.close()
             return False
 
         if response.type != RCONPacket.SERVERDATA_RESPONSE_VALUE or response.id != auth_id:
@@ -76,7 +78,6 @@ class RCONMMapClient:
         try:
             response = self._receive_packet()
         except RCONTimeout:
-            self.close()
             return False
 
         if response.type == RCONPacket.SERVERDATA_AUTH_RESPONSE and response.id == auth_id:
@@ -90,6 +91,8 @@ class RCONMMapClient:
         self._handle_send_queue()
 
     def _handle_send_queue(self) -> None:
+        assert self._file_access
+
         if len(self._send_queue) == 0:
             return
 
@@ -101,6 +104,8 @@ class RCONMMapClient:
             print("Warning: send queue is full!")
 
     def _receive_packet(self, timeout: int = 1) -> RCONPacket:
+        assert self._file_access
+
         request = self._file_access.ring_buffer_server.get_request()
         start = perf_counter()
         while not request and ((timeout <= 0) or (perf_counter() - start < timeout)):
@@ -112,7 +117,7 @@ class RCONMMapClient:
         return RCONPacket.from_buffer(request)
 
     def send_command(self, command: str, timeout: int = 1) -> Optional[str]:
-        return self.send_commands({"command": command}, timeout)["command"]
+        return (self.send_commands({"command": command}, timeout))["command"]
 
     def send_commands(self, commands: dict[T, str], timeout: int = 1) -> dict[T, Optional[str]]:
         if not self.connected:

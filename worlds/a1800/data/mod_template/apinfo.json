@@ -1,0 +1,5 @@
+{
+  "slot_name": "{{ slot_name }}",
+  "seed_name": "{{ seed_name }}",
+  "mod_version": "{{ mod_version }}"
+}

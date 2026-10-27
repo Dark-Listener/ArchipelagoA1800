@@ -181,6 +181,8 @@ circumvents logic
 * You probably don't want to set any victory conditions in Anno itself - or at least continue playing afterwards if your
 Archipelago victory has not been achieved yet
 
+![Recommended NPC Settings](images/npc_settings.png "Recommended NPC Settings")
+
 Be careful not to load into vanilla savegames or those from other modding setups as this mod will likely trigger some
 irreversible unlocks. Once loaded into the savegame, the client should print that it is connected to the game within a
 few seconds.

@@ -1126,7 +1126,7 @@ A1800_UNLOCKS: list[A1800Unlock] = [
                 type_=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     A1800Unlock("Search in the far northern Arctic", DLC.THE_PASSAGE, Region.AR,
-                input="Aviation", output="Lost Expedition Scrap",
+                input="Nate Crafting", output="Lost Expedition Scrap",
                 type_=UnlockType.META | UnlockType.FACTORY),
 
     A1800Unlock("Medium-Volume Transport and Pier", DLC.THE_PASSAGE, Region.AR,
@@ -1336,7 +1336,8 @@ A1800_UNLOCKS: list[A1800Unlock] = [
     # No arctic gas input to avoid cyclic dependency - Nate will always give you some if you have none and no Boreas
     A1800Unlock("Boreas", DLC.THE_PASSAGE, ALL_REGIONS, 114166, (114166, [], 112651),
                 TriggerCondition.POPULATION("Technicians", Region.AR, 750),
-                input={"Arctic Airships", "Timber", "Sails", "Steam Motors"}, output={"Aviation", "Low-Volume Trade", "Medium-Volume Transport"}, ap_region=Region.OW),
+                input={"Arctic Airships", "Timber", "Sails", "Steam Motors"},
+                output={("Aviation", Region.OW), ("Low-Volume Trade", Region.OW), ("Medium-Volume Transport", Region.OW), ("Nate Crafting", Region.AR)}, ap_region=Region.OW),
 
     A1800Unlock("Blue Flamethrower Monitor", DLC.THE_PASSAGE, ALL_REGIONS, 1537, (1537, 5338, 1789),
                 TriggerCondition.ALL(TriggerCondition.POPULATION("Technicians", Region.AR, 750),
@@ -2401,7 +2402,7 @@ A1800_UNLOCKS: list[A1800Unlock] = [
                         "Hidden quest: Socket 'The \"Magnificone\" Ice Cream Maker' in an OW: Town Hall (see Arctic Nate)",
                         135736,
                         {("Expedition: The Arctic", ALL_REGIONS), ("Expeditions: Level 2", ALL_REGIONS),
-                         ("Aviation", ALL_REGIONS), ("Lost Expedition Scrap", ALL_REGIONS), ("Grapes", ALL_REGIONS),
+                         ("Nate Crafting", Region.AR), ("Lost Expedition Scrap", ALL_REGIONS), ("Grapes", ALL_REGIONS),
                          ("Plantains", ALL_REGIONS), ("Chocolate", ALL_REGIONS), ("Investors", Region.OW),
                          ("Town Hall", Region.OW)}
                     )

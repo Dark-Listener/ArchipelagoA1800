@@ -205,6 +205,7 @@ A1800_PRODUCTS: list[A1800Product] = [
     A1800Product("Road Network", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
     A1800Product("Settling", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
     A1800Product("Plateau Settling", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
+    A1800Product("Nate Crafting", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
     A1800Product("Fire Protection", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
     A1800Product("Healthcare", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),
     A1800Product("Medium Storage", DLC.THE_PASSAGE, Region.AR, 0, ProductType.META),

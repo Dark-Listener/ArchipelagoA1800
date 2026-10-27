@@ -22,15 +22,12 @@ from .rcon.rcon_mmap_client import RCONMMapClient, RCONTimeout
 if TYPE_CHECKING:
     import kvui
 
+VERSION_COMPATIBILITY = (Version(1, 6, 0), A1800World.world_version)
+UT_MIN_VERSION = Version(0, 3, 6)
+
 try:
     from worlds.tracker.TrackerClient import TrackerGameContext  # pyright: ignore[reportAssignmentType]
     from worlds.tracker.TrackerClient import TrackerCommandProcessor as ClientCommandProcessor, UT_VERSION
-
-    UT_MIN_VERSION = Version(3, 4, 0)
-
-    if tuplize_version(UT_VERSION[1:]) < UT_MIN_VERSION:
-        logger.warning(
-            f"Warning: Universal Tracker was only tested with version {UT_MIN_VERSION.as_simple_string()} and above. Earlier version may or may not work - use at your own risk!")
 
     tracker_loaded = True
 except ModuleNotFoundError as e:
@@ -50,8 +47,6 @@ except ModuleNotFoundError as e:
 
     class TrackerGameContext(CommonContext, TrackerGameContextMixin):
         pass
-
-VERSION_COMPATIBILITY = (Version(1, 4, 0), A1800World.world_version)
 
 
 class A1800Context(TrackerGameContext):
@@ -360,6 +355,10 @@ async def a1800_server_watcher(ctx: A1800Context):
 
 
 async def a1800_init(ctx: A1800Context) -> bool:
+    if tracker_loaded and tuplize_version(UT_VERSION[1:]) < UT_MIN_VERSION:
+        logger.warning(
+            f"Universal Tracker was only tested with version {UT_MIN_VERSION.as_simple_string()} and above. Earlier version may or may not work - use at your own risk!")
+
     while not ctx.a1800_mods_folder_path:
         a1800_mods_folder_path = Path(settings.a1800_mods_folder_path)
 

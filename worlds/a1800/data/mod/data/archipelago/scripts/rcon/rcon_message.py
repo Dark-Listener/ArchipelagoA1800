@@ -1,6 +1,6 @@
 from typing import Iterator, List, Optional, Union
 
-from .rcon_mmap_file_access import PACKET_SIZE
+from .rcon_mmap_file_access import BODY_SIZE
 from .rcon_packet import RCONPacket
 
 
@@ -121,9 +121,6 @@ class RCONMessage:
         sets the body of the RCONMessage.
         This may lead to adding/removing packets to/from the message.
         """
-        # maximum packet size is 4096 - 10 bytes (id, type, 2x terminator)
-        max_size = PACKET_SIZE - 10
-
         id = self.packets[0].id
         type = self.packets[0].type
 
@@ -131,7 +128,7 @@ class RCONMessage:
         packets = [RCONPacket(0, 0, "")]
         packets.clear()
         while True:
-            next_size = min(max_size, len(value))
+            next_size = min(BODY_SIZE, len(value))
             packets.append(RCONPacket(id=id, type=type, body=value[0:next_size]))
             value = value[next_size:]
             if len(value) == 0:

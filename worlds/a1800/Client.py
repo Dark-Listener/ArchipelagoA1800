@@ -53,10 +53,10 @@ class A1800Context(TrackerGameContext):
     class State(IntEnum):
         INIT = auto()
         ERROR_NO_MOD_FOLDER = auto()
+        ERROR_NO_AP_INFO = auto()
+        ERROR_VERSION_INCOMPATIBLE = auto()
         ERROR_NO_COMMUNICATION_FILE = auto()
         ERROR_NO_AUTH_RESPONSE = auto()
-        ERROR_NO_INFO_RESPONSE = auto()
-        ERROR_VERSION_INCOMPATIBLE = auto()
         ERROR_SERVER_TIMEOUT = auto()
         ERROR_NO_DATA = auto()
         ERROR_AUTH_MISMATCH = auto()
@@ -74,8 +74,7 @@ class A1800Context(TrackerGameContext):
         self.send_index: int = 0
         self.rcon_mmap_client: RCONMMapClient = RCONMMapClient()
         self.a1800_mods_folder_path: Optional[Path] = None
-        # Pattern to exclude last '-' once support for 1.4.x is dropped
-        self.mod_regex: re.Pattern[str] = re.compile(fr"AP-(\d*)-P(\d*)-(.*)[-_].*")
+        self.mod_regex: re.Pattern[str] = re.compile(fr"AP-(\d*)-P(\d*)-(.*)_.*")
         self.mod_path: Optional[Path] = None
         self.seed: Optional[str] = None
         self.failed_connects = 0
@@ -120,34 +119,6 @@ class A1800Context(TrackerGameContext):
                     self.seed_name = None
                 self.auth = new_auth
 
-    # Function to be removed once support for 1.4.x is dropped
-    async def retrieve_auth(self):
-        try:
-            ap_rcon_info = self.rcon_mmap_client.send_command("/ap-rcon-info")
-        except RCONTimeout:
-            return
-
-        if not ap_rcon_info:
-            return
-
-        info = json.loads(ap_rcon_info)
-
-        if not info:
-            return
-
-        new_auth = info.get("slot_name", None)
-        self.seed = info.get("seed_name", None)
-        self.mod_version = tuplize_version(info.get("mod_version", "0.0.0"))
-
-        logger.info(
-            f"Mod offers slot {new_auth} on seed {self.seed} on mod version {self.mod_version.as_simple_string()}.")
-        if self.auth and self.auth != new_auth:
-            logger.warning(f"Slot offered by mod will override previously used slot {self.auth}.")
-            logger.warning("Disconnecting from Archipelago server. Please reconnect to use the updated slot name.")
-            await self.disconnect()
-            self.seed_name = None
-        self.auth = new_auth
-
     async def connect_to_game(self) -> None:
         if not self.mod_path or not self.mod_path.exists() or not self.mod_path.is_dir():
             self.find_a1800_mod()
@@ -163,8 +134,25 @@ class A1800Context(TrackerGameContext):
 
         if not self.auth or not self.seed or not self.mod_version or self.mod_version.as_simple_string() == "0.0.0":
             await self.read_auth()
+            if not self.auth or not self.seed or not self.mod_version or self.mod_version.as_simple_string() == "0.0.0":
+                if self.state != self.State.ERROR_NO_AP_INFO:
+                    self.state = self.State.ERROR_NO_AP_INFO
+                    logger.warning(
+                        f"Could not find apinfo.json file in Anno 1800 Archipelago mod folder {self.mod_path}.")
+                    logger.info(
+                        f"This means the mod was generated with an old apworld version. Try client version 1.5.1 or older.")
+                    self.failed_connects = 0
+                return
 
-            # Add error handling here after support for 1.4.x is dropped
+        if not (VERSION_COMPATIBILITY[0] <= self.mod_version <= VERSION_COMPATIBILITY[1]):
+            if self.state != self.State.ERROR_VERSION_INCOMPATIBLE:
+                self.state = self.State.ERROR_VERSION_INCOMPATIBLE
+                logger.warning(
+                    f"Connected mod version {self.mod_version.as_simple_string()} is not compatible with the current client version {A1800World.world_version.as_simple_string()}.")
+                logger.warning(
+                    f"Current client is only compatible with mod versions {VERSION_COMPATIBILITY[0].as_simple_string()} - {VERSION_COMPATIBILITY[1].as_simple_string()}")
+                self.failed_connects = 0
+            return
 
         if not self.rcon_mmap_client.file_path:
             self.rcon_mmap_client.file_path = self.mod_path / "A1800APCommunication.dat"
@@ -192,29 +180,6 @@ class A1800Context(TrackerGameContext):
                 return
             else:
                 logger.info("Successfully authenticated with Anno 1800.")
-
-        # Section to be removed once support for 1.4.x is dropped
-        if not self.auth or not self.seed or not self.mod_version or self.mod_version.as_simple_string() == "0.0.0":
-            await self.retrieve_auth()
-
-            if not self.auth or not self.seed or not self.mod_version:
-                if self.state != self.State.ERROR_NO_INFO_RESPONSE:
-                    self.state = self.State.ERROR_NO_INFO_RESPONSE
-                    logger.warning("Couldn't retrieve slot name or seed name or mod version.")
-                    logger.info("To retrieve, please create/load into an Anno 1800 savegame and unpause.")
-                    self.failed_connects = 0
-                return
-
-        # Section to be moved to right after mod_path once support for 1.4.x is dropped
-        if not (VERSION_COMPATIBILITY[0] <= self.mod_version <= VERSION_COMPATIBILITY[1]):
-            if self.state != self.State.ERROR_VERSION_INCOMPATIBLE:
-                self.state = self.State.ERROR_VERSION_INCOMPATIBLE
-                logger.warning(
-                    f"Connected mod version {self.mod_version.as_simple_string()} is not compatible with the current client version {A1800World.world_version.as_simple_string()}.")
-                logger.warning(
-                    f"Current client is only compatible with mod versions {VERSION_COMPATIBILITY[0].as_simple_string()} - {VERSION_COMPATIBILITY[1].as_simple_string()}")
-                self.failed_connects = 0
-            return
 
         self.state = self.State.CONNECTED
 

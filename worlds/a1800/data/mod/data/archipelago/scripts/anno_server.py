@@ -24,7 +24,6 @@ class AnnoServer(RCONMMapServer):
         self.ap_receive_item_args_file_access = MMapAccess(
             mmap(self._ap_receive_item_args_file_obj.fileno(), length=0))
 
-        self.register_handler("/ap-rcon-info", _handle_ap_rcon_info)
         self.register_handler("/ap-sync", _handle_ap_sync)
         self.register_handler("/ap-receive-item", _handle_ap_receive_item)
 
@@ -38,18 +37,6 @@ class AnnoServer(RCONMMapServer):
             self._ap_receive_item_args_file_obj.close()
 
         super().close()
-
-
-def _handle_ap_rcon_info(server: RCONMMapServer, packet: RCONPacket, _body: str) -> None:
-    assert isinstance(server, AnnoServer)
-
-    info = {
-        "slot_name": server.slot_name,
-        "seed_name": server.seed_name,
-        "mod_version": server.mod_version,
-    }
-
-    server.send_message(packet.id, RCONPacket.SERVERDATA_RESPONSE_VALUE, json.dumps(info))
 
 
 def _handle_ap_sync(server: RCONMMapServer, packet: RCONPacket, _body: str) -> None:

@@ -13,10 +13,11 @@ from .util import to_int8, to_int32, from_int
 #   1 int8 - WRITE
 #   64 * REQUEST_SIZE - 64 requests
 
-PACKET_SIZE = 4096
-REQUEST_SIZE = PACKET_SIZE + 4
+BODY_SIZE = 4096
+_PACKET_SIZE = BODY_SIZE + 10
+_REQUEST_SIZE = _PACKET_SIZE + 4
 _BUFFER_CAPACITY = 64
-_BUFFER_SIZE = _BUFFER_CAPACITY * REQUEST_SIZE + 4
+_BUFFER_SIZE = _BUFFER_CAPACITY * _REQUEST_SIZE + 4
 FILE_SIZE = 2 * _BUFFER_SIZE
 
 _BUFFER_READ_IDX_SIZE = 1
@@ -105,12 +106,12 @@ class _BufferAccess(MMapAccess):
     def get_request(self, idx: int) -> bytes:
         assert idx >= 0, "Index cannot be negative"
         assert idx < _BUFFER_CAPACITY, "Index must be smaller than capacity {}".format(_BUFFER_CAPACITY)
-        return self.get(_BUFFER_REQUESTS + idx * REQUEST_SIZE, REQUEST_SIZE)
+        return self.get(_BUFFER_REQUESTS + idx * _REQUEST_SIZE, _REQUEST_SIZE)
 
     def write_request(self, idx: int, request: bytes) -> None:
         assert idx >= 0, "Index cannot be negative"
         assert idx < _BUFFER_CAPACITY, "Index must be smaller than capacity {}".format(_BUFFER_CAPACITY)
-        self.set(_BUFFER_REQUESTS + idx * REQUEST_SIZE, REQUEST_SIZE, request)
+        self.set(_BUFFER_REQUESTS + idx * _REQUEST_SIZE, _REQUEST_SIZE, request)
 
 
 class _RequestRingBuffer:
@@ -118,7 +119,7 @@ class _RequestRingBuffer:
         self._memory = _BufferAccess(mmap_obj, offset)
 
     def put_request(self, request: bytes) -> bool:
-        assert len(request) <= REQUEST_SIZE, "Request size cannot be larger than {}".format(REQUEST_SIZE)
+        assert len(request) <= _REQUEST_SIZE, "Request size cannot be larger than {}".format(_REQUEST_SIZE)
 
         if ((self._memory.write_idx + 1) % _BUFFER_CAPACITY) == self._memory.read_idx:
             return False

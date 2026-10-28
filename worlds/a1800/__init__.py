@@ -131,8 +131,7 @@ class A1800World(World):
                 "required_monuments",
                 "enable_mine_slot_unification"
             ),
-            "Seed": self.multiworld.seed_name,
-            "Slot": self.multiworld.player_name[self.player],
+            "world_version": self.world_version.as_simple_string(),
         }
 
         return slot_data

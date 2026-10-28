@@ -8,7 +8,7 @@ import logging
 import re
 import time
 from pathlib import Path
-from typing import Callable, Optional, TYPE_CHECKING
+from typing import Any, Callable, Optional, TYPE_CHECKING
 
 from CommonClient import ClientCommandProcessor, logger, server_loop, gui_enabled, get_base_parser
 from NetUtils import ClientStatus, NetworkItem
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
     import kvui
 
 VERSION_COMPATIBILITY = (Version(1, 6, 0), A1800World.world_version)
-UT_MIN_VERSION = Version(0, 3, 6)
+UT_MIN_VERSION = Version(0, 3, 8)
 
 try:
     from worlds.tracker.TrackerClient import TrackerGameContext  # pyright: ignore[reportAssignmentType]
@@ -210,13 +210,31 @@ class A1800Context(TrackerGameContext):
             if self.state != self.State.ERROR_VERSION_INCOMPATIBLE:
                 self.state = self.State.ERROR_VERSION_INCOMPATIBLE
                 logger.warning(
-                    f"Connected Mod Version {self.mod_version.as_simple_string()} is not compatible with the current client version {A1800World.world_version.as_simple_string()}.")
+                    f"Connected mod version {self.mod_version.as_simple_string()} is not compatible with the current client version {A1800World.world_version.as_simple_string()}.")
                 logger.warning(
                     f"Current client is only compatible with mod versions {VERSION_COMPATIBILITY[0].as_simple_string()} - {VERSION_COMPATIBILITY[1].as_simple_string()}")
                 self.failed_connects = 0
             return
 
         self.state = self.State.CONNECTED
+
+    def on_package(self, cmd: str, args: dict[str, Any]):
+        super().on_package(cmd, args)  # pyright: ignore[reportUnknownMemberType]
+
+        if cmd == "Connected":
+            server_version = Version(0, 0, 0)
+
+            slot_data: Optional[dict[str, Any]] = args["slot_data"]
+
+            if slot_data:
+                server_version = tuplize_version(slot_data.get("world_version", "0.0.0"))
+
+            if server_version == Version(0, 0, 0):
+                self.gui_error(
+                    "Warning", "Multiworld used apworld version 1.5.1 or before. Universal Tracker may not work correctly.")
+            elif not (VERSION_COMPATIBILITY[0] <= server_version <= VERSION_COMPATIBILITY[1]):
+                self.gui_error(
+                    "Warning", f"Multiworld used apworld version {server_version.as_simple_string()}, but current client version {A1800World.world_version.as_simple_string()} is only compatible with {VERSION_COMPATIBILITY[0].as_simple_string()} - {VERSION_COMPATIBILITY[1].as_simple_string()}. Universal Tracker may not work correctly.")
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
@@ -229,8 +247,13 @@ class A1800Context(TrackerGameContext):
 
     def make_gui(self) -> "type[kvui.GameManager]":
         ui = super().make_gui()
-        ui.base_title = f"Archipelago Anno 1800 Client{f" with UT {UT_VERSION}" if tracker_loaded else ""} - AP Version"
+        ui.base_title = f"Archipelago Anno 1800 Client{f" with Universal Tracker {UT_VERSION}" if tracker_loaded else ""} - AP Version"
         return ui
+
+    async def wait_for_gui_error(self, title: str, message: str):
+        error_popup = self.gui_error(title, message)
+        while error_popup and error_popup._is_open:  # type: ignore
+            await asyncio.sleep(0.1)
 
 
 async def a1800_game_watcher(ctx: A1800Context):
@@ -356,31 +379,23 @@ async def a1800_server_watcher(ctx: A1800Context):
 
 async def a1800_init(ctx: A1800Context) -> bool:
     if tracker_loaded and tuplize_version(UT_VERSION[1:]) < UT_MIN_VERSION:
-        logger.warning(
-            f"Universal Tracker was only tested with version {UT_MIN_VERSION.as_simple_string()} and above. Earlier version may or may not work - use at your own risk!")
+        await ctx.wait_for_gui_error("Warning", f"Universal Tracker was only tested with version {UT_MIN_VERSION.as_simple_string()} and above. Earlier version may or may not work - use at your own risk!")
 
     while not ctx.a1800_mods_folder_path:
         a1800_mods_folder_path = Path(settings.a1800_mods_folder_path)
 
         if not a1800_mods_folder_path.exists():
-            error_popup = ctx.gui_error(
-                "Fatal Error", f"Path {a1800_mods_folder_path} does not exist or could not be accessed.")
-            while error_popup and error_popup._is_open:  # type: ignore
-                await asyncio.sleep(0.1)
+            await ctx.wait_for_gui_error("Fatal Error", f"Path {a1800_mods_folder_path} does not exist or could not be accessed.")
             delattr(settings, "a1800_mods_folder_path")
             continue
         if not a1800_mods_folder_path.is_dir():
-            error_popup = ctx.gui_error("Fatal Error", f"Path {a1800_mods_folder_path} is not a folder.")
-            while error_popup and error_popup._is_open:  # type: ignore
-                await asyncio.sleep(0.1)
+            await ctx.wait_for_gui_error("Fatal Error", f"Path {a1800_mods_folder_path} is not a folder.")
             delattr(settings, "a1800_mods_folder_path")
             continue
         a1800_exe_path = a1800_mods_folder_path.parent / "Bin" / "Win64" / "Anno1800.exe"
         if not a1800_exe_path.exists() or not a1800_exe_path.is_file():
-            error_popup = ctx.gui_error(
+            await ctx.wait_for_gui_error(
                 "Fatal Error", f"Path {a1800_mods_folder_path} is not located in your Anno 1800 installation folder.{"\nDon't use the mods folder in your Documents!" if a1800_mods_folder_path.parent.parent.name == "Documents" else ""}")
-            while error_popup and error_popup._is_open:  # type: ignore
-                await asyncio.sleep(0.1)
             delattr(settings, "a1800_mods_folder_path")
             continue
 

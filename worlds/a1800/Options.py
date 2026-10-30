@@ -278,7 +278,15 @@ class EnableMineSlotUnificationOption(Toggle):
 
 
 class A1800ExcludeLocations(ExcludeLocations):
-    """Prevent these locations from having an important item."""
+    """
+    Prevent these locations from having an important item.
+
+    Available groups (case sensitive): Farmers, Workers, Artisans, Engineers, Investors, Tourists,
+    Jornaleros, Obreros, Artistas, Explorers, Technicians, Shepherds, Elders, Scholars, Skyscrapers,
+    Skyscrapers: Level 5, Enter: New World, Enter: The Arctic, Enter: Enbesa, Recipes, Restaurant Recipes,
+    Cafe Recipes, Bar Recipes, The Iron Tower Recipes, Department Store Recipes, Furniture Store Recipes,
+    Drug Store Recipes
+    """
     default = frozenset({
         "(Build 1 OW: Cafe) THEN (Have 1 Elephant Enclosure (Zoo, Eastern Elephant or Elephant)) (OW: Cafe: Palmier Biscuit)",
         "(Build 1 OW: The Iron Tower) THEN (Hidden quest: Complete the set 'Polar Circle' in an OW: Zoo (Arctic Fox, Great Auk, Narwhal, Polar Bear, Ringed Seal, Walrus)) (OW: The Iron Tower: Age of Exploration)",

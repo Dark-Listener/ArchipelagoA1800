@@ -10,11 +10,6 @@ def get_next_anno_guid() -> int:
     return _g_next_anno_guid
 
 
-def reset_anno_guids() -> None:
-    global _g_next_anno_guid
-    _g_next_anno_guid = _GUID_INIT_VALUE
-
-
 RECIPE_GUIDS = {
     "Recipe: Archduke's Schnitzel": (get_next_anno_guid(), 133864, 0, 0, False),
     "Recipe: Stroggof Goulash": (get_next_anno_guid(), 133867, 0, 0, False),
@@ -58,3 +53,18 @@ HACIENDA_QUARTER_GUIDS = {
     "Hacienda Obrera Quarters": (get_next_anno_guid(), 101255, "Obrero Residence", 24793),
     "Hacienda Artista Quarters": (get_next_anno_guid(), 5405, "Artista Residence", 6086),
 }
+
+EXPEDITION_UNLOCK_GUIDS = {
+    "Old World": 0,
+    "New World": get_next_anno_guid(),
+    "Cape Trelawney": get_next_anno_guid(),
+    "The Arctic": get_next_anno_guid(),
+    "Enbesa": get_next_anno_guid(),
+}
+
+_GUID_REINIT_VALUE = _g_next_anno_guid
+
+
+def reset_anno_guids() -> None:
+    global _g_next_anno_guid
+    _g_next_anno_guid = _GUID_REINIT_VALUE

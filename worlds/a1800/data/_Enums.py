@@ -1,7 +1,7 @@
 from enum import auto, Enum, Flag, IntEnum, KEEP
 from functools import reduce
 
-from ._Guid import get_next_anno_guid
+from ._Guid import EXPEDITION_UNLOCK_GUIDS
 
 
 class DLC(Flag, boundary=KEEP):
@@ -169,13 +169,9 @@ _SESSION_GUIDS = {
 }
 
 _SESSION_EXPEDITION_UNLOCK_GUIDS = {
-    Session.OW: 0,
-    Session.NW: get_next_anno_guid(),
-    Session.CT: get_next_anno_guid(),
-    Session.AR: get_next_anno_guid(),
-    Session.EN: get_next_anno_guid(),
+    session: EXPEDITION_UNLOCK_GUIDS[_SESSION_NAMES[session]] for session in Session.__members__.values()
 }
-
+print(_SESSION_EXPEDITION_UNLOCK_GUIDS.items())
 
 _SESSION_REGIONS = {
     Session.OW: Region.OW,

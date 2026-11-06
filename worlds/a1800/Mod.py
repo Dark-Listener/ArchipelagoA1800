@@ -215,8 +215,6 @@ def generate_mod(world: "A1800World", output_directory: str):
     received_guid = world.A1800_DATA.get_next_anno_guid()
 
     meta_products_by_name = {
-        "int_receive_index": world.A1800_DATA.get_next_anno_guid()
-    } | {
         f"int_local_{ap_code}": world.A1800_DATA.get_next_anno_guid() for _, (ap_code, _) in world.A1800_DATA.get_progressive_groups().items()
     } | {
         f"int_receive_{ap_code}": world.A1800_DATA.get_next_anno_guid() for _, (ap_code, _) in world.A1800_DATA.get_progressive_groups().items()

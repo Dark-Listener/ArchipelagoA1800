@@ -24,6 +24,7 @@ if TYPE_CHECKING:
 
 VERSION_COMPATIBILITY = (Version(1, 6, 0), A1800World.world_version)
 UT_MIN_VERSION = Version(0, 3, 8)
+MAX_ITEMS_SENT = 800
 
 try:
     from worlds.tracker.TrackerClient import TrackerGameContext  # pyright: ignore[reportAssignmentType]
@@ -324,16 +325,19 @@ async def a1800_server_watcher(ctx: A1800Context):
         while not ctx.exit_event.is_set():
             if ctx.state == ctx.State.CONNECTED:
                 while ctx.send_index < len(ctx.items_received):
-                    transfer_item: NetworkItem = ctx.items_received[ctx.send_index]
-                    item_id = transfer_item.item
+                    command = "/ap-receive-item"
+                    for index in range(ctx.send_index, min(ctx.send_index + MAX_ITEMS_SENT, len(ctx.items_received))):
+                        transfer_item: NetworkItem = ctx.items_received[index]
+                        item_id = transfer_item.item
+                        command += f" {item_id}"
                     try:
-                        ctx.rcon_mmap_client.send_command(f"/ap-receive-item {item_id} {ctx.send_index}")
+                        ctx.rcon_mmap_client.send_command(command)
                     except RCONTimeout:
                         logger.warning(
                             "Anno 1800 Client has lost connection. Did you open an expedition, pause or quit the game?")
                         ctx.state = ctx.State.ERROR_SERVER_TIMEOUT
                         break
-                    ctx.send_index += 1
+                    ctx.send_index += min(MAX_ITEMS_SENT, len(ctx.items_received) - ctx.send_index)
             await asyncio.sleep(0.1)
 
     except Exception as e:

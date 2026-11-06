@@ -76,17 +76,14 @@ def _handle_ap_sync(server: RCONMMapServer, packet: RCONPacket, _body: str) -> N
 def _handle_ap_receive_item(server: RCONMMapServer, _packet: RCONPacket, body: str) -> None:
     assert isinstance(server, AnnoServer)
 
-    args = body.split()
-    ap_code = int(args[0])
-    rcv_idx = int(args[1])
-    if ap_code in server.env["GUIDS_BY_AP_CODE"] and rcv_idx >= server.env["g_receive_index"]:
+    ap_codes = list(filter(lambda ap_code: ap_code in server.env["GUIDS_BY_AP_CODE"], map(int, body.split())))
+    if len(ap_codes) > 0:
+        args_string = "g_ap_receive_item_args_size = {:03}\ng_ap_receive_item_args = {{\n".format(len(ap_codes))
+        for ap_code in ap_codes:
+            args_string += "    {:04},\n".format(ap_code)
+
         server.ap_receive_item_args_file_access.set_str(
-            0,
-            server.ap_receive_item_args_file_access.size,
-            "g_ap_receive_item_args = {{\n    [\"ap_code\"] = {:010},\n    [\"rcv_idx\"] = {:010},\n}}\n".format(
-                ap_code, rcv_idx
-            )
-        )
+            0, min(len(args_string), server.ap_receive_item_args_file_access.size), args_string)
         server.ap_receive_item_args_file_access.flush()
         server.env["console"].startScript(str(server.script_path / "ap_receive_item.lua"))
 

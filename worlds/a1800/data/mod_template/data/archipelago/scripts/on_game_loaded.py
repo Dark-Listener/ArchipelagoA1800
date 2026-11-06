@@ -34,11 +34,6 @@ try:
     from data import g_location_data_by_guid, g_settled_region_by_guid, g_fixed_hints, GUIDS_BY_AP_CODE
 
     g_victory = False
-    g_lua_init = False
-    g_receive_index = 0
-
-    console.startScript(str(src_path / "data.lua"))
-    console.startScript(str(src_path / "on_game_loaded.lua"))
 
     try:
         g_anno_server.close()

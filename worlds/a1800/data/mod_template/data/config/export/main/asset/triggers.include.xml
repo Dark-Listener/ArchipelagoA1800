@@ -169,6 +169,9 @@
 {%  for trigger in location_notification_triggers %}
 {{  generate_trigger_asset(trigger, "Notification: ") | indent(4, true) }}
 {%  endfor %}
+{%  for trigger in item_notification_triggers_by_ap_code.values() %}
+{{  generate_trigger_asset(trigger, "Notification: ") | indent(4, true) }}
+{%  endfor %}
 
     <!-- Victory condition triggers -->
 {{  generate_trigger_asset(victory_trigger) | indent(4, true) }}

@@ -24,36 +24,33 @@ if rcv_idx >= ts.Economy.MetaStorage.GetStorageAmount(g_int_receive_index_guid) 
 
                 if rcv_idx == ts.Economy.MetaStorage.GetStorageAmount(g_int_receive_index_guid) then
                     local guids = g_guids_by_ap_code[ap_code]
+                    local first_unlock = guids["first_unlock"]
                     local unlock_guids = guids["unlock_guids"]
                     local location_guid = guids["location_guid"]
-                    local notification_feature_guid = guids["notification_feature_guid"]
+                    local notification_trigger_guid = guids["notification_trigger_guid"]
                     local int_local_guid = guids["int_local_guid"]
                     local int_receive_guid = guids["int_receive_guid"]
 
                     if int_local_guid ~= 0 and int_receive_guid ~= 0 then
                         if ts.Economy.MetaStorage.GetStorageAmount(int_local_guid) <= ts.Economy.MetaStorage.GetStorageAmount(int_receive_guid) then
-                            if notification_feature_guid ~= 0 then
-                                ts.Unlock.SetRelockNet(notification_feature_guid)
-                                coroutine.yield()
-                            end
-
                             ts.Economy.MetaStorage.AddAmount(int_local_guid, 1)
                         end
 
                         ts.Economy.MetaStorage.AddAmount(int_receive_guid, 1)
-                    else
-                        if notification_feature_guid ~= 0 then
-                            ts.Unlock.SetRelockNet(notification_feature_guid)
-                            coroutine.yield()
+                    end
+
+                    if not ts.Unlock.GetIsUnlocked(first_unlock) then
+                        if notification_trigger_guid ~= 0 then 
+                            ts.Conditions.RegisterTriggerForCurrentParticipant(notification_trigger_guid)
                         end
-                    end
 
-                    for _, guid in ipairs(unlock_guids) do
-                        ts.Unlock.SetUnlockNet(guid)
-                    end
+                        for _, guid in ipairs(unlock_guids) do
+                            ts.Unlock.SetUnlockNet(guid)
+                        end
 
-                    if location_guid ~= 0 then
-                        ts.Unlock.SetUnlockNet(location_guid)
+                        if location_guid ~= 0 then
+                            ts.Unlock.SetUnlockNet(location_guid)
+                        end
                     end
 
                     ts.Economy.MetaStorage.AddAmount(g_int_receive_index_guid, 1)

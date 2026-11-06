@@ -29,7 +29,6 @@ The following features are being considered, but it's unclear whether they are r
 * Handle NPC shops and item pools
 * Improve spoiler logs
 * Create convenience groups for items
-* Improve notifications for progressive items?
 * Require Elders to be fully supplied before unlocking Scholars? Otherwise most of Enbesa can be skipped - see 128474
 * Instead of grouped triggers and unlockable assets, use feature unlocks?
 * Find a way to make Docklands DLC work meaningfully? Somehow all the unlocks would have to be redone

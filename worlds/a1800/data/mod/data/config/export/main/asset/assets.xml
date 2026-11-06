@@ -3,7 +3,6 @@
   <Include File="./free_goods_and_ships.include.xml" />
   <Include File="./incidents.include.xml" />
   <Include File="./meta_products.include.xml" />
-  <Include File="./notifications.include.xml" />
   <Include File="./quests.include.xml" />
   <Include File="./triggers.include.xml" />
 

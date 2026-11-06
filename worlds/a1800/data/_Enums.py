@@ -171,7 +171,6 @@ _SESSION_GUIDS = {
 _SESSION_EXPEDITION_UNLOCK_GUIDS = {
     session: EXPEDITION_UNLOCK_GUIDS[_SESSION_NAMES[session]] for session in Session.__members__.values()
 }
-print(_SESSION_EXPEDITION_UNLOCK_GUIDS.items())
 
 _SESSION_REGIONS = {
     Session.OW: Region.OW,

@@ -349,6 +349,9 @@
       </ResetTrigger>
     </Trigger>
     <TriggerSetup>
+{%    if not trigger.auto_register %}
+      <AutoRegisterTrigger>0</AutoRegisterTrigger>
+{%    endif %}
       <UsedBySecondParties>0</UsedBySecondParties>
     </TriggerSetup>
   </Values>

@@ -10,9 +10,11 @@ class Trigger:
     guid: int
     condition: TriggerCondition
     actions: list[TriggerAction]
+    auto_register: bool
 
-    def __init__(self, condition: TriggerCondition, actions: TriggerAction | list[TriggerAction], *, guid: int = 0) -> None:
+    def __init__(self, condition: TriggerCondition, actions: TriggerAction | list[TriggerAction], *, auto_register: bool = True, guid: int = 0) -> None:
         self.condition = condition
+        self.auto_register = auto_register
         self.guid = guid
 
         if isinstance(actions, TriggerAction):

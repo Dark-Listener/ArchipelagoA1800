@@ -183,7 +183,6 @@ def generate_mod(world: "A1800World", output_directory: str):
         "data/config/export/main/asset/free_goods_and_ships.include.xml")
     incidents_template = template_env.get_template("data/config/export/main/asset/incidents.include.xml")
     meta_products_template = template_env.get_template("data/config/export/main/asset/meta_products.include.xml")
-    notifications_template = template_env.get_template("data/config/export/main/asset/notifications.include.xml")
     quests_template = template_env.get_template("data/config/export/main/asset/quests.include.xml")
     triggers_template = template_env.get_template("data/config/export/main/asset/triggers.include.xml")
     texts_chinese_template = template_env.get_template("data/config/gui/texts_chinese.xml")
@@ -284,7 +283,13 @@ def generate_mod(world: "A1800World", output_directory: str):
                 meta_products_by_name[f"int_local_{ap_code}"],
                 i + 1,
                 ap_location_name=f"{name}, Tier {i + 1}"),
-            TriggerAction.UNLOCK(unlocks[i].unlock_guids),
+            [
+                TriggerAction.UNLOCK(unlocks[i].unlock_guids),
+                TriggerAction.SIDE_NOTIFICATION(
+                    world.A1800_DATA.get_next_anno_guid(),
+                    f"[AssetData({received_guid}) Text] <b>{name} #{i + 1}<br/>= {unlocks[i].ap_item_name}</b>"
+                ),
+            ],
             guid=world.A1800_DATA.get_next_anno_guid()
         ) for i in range(len(unlocks))]
         for name, (ap_code, unlocks) in world.A1800_DATA.get_progressive_groups().items()
@@ -441,19 +446,23 @@ def generate_mod(world: "A1800World", output_directory: str):
         for _, (ap_code, _) in world.A1800_DATA.get_progressive_groups().items()
     }
 
-    def get_notification_display_name(ap_code: int) -> str:
-        progressive_group = next((name for name, (group_code, _)
-                                  in world.A1800_DATA.get_progressive_groups().items() if group_code == ap_code), "")
+    def _get_item_notification_trigger(ap_code: int) -> Optional[Trigger]:
+        unlock = next((unlock for unlock in world.A1800_DATA.get_unlocks() if unlock.ap_code == ap_code), None)
+        if not unlock or (world.A1800_DATA.get_parsed_options().enable_progressive_unlocks and unlock.progressive_ap_code):
+            return None
 
-        return progressive_group or next(unlock for unlock in world.A1800_DATA.get_unlocks() if unlock.ap_code == ap_code).ap_item_name
+        return Trigger(
+            TriggerCondition.UNLOCK(unlock.name, unlock.region, guid=unlock.unlock_guids[0]),
+            TriggerAction.SIDE_NOTIFICATION(
+                world.A1800_DATA.get_next_anno_guid(),
+                f"[AssetData({received_guid}) Text] <b>{unlock.ap_item_name}</b>"
+            ),
+            auto_register=False,
+            guid=world.A1800_DATA.get_next_anno_guid()
+        )
 
-    notifications_by_ap_code = {
-        ap_code: (
-            unlock_guids[0] if unlock_guids else 0,
-            world.A1800_DATA.get_next_anno_guid(),
-            world.A1800_DATA.get_next_anno_guid(),
-            f"[AssetData({received_guid}) Text] <b>{get_notification_display_name(ap_code)}</b>"
-        ) for ap_code, (unlock_guids, _) in guids_by_ap_code.items()
+    item_notification_triggers_by_ap_code = {
+        ap_code: trigger for ap_code in guids_by_ap_code if (trigger := _get_item_notification_trigger(ap_code))
     }
 
     lock_guids_by_trigger: dict[int, tuple[list[int], list[int]]] = {}
@@ -485,7 +494,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "locations": locations,
         "location_triggers": location_triggers,
         "location_notification_triggers": location_notification_triggers,
-        "notifications_by_ap_code": notifications_by_ap_code,
+        "item_notification_triggers_by_ap_code": item_notification_triggers_by_ap_code,
         "meta_products_by_name": meta_products_by_name,
         "progressive_triggers_by_name": progressive_triggers_by_name,
         "hacienda_quarter_triggers": hacienda_quarter_triggers,
@@ -517,7 +526,8 @@ def generate_mod(world: "A1800World", output_directory: str):
     text_data: dict[str, Any] = {
         "TriggerActionType": TriggerActionType,
         "location_notification_triggers": location_notification_triggers,
-        "notifications_by_ap_code": notifications_by_ap_code,
+        "item_notification_triggers_by_ap_code": item_notification_triggers_by_ap_code,
+        "progressive_triggers_by_name": progressive_triggers_by_name,
         "victory_quest": victory_quest,
         "items_found_guid": items_found_guid,
         "received_guid": received_guid,
@@ -527,7 +537,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "victory_guid": victory_guid,
         "location_data_by_guid": location_data_by_guid,
         "guids_by_ap_code": guids_by_ap_code,
-        "notifications_by_ap_code": notifications_by_ap_code,
+        "item_notification_triggers_by_ap_code": item_notification_triggers_by_ap_code,
         "meta_products_by_name": meta_products_by_name,
         "settled_region_by_guid": settled_region_by_guid,
         "fixed_hints": fixed_hints,
@@ -564,7 +574,6 @@ def generate_mod(world: "A1800World", output_directory: str):
         _get_writing_task(free_goods_and_ships_template, template_data),
         _get_writing_task(incidents_template, template_data),
         _get_writing_task(meta_products_template, template_data),
-        _get_writing_task(notifications_template, template_data),
         _get_writing_task(quests_template, template_data),
         _get_writing_task(triggers_template, template_data),
         _get_writing_task(texts_chinese_template, text_data),

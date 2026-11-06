@@ -22,11 +22,27 @@
 {%  endif %}
 {%  endfor %}
 {%  endfor %}
-{%  for _, _, text_guid, text in notifications_by_ap_code.values() %}
+{%  for trigger in item_notification_triggers_by_ap_code.values() %}
+{%  for action in trigger.actions %}
+{%  if action.type_ == TriggerActionType.SIDE_NOTIFICATION %}
     <Text>
-      <GUID>{{ text_guid }}</GUID>
-      <Text>{{ text | e }}</Text>
+      <GUID>{{ action.text_guid }}</GUID>
+      <Text>{{ action.text | e }}</Text>
     </Text>
+{%  endif %}
+{%  endfor %}
+{%  endfor %}
+{%  for triggers in progressive_triggers_by_name.values() %}
+{%  for trigger in triggers %}
+{%  for action in trigger.actions %}
+{%  if action.type_ == TriggerActionType.SIDE_NOTIFICATION %}
+    <Text>
+      <GUID>{{ action.text_guid }}</GUID>
+      <Text>{{ action.text | e }}</Text>
+    </Text>
+{%  endif %}
+{%  endfor %}
+{%  endfor %}
 {%  endfor %}
   </ModOp>
 </ModOps>

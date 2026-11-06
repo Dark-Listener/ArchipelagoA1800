@@ -223,7 +223,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         f"int_receive_{ap_code}": world.A1800_DATA.get_next_anno_guid() for _, (ap_code, _) in world.A1800_DATA.get_progressive_groups().items()
     }
 
-    def _get_notification_trigger(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> Trigger:
+    def _get_location_notification_trigger(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> Trigger:
         locations = list(groups[1])
         condition = locations[0].data.condition or TriggerCondition.FALSE()
         text = f"<b>{condition.ap_location_name}</b>:<br/>"
@@ -255,7 +255,7 @@ def generate_mod(world: "A1800World", output_directory: str):
     def _get_unlock_triggers(groups: tuple[tuple[Any, ...], Iterable[A1800Location]]) -> list[Trigger]:
         return [_get_unlock_trigger(location) for location in groups[1]]
 
-    notification_triggers = list(map(_get_notification_trigger, groupby(
+    location_notification_triggers = list(map(_get_location_notification_trigger, groupby(
         sorted(locations, key=_get_trigger_key), key=_get_trigger_key)))
 
     for location in locations:
@@ -484,7 +484,7 @@ def generate_mod(world: "A1800World", output_directory: str):
         "lock_guids_by_trigger": {k: v for k, v in sorted(lock_guids_by_trigger.items(), key=lambda item: item[0])},
         "locations": locations,
         "location_triggers": location_triggers,
-        "notification_triggers": notification_triggers,
+        "location_notification_triggers": location_notification_triggers,
         "notifications_by_ap_code": notifications_by_ap_code,
         "meta_products_by_name": meta_products_by_name,
         "progressive_triggers_by_name": progressive_triggers_by_name,
@@ -516,7 +516,7 @@ def generate_mod(world: "A1800World", output_directory: str):
 
     text_data: dict[str, Any] = {
         "TriggerActionType": TriggerActionType,
-        "notification_triggers": notification_triggers,
+        "location_notification_triggers": location_notification_triggers,
         "notifications_by_ap_code": notifications_by_ap_code,
         "victory_quest": victory_quest,
         "items_found_guid": items_found_guid,

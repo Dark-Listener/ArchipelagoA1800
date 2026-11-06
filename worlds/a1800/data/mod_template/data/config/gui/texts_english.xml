@@ -12,7 +12,7 @@
       <GUID>{{ received_guid }}</GUID>
       <Text>Received:</Text>
     </Text>
-{%  for trigger in notification_triggers %}
+{%  for trigger in location_notification_triggers %}
 {%  for action in trigger.actions %}
 {%  if action.type_ == TriggerActionType.SIDE_NOTIFICATION %}
     <Text>

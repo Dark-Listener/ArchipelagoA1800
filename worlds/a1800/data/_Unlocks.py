@@ -3488,8 +3488,8 @@ class Unlocks:
             for unlock in self._a1800_unlocks:
                 if "Fire Protection" in unlock.consumption:
                     unlock.consumption.remove("Fire Protection")
-                    if unlock.region == Region.OW:
-                        unlock.is_early = False
+                if unlock.name == "Fire Station" and unlock.region == Region.OW:
+                    unlock.is_early = False
                 if "Riot Control" in unlock.consumption:
                     unlock.consumption.remove("Riot Control")
                 if "Healthcare" in unlock.consumption:

@@ -163,6 +163,8 @@
   <!-- Enbesa -->
   <ModOp Type="replace" GUID="117659,117662" Path="/Values/Trigger/TriggerCondition">
 {% set en_fires_condition = TriggerCondition.ALL(TriggerCondition.UNLOCK("", Region(0), guid=119892),
+                                                 TriggerCondition.UNLOCK("", Region(0), guid=112842),
+                                                 TriggerCondition.UNLOCK("", Region(0), guid=114544),
                                                  TriggerCondition.COUNTER_GOOD_IN_REGION("", Region(0), 11, Region.EN, guid=114356)) %}
 {{( generate_trigger_condition(en_fires_condition) | indent(4, true)).rstrip() }}
 {{( generate_sub_triggers(en_fires_condition)      | indent(4, true)).rstrip() }}
@@ -192,6 +194,13 @@
     <UnlockNeeded>1010464</UnlockNeeded>
   </ModOp>
 
+  <ModOp Type="replace" GUID="117659,117662" Path="/Values/Trigger/TriggerCondition">
+{% set en_fires_condition = TriggerCondition.ALL(TriggerCondition.UNLOCK("", Region(0), guid=119892),
+                                                 TriggerCondition.UNLOCK("", Region(0), guid=112842),
+                                                 TriggerCondition.UNLOCK("", Region(0), guid=114544)) %}
+{{( generate_trigger_condition(en_fires_condition) | indent(4, true)).rstrip() }}
+{{( generate_sub_triggers(en_fires_condition)      | indent(4, true)).rstrip() }}
+  </ModOp>
   <ModOp Type="replace" GUID="117660" Path="/Values/Trigger/TriggerCondition/Values/ConditionUnlocked/UnlockNeeded">
     <UnlockNeeded>114508</UnlockNeeded>
   </ModOp>

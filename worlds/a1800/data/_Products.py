@@ -30,6 +30,7 @@ A1800_PRODUCTS: list[A1800Product] = [
     ################################################################################################################
     ### VANILLA                                                                                                  ###
     ################################################################################################################
+    A1800Product("Flagship", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Sailing Ships", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Seafaring", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Expeditions: Level 1", DLC.VANILLA, ALL_REGIONS, 0, ProductType.META),
@@ -246,6 +247,7 @@ A1800_PRODUCTS: list[A1800Product] = [
     ### LAND_OF_LIONS                                                                                            ###
     ################################################################################################################
     A1800Product("Research", DLC.LAND_OF_LIONS, Region.OW, 0, ProductType.META),
+    A1800Product("Expedition: Enbesa", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Permit: Scholar Residence", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Permit: Advanced Coffee Roaster", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),
     A1800Product("Permit: Advanced Rum Distillery", DLC.LAND_OF_LIONS, ALL_REGIONS, 0, ProductType.META),

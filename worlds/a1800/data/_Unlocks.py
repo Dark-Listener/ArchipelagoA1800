@@ -216,6 +216,19 @@ A1800_UNLOCKS: list[A1800Unlock] = [
     A1800Unlock("Starting Goods", DLC.VANILLA, Region.OW,  # Resolves circular dependency at game start
                 output={"Road Network", "Wood", "Timber", "Market", "Farmers"}, type_=UnlockType.META | UnlockType.FACTORY),
 
+    A1800Unlock("Flagship Start", DLC.VANILLA, Region.OW,
+                input={"Flagship"},
+                output={"Initial Settling", "Seafaring", "Low-Volume Trade"},
+                type_=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Flagship Start with Fish", DLC.VANILLA, Region.OW,
+                input={"Flagship", "Fish"}, output={"Expeditions: Level 1"},
+                type_=UnlockType.META | UnlockType.FACTORY),
+
+    A1800Unlock("Flagship Start with Fish and Work Clothes", DLC.VANILLA, Region.OW,
+                input={"Flagship", "Fish", "Work Clothes"}, output={"Expeditions: Level 2"},
+                type_=UnlockType.META | UnlockType.FACTORY),
+
     A1800Unlock("Trading Post Materials and Seafaring", DLC.VANILLA, Region.OW | Region.NW,
                 input={"Timber", "Steel Beams", "Seafaring"}, output="Settling",
                 type_=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
@@ -1393,8 +1406,10 @@ A1800_UNLOCKS: list[A1800Unlock] = [
     ### LAND_OF_LIONS                                                                                            ###
     ################################################################################################################
     # Meta
-    A1800Unlock("Seafaring => Free Clipper", DLC.LAND_OF_LIONS, Region.EN,
-                input="Seafaring", output={"Initial Settling", "Wanza Timber"},
+    A1800Unlock("Enter: Enbesa => Free Clipper", DLC.LAND_OF_LIONS, Region.EN,
+                input={"Expedition: Enbesa", "Seafaring", "Expeditions: Level 1"},
+                # Wanza timber resolves circular dependency at enbesa enter
+                output={"Initial Settling", "Wanza Timber"},
                 type_=UnlockType.META | UnlockType.FACTORY, ap_region=Region.OW),
 
     A1800Unlock("Trading Post Materials and Seafaring", DLC.LAND_OF_LIONS, Region.EN,
@@ -1442,7 +1457,7 @@ A1800_UNLOCKS: list[A1800Unlock] = [
 
     # Unlock
     A1800Unlock("Expedition: Enbesa", DLC.LAND_OF_LIONS, ALL_REGIONS, Session.EN.expedition_unlock_guid, [],
-                TriggerCondition.POPULATION("Artisans", Region.OW, 100)),
+                TriggerCondition.POPULATION("Artisans", Region.OW, 100), output="Expedition: Enbesa"),
 
     # Building
     A1800Unlock("Small Trading Post", DLC.LAND_OF_LIONS, Region.EN, [114626, 114629], [],
@@ -3414,21 +3429,9 @@ class Unlocks:
             self._a1800_progressive_groups = {}
 
         if parsed_options.start_with_flagship:
-            self._a1800_unlocks.append(
-                A1800Unlock("Flagship Start", DLC.VANILLA, Region.OW,
-                            output={"Initial Settling", "Seafaring", "Low-Volume Trade"},
-                            type_=UnlockType.META | UnlockType.FACTORY),
-            )
-            self._a1800_unlocks.append(
-                A1800Unlock("Flagship Start with Fish", DLC.VANILLA, Region.OW,
-                            input={"Fish"}, output={"Expeditions: Level 1"},
-                            type_=UnlockType.META | UnlockType.FACTORY),
-            )
-            self._a1800_unlocks.append(
-                A1800Unlock("Flagship Start with Fish and Work Clothes", DLC.VANILLA, Region.OW,
-                            input={"Fish", "Work Clothes"}, output={"Expeditions: Level 2"},
-                            type_=UnlockType.META | UnlockType.FACTORY),
-            )
+            for unlock in self._a1800_unlocks:
+                if unlock.name == "Starting Goods":
+                    unlock.output.add(("Flagship", Region.OW))
 
         if not parsed_options.start_with_trading_post:
             for unlock in self._a1800_unlocks:

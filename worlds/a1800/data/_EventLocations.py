@@ -32,6 +32,7 @@ class EventLocations:
                 unlock.name, unlock.dlc, output_region, unlock.ap_region, output_name
             )
             for unlock in self._A1800_DATA.get_unlocks() if UnlockType.FACTORY in unlock.type_
+            and (self._A1800_DATA.get_parsed_options().start_with_flagship or not "Flagship" in unlock.name)
             for output_name, output_region in unlock.output
         ]
 
